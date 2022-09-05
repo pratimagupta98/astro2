@@ -13,7 +13,9 @@ type :String
         type: String, 
         // monthly,weekly,monthly
        },
-       
+       pridiction:{
+        type: String,
+       },
       },
      
     { timestamps: true }
