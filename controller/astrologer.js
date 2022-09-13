@@ -34,7 +34,7 @@ exports.signup = async (req, res) => {
         res.status(200).json({
           status: true,
           msg: "otp send successfully",
-          data: data
+         // data: data
 
         })
       })
@@ -267,7 +267,8 @@ exports.verifyotp = async (req, res) => {
         status: true,
         msg: "otp verified",
         otp: otp,
-        _id: getuser._id
+        _id: getuser._id,
+        mobile:getuser.mobile
 
       });
     } else {
@@ -344,4 +345,63 @@ exports.dltAstro = async (req, res) => {
   await Astrologer.deleteOne({ _id: req.params.id })
     .then((data) => resp.deleter(res, data))
     .catch((error) => resp.errorr(res, error));
+};
+
+
+exports.stafflogin = async (req, res) => {
+  // const errors = validationResult(req);
+  // if (!errors.isEmpty()) {
+  //   return res.status(400).json(errors);
+  // }
+
+  const { mobile, email, password } = req.body;
+
+  // if(body('mobile')){
+  //   console.log(body('mobile'))
+  // }
+
+  const staff = await Staff.findOne({
+    $or: [{ mobile: mobile }, { email: email }],
+  })
+  if (staff) {
+    //console.log(staff);
+    if (staff.approvedstatus == true ) {
+      const validPass = await bcrypt.compare(password, staff.password);
+      if (validPass) {
+        const token = jwt.sign(
+          {
+            staffId: staff._id,
+          },
+          key,
+          {
+            expiresIn: "365d",
+          }
+        );
+        res.header("ad-token", token).status(200).send({
+          status: true,
+          ad_token: token,
+          msg: "success",
+          staff: staff,
+        });
+      } else {
+        res.status(400).json({
+          status: false,
+          msg: "Incorrect Password",
+          error: "error",
+        });
+      }
+    } else {
+      res.status(400).json({
+        status: false,
+        msg: "Profile is under verification",
+        error: "error",
+      });
+    }
+  } else {
+    res.status(400).json({
+      status: false,
+      msg: "Staff Doesnot Exist",
+      error: "error",
+    });
+  }
 };
