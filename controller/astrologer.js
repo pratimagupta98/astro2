@@ -35,6 +35,7 @@ exports.signup = async (req, res) => {
           status: true,
           msg: "otp send successfully",
          // data: data
+         otp:data.otp
 
         })
       })
