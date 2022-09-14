@@ -24,7 +24,8 @@ exports.signup = async (req, res) => {
   });
 
   const findexist = await Astrologer.findOne({ mobile: req.body.mobile })
-  if (findexist) {
+  if (findexist?.otpverify == "true") {
+    
     resp.alreadyr(res);
   } else {
     // newUser.otp = defaultotp;
@@ -40,7 +41,9 @@ exports.signup = async (req, res) => {
         })
       })
       .catch((error) => resp.errorr(res, error));
-  }
+  
+
+}
 
 }
 
@@ -264,13 +267,19 @@ exports.verifyotp = async (req, res) => {
           expiresIn: "365d",
         }
       );
+      await Astrologer.findOneAndUpdate(
+        {
+          _id: getuser._id,
+        },
+        { $set: { otpverify: "true" } },
+        { new: true }).then((data)=>{ 
       res.header("auth-adtoken", token).status(200).send({
         status: true,
         msg: "otp verified",
         otp: otp,
         _id: getuser._id,
         mobile:getuser.mobile
-
+      })
       });
     } else {
       res.status(200).json({

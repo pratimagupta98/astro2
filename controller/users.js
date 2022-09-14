@@ -27,8 +27,8 @@ cloudinary.config({
     
     const newUser = new User({
       fullname: fullname,
-      password: hashPassword,
-      cnfmPassword: hashPassword,
+      // password: hashPassword,
+      // cnfmPassword: hashPassword,
       email: email,
       mobile: mobile,
       userimg: userimg,
