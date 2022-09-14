@@ -51,16 +51,6 @@ exports.loginsendotp = async (req,res) =>{
   const getuser = await Astrologer.findOne({ mobile: req.body.mobile });
   if (getuser?.approvedstatus == "true") {
     console.log("STRING",getuser)
-    // const token = jwt.sign(
-    //   {
-    //     astroId: getuser._id,
-    //   },
-    //   key,
-    //   {
-    //     expiresIn: "365d",
-    //   }
-    // );
- 
     res.status(200).send({
       status: true,
       msg: "otp Send Successfully",
@@ -326,6 +316,38 @@ exports.verifyotp = async (req, res) => {
 
 }
 
+exports.loginVerify = async (req, res) => {
+  const { mobile, otp } = req.body;
+  const getuser = await Astrologer.findOne({ mobile: mobile })
+  if (getuser) {
+    if (otp == "123456") {
+      const token = jwt.sign(
+        {
+          astroId: getuser._id,
+        },
+        key,
+        {
+          expiresIn: "365d",
+        }
+      )
+    //.then((data)=>{ 
+      res.header("auth-adtoken", token).status(200).send({
+        status: true,
+        msg: "otp verified",
+        otp: otp,
+        _id: getuser._id,
+        mobile:getuser.mobile
+      })
+     // });
+    } else {
+      res.status(200).json({
+        status: false,
+        msg: "Incorrect Otp",
+      });
+    }
+  };
+
+}
 
 
 exports.astrologin = async (req, res) => {
