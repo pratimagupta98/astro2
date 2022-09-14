@@ -47,6 +47,41 @@ exports.signup = async (req, res) => {
 
 }
 
+exports.loginsendotp = async (req,res) =>{
+  const getuser = await Astrologer.findOne({ mobile: req.body.mobile });
+  if (getuser?.approvedstatus == "true") {
+    console.log("STRING",getuser)
+    // const token = jwt.sign(
+    //   {
+    //     astroId: getuser._id,
+    //   },
+    //   key,
+    //   {
+    //     expiresIn: "365d",
+    //   }
+    // );
+ 
+    res.status(200).send({
+      status: true,
+      msg: "otp Send Successfully",
+      otp: otp,
+      _id: getuser._id,
+      mobile:getuser.mobile
+    })
+   } else if(getuser?.approvedstatus == "false") {
+    res.status(200).json({
+      status: true,
+      msg: "Waiting for Admin Approval",
+    });
+  }else{
+    res.status(400).json({
+      status : false,
+      msg :"User doesn't Exist"
+    })
+  }
+};
+
+
 exports.astrosignup = async (req, res) => {
   const { fullname, email, mobile, password, cnfmPassword, img, gender, dob, primary_skills, all_skills, language, exp_in_years, conrubute_hrs, hear_abt_astrology, other_online_platform, why_onboard_you, suitable_tym_interview, crnt_city, income_src, highest_qualification, degree_deploma, clg_scl_name, lrn_abt_astrology, insta_link, fb_link, linkedln_link, youtube_link, website_link, anybody_prefer, min_earning_expe, max_earning_expe, long_bio } = req.body;
 
@@ -296,11 +331,9 @@ exports.verifyotp = async (req, res) => {
 exports.astrologin = async (req, res) => {
   const { email, mobile, password } = req.body
 
-  const user = await Astrologer.findOne({
-    $or: [{ email: email }, { mobile: mobile }],
-  });
-  console.log("Strrr", user)
-  if (user) {
+  const user = await Astrologer.findOne( { mobile: mobile })
+  
+   if (user) {
     const validPass = await bcrypt.compare(password, user.password)
     console.log("paaa", validPass)
     if (validPass) {
