@@ -23,22 +23,22 @@ exports.addCategory= async (req, res) => {
  }
  
 
-exports.getContactus = async (req, res) => {
-    await Contactus.find()
+exports.getallCategory = async (req, res) => {
+    await Category.find()
       .sort({ sortorder: 1 })
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   };
 
-  exports.getoneContactus = async (req, res) => {
-    await Contactus.findOne({ _id: req.params.id })
+  exports.getoneCategory = async (req, res) => {
+    await Category.findOne({ _id: req.params.id })
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   };
   
 
-  exports.editContactus = async (req, res) => {
-    await Contactus.findOneAndUpdate(
+  exports.editCategory = async (req, res) => {
+    await Category.findOneAndUpdate(
       {
         _id: req.params.id,
       },
@@ -50,8 +50,8 @@ exports.getContactus = async (req, res) => {
   };
   
 
-  exports.dltContactus = async (req, res) => {
-    await Contactus.deleteOne({ _id: req.params.id })
+  exports.dltCategory= async (req, res) => {
+    await Category.deleteOne({ _id: req.params.id })
       .then((data) => resp.deleter(res, data))
       .catch((error) => resp.errorr(res, error));
   };
