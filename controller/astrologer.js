@@ -331,12 +331,13 @@ exports.loginVerify = async (req, res) => {
         }
       )
     //.then((data)=>{ 
-      res.header("auth-adtoken", token).status(200).send({
+      res.header("astro-token", token).status(200).send({
         status: true,
         msg: "otp verified",
         otp: otp,
         _id: getuser._id,
-        mobile:getuser.mobile
+        mobile:getuser.mobile,
+        token :token
       })
      // });
     } else {
@@ -368,7 +369,7 @@ exports.astrologin = async (req, res) => {
           expiresIn: 86400000,
         }
       )
-      res.header("auth-adtoken", token).status(200).send({
+      res.header("astro-token", token).status(200).send({
         status: true,
         token: token,
         _id: user._id,
@@ -392,7 +393,7 @@ exports.astrologin = async (req, res) => {
 };
 
 exports.viewoneAstro = async (req, res) => {
-  await Astrologer.findOne({ _id: req.params.id })
+  await Astrologer.findOne({ _id: req.astroId })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
@@ -412,6 +413,12 @@ exports.dltAstro = async (req, res) => {
     .catch((error) => resp.errorr(res, error));
 };
 
+exports.updteApprovedsts = async (req, res) => {
+  await Astrologer.findOneAndUpdate(
+    {_id :req.params.id
+
+  })
+}
 
 exports.stafflogin = async (req, res) => {
   // const errors = validationResult(req);
@@ -470,3 +477,22 @@ exports.stafflogin = async (req, res) => {
     });
   }
 };
+
+
+exports.astrodetails = async (req, res) => {
+  const getone=  await Astrologer.findOne({ _id: req.params.id })
+      if(getone){
+       res.status(200).json({
+         status :true,
+         msg :"success",
+         Name :getone.fullname,
+         Skills:getone.all_skills,
+         language:getone.language,
+         Exp:getone.exp_in_years,
+         callCharge:getone.callCharge,
+         about_me : getone.long_bio
+ 
+       })
+      }
+ };
+ 

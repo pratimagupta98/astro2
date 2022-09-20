@@ -2,7 +2,9 @@ const express = require("express");
 const router = express.Router();
  const multer = require("multer");
 const fs = require("fs");
+const { tokenverify } = require("../functions/tokenverify");
 
+ 
 const {
   signup,
     astrosignup,
@@ -13,7 +15,8 @@ const {
     editAstroDetails,
     dltAstro,
     loginsendotp,
-    loginVerify
+    loginVerify,
+    astrodetails
      
    
 } = require("../controller/astrologer");
@@ -63,13 +66,13 @@ const storage = multer.diskStorage({
 
   router.post("/user/astrosignup", multipleUpload,astrosignup);
   router.post("/user/astrologin",astrologin);
-  router.get("/user/viewoneAstro/:id",viewoneAstro);
+  router.get("/user/viewoneAstro",tokenverify,viewoneAstro);
   router.post("/user/editAstroDetails/:id",multipleUpload,editAstroDetails);
 
  router.get("/admin/allAstro", allAstro);
- router.get("/admin/dltAstro/:id", dltAstro);
+ router.get("/admin/dltAstro/:id", dltAstro); 
  router.post("/user/loginsendotp", loginsendotp);
  router.post("/user/loginVerify",loginVerify);
-
+ router.get("/user/astrodetails/:id",astrodetails);
   
 module.exports = router;
