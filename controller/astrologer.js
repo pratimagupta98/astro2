@@ -420,11 +420,22 @@ exports.dltAstro = async (req, res) => {
 };
 
 exports.updteApprovedsts = async (req, res) => {
-  await Astrologer.findOneAndUpdate(
-    {_id :req.params.id
+ findone= await Astrologer.findOneAndUpdate(
+    {_id :req.params.id},
+      { $set: {approvedstatus:req.body.approvedstatus}},
+      { new: true }
+    ).then((data) => {
+res.status(200).json({
+  status:true,
+  message :"success",
+  approvedstatus:data.approvedstatus
 
-  })
-}
+})
+      })
+      .catch((error) => resp.errorr(res, error));
+  };
+  
+
 
 exports.stafflogin = async (req, res) => {
   // const errors = validationResult(req);
