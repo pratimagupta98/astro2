@@ -404,6 +404,12 @@ exports.viewoneAstro = async (req, res) => {
     .catch((error) => resp.errorr(res, error));
 };
 
+exports.getoneAstro = async (req, res) => {
+  await Astrologer.findOne({ _id: req.params.id })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
 
 exports.allAstro = async (req, res) => {
   await Astrologer.find()
