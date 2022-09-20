@@ -48,6 +48,8 @@ exports.signup = async (req, res) => {
 }
 
 exports.loginsendotp = async (req,res) =>{
+  let length = 6;
+  let defaultotp = "123456";
   const getuser = await Astrologer.findOne({ mobile: req.body.mobile });
   if (getuser?.approvedstatus == "true") {
     console.log("STRING",getuser)
@@ -346,10 +348,14 @@ exports.loginVerify = async (req, res) => {
         msg: "Incorrect Otp",
       });
     }
-  };
+  }else{
+    res.status(200).json({
+      status: false,
+      msg: "User Doesn't exist",
+    });
 
 }
-
+}
 
 exports.astrologin = async (req, res) => {
   const { email, mobile, password } = req.body
@@ -490,7 +496,8 @@ exports.astrodetails = async (req, res) => {
          language:getone.language,
          Exp:getone.exp_in_years,
          callCharge:getone.callCharge,
-         about_me : getone.long_bio
+         about_me : getone.long_bio,
+         img:getone.img
  
        })
       }

@@ -65,3 +65,4 @@ const storage = multer.diskStorage({
  router.get("/admin/dltuser/:id", dltuser);
 
 module.exports = router;
+ 
