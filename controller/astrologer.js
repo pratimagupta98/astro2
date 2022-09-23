@@ -56,7 +56,7 @@ exports.loginsendotp = async (req,res) =>{
     res.status(200).send({
       status: true,
       msg: "otp Send Successfully",
-      otp: otp,
+      //otp: otp,
       _id: getuser._id,
       mobile:getuser.mobile
     })

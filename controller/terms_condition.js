@@ -7,16 +7,13 @@ exports.add_term_cond= async (req, res) => {
   const newTermsCondition = new TermsCondition({
     desc:desc,
    });
-  const findexist = await TermsCondition.findOne({ desc: desc });
-  if (findexist) {
-    resp.alreadyr(res);
-  } else {
+   
     newTermsCondition
       .save()
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   }
-}
+
 
 
 exports.get_term_cond= async (req, res) => {

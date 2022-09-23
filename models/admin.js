@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const thisSchema = new Schema(
   {
-   adminimg: {
+    adminimg: {
       type: Array,
      
     },

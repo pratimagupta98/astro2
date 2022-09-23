@@ -8,16 +8,13 @@ exports.addFAQ = async (req, res) => {
     title: title,
     desc:desc
   });
-  const findexist = await Faq.findOne({ title: title });
-  if (findexist) {
-    resp.alreadyr(res);
-  } else {
+ 
     newFaq
       .save()
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   }
-}
+
 
 
 exports.faq_list = async (req, res) => {
