@@ -18,11 +18,12 @@ cloudinary.config({
  
   
   exports.usersignup = async (req, res) => {
-    const { fullname, userimg, email, mobile, password, cnfmPassword ,dob} =
+    let length = 6;
+    let defaultotp = "123456";
+    const { fullname, userimg, email, mobile,dob} =
       req.body;
   
-    const salt = await bcrypt.genSalt(10);
-    const hashPassword = await bcrypt.hash(password, salt);
+    
   
     
     const newUser = new User({
@@ -32,7 +33,8 @@ cloudinary.config({
       email: email,
       mobile: mobile,
       userimg: userimg,
-      dob :dob
+      dob :dob,
+       otp: defaultotp
     });
   
     const findexist = await User.findOne({
@@ -56,12 +58,62 @@ cloudinary.config({
         }
       }
       newUser.save()
+       
+      .then((data) => {
+        res.status(200).json({
+          status: true,
+          msg: "otp send successfully",
+          data: data.mobile,
+         otp:data.otp
+
+        })
+      })
+      .catch((error) => resp.errorr(res, error));
   
   
-        .then((data) => resp.successr(res, data))
-        .catch((error) => resp.errorr(res, error));
-    };
+    }
   }
+  exports.userVryfyotp = async (req, res) => {
+    const { mobile, otp } = req.body;
+    const getuser = await User.findOne({ mobile: mobile })
+    if (getuser) {
+      if (otp == "123456") {
+        const token = jwt.sign(
+          {
+            userId: getuser._id,
+          },
+          key,
+          {
+            expiresIn: "365d",
+          }
+        );
+        // await User.findOneAndUpdate(
+        //   {
+        //     _id: getuser._id,
+        //   },
+        //   { $set: { otpverify: "true" } },
+        //   { new: true }).then((data)=>{ 
+
+        res.header("auth-token", token).status(200).send({
+          status: true,
+          msg: "otp verified",
+          otp: otp,
+        //  data:data,
+          token:token,
+          // _id: getuser._id,
+       
+           data : getuser
+        })
+        }else {
+          res.status(200).json({
+            status: false,
+            msg: "Incorrect Otp",
+          });
+        }
+      }  
+    };
+  
+  
 
 
   exports.userlogin = async(req,res)=>{
@@ -162,7 +214,11 @@ cloudinary.config({
         .then((data) => resp.successr(res, data))
         .catch((error) => resp.errorr(res, error));
     };
-
+    exports.getoneusertoken = async (req, res) => {
+      await User.findOne({ _id: req.userId })
+        .then((data) => resp.successr(res, data))
+        .catch((error) => resp.errorr(res, error));
+    };
 
     exports.alluser= async (req, res) => {
       await User.find()

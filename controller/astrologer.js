@@ -23,27 +23,34 @@ exports.signup = async (req, res) => {
     otp: defaultotp
   });
 
-  const findexist = await Astrologer.findOne({ mobile: req.body.mobile })
-  if (findexist?.otpverify == "true") {
-    
-    resp.alreadyr(res);
-  } else {
-    // newUser.otp = defaultotp;
-    newAstrologer
-      .save()
-      .then((data) => {
-        res.status(200).json({
-          status: true,
-          msg: "otp send successfully",
-         // data: data
-         otp:data.otp
+  res.status(200).json({
+    status:false,
+    msg :"send otp successfull",
+    mobile:mobile,
+    otp:defaultotp
+  }).catch((error) => resp.errorr(res, error));
 
-        })
-      })
-      .catch((error) => resp.errorr(res, error));
+//   const findexist = await Astrologer.findOne({ mobile: req.body.mobile })
+//   if (findexist?.otpverify == "true") {
+    
+//     resp.alreadyr(res);
+//   } else {
+//     // newUser.otp = defaultotp;
+//     newAstrologer
+//       .save()
+//       .then((data) => {
+//         res.status(200).json({
+//           status: true,
+//           msg: "otp send successfully",
+//          // data: data
+//          otp:data.otp
+
+//         })
+//       })
+//       .catch((error) => resp.errorr(res, error));
   
 
-}
+// }
 
 }
 

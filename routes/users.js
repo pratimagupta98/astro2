@@ -3,6 +3,7 @@ const router = express.Router();
  const multer = require("multer");
 const fs = require("fs");
 const jwt = require("jsonwebtoken");
+const { verifytoken } = require("../functions/verifytoken");
 
 const {
     usersignup,
@@ -10,7 +11,9 @@ const {
     myprofile,
     viewoneuser,
     alluser,
-    dltuser
+    dltuser,
+    userVryfyotp,
+    getoneusertoken
    
 } = require("../controller/users");
 
@@ -57,12 +60,15 @@ const storage = multer.diskStorage({
  //PATHS
  
  router.post("/user/usersignup",multipleUpload, usersignup);
+ router.post("/user/userVryfyotp", userVryfyotp);
+
  router.post("/user/userlogin", userlogin);
 
  router.post("/user/myprofile/:id",multipleUpload, myprofile);
  router.get("/user/viewoneuser/:id", viewoneuser);
+ router.get("/user/getoneusertoken",verifytoken, getoneusertoken);
+
  router.get("/admin/alluser", alluser);
  router.get("/admin/dltuser/:id", dltuser);
 
 module.exports = router;
- 
