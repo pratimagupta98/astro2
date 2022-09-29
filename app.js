@@ -24,6 +24,7 @@ const blogs = require("./routes/blogs")
 const privacy_policy = require("./routes/privacy_policy")
 const notification = require("./routes/notification")
 const category = require("./routes/category")
+const rashi = require("./routes/rashi")
 
 
 
@@ -42,6 +43,7 @@ app.use("/", blogs);
 app.use("/", privacy_policy);
 app.use("/", notification);
 app.use("/", category);
+app.use("/", rashi);
 
  
 
