@@ -13,7 +13,8 @@ const {
     alluser,
     dltuser,
     userVryfyotp,
-    getoneusertoken
+    getoneusertoken,
+   // userlogin
    
 } = require("../controller/users");
 
@@ -70,5 +71,6 @@ const storage = multer.diskStorage({
 
  router.get("/admin/alluser", alluser);
  router.get("/admin/dltuser/:id", dltuser);
+
 
 module.exports = router;

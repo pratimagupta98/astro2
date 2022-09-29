@@ -116,47 +116,47 @@ cloudinary.config({
   
 
 
-  exports.userlogin = async(req,res)=>{
-    const{email,mobile,password} =req.body
+  // exports.userlogin = async(req,res)=>{
+  //   const{email,mobile,password} =req.body
 
-    const user = await User.findOne({
-      $or: [{ email: email }, { mobile: mobile }],
-    });
-    console.log("Strrr",user)
-    if(user){
-      const validPass = await  bcrypt.compare(password,user.password)
-      console.log("paaa",validPass)
-      if(validPass){
-        const token = jwt.sign(
-          {
-            userId: user._id,
-        },
-        key,
-        {
-          expiresIn: 86400000,
-        }
-        )
-        res.header("auth-token", token).status(200).send({
-          status: true,
-          token: token,
-          msg: "success",
-          user: user,
-        });
-      } else {
-        res.status(400).json({
-          status: false,
-          msg: "Incorrect Password",
-          error: "error",
-        });
-      }
-    } else {
-      res.status(400).json({
-        status: false,
-        msg: "User Doesnot Exist",
-        error: "error",
-      });
-    }
-  };
+  //   const user = await User.findOne({
+  //     $or: [{ email: email }, { mobile: mobile }],
+  //   });
+  //   console.log("Strrr",user)
+  //   if(user){
+  //     const validPass = await  bcrypt.compare(password,user.password)
+  //     console.log("paaa",validPass)
+  //     if(validPass){
+  //       const token = jwt.sign(
+  //         {
+  //           userId: user._id,
+  //       },
+  //       key,
+  //       {
+  //         expiresIn: 86400000,
+  //       }
+  //       )
+  //       res.header("auth-token", token).status(200).send({
+  //         status: true,
+  //         token: token,
+  //         msg: "success",
+  //         user: user,
+  //       });
+  //     } else {
+  //       res.status(400).json({
+  //         status: false,
+  //         msg: "Incorrect Password",
+  //         error: "error",
+  //       });
+  //     }
+  //   } else {
+  //     res.status(400).json({
+  //       status: false,
+  //       msg: "User Doesnot Exist",
+  //       error: "error",
+  //     });
+  //   }
+  // };
 
   exports.myprofile = async(req,res)=>{
     const{fullname,userimg,email,mobile,password,cnfmPassword} = req.body
@@ -231,4 +231,27 @@ cloudinary.config({
       await User.deleteOne({ _id: req.params.id })
         .then((data) => resp.deleter(res, data))
         .catch((error) => resp.errorr(res, error));
+    };
+
+
+    exports.userlogin = async (req, res) => {
+      let length = 6;
+      let defaultotp = "123456";
+      const getuser = await User.findOne({ mobile: req.body.mobile });
+      if (getuser) {
+        console.log("STRING", getuser)
+        res.status(200).send({
+          status: true,
+          msg: "otp Send Successfully",
+          otp: defaultotp,
+          // _id: getuser._id,
+          // mobile: getuser.mobile,
+          // approvedstatus: getuser.approvedstatus
+        })
+      } else if (!getuser) {
+        res.status(200).json({
+          status: true,
+          msg: "User doesn't Exist",
+        });
+      }  
     };
