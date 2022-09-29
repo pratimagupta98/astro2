@@ -25,6 +25,7 @@ const privacy_policy = require("./routes/privacy_policy")
 const notification = require("./routes/notification")
 const category = require("./routes/category")
 const rashi = require("./routes/rashi")
+const rashihoroscope = require("./routes/rashihoroscope")
 
 
 
@@ -44,6 +45,7 @@ app.use("/", privacy_policy);
 app.use("/", notification);
 app.use("/", category);
 app.use("/", rashi);
+app.use("/", rashihoroscope);
 
  
 
