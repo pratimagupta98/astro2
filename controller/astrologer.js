@@ -23,6 +23,20 @@ exports.signup = async (req, res) => {
     otp: defaultotp
   });
 
+//   let findnum= await Astrologer.findOne({mobile:req.body.mobile})
+//   console.log("11",findnum)
+//   if(findnum){
+//   let getid = findnum._id
+//   let update=  await Astrologer.findOneAndUpdate(
+//     { _id: wolId },
+    
+//     {$set: {reqamount:parseInt(req.body.reqamount),pay_method:req.body.pay_method,depsite_file:req.body.depsite_file,status:"Pending"}} ,
+  
+//   //{ $set: {status:"success"} },
+//   { new: true }
+
+// );
+//   }
   res.status(200).json({
     status:false,
     msg :"send otp successfull",
