@@ -23,53 +23,30 @@ exports.signup = async (req, res) => {
     otp: defaultotp
   });
 
-//   let findnum= await Astrologer.findOne({mobile:req.body.mobile})
-//   console.log("11",findnum)
-//   if(findnum){
-//   let getid = findnum._id
-//   let update=  await Astrologer.findOneAndUpdate(
-//     { _id: wolId },
-    
-//     {$set: {reqamount:parseInt(req.body.reqamount),pay_method:req.body.pay_method,depsite_file:req.body.depsite_file,status:"Pending"}} ,
-  
-//   //{ $set: {status:"success"} },
-//   { new: true }
-
-// );
-//   }
-
-  res.status(200).json({
-    status:false,
-    msg :"send otp successfull",
-    mobile:req.body.mobile,
-    otp:defaultotp
-  })
-  //.catch((error) => resp.errorr(res, error));
-
-//   const findexist = await Astrologer.findOne({ mobile: req.body.mobile })
-//   if (findexist?.otpverify == "true") {
-    
-//     resp.alreadyr(res);
-//   } else {
-//     // newUser.otp = defaultotp;
-//     newAstrologer
-//       .save()
-//       .then((data) => {
-//         res.status(200).json({
-//           status: true,
-//           msg: "otp send successfully",
-//          // data: data
-//          otp:data.otp
-
-//         })
-//       })
-//       .catch((error) => resp.errorr(res, error));
-  
-
-// }
-
+  let findexist= await Astrologer.findOne({mobile:req.body.mobile})
+  if(findexist){
+res.json({
+  status: "success",
+  msg: "Welcome Back Otp send successfully",
+  mobile:findexist.mobile,
+  otp: defaultotp,
+  _id: findexist?._id,
+})
+  }else{
+    newAstrologer
+    .save()
+    .then((data) => {
+      res.json({
+        status: "success",
+        msg: "Otp send successfully",
+       registered: data?.mobile,
+       _id: data?._id,
+        otp:defaultotp
+      })
+      
+})
+  }
 }
-
 exports.loginsendotp = async (req,res) =>{
   let length = 6;
   let defaultotp = "123456";

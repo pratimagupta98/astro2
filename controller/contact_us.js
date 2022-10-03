@@ -2,9 +2,10 @@ const Contactus = require("../models/contact_us");
 const resp = require("../helpers/apiResponse");
 
 exports.add_contactus= async (req, res) => {
-  const { name,email,subject,msg} = req.body;
+  const {userid, name,email,subject,msg} = req.body;
 
   const newContactus = new Contactus({
+    userid:userid,
     name:name,
     email:email,
     subject:subject,
@@ -18,7 +19,7 @@ exports.add_contactus= async (req, res) => {
     newContactus
       .save()
       .then((data) => resp.successr(res, data))
-      .catch((error) => resp.errorr(res, error));
+      .catch((error) => resp.errorr(res, error)); 
   }
 
 
