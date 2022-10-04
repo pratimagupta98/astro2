@@ -60,14 +60,14 @@ exports.addProduct = async (req, res) => {
 };
 
 exports.getProduct = async (req, res) => {
-await Product.find() 
+await Product.find().populate("category").populate("astroId")
 .sort({ sortorder: 1 })
 .then((data) => resp.successr(res, data))
 .catch((error) => resp.errorr(res, error));
 };
 
 exports.viewoneProduct = async (req, res) => {
-await Product.findOne({ _id: req.params.id })
+await Product.findOne({ _id: req.params.id }).populate("category").populate("astroId")
 .then((data) => resp.successr(res, data))
 .catch((error) => resp.errorr(res, error));
 };

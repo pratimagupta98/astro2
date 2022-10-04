@@ -15,7 +15,7 @@ const thisSchema = new Schema(
     },
     category:{
         type: mongoose.Schema.Types.ObjectId,
-      ref: "category",
+      ref: "productcategory",
        },
        
     image: {
