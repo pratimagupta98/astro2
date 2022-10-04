@@ -28,7 +28,8 @@ const rashi = require("./routes/rashi")
 const rashihoroscope = require("./routes/rashihoroscope")
 const review = require("./routes/review")
 const catHoroscope = require("./routes/catHoroscope")
-
+const product = require("./routes/product")
+const productcategory = require("./routes/productcategory")
 
  
 //use
@@ -49,6 +50,8 @@ app.use("/", rashi);
 app.use("/", rashihoroscope);
 app.use("/", review);
 app.use("/", catHoroscope);
+app.use("/", product);
+app.use("/", productcategory);
 
 
 app.get("/", (req, res) => {
