@@ -4,7 +4,7 @@ const multer = require("multer");
 const fs = require("fs");
 
 const {
-    addProduct, getProduct,viewoneProduct,editproduct,delproduct
+    addProduct, getProduct,viewoneProduct,editproduct,delproduct,productbycategory
  } = require("../controller/product");
 
 const storage = multer.diskStorage({
@@ -51,6 +51,6 @@ router.get("/admin/getProduct", getProduct);
 router.get("/admin/viewoneProduct/:id", viewoneProduct);
 router.get("/admin/delproduct/:id", delproduct);
  router.post("/admin/editproduct/:id",multipleUpload, editproduct);
+ router.get("/user/productbycategory/:id", productbycategory);
 
 module.exports = router;
- 

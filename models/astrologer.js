@@ -20,7 +20,9 @@ const thisSchema = new Schema(
       },
       img: {
         type: Array,
+        default :"https://res.cloudinary.com/dc7hzwpbm/image/upload/v1665055219/pngtree.jpg"
       },
+      
       
       otp: { type: String },
       gender: {

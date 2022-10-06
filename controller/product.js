@@ -79,9 +79,6 @@ exports.delproduct = async (req, res) => {
   };
 
  
-
-
- 
 exports.editproduct = async(req,res)=>{
     const{blog_title,blogImg,desc} = req.body
     
@@ -114,6 +111,14 @@ exports.editproduct = async(req,res)=>{
         { $set: data },
         { new: true }
       )
+        .then((data) => resp.successr(res, data))
+        .catch((error) => resp.errorr(res, error));
+    };
+
+    exports.productbycategory = async (req, res) => {
+    await Product.find({ category: req.params.id }).populate("category")
+        .sort({ sortorder: 1 }).populate("category")
+         
         .then((data) => resp.successr(res, data))
         .catch((error) => resp.errorr(res, error));
     };
