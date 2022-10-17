@@ -256,7 +256,7 @@ cloudinary.config({
       }  
     };
 
-    exports.edit_address = async (req, res) => {
+    exports.shipping_address = async (req, res) => {
       await User.findOneAndUpdate(
         {
           _id: req.params.id,
