@@ -23,8 +23,32 @@ const thisSchema = new Schema(
     },
     dob:{type: String},
          otp: { type: String },
+         alt_mobile :{
+          type: String,
+         },
+         flat_no:{
+          type: String,
+         },
+         locality:{
+          type: String,
+         },
+         city:{
+          type: String,
+         },
+         state:{
+          type: String,
+         },
+         country:{ type: String,
+        },
+        pincode:{
+          type: String,
+        },
+        landmark:{
+          type: String,
+        }
 
   },
+
 
 
 
