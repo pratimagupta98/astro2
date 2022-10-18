@@ -56,7 +56,7 @@ exports.addProductcategory  = async (req, res) => {
 };
 
 exports.getproductcalegory = async (req, res) => {
-await ProductCat.find().populate("astroId")
+await ProductCat.find()
 .sort({ sortorder: 1 })
 .then((data) => resp.successr(res, data))
 .catch((error) => resp.errorr(res, error));
