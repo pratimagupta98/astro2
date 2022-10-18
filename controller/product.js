@@ -18,10 +18,10 @@ cloudinary.config({
 
 exports.addProduct = async (req, res) => {
   //console.log(req.body);
-  const { astroId,title,productname,category,image,desc,mrp_price,des_price, status } = req.body;
+  const {  title,productname,category,image,desc,mrp_price,des_price, status } = req.body;
 
   const newProduct = new Product({
-    astroId:astroId,
+    
     title: title,
     productname: productname,
     category: category,
@@ -33,7 +33,7 @@ exports.addProduct = async (req, res) => {
   });
 
   
-    const findexist = await Product.findOne({  $and: [{ astroId:astroId  }, { productname: productname }] });
+    const findexist = await Product.findOne( { productname: productname });
     if (findexist) {
         resp.alreadyr(res);
     } else {
@@ -60,7 +60,7 @@ exports.addProduct = async (req, res) => {
 };
 
 exports.getProduct = async (req, res) => {
-await Product.find().populate("category").populate("astroId")
+await Product.find().populate("category") 
 .sort({ sortorder: 1 })
 .then((data) => resp.successr(res, data))
 .catch((error) => resp.errorr(res, error));

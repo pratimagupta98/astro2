@@ -3,10 +3,10 @@ const Schema = mongoose.Schema;
 const thisSchema = new Schema(
     {
 
-        astroId:{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "astrologer",
-        },
+        // astroId:{
+        //     type: mongoose.Schema.Types.ObjectId,
+        //     ref: "astrologer",
+        // },
         name: {
             type: String,
         },

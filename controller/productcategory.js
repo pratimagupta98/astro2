@@ -21,7 +21,7 @@ exports.addProductcategory  = async (req, res) => {
   const { astroId,name, img,desc, status } = req.body;
 
   const newProductCat = new ProductCat({
-    astroId:astroId,
+    //astroId:astroId,
     name:name,
     img:img,
     desc:desc,
@@ -29,7 +29,7 @@ exports.addProductcategory  = async (req, res) => {
   });
 
   
-    const findexist = await ProductCat.findOne({  $and: [{ astroId:astroId  }, { name: name }] });
+    const findexist = await ProductCat.findOne({ name: name });
     if (findexist) {
         resp.alreadyr(res);
     } else {
