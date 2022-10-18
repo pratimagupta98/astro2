@@ -36,8 +36,9 @@ exports.add_astro_product = async (req, res) => {
         };
  
 
-exports.our_product_consltnt = async (req, res) => {
-await Astroproduct.find() 
+exports.product_consltnt_list = async (req, res) => {
+
+await Astroproduct.find({product:req.params.id}) 
 .sort({ sortorder: 1 })
 .then((data) => resp.successr(res, data))
 .catch((error) => resp.errorr(res, error));

@@ -3,21 +3,21 @@ const router = express.Router();
  
 
 const {
-    addCategory,
-    our_product_consltnt,
+    add_astro_product,
+    product_consltnt_list,
     getoneCategory,
     editCategory,
     dltCategory
-   
+
 } = require("../controller/astroproduct");
 
  
  
- router.post("/admin/add_astro_product", add_astro_product);
- router.get("/admin/our_product_consltnt", our_product_consltnt);
- router.get("/admin/getoneCategory/:id", getoneCategory);
- router.post("/admin/editCategory/:id", editCategory);
- router.get("/admin/dltCategory/:id", dltCategory);
+ router.post("/user/add_astro_product", add_astro_product);
+  router.get("/user/product_consltnt_list/:id", product_consltnt_list);
+//  router.get("/admin/getoneCategory/:id", getoneCategory);
+//  router.post("/admin/editCategory/:id", editCategory);
+//  router.get("/admin/dltCategory/:id", dltCategory);
 
 module.exports = router;
 

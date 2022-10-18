@@ -31,8 +31,9 @@ const catHoroscope = require("./routes/catHoroscope")
 const product = require("./routes/product")
 const productcategory = require("./routes/productcategory")
 const rashiImg = require("./routes/rashiImg")
+const astroproduct = require("./routes/astroproduct")
 
- 
+
 //use
 app.use("/", users);
 app.use("/", astrologer);
@@ -54,6 +55,7 @@ app.use("/", catHoroscope);
 app.use("/", product);
 app.use("/", productcategory);
 app.use("/", rashiImg);
+app.use("/", astroproduct);
 
 
 app.get("/", (req, res) => {
