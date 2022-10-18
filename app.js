@@ -32,6 +32,7 @@ const product = require("./routes/product")
 const productcategory = require("./routes/productcategory")
 const rashiImg = require("./routes/rashiImg")
 const astroproduct = require("./routes/astroproduct")
+const cart = require("./routes/cart")
 
 
 //use
@@ -56,6 +57,7 @@ app.use("/", product);
 app.use("/", productcategory);
 app.use("/", rashiImg);
 app.use("/", astroproduct);
+app.use("/", cart);
 
 
 app.get("/", (req, res) => {

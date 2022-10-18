@@ -10,11 +10,11 @@ const CartSchema = new mongoose.Schema(
     gst: {
       type: Number,
     },
-    product_qty: {
-      type: Number,
-    },
+    // product_qty: {
+    //   type: Number,
+    // },
     
-    gsttotal:{
+    gstotal:{
       type: String,
     }
   },
