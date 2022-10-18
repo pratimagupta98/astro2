@@ -24,7 +24,8 @@ exports.add_astro_product = async (req, res) => {
     astroid: astroid,
     product: product,
     category: category,
-    price:price
+    price:price,
+    
   });
 
   
@@ -44,8 +45,9 @@ await Astroproduct.find({product:req.params.id}).populate("astroid").populate("p
 .catch((error) => resp.errorr(res, error));
 };
 
-exports.viewonebanner = async (req, res) => {
-await Banner.findOne({ _id: req.params.id })
+exports.productlist = async (req, res) => {
+await Astroproduct.find({astroid:req.params.id
+}).populate("astroid").populate("product").populate("category")
 .then((data) => resp.successr(res, data))
 .catch((error) => resp.errorr(res, error));
 };
