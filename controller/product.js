@@ -80,33 +80,47 @@ exports.delproduct = async (req, res) => {
 
  
 exports.editproduct = async(req,res)=>{
-    const{blog_title,blogImg,desc} = req.body
+    const{title,productname,category,image,desc,mrp_price,des_price,status} = req.body
     
     data ={}
-    if(blog_title) {
-        data.blog_title = blog_title
+    if(title) {
+        data.title = title
+    }
+    if(productname){
+        data.productname = productname
+    }
+    if(category){
+      data.category = category
     }
     if(desc){
-        data.desc = desc
+      data.desc = desc
     }
-  
+  if(mrp_price){
+    data.mrp_price =mrp_price
+  }
+  if(des_price){
+    data.des_price =des_price
+  }
+  if(status){
+    data.status=status
+  }
     if (req.files) {
-        if (req.files.blogImg) {
+        if (req.files.image) {
           alluploads = [];
-          for (let i = 0; i < req.files.blogImg.length; i++) {
+          for (let i = 0; i < req.files.image.length; i++) {
             // console.log(i);
-            const resp = await cloudinary.uploader.upload(req.files.blogImg[i].path, {
+            const resp = await cloudinary.uploader.upload(req.files.image[i].path, {
               use_filename: true,
               unique_filename: false,
             });
-            fs.unlinkSync(req.files.blogImg[i].path);
+            fs.unlinkSync(req.files.image[i].path);
             alluploads.push(resp.secure_url);
           }
           // newStore.storeImg = alluploads;
-          data.blogImg = alluploads;
+          data.image = alluploads;
         }
      }
-     await Blog.findOneAndUpdate(
+     await Product.findOneAndUpdate(
         { _id: req.params.id},
         { $set: data },
         { new: true }
