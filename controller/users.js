@@ -44,7 +44,7 @@ cloudinary.config({
       resp.alreadyr(res);
     } else {
       if (req.files) {
-        if (req.files.userimg[0].path) {
+        if (req.files.userimg) {
           alluploads = [];
           for (let i = 0; i < req.files.userimg.length; i++) {
             const resp = await cloudinary.uploader.upload(

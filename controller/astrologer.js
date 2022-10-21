@@ -412,7 +412,7 @@ exports.getoneAstro = async (req, res) => {
 
 
 exports.allAstro = async (req, res) => {
-  await Astrologer.find().sort({ createdAt: -1 })
+  await Astrologer.find({"approvedstatus" :"true"}).sort({ createdAt: -1 })
     .sort({ sortorder: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
