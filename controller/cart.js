@@ -5,7 +5,7 @@ const Astroproduct = require("../models/astroproduct");
 
 
 exports.addtoCart = async (req, res) => {
-    const {userid, astro_product} = req.body;
+    const {shipping_address, astro_product} = req.body;
      const getastroproduct = await Astroproduct.findOne({ _id: req.body.astro_product });
     console.log("getastroproduct",getastroproduct)
     if (getastroproduct ) {
@@ -21,7 +21,7 @@ exports.addtoCart = async (req, res) => {
     
     const newaddCart = new Cart({
       
-      userid:userid,
+      shipping_address:shipping_address,
       astro_product: astro_product,
     })
   
@@ -49,4 +49,8 @@ exports.addtoCart = async (req, res) => {
   }  
   }
   
-  
+  exports.getoneCart = async (req, res) => {
+    await Cart.findOne({ _id: req.params.id }).populate("shipping_address")
+      .then((data) => resp.successr(res, data))
+      .catch((error) => resp.errorr(res, error));
+  };

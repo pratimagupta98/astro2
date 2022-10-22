@@ -4,6 +4,7 @@ const router = express.Router();
 
 const {
     addtoCart,
+    getoneCart
     // faq_list,
     // editprofile,
     // dltFaq
@@ -13,7 +14,7 @@ const {
  
  
  router.post("/user/addtoCart", addtoCart);
-// router.get("/admin/faq_list", faq_list);
+router.get("/user/getoneCart/:id", getoneCart);
 // router.get("/admin/dltFaq/:id", dltFaq);
 
 module.exports = router;
