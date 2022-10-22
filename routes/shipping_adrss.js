@@ -5,15 +5,16 @@ const { verifytoken } = require("../functions/verifytoken");
 
 const {
     add_shipping_address,
-    address_byuser,
-  getaddress,
+    viewone_address,
+    edit_address,
+    dlt_address,
   viewoneuseraddress,
 } = require("../controller/shipping_adrss");
 
 //Paths
 router.post("/user/add_shipping_address", add_shipping_address);
- router.get("/user/address_byuser/:id", address_byuser);
-// router.get("/user/getaddress", verifytoken, getaddress);
-// router.get("/user/viewoneuseraddress", verifytoken, viewoneuseraddress);
+ router.get("/user/viewone_address/:id", viewone_address);
+ router.post("/user/edit_address/:id",  edit_address);
+router.get("/user/dlt_address/:id", dlt_address);
 
 module.exports = router;

@@ -33,7 +33,7 @@ exports.add_shipping_address = async (req, res) => {
   });
 };
 
-exports.address_byuser  = async (req, res) => {
+exports.viewone_address  = async (req, res) => {
     const findall = await Shipping.find({ userid: req.params.id })
     .sort({ sortorder: 1 })
     .populate("userid");
@@ -90,12 +90,13 @@ exports.viewoneuseraddress = async (req, res) => {
 
 exports.edit_address = async (req, res) => {
   //console.log = req.body;
-  const findandUpdateEntry = await Useraddress.findOneAndUpdate(
-    { customer: req.userId },
+  const findandUpdateEntry = await Shipping.findOneAndUpdate(
+    {
+      _id: req.params.id,
+    },
     { $set: req.body },
     { new: true }
-  );
-
+  )
   if (findandUpdateEntry) {
     res.status(200).json({
       status: true,
@@ -110,3 +111,10 @@ exports.edit_address = async (req, res) => {
     });
   }
 };
+
+
+exports.dlt_address = async (req, res) => {
+  await Shipping.deleteOne({ _id: req.params.id })
+    .then((data) => resp.deleter(res, data))
+    .catch((error) => resp.errorr(res, error));
+}
