@@ -249,7 +249,7 @@ cloudinary.config({
           // approvedstatus: getuser.approvedstatus
         })
       } else if (!getuser) {
-        res.status(200).json({
+        res.status(400).json({
           status: true,
           msg: "User doesn't Exist",
         });
