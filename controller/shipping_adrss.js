@@ -2,7 +2,7 @@ const Shipping = require("../models/shipping_adrss");
 const resp = require("../helpers/apiResponse");
 
 exports.add_shipping_address = async (req, res) => {
-  const { userid, user, alt_mobile,flat_no,locality, city, state,country,pincode,landmark } = req.body;
+  const { userid, user, alt_mobile,flat_no,locality, city, state,country,pincode,landmark,mobile,name,email } = req.body;
 
   const newShipping = new Shipping({
     userid: userid,
@@ -14,7 +14,10 @@ exports.add_shipping_address = async (req, res) => {
     state: state,
     country:country,
     pincode:pincode,
-    landmark:landmark
+    landmark:landmark,
+    mobile:mobile,
+    name:name,
+    email:email
   });
 
   newShipping.save(function (err, data) {

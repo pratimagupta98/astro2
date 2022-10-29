@@ -6,6 +6,9 @@ const thisSchema = new Schema(
     userid : {
       type :mongoose.Schema.Types.ObjectId,ref : "user"
     },
+    mobile:{
+      type: String,
+    },
     alt_mobile:{
         type: String,
     },
@@ -34,11 +37,14 @@ const thisSchema = new Schema(
       },
       landmark:{
         type: String,
-      }
-   // near_bylocation: {
-     // type: String,
-      //require: true,
-    //},
+      },
+   name : {
+     type: String,
+     // require: true,
+    },
+    email:{
+      type: String,
+     },
   },
   { timestamps: true }
 );
