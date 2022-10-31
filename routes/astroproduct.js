@@ -8,7 +8,8 @@ const {
     productlist,
     editCategory,
     dltCategory,
-    astro_product_list
+    astro_product_list,
+    del_astro_product
 
 } = require("../controller/astroproduct");
 
@@ -18,7 +19,7 @@ const {
   router.get("/user/product_consltnt_list/:id", product_consltnt_list);
   router.get("/user/productlist/:id", productlist);
  router.get("/admin/astro_product_list", astro_product_list);
-//  router.get("/admin/dltCategory/:id", dltCategory);
+   router.get("/admin/del_astro_product/:id", del_astro_product);
 
 module.exports = router;
 

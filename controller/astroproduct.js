@@ -58,8 +58,8 @@ exports.astro_product_list = async (req, res) => {
   .catch((error) => resp.errorr(res, error));
   };
 
-exports.delbanner = async (req, res) => {
-    await Banner.deleteOne({ _id: req.params.id })
+exports.del_astro_product = async (req, res) => {
+    await Astroproduct.deleteOne({ _id: req.params.id })
       .then((data) => resp.deleter(res, data))
       .catch((error) => resp.errorr(res, error));
   };
