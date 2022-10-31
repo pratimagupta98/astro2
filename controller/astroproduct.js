@@ -52,7 +52,11 @@ await Astroproduct.find({astroid:req.params.id
 .catch((error) => resp.errorr(res, error));
 };
 
- 
+exports.astro_product_list = async (req, res) => {
+  await Astroproduct.find().populate("astroid").populate("product").populate("category")
+  .then((data) => resp.successr(res, data))
+  .catch((error) => resp.errorr(res, error));
+  };
 
 exports.delbanner = async (req, res) => {
     await Banner.deleteOne({ _id: req.params.id })
