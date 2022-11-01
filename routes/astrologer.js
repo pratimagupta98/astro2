@@ -18,7 +18,8 @@ const {
     loginVerify,
     astrodetails,
     updteApprovedsts,
-    getoneAstro
+    getoneAstro,
+    admin_astrop_list
      
    
 } = require("../controller/astrologer");
@@ -74,6 +75,9 @@ const storage = multer.diskStorage({
   router.post("/user/editAstroDetails/:id",multipleUpload,editAstroDetails);
 
  router.get("/admin/allAstro", allAstro);
+ router.get("/admin/admin_astrop_list", admin_astrop_list);
+
+ 
  router.get("/admin/dltAstro/:id", dltAstro); 
  router.post("/user/loginsendotp", loginsendotp);
  router.post("/user/loginVerify",loginVerify);
