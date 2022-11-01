@@ -39,7 +39,7 @@ exports.add_chat_intake= async (req, res) => {
   
 
 exports.get_chat_intake = async (req, res) => {
-    await Intek.find().populate("userid")
+    await Intek.find({astroid:req.params.id}).populate("userid")
       .sort({ createdAt: -1 })
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
