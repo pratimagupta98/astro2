@@ -1,34 +1,45 @@
 const Intek = require("../models/chat_intake_form");
 const resp = require("../helpers/apiResponse");
+const User = require("../models/users");
+
 
 exports.add_chat_intake= async (req, res) => {
   const { userid,astroid,gender,tym_of_birth,birth_city,birth_state,birth_country,marital_status,occupation,topic_of_cnsrn,entertopic_of_cnsrn} = req.body;
 
-  const newCatHorscope= new CatHorscope({
+  const newIntek = new Intek({
  
     userid:userid,
     astroid:astroid,
     gender:gender,
     tym_of_birth:tym_of_birth,
     birth_city:birth_city,
-    birth_state:birth_state
-    
+    birth_state:birth_state,
+    birth_country:birth_country,
+    marital_status:marital_status,
+    occupation:occupation,
+    topic_of_cnsrn:topic_of_cnsrn,
+    entertopic_of_cnsrn:entertopic_of_cnsrn
     
    });
-   const findexist = await CatHorscope.findOne({  $and: [{ category:category  }, { rashiId: rashiId }] });
-   if (findexist) {
-     resp.alreadyr(res);
-   } else {
-    newCatHorscope
+//    const findone = await User.findOne({  _id:userid  })
+//    if (findone) {
+    await User.findOneAndUpdate(
+        {
+          _id: req.body.userid,
+        },
+        { $set: {fullname:req.body.fullname,mobile:req.body.mobile,dob:req.body.dob}},
+        { new: true }
+      )
+        
+      newIntek
        .save()
        .then((data) => resp.successr(res, data))
        .catch((error) => resp.errorr(res, error));
    }
- }
- 
+  
 
-exports.getAll_CatHroscope = async (req, res) => {
-    await CatHorscope.find().populate("category").populate("rashiId")
+exports.get_chat_intake = async (req, res) => {
+    await Intek.find().populate("userid")
       .sort({ createdAt: -1 })
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));

@@ -34,6 +34,7 @@ const rashiImg = require("./routes/rashiImg")
 const astroproduct = require("./routes/astroproduct")
 const cart = require("./routes/cart")
 const shipping_adrss = require("./routes/shipping_adrss")
+const chat_intake_form = require("./routes/chat_intake_form")
 
 
 //use
@@ -60,6 +61,7 @@ app.use("/", rashiImg);
 app.use("/", astroproduct);
 app.use("/", cart);
 app.use("/", shipping_adrss);
+app.use("/", chat_intake_form);
 
 
 app.get("/", (req, res) => {
