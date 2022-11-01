@@ -417,6 +417,12 @@ exports.allAstro = async (req, res) => {
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
+exports.admin_astrop_list = async (req, res) => {
+  await Astrologer.find().sort({ createdAt: -1 })
+    .sort({ sortorder: 1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+}
 
 
 exports.dltAstro = async (req, res) => {
