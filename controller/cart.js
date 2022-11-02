@@ -10,7 +10,7 @@ exports.addtoCart = async (req, res) => {
     console.log("getastroproduct",getastroproduct)
     if (getastroproduct ) {
        const price  =getastroproduct.price
-      console.log(price)
+     // console.log(price)
       let gstotal =0
 
       gstotal = price *18/100
@@ -51,7 +51,7 @@ exports.addtoCart = async (req, res) => {
   
   exports.getoneCart = async (req, res) => {
    const getone= await Cart.findOne({ _id: req.params.id }).populate("shipping_address").populate("astro_product")
-console.log("strng",getone)
+//console.log("strng",getone)
    if(getone){
     const astropro = getone.astro_product
     console.log("pp",astropro)
