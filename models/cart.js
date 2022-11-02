@@ -17,7 +17,9 @@ const CartSchema = new mongoose.Schema(
     // product_qty: {
     //   type: Number,
     // },
-    
+    orderId: {
+      type: String,
+    },
     gstotal:{
       type: String,
     }

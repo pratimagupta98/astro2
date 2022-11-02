@@ -17,12 +17,13 @@ exports.addtoCart = async (req, res) => {
       console.log("gstotal",gstotal)
       total_amt =price + gstotal
      // gsttotal = (price*product_qty) +(product_price*product_qty)
-      
-    
+     const cus_orderId = "AL"+Date.now();
+    console.log("cus_orderId",cus_orderId)
     const newaddCart = new Cart({
       // userid:userid,
       shipping_address:shipping_address,
       astro_product: astro_product,
+      orderId:cus_orderId
     })
   
     newaddCart.save()
