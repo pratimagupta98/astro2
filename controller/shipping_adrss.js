@@ -56,6 +56,26 @@ exports.viewone_address  = async (req, res) => {
   }
 }
 
+
+exports.getone_address  = async (req, res) => {
+  const findall = await Shipping.find({ _id: req.params.id })
+  .sort({ sortorder: 1 })
+  .populate("userid");
+if (findall) {
+  res.status(200).json({
+    status: true,
+    msg: "success",
+    data: findall,
+  });
+} else {
+  res.status(400).json({
+    status: false,
+    msg: "error",
+    error: "error",
+  });
+}
+}
+
 exports.all_shipping_address = async (req, res) => {
   const findall = await Shipping.find({ customer: req.userId })
     .sort({ sortorder: 1 })
