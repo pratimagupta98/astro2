@@ -24,17 +24,21 @@ const thisSchema = new Schema(
     desc:{
         type: String,
     },
-    mrp_price:{
+    price:{
         type: Number,
     },
-    des_price:{
-        type: Number,
-    },
+    // des_price:{
+    //     type: Number,
+    // },
    
     status: {
       type: String,
       default: "Active",
     },
+    limit:{
+      type: Number,
+      default:0
+    }
   },
   { timestamps: true }
 );

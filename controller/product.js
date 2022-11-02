@@ -18,7 +18,7 @@ cloudinary.config({
 
 exports.addProduct = async (req, res) => {
   //console.log(req.body);
-  const {  title,productname,category,image,desc,mrp_price,des_price, status } = req.body;
+  const {  title,productname,category,image,desc,price,limit, status } = req.body;
 
   const newProduct = new Product({
     
@@ -27,8 +27,8 @@ exports.addProduct = async (req, res) => {
     category: category,
     image:image,
     desc:desc,
-    mrp_price:mrp_price,
-    des_price:des_price,
+    price:price,
+    limit:limit,
     status:status
   });
 

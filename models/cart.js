@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const CartSchema = new mongoose.Schema(
   {
+
+    // userid:{
+    //   type: mongoose.Schema.Types.ObjectId, ref: "user"
+    // },
     shipping_address: { type: mongoose.Schema.Types.ObjectId, ref: "shipping_address" },
     // customer: { type: String },
      
