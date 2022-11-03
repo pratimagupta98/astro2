@@ -8,7 +8,7 @@ const { verifytoken } = require("../functions/verifytoken");
 const {
     usersignup,
     userlogin,
-    myprofile,
+    edit_myprofile,
     viewoneuser,
     alluser,
     dltuser,
@@ -66,7 +66,7 @@ const storage = multer.diskStorage({
 
  router.post("/user/userlogin", userlogin);
 
- router.post("/user/myprofile/:id",multipleUpload, myprofile);
+ router.post("/user/edit_myprofile/:id",multipleUpload, edit_myprofile);
  router.get("/user/viewoneuser/:id", viewoneuser);
  router.get("/user/getoneusertoken",verifytoken, getoneusertoken);
 

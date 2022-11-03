@@ -4,17 +4,13 @@ const User = require("../models/users");
 
 
 exports.add_chat_intake= async (req, res) => {
-  const { userid,astroid,gender,tym_of_birth,birth_city,birth_state,birth_country,marital_status,occupation,topic_of_cnsrn,entertopic_of_cnsrn} = req.body;
+  const { userid,astroid,gender,marital_status,occupation,topic_of_cnsrn,entertopic_of_cnsrn} = req.body;
 
   const newIntek = new Intek({
  
     userid:userid,
     astroid:astroid,
     gender:gender,
-    tym_of_birth:tym_of_birth,
-    birth_city:birth_city,
-    birth_state:birth_state,
-    birth_country:birth_country,
     marital_status:marital_status,
     occupation:occupation,
     topic_of_cnsrn:topic_of_cnsrn,

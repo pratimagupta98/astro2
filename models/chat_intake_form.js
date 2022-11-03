@@ -14,19 +14,8 @@ const thisSchema = new Schema(
     gender: {
       type: String,
     },
-    tym_of_birth: {
-      type: String,
-    },
-    birth_city: {
-      type: String,
-       
-    },
-    birth_state:{
-        type: String,
-    },
-    birth_country:{
-        type: String,
-    },
+   
+    
     marital_status:{
         type: String,
     },

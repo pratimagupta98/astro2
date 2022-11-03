@@ -24,8 +24,7 @@ cloudinary.config({
       req.body;
   
     
-  
-    
+
     const newUser = new User({
       fullname: fullname,
       // password: hashPassword,
@@ -34,6 +33,8 @@ cloudinary.config({
       mobile: mobile,
       userimg: userimg,
       dob :dob,
+     // tym_of_birth:tym_of_birth
+      //walletId:walletId,
        otp: defaultotp
     });
   
@@ -57,14 +58,17 @@ cloudinary.config({
           newUser.userimg = alluploads;
         }
       }
+     
+     // newUser.walletId =walletId
       newUser.save()
-       
       .then((data) => {
         res.status(200).json({
           status: true,
           msg: "otp send successfully",
           data: data.mobile,
-         otp:data.otp
+         otp:data.otp,
+         _id: data?._id,
+        // walletId:data._id
 
         })
       })
@@ -87,12 +91,12 @@ cloudinary.config({
             expiresIn: "365d",
           }
         );
-        // await User.findOneAndUpdate(
-        //   {
-        //     _id: getuser._id,
-        //   },
-        //   { $set: { otpverify: "true" } },
-        //   { new: true }).then((data)=>{ 
+        await User.findOneAndUpdate(
+          {
+            _id: getuser._id,
+          },
+          { $set: { walletId:getuser._id  } },
+          { new: true }).then((data)=>{ 
 
         res.header("auth-token", token).status(200).send({
           status: true,
@@ -102,8 +106,10 @@ cloudinary.config({
           token:token,
           // _id: getuser._id,
        
-           data : getuser
+           data : data,
+           walletId: data.walletId,
         })
+      })
         }else {
           res.status(200).json({
             status: false,
@@ -158,8 +164,8 @@ cloudinary.config({
   //   }
   // };
 
-  exports.myprofile = async(req,res)=>{
-    const{fullname,userimg,email,mobile,password,cnfmPassword} = req.body
+  exports.edit_myprofile = async(req,res)=>{
+    const{fullname,userimg,email,mobile,password,cnfmPassword,birth_tym,dob,bithplace,address,city,state,country,pincode} = req.body
     
     data ={}
     if(fullname) {
@@ -182,7 +188,31 @@ cloudinary.config({
       let hashPassword = await bcrypt.hash(password, salt);
       data.cnfmPassword = hashPassword;
     }
-
+    if(birth_tym){
+      data.birth_tym =birth_tym
+    }
+    if(dob){
+      data.dob = dob
+    }
+    if(bithplace){
+      data.bithplace = bithplace
+    }
+    if(address){
+      data.address =address
+    }
+    if(city){
+      data.city =city
+    }
+    if(state){
+      data.state =state
+    }
+if(country){
+  data.country = country
+}
+if(pincode){
+  data.pincode =pincode
+}
+ 
     if (req.files) {
         if (req.files.userimg) {
           alluploads = [];

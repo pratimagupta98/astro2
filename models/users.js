@@ -21,15 +21,18 @@ const thisSchema = new Schema(
     userimg: {
       type: Array,
     },
+    birth_tym: {
+      type: String,
+    },
     dob:{type: String},
          otp: { type: String },
          alt_mobile :{
           type: String,
          },
-         flat_no:{
+         bithplace:{
           type: String,
          },
-         locality:{
+         address:{
           type: String,
          },
          city:{
@@ -45,7 +48,14 @@ const thisSchema = new Schema(
         },
         landmark:{
           type: String,
-        }
+        },
+        walletId: {
+          type: String
+        },
+        amount: {
+          type: Number,
+          default: 0,
+        },
 
   },
 
