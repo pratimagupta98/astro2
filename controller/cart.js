@@ -6,8 +6,8 @@ const { listenerCount } = require("../models/recharge_plan");
 
 
 exports.addtoCart = async (req, res) => {
-    const {shipping_address, astro_product} = req.body;
-     const getastroproduct = await Astroproduct.findOne({ _id: req.body.astro_product });
+    const {astroid,productid,shipping_address} = req.body;
+     const getastroproduct = await Astroproduct.findOne({ _id: req.body.astroid });
     console.log("getastroproduct",getastroproduct)
     if (getastroproduct ) {
        const price  =getastroproduct.price
@@ -22,9 +22,9 @@ exports.addtoCart = async (req, res) => {
     console.log("cus_orderId",cus_orderId)
  
     const newaddCart = new Cart({
-      // userid:userid,
+       astroid:astroid,
+       productid: productid,
       shipping_address:shipping_address,
-      astro_product: astro_product,
       orderId:cus_orderId,
       gst:totalgst,
       total_amt:total_amt
@@ -66,26 +66,26 @@ exports.addtoCart = async (req, res) => {
   }
   
   exports.getoneCart = async (req, res) => {
-   const getone= await Cart.findOne({ _id: req.params.id }).populate("shipping_address").populate("astro_product")
+   const getone= await Cart.findOne({ _id: req.params.id }).populate("shipping_address").populate("astroid")
    //.populate("astroid")
    .populate({
-    path: "astro_product",
+    path: "astroid",
     populate: {
       path: "astroid",
     },
   })
   .populate({
-    path: "astro_product",
+    path: "astroid",
     populate: {
       path: "product",
     },
   })
   .populate({
-    path: "astro_product",
+    path: "astroid",
     populate: {
       path: "category",
     },
-  })
+  }).populate("productid")
 //console.log("strng",getone)
   //  if(getone){
   //   const astropro = getone.astro_product
