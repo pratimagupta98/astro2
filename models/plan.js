@@ -19,4 +19,4 @@ const thisSchema = new Schema(
   );
 
 
-  module.exports = mongoose.model("rechrg_plan", thisSchema);
+  module.exports = mongoose.model("plan", thisSchema);

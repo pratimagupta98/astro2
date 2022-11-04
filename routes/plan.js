@@ -1,24 +1,25 @@
-// const express = require("express");
-// const router = express.Router();
-// const multer = require("multer");
-// const fs = require("fs");
+const express = require("express");
+const router = express.Router();
+const multer = require("multer");
+const fs = require("fs");
 
 
-// const {
-//     add_rechrge_plan,
-//     allplans,
-//     getoneplan
-// } = require("../controller/plan");
+const {
+    add_plan,
+    allplans,
+    getoneplan,
+    dltplan,
+    editplan
+} = require("../controller/plan");
+
 
  
-  
- 
- 
-//  router.post("/admin/add_rechrge_plan", add_rechrge_plan);
-// router.get("/admin/allplans", allplans);
-// router.get("/admin/getoneplan/:id", getoneplan);
+ router.post("/admin/add_plan", add_plan);
+router.get("/admin/allplans", allplans);
+router.get("/admin/getoneplan/:id", getoneplan);
+router.post("/admin/editplan/:id", editplan);
 
-// router.get("/admin/dlt_notification/:id", dlt_notification);
+router.get("/admin/dltplan/:id", dltplan);
 
-// module.exports = router;
+module.exports = router;
  

@@ -1,7 +1,7 @@
 const Plans = require("../models/plan");
 const resp = require("../helpers/apiResponse");
 
-exports.add_rechrge_plan = async (req, res) => {
+exports.add_plan = async (req, res) => {
   const { title,amount} = req.body;
 
   const newPlans = new Plans({

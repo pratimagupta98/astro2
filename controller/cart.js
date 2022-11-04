@@ -52,6 +52,25 @@ exports.addtoCart = async (req, res) => {
   
   exports.getoneCart = async (req, res) => {
    const getone= await Cart.findOne({ _id: req.params.id }).populate("shipping_address").populate("astro_product")
+   //.populate("astroid")
+   .populate({
+    path: "astro_product",
+    populate: {
+      path: "astroid",
+    },
+  })
+  .populate({
+    path: "astro_product",
+    populate: {
+      path: "product",
+    },
+  })
+  .populate({
+    path: "astro_product",
+    populate: {
+      path: "category",
+    },
+  })
 //console.log("strng",getone)
    if(getone){
     const astropro = getone.astro_product
