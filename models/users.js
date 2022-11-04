@@ -46,9 +46,7 @@ const thisSchema = new Schema(
         pincode:{
           type: String,
         },
-        landmark:{
-          type: String,
-        },
+        
         walletId: {
           type: String
         },

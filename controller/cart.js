@@ -1,6 +1,7 @@
 const Cart = require("../models/cart");
 const resp = require("../helpers/apiResponse");
 const Astroproduct = require("../models/astroproduct");
+const { listenerCount } = require("../models/recharge_plan");
 
 
 
@@ -11,19 +12,23 @@ exports.addtoCart = async (req, res) => {
     if (getastroproduct ) {
        const price  =getastroproduct.price
      // console.log(price)
-      let gstotal =0
+      // totalgst =0
 
-      gstotal = price *18/100
-      console.log("gstotal",gstotal)
-      total_amt =price + gstotal
+     let  totalgst = price *18/100
+      console.log("gstotal",totalgst)
+     let total_amt =price + totalgst
      // gsttotal = (price*product_qty) +(product_price*product_qty)
      const cus_orderId = "AL"+Date.now();
     console.log("cus_orderId",cus_orderId)
+ 
     const newaddCart = new Cart({
       // userid:userid,
       shipping_address:shipping_address,
       astro_product: astro_product,
-      orderId:cus_orderId
+      orderId:cus_orderId,
+      gst:totalgst,
+      total_amt:total_amt
+
     })
   
     newaddCart.save()
@@ -33,7 +38,7 @@ exports.addtoCart = async (req, res) => {
             status: true,
             msg: "Order Detail ",
             data: data,
-           //total: sum,
+           gstotal: totalgst,
            total_amt:total_amt
           
           });
@@ -46,8 +51,18 @@ exports.addtoCart = async (req, res) => {
             error: error,
           });
         });
+
+        // await Cart.findOneAndUpdate(
+        //   {
+        //     astro_product:astro_product,
+        //   },
+        //   { $set: {total_amt:total_amt}},
+        //   { new: true }
+        // )
     
   }  
+ 
+
   }
   
   exports.getoneCart = async (req, res) => {
@@ -72,33 +87,36 @@ exports.addtoCart = async (req, res) => {
     },
   })
 //console.log("strng",getone)
-   if(getone){
-    const astropro = getone.astro_product
-    console.log("pp",astropro)
-    const price  =astropro.price
-      console.log(price)
-      let gstotal =0
+  //  if(getone){
+  //   const astropro = getone.astro_product
+  //   console.log("pp",astropro)
+  //   const price  =astropro.price
+  //     console.log(price)
+  //     let gstotal =0
 
-      gstotal = price *18/100
-      console.log("gstotal",gstotal)
-      total_amt =price + gstotal
+  //     gstotal = price *18/100
+  //     console.log("gstotal",gstotal)
+  //     total_amt =price + gstotal
 
 
-      res.status(200).json({
-        status: true,
-        msg: "success",
-        data: getone,
-      //  gsttotal: gsttotal, 
-      total_amt :total_amt    
-      });
+  //     res.status(200).json({
+  //       status: true,
+  //       msg: "success",
+  //       data: getone,
+  //     //  gsttotal: gsttotal, 
+  //     total_amt :total_amt    
+  //     });
      
-   }else{
-    res.status(400).json({
-      status: false,
-      msg: "error",
-      error: "error",
-    });
+  //  }else{
+  //   res.status(400).json({
+  //     status: false,
+  //     msg: "error",
+  //     error: "error",
+  //   });
   
+
+  .then((data) => resp.successr(res, data))
+   .catch((error) => resp.errorr(res, error));
    }
     
      
@@ -106,7 +124,7 @@ exports.addtoCart = async (req, res) => {
       // .then((data) => resp.successr(res, data))
       // .catch((error) => resp.errorr(res, error));
     
-  }
+  
 
 
 
@@ -155,3 +173,11 @@ exports.addtoCart = async (req, res) => {
     }
   }
    }
+
+
+   exports.all_transaction_list = async (req, res) => {
+    await Cart.find()
+      .sort({ createdAt: -1 })
+      .then((data) => resp.successr(res, data))
+      .catch((error) => resp.errorr(res, error));
+  };

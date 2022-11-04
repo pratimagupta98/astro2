@@ -20,8 +20,13 @@ const CartSchema = new mongoose.Schema(
     orderId: {
       type: String,
     },
-    gstotal:{
-      type: String,
+    // gstotal:{
+    //   type: Number,
+    //  // default:0  
+    // },
+    total_amt:{
+      type: Number,
+     // default:0
     }
   },
   { timestamps: true }

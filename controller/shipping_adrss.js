@@ -2,12 +2,14 @@ const Shipping = require("../models/shipping_adrss");
 const resp = require("../helpers/apiResponse");
 
 exports.add_shipping_address = async (req, res) => {
-  const { userid, user, alt_mobile,flat_no,locality, city, state,country,pincode,landmark,mobile,name,email } = req.body;
+  const { userid, alt_mobile,flat_no,locality, city, state,country,pincode,landmark,mobile,name,email } = req.body;
 
   const newShipping = new Shipping({
     userid: userid,
-    user: user,
+    name: name,
+    mobile:mobile,
     alt_mobile: alt_mobile,
+    email:email,
     flat_no: flat_no,
     locality: locality,
     city:city,

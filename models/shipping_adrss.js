@@ -6,12 +6,19 @@ const thisSchema = new Schema(
     userid : {
       type :mongoose.Schema.Types.ObjectId,ref : "user"
     },
+    name:{
+      type: String,
+    },
     mobile:{
       type: String,
     },
     alt_mobile:{
         type: String,
     },
+    email:{
+      type: String,
+    },
+
     // user:[
     //     {
     //         alt_mobile: {type: String}, flat_no:{type:String},locality:{type: String},city:{type:String},state:{ type: String},country:{ type: String},pincode:{type: String},landmark:{type: String,}
@@ -38,13 +45,7 @@ const thisSchema = new Schema(
       landmark:{
         type: String,
       },
-   name : {
-     type: String,
-     // require: true,
-    },
-    email:{
-      type: String,
-     },
+   
   },
   { timestamps: true }
 );
