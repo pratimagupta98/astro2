@@ -9,13 +9,16 @@ const {
     allplans,
     getoneplan,
     dltplan,
-    editplan
+    editplan,
+    active_plans
 } = require("../controller/plan");
 
 
  
  router.post("/admin/add_plan", add_plan);
 router.get("/admin/allplans", allplans);
+router.get("/user/active_plans", active_plans);
+
 router.get("/admin/getoneplan/:id", getoneplan);
 router.post("/admin/editplan/:id", editplan);
 

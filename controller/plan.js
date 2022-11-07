@@ -8,7 +8,7 @@ exports.add_plan = async (req, res) => {
     title:title,
     amount:amount,
    });
-   const findexist = await Plans.findOne({ title: title });
+   const findexist = await Plans.findOne({ amount: amount });
    if (findexist) {
      resp.alreadyr(res);
    } else {
@@ -53,3 +53,10 @@ exports.allplans= async (req, res) => {
       .catch((error) => resp.errorr(res, error));
   };
   
+
+  exports.active_plans= async (req, res) => {
+    await Plans.find({status:"Active"})
+      .sort({ createdAt: -1 })
+      .then((data) => resp.successr(res, data))
+      .catch((error) => resp.errorr(res, error));
+  };

@@ -11,7 +11,10 @@ const thisSchema = new Schema(
        amount:{
         type: Number,
     },
-     
+     status:{
+      type:String, 
+      default:"Active"
+     }
        
       },
      
