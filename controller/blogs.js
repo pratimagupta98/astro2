@@ -8,6 +8,7 @@ const dotenv = require("dotenv");
 const jwt = require("jsonwebtoken");
 const key = "verysecretkey";
 const bcrypt = require("bcrypt");
+const category = require("../models/category");
 dotenv.config();
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -18,10 +19,11 @@ cloudinary.config({
 
 exports.addBlog = async (req, res) => {
   //console.log(req.body);
-  const { blog_title, blogImg, desc } = req.body;
+  const { blog_title,blogcategory, blogImg, desc } = req.body;
 
   const newBlog = new Blog({
     blog_title: blog_title,
+    blogcategory:blogcategory,
     blogImg: blogImg,
     desc: desc,
   });
@@ -113,3 +115,21 @@ exports.editBlog = async(req,res)=>{
         .then((data) => resp.successr(res, data))
         .catch((error) => resp.errorr(res, error));
     };
+
+
+
+    exports.blog_by_category = async (req, res) => {
+      await Blog.find({blogcategory:req.params.id}) 
+      .sort({ sortorder: 1 })
+      .then((data) => resp.successr(res, data))
+      .catch((error) => resp.errorr(res, error));
+      };
+
+      // exports.listbysubcategory = async (req, res) => {
+      //   const findall = await Submit.find({ sub_category: req.params.id }).populate("category").populate("sub_category").populate("relYear").populate("language")
+      //     .sort({ sortorder: 1 })
+           
+          
+      //     .then((data) => resp.successr(res, data))
+      //     .catch((error) => resp.errorr(res, error));
+      // }

@@ -37,6 +37,7 @@ const shipping_adrss = require("./routes/shipping_adrss")
 const chat_intake_form = require("./routes/chat_intake_form")
 const plan = require("./routes/plan")
 const recharge_plan = require("./routes/recharge_plan")
+const blog_category = require("./routes/blog_category")
 
 
 //use
@@ -66,6 +67,7 @@ app.use("/", shipping_adrss);
 app.use("/", chat_intake_form);
 app.use("/", plan);
 app.use("/", recharge_plan);
+app.use("/", blog_category);
 
 
 

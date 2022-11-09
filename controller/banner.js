@@ -27,6 +27,7 @@ exports.addbanner = async (req, res) => {
   });
 
   
+  
     const findexist = await Banner.findOne({
       banner_title: banner_title,
     });

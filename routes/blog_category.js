@@ -4,13 +4,13 @@ const multer = require("multer");
 const fs = require("fs");
 
 const {
-    addBlog,
-    getBlog,
-    viewoneBlog,
-  delBlog,
-   editBlog,
-   blog_by_category
- } = require("../controller/blogs");
+    add_blog_category,
+    all_blog_category,
+    getone_blog_Cat,
+    edit_blog_cat,
+    dlt_blog_cat,
+    active_blog_category
+ } = require("../controller/blog_category");
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -42,7 +42,7 @@ const storage = multer.diskStorage({
   let uploads = multer({ storage: storage });
   
   let multipleUpload = uploads.fields([
-    { name: "blogImg", maxCount: 10 },
+    { name: "img", maxCount: 10 },
    
     //   { name: "storepan_img", maxCount: 5 },
     //   { name: "tradelicence_img", maxCount: 5 },
@@ -51,11 +51,11 @@ const storage = multer.diskStorage({
   ]);
   
 // PATHS
-router.post("/admin/addBlog",multipleUpload, addBlog);
-router.get("/admin/getBlog", getBlog);
-router.get("/admin/viewoneBlog/:id", viewoneBlog);
-router.get("/admin/delBlog/:id", delBlog);
- router.post("/admin/editBlog/:id",multipleUpload, editBlog);
- router.get("/user/blog_by_category/:id", blog_by_category);
+router.post("/admin/add_blog_category",multipleUpload, add_blog_category);
+router.get("/admin/all_blog_category", all_blog_category);
+router.get("/admin/getone_blog_Cat/:id", getone_blog_Cat);
+ router.post("/admin/edit_blog_cat/:id",multipleUpload, edit_blog_cat);
+ router.get("/admin/dlt_blog_cat/:id", dlt_blog_cat);
+ router.get("/user/active_blog_category", active_blog_category);
 
 module.exports = router;
