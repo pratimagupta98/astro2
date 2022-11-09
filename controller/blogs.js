@@ -1,5 +1,6 @@
 const Blog = require("../models/blogs");
 const resp = require("../helpers/apiResponse");
+const BlogCategory = require("../models/blog_category");
 
 const fs = require("fs");
 const cloudinary = require("cloudinary").v2;
@@ -58,14 +59,14 @@ exports.addBlog = async (req, res) => {
 };
 
 exports.getBlog = async (req, res) => {
-await Blog.find() 
+await Blog.find().populate("blogcategory")
 .sort({ sortorder: 1 })
 .then((data) => resp.successr(res, data))
 .catch((error) => resp.errorr(res, error));
 };
 
 exports.viewoneBlog = async (req, res) => {
-await Blog.findOne({ _id: req.params.id })
+await Blog.findOne({ _id: req.params.id }).populate("blogcategory")
 .then((data) => resp.successr(res, data))
 .catch((error) => resp.errorr(res, error));
 };
@@ -119,7 +120,7 @@ exports.editBlog = async(req,res)=>{
 
 
     exports.blog_by_category = async (req, res) => {
-      await Blog.find({blogcategory:req.params.id}) 
+      await Blog.find({blogcategory:req.params.id}).populate("blogcategory") 
       .sort({ sortorder: 1 })
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));

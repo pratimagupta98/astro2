@@ -6,7 +6,7 @@ const thisSchema = new Schema(
     blog_title: {
       type: String,
     },
-    blogcategory: { type: mongoose.Schema.Types.ObjectId, ref: "Blogcategory" },
+    blogcategory: { type: mongoose.Schema.Types.ObjectId, ref: "blogcategory" },
     blogImg: {
       type: Array,
     },

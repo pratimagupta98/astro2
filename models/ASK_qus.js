@@ -7,8 +7,18 @@ const thisSchema = new Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: "astrologer",
     },
+    userid:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+    },
     question: {
       type: String,
+    },
+    answer:{
+      type: String,
+    },
+    type:{
+      type:String
     },
     // bannertype: {
     //   type: String,
