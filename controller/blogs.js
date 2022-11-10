@@ -79,14 +79,15 @@ exports.delBlog = async (req, res) => {
 
  
 
-
- 
 exports.editBlog = async(req,res)=>{
-    const{blog_title,blogImg,desc} = req.body
+    const{blog_title,blogcategory,blogImg,desc} = req.body
     
     data ={}
     if(blog_title) {
         data.blog_title = blog_title
+    }
+    if(blogcategory){
+      data.blogcategory = blogcategory
     }
     if(desc){
         data.desc = desc

@@ -53,17 +53,43 @@ exports.all_blog_category = async (req, res) => {
   };
   
 
-  exports.edit_blog_cat = async (req, res) => {
-    await BlogCategory.findOneAndUpdate(
-      {
-        _id: req.params.id,
-      },
-      { $set: req.body },
-      { new: true }
-    )
-      .then((data) => resp.successr(res, data))
-      .catch((error) => resp.errorr(res, error));
-  };
+  exports.edit_blog_cat = async(req,res)=>{
+    const{name,status,desc} = req.body
+    
+    data ={}
+    if(name) {
+        data.name = name
+    }
+    if(desc){
+      data.desc = desc
+  }
+    if(status){
+      data.status = status
+    }
+    if (req.files) {
+        if (req.files.img) {
+          alluploads = [];
+          for (let i = 0; i < req.files.img.length; i++) {
+            // console.log(i);
+            const resp = await cloudinary.uploader.upload(req.files.img[i].path, {
+              use_filename: true,
+              unique_filename: false,
+            });
+            fs.unlinkSync(req.files.img[i].path);
+            alluploads.push(resp.secure_url);
+          }
+          // newStore.storeImg = alluploads;
+          data.img = alluploads;
+        }
+     }
+     await BlogCategory.findOneAndUpdate(
+        { _id: req.params.id},
+        { $set: data },
+        { new: true }
+      )
+        .then((data) => resp.successr(res, data))
+        .catch((error) => resp.errorr(res, error));
+    };
   
 
   exports.dlt_blog_cat = async (req, res) => {
