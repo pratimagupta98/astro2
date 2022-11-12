@@ -12,7 +12,7 @@ app.use(cors());
 
 //require
  
-const users = require("./routes/users")
+//const users = require("./routes/users")
 const astrologer = require("./routes/astrologer")
 const admin = require("./routes/admin")
 const aboutus = require("./routes/aboutus")
@@ -43,7 +43,7 @@ const blog_category = require("./routes/blog_category")
 
 
 //use
-app.use("/", users);
+//app.use("/", users);
 app.use("/", astrologer);
 
 app.use("/", admin);
