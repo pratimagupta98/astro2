@@ -18,7 +18,7 @@ app.use(cors());
 const aboutus = require("./routes/aboutus")
 const terms_condition = require("./routes/terms_condition")
 const contact_us = require("./routes/contact_us")
-const banner = require("./routes/banner")
+//const banner = require("./routes/banner")
 const faq = require("./routes/faq")
 const blogs = require("./routes/blogs")
 const privacy_policy = require("./routes/privacy_policy")
@@ -50,7 +50,7 @@ const blog_category = require("./routes/blog_category")
 app.use("/", aboutus);
 app.use("/", terms_condition);
 app.use("/", contact_us);
-app.use("/", banner);
+//app.use("/", banner);
 app.use("/", faq);
 app.use("/", blogs);
 app.use("/", privacy_policy);
