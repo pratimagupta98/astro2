@@ -183,5 +183,4 @@ exports.editBanner = async(req,res)=>{
     };
 
 
-    //console
-    
+  
