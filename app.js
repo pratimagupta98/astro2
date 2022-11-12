@@ -12,15 +12,15 @@ app.use(cors());
 
 //require
  
-// const users = require("./routes/users")
-// const astrologer = require("./routes/astrologer")
-// const admin = require("./routes/admin")
+ const users = require("./routes/users")
+ const astrologer = require("./routes/astrologer")
+ const admin = require("./routes/admin")
 const aboutus = require("./routes/aboutus")
 const terms_condition = require("./routes/terms_condition")
 const contact_us = require("./routes/contact_us")
-//const banner = require("./routes/banner")
+const banner = require("./routes/banner")
 const faq = require("./routes/faq")
-//const blogs = require("./routes/blogs")
+const blogs = require("./routes/blogs")
 const privacy_policy = require("./routes/privacy_policy")
 const notification = require("./routes/notification")
 const category = require("./routes/category")
@@ -43,16 +43,16 @@ const blog_category = require("./routes/blog_category")
 
 
 //use
-// app.use("/", users);
-// app.use("/", astrologer);
+app.use("/", users);
+app.use("/", astrologer);
 
-// app.use("/", admin);
+app.use("/", admin);
 app.use("/", aboutus);
 app.use("/", terms_condition);
 app.use("/", contact_us);
-//app.use("/", banner);
+app.use("/", banner);
 app.use("/", faq);
-//app.use("/", blogs);
+app.use("/", blogs);
 app.use("/", privacy_policy);
 app.use("/", notification);
 app.use("/", category);
