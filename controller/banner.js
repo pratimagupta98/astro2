@@ -1,4 +1,6 @@
 const Banner = require("../models/banner");
+const HomeBanner = require("../models/home_banner.js");
+
 const resp = require("../helpers/apiResponse");
 
 const fs = require("fs");
@@ -55,6 +57,51 @@ exports.addbanner = async (req, res) => {
             .catch((error) => resp.errorr(res, error));
         };
 };
+
+exports.add_home_banner = async (req, res) => {
+  //console.log(req.body);
+  const { banner_title, banner_img, status } = req.body;
+
+  const newHomeBanner = new HomeBanner({
+    banner_title: banner_title,
+    banner_img: banner_img,
+     status: status,
+  });
+
+    const findexist = await HomeBanner.findOne({
+      banner_title: banner_title,
+    });
+    if (findexist) {
+        resp.alreadyr(res);
+    } else {
+        if (req.files) {
+            if (req.files.banner_img[0].path) {
+              alluploads = [];
+              for (let i = 0; i < req.files.banner_img.length; i++) {
+                const resp = await cloudinary.uploader.upload(
+                  req.files.banner_img[i].path,
+                  { use_filename: true, unique_filename: false }
+                );
+                fs.unlinkSync(req.files.banner_img[i].path);
+                alluploads.push(resp.secure_url);
+              }
+              newHomeBanner.banner_img = alluploads;
+            }
+          }
+          newHomeBanner.save()
+      
+      
+            .then((data) => resp.successr(res, data))
+            .catch((error) => resp.errorr(res, error));
+        };
+};
+
+exports.get_home_banner = async (req, res) => {
+  await HomeBanner.find({status:"Active"}) 
+  .sort({ sortorder: 1 })
+  .then((data) => resp.successr(res, data))
+  .catch((error) => resp.errorr(res, error));
+  };
 
 exports.getbanner = async (req, res) => {
 await Banner.find() 

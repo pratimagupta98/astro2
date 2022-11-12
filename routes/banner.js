@@ -9,7 +9,9 @@ const {
   viewonebanner,
   delbanner,
   getbannerbytype,
-  editBanner
+  editBanner,
+  add_home_banner,
+  get_home_banner
  } = require("../controller/banner");
 
 const storage = multer.diskStorage({
@@ -57,6 +59,7 @@ router.get("/admin/viewonebanner/:id", viewonebanner);
 router.get("/admin/delbanner/:id", delbanner);
 router.get("/admin/bannerbytype/:id", getbannerbytype);
 router.post("/admin/editBanner/:id",multipleUpload, editBanner);
+router.post("/admin/add_home_banner",multipleUpload, add_home_banner);
+router.get("/admin/get_home_banner", get_home_banner);
 
 module.exports = router;
- 
