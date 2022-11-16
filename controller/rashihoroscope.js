@@ -59,7 +59,7 @@ exports.get_Rhscope= async (req, res) => {
   
 
   exports.rashi_by_category = async (req, res) => {
-    await Rhoroscope.find({ category: req.params.id }).populate("rashiId")
+    await Rhoroscope.find({ category: req.params.id }).populate("rashiId").populate("category")
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
   };
