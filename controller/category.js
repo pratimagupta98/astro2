@@ -2,14 +2,11 @@ const Category = require("../models/category");
 const resp = require("../helpers/apiResponse");
 
 exports.addCategory= async (req, res) => {
-  const { title,category,desc} = req.body;
+  const { title,desc} = req.body;
 
   const newCategory= new Category({
     title:title,
-    category:category,
     desc:desc,
-    
-    
    });
    const findexist = await Category.findOne({ title: title });
    if (findexist) {

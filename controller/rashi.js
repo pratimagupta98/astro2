@@ -2,15 +2,16 @@ const Rashi = require("../models/rashi");
 const resp = require("../helpers/apiResponse");
 
 exports.addRashi= async (req, res) => {
-  const { rashi_title ,desc,date} = req.body;
+  const { rashi_title ,desc,date,category} = req.body;
 
   const newRashi= new Rashi({
     rashi_title:rashi_title,
     desc:desc,
-    date :date
+    date :date,
+    category:category
    });
    const findexist = await Rashi.findOne({
-    rashi_title: rashi_title,
+    $and: [{ category:category}, { rashi_title: rashi_title }]
   });
   if (findexist) {
       resp.alreadyr(res);
@@ -25,7 +26,7 @@ exports.addRashi= async (req, res) => {
 
 
 exports.Rashilist= async (req, res) => {
-    await Rashi.find()
+    await Rashi.find().populate("category")
       .sort({ sortorder: 1 })
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));

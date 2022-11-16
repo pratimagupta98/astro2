@@ -10,7 +10,7 @@ const {
     // editprofile,
     // dltFaq
    
-} = require("../controller/cart");
+} = require("../controller/Checkout");
 
  
  

@@ -4,13 +4,10 @@ const thisSchema = new Schema(
     {
      
       
-       title:{
+       hrscp_category:{
         type: String, 
        },
-    
-       desc:{
-        type: String, 
-       },
+   
        
       },
      
@@ -18,4 +15,4 @@ const thisSchema = new Schema(
   );
 
 
-  module.exports = mongoose.model("category", thisSchema);
+  module.exports = mongoose.model("hrscpCategory", thisSchema);

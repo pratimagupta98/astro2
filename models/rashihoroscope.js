@@ -14,6 +14,10 @@ const thisSchema = new Schema(
     long_desc:{
         type: String, 
     },
+    category:{
+      type: mongoose.Schema.Types.ObjectId,
+    ref: "category",
+     },
     rashiId:[{
         type: mongoose.Schema.Types.ObjectId,
       ref: "rashi",

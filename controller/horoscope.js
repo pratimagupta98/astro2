@@ -1,44 +1,43 @@
+const Horscope = require("../models/Horoscope");
 const Category = require("../models/category");
+
 const resp = require("../helpers/apiResponse");
 
-exports.addCategory= async (req, res) => {
-  const { title,category,desc} = req.body;
+exports.adCat_horscope= async (req, res) => {
+  const { hrscp_category,desc} = req.body;
 
-  const newCategory= new Category({
-    title:title,
-    category:category,
+  const newHorscope= new Horscope({
+ 
+    hrscp_category:hrscp_category,
     desc:desc,
     
     
    });
-   const findexist = await Category.findOne({ title: title });
-   if (findexist) {
-     resp.alreadyr(res);
-   } else {
-    newCategory
+  
+   newHorscope
        .save()
        .then((data) => resp.successr(res, data))
        .catch((error) => resp.errorr(res, error));
    }
- }
+ 
  
 
-exports.getallCategory = async (req, res) => {
-    await Category.find()
+exports.getAll_CatHroscope = async (req, res) => {
+    await Horscope.find().populate("hrscp_category")
       .sort({ createdAt: -1 })
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   };
 
-  exports.getoneCategory = async (req, res) => {
-    await Category.findOne({ _id: req.params.id })
+  exports.getone_CatHroscope = async (req, res) => {
+    await Horscope.findOne({ _id: req.params.id }).populate("hrscp_category")
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   };
   
 
-  exports.editCategory = async (req, res) => {
-    await Category.findOneAndUpdate(
+  exports.edit_CatHroscope = async (req, res) => {
+    await Horscope.findOneAndUpdate(
       {
         _id: req.params.id,
       },
@@ -50,9 +49,17 @@ exports.getallCategory = async (req, res) => {
   };
   
 
-  exports.dltCategory= async (req, res) => {
-    await Category.deleteOne({ _id: req.params.id })
+  exports.dlt_CatHroscope= async (req, res) => {
+    await Horscope.deleteOne({ _id: req.params.id })
       .then((data) => resp.deleter(res, data))
       .catch((error) => resp.errorr(res, error));
   };
   
+
+  exports.pridiction_by_category = async (req, res) => {
+    await Category.find({ category: req.params.id }).populate("hrscp_category")
+        .sort({ sortorder: 1 })
+         
+        .then((data) => resp.successr(res, data))
+        .catch((error) => resp.errorr(res, error));
+    };

@@ -27,12 +27,12 @@ const category = require("./routes/category")
 const rashi = require("./routes/rashi")
 const rashihoroscope = require("./routes/rashihoroscope")
 const review = require("./routes/review")
-const catHoroscope = require("./routes/catHoroscope")
+const Horoscope = require("./routes/Horoscope")
 const product = require("./routes/product")
 const productcategory = require("./routes/productcategory")
 const rashiImg = require("./routes/rashiImg")
 const astroproduct = require("./routes/astroproduct")
-const cart = require("./routes/cart")
+const Checkout = require("./routes/Checkout")
 const shipping_adrss = require("./routes/shipping_adrss")
 const chat_intake_form = require("./routes/chat_intake_form")
 const plan = require("./routes/plan")
@@ -59,12 +59,12 @@ app.use("/", category);
 app.use("/", rashi);
 app.use("/", rashihoroscope);
 app.use("/", review);
-app.use("/", catHoroscope);
+app.use("/", Horoscope);
 app.use("/", product);
 app.use("/", productcategory);
 app.use("/", rashiImg);
 app.use("/", astroproduct);
-app.use("/", cart);
+app.use("/", Checkout);
 app.use("/", shipping_adrss);
 app.use("/", chat_intake_form);
 app.use("/", plan);

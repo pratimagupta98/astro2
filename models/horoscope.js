@@ -4,16 +4,15 @@ const thisSchema = new Schema(
     {
      
       
-       title:{
-        type: String, 
+       hrscp_category:{
+        type: mongoose.Schema.Types.ObjectId,
+      ref: "hrscpCategory",
        },
-       shortDesc:{
-        type: String, 
-       },
-       rashiName:{
-        type: String, 
-       },
-       rashidesc:{
+      //  rashiId:{
+      //   type: mongoose.Schema.Types.ObjectId,
+      // ref: "rashi",
+      //  },
+       desc:{
         type: String, 
        },
        
@@ -23,4 +22,4 @@ const thisSchema = new Schema(
   );
 
 
-  module.exports = mongoose.model("category", thisSchema);
+  module.exports = mongoose.model("Horoscope", thisSchema);

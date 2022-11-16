@@ -14,6 +14,10 @@ const thisSchema = new Schema(
     date:{
         type: String, 
     },
+    category:{
+      type: mongoose.Schema.Types.ObjectId,
+    ref: "category",
+     },
        
       },
      

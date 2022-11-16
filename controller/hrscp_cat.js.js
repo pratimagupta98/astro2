@@ -1,22 +1,21 @@
-const CatHorscope = require("../models/catHoroscope");
+const Hrsp_cat = require("../models/hrscp_cat.js");
 const resp = require("../helpers/apiResponse");
 
-exports.adCat_horscope= async (req, res) => {
-  const { category,rashiId,desc} = req.body;
+exports.addCategory= async (req, res) => {
+  const { title,category,desc} = req.body;
 
-  const newCatHorscope= new CatHorscope({
- 
+  const newHrsp_cat = new Hrsp_cat({
+    title:title,
     category:category,
-    rashiId:rashiId,
     desc:desc,
     
     
    });
-   const findexist = await CatHorscope.findOne({  $and: [{ category:category  }, { rashiId: rashiId }] });
+   const findexist = await Hrsp_cat.findOne({ title: title });
    if (findexist) {
      resp.alreadyr(res);
    } else {
-    newCatHorscope
+    newHrsp_cat
        .save()
        .then((data) => resp.successr(res, data))
        .catch((error) => resp.errorr(res, error));
@@ -24,22 +23,22 @@ exports.adCat_horscope= async (req, res) => {
  }
  
 
-exports.getAll_CatHroscope = async (req, res) => {
-    await CatHorscope.find().populate("category").populate("rashiId")
+exports.getallCategory = async (req, res) => {
+    await Hrsp_cat.find()
       .sort({ createdAt: -1 })
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   };
 
-  exports.getone_CatHroscope = async (req, res) => {
-    await CatHorscope.findOne({ _id: req.params.id }).populate("category").populate("rashiId")
+  exports.getoneCategory = async (req, res) => {
+    await Hrsp_cat.findOne({ _id: req.params.id })
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   };
   
 
-  exports.edit_CatHroscope = async (req, res) => {
-    await CatHorscope.findOneAndUpdate(
+  exports.editCategory = async (req, res) => {
+    await Hrsp_cat.findOneAndUpdate(
       {
         _id: req.params.id,
       },
@@ -51,8 +50,8 @@ exports.getAll_CatHroscope = async (req, res) => {
   };
   
 
-  exports.dlt_CatHroscope= async (req, res) => {
-    await CatHorscope.deleteOne({ _id: req.params.id })
+  exports.dltCategory= async (req, res) => {
+    await Hrsp_cat.deleteOne({ _id: req.params.id })
       .then((data) => resp.deleter(res, data))
       .catch((error) => resp.errorr(res, error));
   };
