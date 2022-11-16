@@ -33,7 +33,7 @@ exports.Rashilist= async (req, res) => {
   };
 
   exports.getoneRashi = async (req, res) => {
-    await Rashi.findOne({ _id: req.params.id })
+    await Rashi.findOne({ _id: req.params.id }).populate("category")
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   };
