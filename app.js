@@ -27,7 +27,7 @@ const category = require("./routes/category")
 const rashi = require("./routes/rashi")
 const rashihoroscope = require("./routes/rashihoroscope")
 const review = require("./routes/review")
-const Horoscope = require("./routes/Horoscope")
+//const Horoscope = require("./routes/Horoscope")
 const product = require("./routes/product")
 const productcategory = require("./routes/productcategory")
 const rashiImg = require("./routes/rashiImg")
@@ -59,7 +59,7 @@ app.use("/", category);
 app.use("/", rashi);
 app.use("/", rashihoroscope);
 app.use("/", review);
-app.use("/", Horoscope);
+//app.use("/", Horoscope);
 app.use("/", product);
 app.use("/", productcategory);
 app.use("/", rashiImg);
