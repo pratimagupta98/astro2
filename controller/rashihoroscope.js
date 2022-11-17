@@ -32,7 +32,7 @@ exports.get_Rhscope= async (req, res) => {
   };
 
   exports.getone_Rhscope = async (req, res) => {
-    await Rhoroscope.findOne({ _id: req.params.id })
+    await Rhoroscope.findOne({ _id: req.params.id }).populate("rashiId")
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   };

@@ -49,44 +49,42 @@
 
 
 
+exports.make_call = async (req, res) => {
+
+    key="d909e2e0120d0bcbd2ef795dd19eb2e97c2f8d78d8ebb6d4"
+    sid="sveltosetechnologies2"
+    token="856371fe6a97e8be8fed6ab14c95b4832f82d1d3116cb17e	"
+    from="7000420819"
+    to="8103988072"
 
 
-//     key="d909e2e0120d0bcbd2ef795dd19eb2e97c2f8d78d8ebb6d4"
-//     sid="sveltosetechnologies2"
-//     token="856371fe6a97e8be8fed6ab14c95b4832f82d1d3116cb17e	"
-//     from="080-473-59942"
-//     to="+917489651191"
+    const formUrlEncoded = x =>Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, '')
+    const axios = require('axios')
+    url="https://"+key+":"+token+"@api.exotel.in/v1/Accounts/"+sid+"/Calls/connect"
+    axios.post(url, 
+       formUrlEncoded({
+      "From": 7000420819,
+      "To": 8103988072,
+      "CallerId":'080-473-59942',
+      "CallerType": 'promo',
+    }),
+    {   
+        withCredentials: true,
+        headers: {
+            "Accept":"application/x-www-form-urlencoded",
+            "Content-Type": "application/x-www-form-urlencoded"
+        }
+      },
+      )
+    .then((res) => {
+      console.log(`statusCode: ${res.statusCode}`)
+      console.log(res)
+    })
+    .catch((error) => {
+      console.error(error)
+    })
 
-
-//     const formUrlEncoded = x =>Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, '')
-//     const axios = require('axios')
-//     url="https://"+key+":"+token+"@api.exotel.in/v1/Accounts/"+sid+"/Calls/connect"
-//     axios.post(url, 
-//        formUrlEncoded({
-//       "From": from,
-//       "To": to,
-//       "CallerId":'xxxxxxxxx',
-//       "CallerType": 'promo',
-//     }),
-//     {   
-//         withCredentials: true,
-//         headers: {
-//             "Accept":"application/x-www-form-urlencoded",
-//             "Content-Type": "application/x-www-form-urlencoded"
-//         }
-//       },
-//       )
-//     .then((res) => {
-//       console.log(`statusCode: ${res.statusCode}`)
-//       console.log(res)
-//     })
-//     .catch((error) => {
-//       console.error(error)
-//     })
-
-
-
-
+  }
 
 
 
