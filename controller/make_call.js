@@ -47,50 +47,191 @@
 // //        })
 //     //  }
 
+const make_call = require("../models/make_call.js");
+
+// exports.make_call = async(req,res)=>{
+// var request = require('request');
+
+// var dataString = 'From=8103988072&To=7000420819&CallerId=08047359942';
 
 
-exports.make_call = async (req, res) => {
+// const data = {
+//   Sid: req.body.Sid,
+//   From:req.body.From,
+//   To:req.body.To,
+//   CallerId:req.body.CallerId,
+//   CallerType: req.body.CallerType,
+//  // Status:Status,
+     
+// }
+// var options = {
+//     url: 'https://<d909e2e0120d0bcbd2ef795dd19eb2e97c2f8d78d8ebb6d4>:<856371fe6a97e8be8fed6ab14c95b4832f82d1d3116cb17e><@api.exotel.com>/v1/Accounts/<sveltosetechnologies2>/Calls/connect',
+//     method: 'POST',
+//     body: dataString,
+// };
 
-    key="d909e2e0120d0bcbd2ef795dd19eb2e97c2f8d78d8ebb6d4"
-    sid="sveltosetechnologies2"
-    token="856371fe6a97e8be8fed6ab14c95b4832f82d1d3116cb17e	"
-    from="7000420819"
-    to="8103988072"
+// body: JSON.stringify({
+//   "request": {
+//     Sid: req.body.Sid,
+//     From: req.body.From,
+//     To:req.body.To,
+//     CallerId: req.body.CallerId,
+//     CallerType:req.body.CallerType,
+//     Status:req.body.Status,
+//     StartTime:req.body.StartTime,
+//     EndTime :req.body.EndTime,
+//     Duration:req.body.Duration,
+//     Price:req.body.Price,
+//     RecordingUrl:req.body.RecordingUrl
+//   }
+// })
 
 
-    const formUrlEncoded = x =>Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, '')
-    const axios = require('axios')
-    url="https://"+key+":"+token+"@api.exotel.in/v1/Accounts/"+sid+"/Calls/connect"
-    axios.post(url, 
-       formUrlEncoded({
-      "From": 7000420819,
-      "To": 8103988072,
-      "CallerId":'080-473-59942',
-      "CallerType": 'promo',
-    }),
-    {   
-        withCredentials: true,
-        headers: {
-            "Accept":"application/x-www-form-urlencoded",
-            "Content-Type": "application/x-www-form-urlencoded"
-        }
-      },
-      )
-    .then((res) => {
-      console.log(`statusCode: ${res.statusCode}`)
-      console.log(res)
-    })
-    .catch((error) => {
-      console.error(error)
-    })
 
+// let result = await make_call.create(data);
+
+
+// console.log("result",result)
+
+// request(options, function (error, response) {
+// if (error){
+//  throw new Error(error);
+//  res.json(error) ;
+// console.log(response.body);
+// }
+// res.send(response.body);
+// var serverRes = response.body
+// return serverRes
+// }); 
+
+
+// // function callback(error, response, body) {
+// //     if (!error && response.statusCode == 200) {
+// //         console.log(body);
+// //     }
+// // }
+
+// //  request(options, callback);
+
+// }
+
+
+//$$$$$$$$$$$$$$$
+// exports.make_call = async (req, res) => {
+// var request = require('request');
+
+//     key="d909e2e0120d0bcbd2ef795dd19eb2e97c2f8d78d8ebb6d4"
+//     sid="sveltosetechnologies2"
+//     token="856371fe6a97e8be8fed6ab14c95b4832f82d1d3116cb17e	"
+//     from="8103988072"
+//     to="7000420819"
+    
+
+//     const options = {
+//         Sid: sid,
+//         From:from,
+//         To:to,
+//         CallerId:req.body.CallerId,
+//         CallerType: req.body.CallerType,
+//        // Status:Status,
+           
+//       }
+
+
+
+
+//     const formUrlEncoded = x =>Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, '')
+//     const axios = require('axios')
+//     url="https://"+key+":"+token+"@api.exotel.in/v1/Accounts/"+sid+"/Calls/connect"
+//     axios.post(url, 
+//        formUrlEncoded({
+//       "From": 7000420819,
+//       "To": 8103988072,
+//       "CallerId":'080-473-59942',
+//       "CallerType": 'promo',
+//     }),
+  
+
+//     {   
+//         withCredentials: true,
+//         headers: {
+//             "Accept":"application/x-www-form-urlencoded",
+//             "Content-Type": "application/x-www-form-urlencoded"
+//         }
+//       },
+//       )
+//       request(options, function (error, response, body) {
+//         if (response) {
+//           var toparse = response.body;
+//           res.status(200).send(toparse);
+//         }
+//         if (error) {
+//           res.status(200).send(error);
+//         }
+//       });
+    
+//     //   .then((res) => {
+//     //   console.log(`statusCode: ${res.statusCode}`)
+//     //   console.log(res)
+//     //   res.send(response.body);
+//     //   var serverRes = response.body
+//     //   return serverRes
+//     // })
+//     // let result = await make_call.create(data)
+
+//     // .catch((error) => {
+//     //   console.error(error)
+//     // })
+
+//   }
+
+
+//@@@@@@@@@@@@@@@
+
+
+// exports.make_call = async(req,res) =>{
+  
+// }
+
+
+
+
+exports.make_call= async(req,res) =>{
+
+key="d909e2e0120d0bcbd2ef795dd19eb2e97c2f8d78d8ebb6d4"
+sid="sveltosetechnologies2"
+token="856371fe6a97e8be8fed6ab14c95b4832f82d1d3116cb17e	"
+from="8103988072"
+to="7000420819"
+callerid = "08047359942"
+
+  var request = require('request');
+var dataString = 'From=8103988072&CallerId=08047359942&Url=http://my.exotel.com/Exotel/exoml/start_voice/926';
+console.log("dataString",dataString)
+var options = {
+  //  url: 'https://<your_api_key>:<your_api_token><subdomain>/v1/Accounts/<your_sid>/Calls/connect',
+  url: "https://"+key+":"+token+"@api.exotel.in/v1/Accounts/"+sid+"/Calls/connect",
+    method: 'POST',
+    body: dataString
+};
+
+console.log("options",options)
+
+request(options, function (error, response) {
+  if (error){
+   throw new Error(error);
+   //res.json(error) ;
+ //console.log(response.body);
   }
+  res.send(response.body);
+  var serverRes = response.body
+  console.log("SERVER",serverRes)
+  return serverRes
+}); 
 
+// let result = await make_call.create(options);
 
-
-
-
-
+}
 
 
 

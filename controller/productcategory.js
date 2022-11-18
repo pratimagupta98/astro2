@@ -63,7 +63,7 @@ await ProductCat.find()
 };
 
 exports.viewonePdctCategory = async (req, res) => {
-await ProductCat.findOne({ _id: req.params.id }).populate("astroId")
+await ProductCat.findOne({ _id: req.params.id })
 .then((data) => resp.successr(res, data))
 .catch((error) => resp.errorr(res, error));
 };

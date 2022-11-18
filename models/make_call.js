@@ -3,16 +3,39 @@ const Schema = mongoose.Schema;
 const thisSchema = new Schema(
     {
      
-      
-       title:{
+      Sid:{
+        type: String, 
+      },
+      From:{
+        type: Number, 
+       },
+       To:{
+        type: Number, 
+       },
+       CallerId:{
         type: String, 
        },
-       category:{
+       CallerType:{
         type: String, 
        },
-       desc:{
-        type: String, 
+       Status:{
+        type: String,
        },
+       StartTime:{
+        type: String,
+       },
+       EndTime:{
+        type: String,
+       },
+       Duration:{
+        type: String,
+       },
+       Price:{
+        type: String,
+       },
+       RecordingUrl:{
+        type: String,
+       }
        
       },
      
