@@ -6,7 +6,7 @@ const { listenerCount } = require("../models/recharge_plan");
 
 
 exports.addtoCart = async (req, res) => {
-    const {astroId,productid,shipping_address,status} = req.body;
+    const {astroId,userId,productid,shipping_address,status} = req.body;
      const getastroproduct = await Astroproduct.findOne({ _id: req.body.astroId });
     console.log("getastroproduct",getastroproduct)
     if (getastroproduct ) {
@@ -23,6 +23,7 @@ exports.addtoCart = async (req, res) => {
  
     const newaddCart = new Cart({
        astroId:astroId,
+       userId:userId,
        productid: productid,
       shipping_address:shipping_address,
       orderId:cus_orderId,
@@ -183,13 +184,26 @@ exports.addtoCart = async (req, res) => {
   };
 
   exports.completed_order = async (req, res) => {
-    await Cart.find({status:"Completed"}).populate({
+
+    // const findone =  await Cart.find({
+    //   $and: [{ userId: req.params.userId}, { status: "Completed" }],
+    // })
+    await Cart.find({$and: [{ userId: req.params.id}, { status: "Completed" }]}).populate({
       path: "astroId",
       populate: {
         path: "astroid",
       },
     })
+    .populate("shipping_address")
       .sort({ createdAt: -1 })
       .then((data) => resp.successr(res, data))
+      .catch((error) => resp.errorr(res, error));
+  };
+
+
+
+  exports.dltMany = async (req, res) => {
+    await Cart.deleteMany()
+      .then((data) => resp.deleter(res, data))
       .catch((error) => resp.errorr(res, error));
   };

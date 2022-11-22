@@ -10,6 +10,10 @@ const CartSchema = new mongoose.Schema(
     // customer: { type: String },
      
     astroId: { type: mongoose.Schema.Types.ObjectId, ref: "consultant" },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+
+
+    
     productid: { type: mongoose.Schema.Types.ObjectId, ref: "astromall" },
     gst: {
       type: Number,

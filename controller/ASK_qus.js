@@ -1,29 +1,26 @@
-const Category = require("../models/ASK_qus");
+const Askqustion = require("../models/ASK_qus");
 const resp = require("../helpers/apiResponse");
 
-exports.addCategory= async (req, res) => {
-  const { title,category,desc} = req.body;
+exports.addAskqustion = async (req, res) => {
+  const { astroid,userid,question,answer} = req.body;
 
-  const newCategory= new Category({
-    title:title,
-    category:category,
-    desc:desc,
-    
+  const newAskqustion = new Askqustion({
+    astroid:astroid,
+    userid:userid,
+    question:question,
+    answer:answer
     
    });
-   const findexist = await Category.findOne({ title: title });
-   if (findexist) {
-     resp.alreadyr(res);
-   } else {
-    newCategory
+   
+   newAskqustion
        .save()
        .then((data) => resp.successr(res, data))
        .catch((error) => resp.errorr(res, error));
    }
- }
+ 
  
 
-exports.getallCategory = async (req, res) => {
+exports.get = async (req, res) => {
     await Category.find()
       .sort({ createdAt: -1 })
       .then((data) => resp.successr(res, data))
