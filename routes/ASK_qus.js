@@ -6,7 +6,9 @@ const router = express.Router();
 const {
     user_ask_qus,
     list_ask_qus,
-    reply
+    reply,
+    getone_ask_qus,
+    astro_ques_list
     
    
 } = require("../controller/ASK_qus");
@@ -17,7 +19,9 @@ const {
  router.get("/user/list_ask_qus/:astroid/:userid", list_ask_qus);
 
  router.post("/user/reply/:id", reply);
-// router.get("/admin/dltFaq/:id", dltFaq);
+ router.get("/user/astro_ques_list/:id", astro_ques_list);
+ router.get("/user/getone_ask_qus/:userid", getone_ask_qus);
+
 
 module.exports = router;
 

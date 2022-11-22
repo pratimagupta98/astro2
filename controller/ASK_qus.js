@@ -32,6 +32,18 @@ exports.user_ask_qus_list = async (req, res) => {
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   };
+
+  exports.astro_ques_list = async (req, res) => {
+    await Askqustion.find({ astroid: req.params.id }).populate("astroid").populate("userid")
+      .then((data) => resp.successr(res, data))
+      .catch((error) => resp.errorr(res, error));
+  };
+
+  exports.getone_ask_qus = async (req, res) => {
+    await Askqustion.findOne({ _id: req.params.id })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+    };
   
 
   // userId: req.params.userId,
