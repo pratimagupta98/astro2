@@ -28,7 +28,6 @@ exports.addtoCart = async (req, res) => {
       orderId:cus_orderId,
       gst:totalgst,
       total_amt:total_amt
-
     })
   
     newaddCart.save()
