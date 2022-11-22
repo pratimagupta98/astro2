@@ -28,7 +28,7 @@ exports.user_ask_qus_list = async (req, res) => {
   };
 
   exports.list_ask_qus = async (req, res) => {
-    await Askqustion.find({ $and: [{ astroid: req.params.astroid }, { userid: req.params.userid }] })
+    await Askqustion.find({ $and: [{ astroid: req.params.astroid }, { userid: req.params.userid }] }).populate("astroid").populate("userid")
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   };
