@@ -37,8 +37,8 @@ exports.user_ask_qus_list = async (req, res) => {
   // userId: req.params.userId,
   // plan_Id: req.params.id,
 
-  exports.editCategory = async (req, res) => {
-    await Category.findOneAndUpdate(
+  exports.reply = async (req, res) => {
+    await Askqustion.findOneAndUpdate(
       {
         _id: req.params.id,
       },
