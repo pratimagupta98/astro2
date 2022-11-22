@@ -6,7 +6,7 @@ const { listenerCount } = require("../models/recharge_plan");
 
 
 exports.addtoCart = async (req, res) => {
-    const {astroId,productid,shipping_address} = req.body;
+    const {astroId,productid,shipping_address,status} = req.body;
      const getastroproduct = await Astroproduct.findOne({ _id: req.body.astroId });
     console.log("getastroproduct",getastroproduct)
     if (getastroproduct ) {
@@ -27,7 +27,8 @@ exports.addtoCart = async (req, res) => {
       shipping_address:shipping_address,
       orderId:cus_orderId,
       gst:totalgst,
-      total_amt:total_amt
+      total_amt:total_amt,
+      status:status
     })
   
     newaddCart.save()
@@ -176,6 +177,18 @@ exports.addtoCart = async (req, res) => {
 
    exports.all_transaction_list = async (req, res) => {
     await Cart.find()
+      .sort({ createdAt: -1 })
+      .then((data) => resp.successr(res, data))
+      .catch((error) => resp.errorr(res, error));
+  };
+
+  exports.completed_order = async (req, res) => {
+    await Cart.find({status:"Completed"}).populate({
+      path: "astroId",
+      populate: {
+        path: "astroid",
+      },
+    })
       .sort({ createdAt: -1 })
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));

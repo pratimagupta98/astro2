@@ -27,6 +27,9 @@ const CartSchema = new mongoose.Schema(
     total_amt:{
       type: Number,
      // default:0
+    },
+    status:{
+      type:String
     }
   },
   { timestamps: true }
