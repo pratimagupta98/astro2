@@ -27,12 +27,15 @@ exports.user_ask_qus_list = async (req, res) => {
       .catch((error) => resp.errorr(res, error));
   };
 
-  exports.getoneCategory = async (req, res) => {
-    await Category.findOne({ _id: req.params.id })
+  exports.list_ask_qus = async (req, res) => {
+    await Askqustion.find({ $and: [{ astroid: req.params.astroid }, { userid: req.params.userid }] })
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   };
   
+
+  // userId: req.params.userId,
+  // plan_Id: req.params.id,
 
   exports.editCategory = async (req, res) => {
     await Category.findOneAndUpdate(
