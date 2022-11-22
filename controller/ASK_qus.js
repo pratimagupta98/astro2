@@ -1,7 +1,7 @@
 const Askqustion = require("../models/ASK_qus");
 const resp = require("../helpers/apiResponse");
 
-exports.addAskqustion = async (req, res) => {
+exports.user_ask_qus = async (req, res) => {
   const { astroid,userid,question,answer} = req.body;
 
   const newAskqustion = new Askqustion({
@@ -20,8 +20,8 @@ exports.addAskqustion = async (req, res) => {
  
  
 
-exports.get = async (req, res) => {
-    await Category.find()
+exports.user_ask_qus_list = async (req, res) => {
+    await Askqustion.find({})
       .sort({ createdAt: -1 })
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));

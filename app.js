@@ -40,6 +40,7 @@ const recharge_plan = require("./routes/recharge_plan")
 const blog_category = require("./routes/blog_category")
 const make_call = require("./routes/make_call")
 
+const ASK_qus = require("./routes/ASK_qus")
 
 
 //use
@@ -71,6 +72,8 @@ app.use("/", plan);
 app.use("/", recharge_plan);
 app.use("/", blog_category);
 app.use("/", make_call);
+app.use("/", ASK_qus);
+
 
 
 
