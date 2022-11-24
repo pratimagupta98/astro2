@@ -532,7 +532,7 @@ exports.astrodetails = async (req, res) => {
     {
       _id: req.params.id,
     },
-    { $set: {status:req.body}},
+    { $set: {status:req.body.status}},
     { new: true }
   )
     .then((data) => resp.successr(res, data))
