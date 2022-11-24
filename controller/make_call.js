@@ -186,10 +186,11 @@ var request = require('request');
     key="d909e2e0120d0bcbd2ef795dd19eb2e97c2f8d78d8ebb6d4"
     sid="sveltosetechnologies2"
     token="856371fe6a97e8be8fed6ab14c95b4832f82d1d3116cb17e	"
-    from="8103988072"
-    to="7000420819"
+    from=req.body      
+    to=req.body
     
-
+//FROM  = USER
+// TO =  ASTRO
     // const options = {
     //     Sid: sid,
     //     From:from,
@@ -210,8 +211,8 @@ var request = require('request');
     url="https://"+key+":"+token+"@api.exotel.in/v1/Accounts/"+sid+"/Calls/connect.json"
     axios.post(url, 
        formUrlEncoded({
-      "From": 8103988072,
-      "To": 7000420819,
+      "From": req.body.From,   //USER
+      "To": req.body.To,       //ASTRO
       
       "CallerId":'080-473-59942',
       "CallerType": 'promo',
