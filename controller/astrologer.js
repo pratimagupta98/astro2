@@ -526,3 +526,15 @@ exports.astrodetails = async (req, res) => {
       }
  };
  
+
+ exports.status_change = async (req, res) => {
+  await Astrologer.findOneAndUpdate(
+    {
+      _id: req.params.id,
+    },
+    { $set: {status:req.body}},
+    { new: true }
+  )
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};

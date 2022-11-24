@@ -136,7 +136,7 @@ cloudinary.config({
   //       const token = jwt.sign(
   //         {
   //           userId: user._id,
-  //       },
+  //       }, 
   //       key,
   //       {
   //         expiresIn: 86400000,

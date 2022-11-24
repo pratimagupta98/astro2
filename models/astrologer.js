@@ -106,7 +106,8 @@ const thisSchema = new Schema(
         type: String,
       },
   status:{
-    type:String
+    type:String,
+    default:"Offline"
   },
   callCharge:{
     type:String
