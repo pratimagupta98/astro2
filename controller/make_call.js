@@ -186,25 +186,10 @@ var request = require('request');
     key="d909e2e0120d0bcbd2ef795dd19eb2e97c2f8d78d8ebb6d4"
     sid="sveltosetechnologies2"
     token="856371fe6a97e8be8fed6ab14c95b4832f82d1d3116cb17e	"
-    from=req.body      
-    to=req.body
+    from=req.body.from     
+    to=req.body.to
     
-//FROM  = USER
-// TO =  ASTRO
-    // const options = {
-    //     Sid: sid,
-    //     From:from,
-    //     To:to,
-    //     CallerId:req.body.CallerId,
-    //     CallerType: req.body.CallerType,
-    //    // Status:Status,
-    //    Status :Status,
-    //    StartTime:StartTime,
-    //    EndTime :EndTime,
-    //    Duration :Duration,
-    //    Price :Price,
-    //    RecordingUrl:RecordingUrl
-    //   }
+ 
 
     const formUrlEncoded = x =>Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, '')
     const axios = require('axios')
@@ -213,7 +198,9 @@ var request = require('request');
        formUrlEncoded({
       "From": req.body.From,   //USER
       "To": req.body.To,       //ASTRO
-      
+      "userid":req.body.userid,
+      "astroid" :req.body.astroid,
+
       "CallerId":'080-473-59942',
       "CallerType": 'promo',
       // "Status" :"Status",
@@ -247,40 +234,33 @@ var request = require('request');
 
       .then(async(response) => {
          console.log(`statusCode: ${res.statusCode}`)
-         console.log("RES",res)
-
-        // let ss= res
-        // return res
-        // console.log("RESSSS",ss)
-        // res.statusCode=res,
-        // response= {
-        //   status:"success",
-        //   data:res
-
-        // }
-      // res.status(200).json({
-      //   data:options
-      // })
+         console.log("RES",response)
+         var requestBody = {
+          From: req.body.From,   //USER
+        To: req.body.To,       //ASTRO
+        userid:req.body.userid,
+        astroid :req.body.astroid,
+      
+         }
+        
      // res.json({data:response.data})
-       res.send(JSON.stringify(response.data));
-       
-        const options = {
-          Sid: sid,
-          From:from,
-          To:to,
-          CallerId:req.body.CallerId,
-          CallerType: req.body.CallerType,
-         // Status:Status,
-         Status :res.Status,
-         StartTime:response.StartTime,
-         EndTime :response.EndTime,
-         Duration :response.Duration,
-         Price :response.Price,
-         RecordingUrl:response.RecordingUrl
-        }
-        console.log("OPTION",options)
+ //    res.send(JSON.stringify(response.data));
 
-        let result = await make_call.create(options);
+     res.json({
+      status:"success",
+      data:response.data,
+      userid:req.body.userid,
+      astroid :req.body.astroid,
+      
+     })
+      // var serverRes = response.body
+      // return serverRes
+     
+   
+       let result = await make_call.create(requestBody)
+       console.log("CREATED DATA",result)
+    
+      
       })
      
       .catch((error) => {

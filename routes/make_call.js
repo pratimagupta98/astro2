@@ -13,7 +13,7 @@ const {
   
  
  
- router.post("/admin/make_call", make_call);
+ router.post("/user/make_call", make_call);
  
 
 module.exports = router;
