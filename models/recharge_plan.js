@@ -19,6 +19,9 @@ ttl_amt :{
 },
 transaction_id:{ 
     type:String
+},
+amount:{
+  type:Number
 }
 
 },

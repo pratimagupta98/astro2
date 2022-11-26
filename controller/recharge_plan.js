@@ -1,5 +1,6 @@
 const Recharge = require("../models/recharge_plan");
 const Plans = require("../models/plan");
+const User = require("../models/users");
 
 const resp = require("../helpers/apiResponse");
 
@@ -83,3 +84,44 @@ exports.recharge_list= async (req, res) => {
       .catch((error) => resp.errorr(res, error));
   };
   
+
+  exports.add_custome_amt = async (req, res) => {
+    const { userid ,amount} = req.body;
+  
+    const newRecharge = new Recharge({
+      userid:userid,
+      amount:amount,
+      transaction_id: "RE" + Date.now()
+       
+     });
+     
+     const getoneuser = await User.findOne({userid : req.body.userid })
+     console.log("STRING",getoneuser)
+ 
+     var gstamt = amount*18/100
+     console.log("gstAmt",gstamt)
+     totalamt=amount+gstamt
+     console.log("ttl_amt",totalamt)
+  
+  
+      newRecharge
+        .save()
+        .then((data) => {
+          res.status(200).json({
+            status: true,
+            msg: "success",
+            data: data,
+            gstAmt:gstamt,
+            ttl_amt:totalamt
+          });
+        })
+        .catch((error) => {
+          res.status(400).json({
+            status: false,
+            msg: "error",
+            error: error,
+          });
+        });
+  
+      
+    }
