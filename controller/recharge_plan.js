@@ -95,14 +95,37 @@ exports.recharge_list= async (req, res) => {
        
      });
      
-     const getoneuser = await User.findOne({userid : req.body.userid })
-     console.log("STRING",getoneuser)
+  
  
      var gstamt = amount*18/100
      console.log("gstAmt",gstamt)
-     totalamt=amount+gstamt
+     totalamt= parseInt(amount)+parseInt(gstamt)
      console.log("ttl_amt",totalamt)
   
+
+     const getoneuser = await User.findOne({_id : req.body.userid })
+     console.log("STRING",getoneuser)
+     const getwallet = getoneuser.amount
+     console.log("getwallet",getwallet)
+
+    const ttl_wlltamt = parseInt(getwallet)+parseInt(totalamt)
+    console.log("amtt",totalamt)
+     if(getoneuser)
+     {
+   
+     
+     let qur=  await User.findOneAndUpdate(
+         { _id: req.body.userid },
+         
+         {$set: {amount:ttl_wlltamt}} ,
+       
+       //{ $set: {status:"success"} },
+       { new: true }
+     
+     );
+     console.log("Update Ho Gya", qur)
+
+     }
   
       newRecharge
         .save()
@@ -112,7 +135,8 @@ exports.recharge_list= async (req, res) => {
             msg: "success",
             data: data,
             gstAmt:gstamt,
-            ttl_amt:totalamt
+            ttl_amt:totalamt,
+            wallet_amt:ttl_wlltamt
           });
         })
         .catch((error) => {
@@ -122,6 +146,4 @@ exports.recharge_list= async (req, res) => {
             error: error,
           });
         });
-  
-      
     }
