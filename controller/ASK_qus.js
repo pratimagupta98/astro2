@@ -62,8 +62,8 @@ exports.user_ask_qus_list = async (req, res) => {
   };
   
 
-  exports.dltCategory= async (req, res) => {
-    await Category.deleteOne({ _id: req.params.id })
+  exports.dlt_ask_qus = async (req, res) => {
+    await Askqustion.deleteOne({ _id: req.params.id })
       .then((data) => resp.deleter(res, data))
       .catch((error) => resp.errorr(res, error));
   };

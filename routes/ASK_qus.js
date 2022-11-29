@@ -8,7 +8,8 @@ const {
     list_ask_qus,
     reply,
     getone_ask_qus,
-    astro_ques_list
+    astro_ques_list,
+    dlt_ask_qus
     
    
 } = require("../controller/ASK_qus");
@@ -21,6 +22,8 @@ const {
  router.post("/user/reply/:id", reply);
  router.get("/user/astro_ques_list/:id", astro_ques_list);
  router.get("/user/getone_ask_qus/:id", getone_ask_qus);
+ router.get("/user/dlt_ask_qus/:id", dlt_ask_qus);
+
 
 
 module.exports = router;
