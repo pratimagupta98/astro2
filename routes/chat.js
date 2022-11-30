@@ -8,7 +8,8 @@ const {
   getallchatrooms,
   clearchat,
   markasread,
-  add_chatroom
+  add_chatroom,
+  allchatwithAstro
   
 } = require("../controller/chat");
 
@@ -17,6 +18,8 @@ router.post("/user/addchat/:id", addchat);
 router.post("/user/add_chatroom/:id", add_chatroom);
 
 router.get("/user/allchatwithuser/:id", allchatwithuser);
+router.get("/user/allchatwithAstro/:id", allchatwithAstro);
+
 router.get("/user/unreadmessages/:id", unreadmessages);
 router.get("/user/getallchatrooms/:id", getallchatrooms);
 router.get("/user/clearchat/:id", clearchat);

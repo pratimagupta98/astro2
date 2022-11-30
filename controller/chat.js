@@ -129,6 +129,14 @@ exports.allchatwithuser = async (req, res) => {
       .catch((error) => resp.errorr(res, error));
   };
 
+  exports.allchatwithAstro = async (req, res) => {
+    await Chat.find({  $or: [{ astroid: req.params.id }, { sender: req.params.id }] })
+      .populate("userid").populate("astroid").populate("reciver").populate("sender")
+      .sort({ createdAt: 1 })
+      .then((data) => resp.successr(res, data))
+      .catch((error) => resp.errorr(res, error));
+  };
+
   exports.unreadmessages = async (req, res) => {
     await Chatroom.findOne({ userid: req.params.id })
       .populate("userid")
