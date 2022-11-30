@@ -3,10 +3,28 @@ const router = express.Router();
 
 const {
   addchat,
-   
+  allchatwithuser,
+  unreadmessages,
+  getallchatrooms,
+  clearchat,
+  markasread,
+  add_chatroom
+  
 } = require("../controller/chat");
 
 //Paths
 router.post("/user/addchat/:id", addchat);
+router.post("/user/add_chatroom/:id", add_chatroom);
+
+router.get("/user/allchatwithuser/:id", allchatwithuser);
+router.get("/user/unreadmessages/:id", unreadmessages);
+router.get("/user/getallchatrooms/:id", getallchatrooms);
+router.get("/user/clearchat/:id", clearchat);
+router.post("/user/markasread/:id", markasread);
+
+
+
+
+
  
 module.exports = router;

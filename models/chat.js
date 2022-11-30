@@ -14,6 +14,9 @@ const thisSchema = new Schema(
     msgbysupport: {
       type: Boolean,
       default: false
+    },
+    msg_reply:{
+        type: String,
     }
   },
   { timestamps: true }
