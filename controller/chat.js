@@ -123,7 +123,7 @@ exports.add_chatroom = async (req, res) => {
 
 exports.allchatwithuser = async (req, res) => {
     await Chat.find({  $or: [{ userid: req.params.id }, { reciver: req.params.id }] })
-      .populate("userid")
+      .populate("userid").populate("astroid").populate("reciver").populate("sender")
       .sort({ createdAt: 1 })
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
