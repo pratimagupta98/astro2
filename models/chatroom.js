@@ -11,7 +11,9 @@ const thisSchema = new Schema(
     },
     new_unread_msg:{
         type: Number,
-    }
+    },
+    reciver: { type: Schema.Types.ObjectId, ref: "user" },
+    sender:{type: Schema.Types.ObjectId, ref: "astrologer"},
   },
   { timestamps: true }
 );

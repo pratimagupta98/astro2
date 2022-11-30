@@ -17,7 +17,11 @@ const thisSchema = new Schema(
     },
     msg_reply:{
         type: String,
-    }
+    },
+    reciver: { type: Schema.Types.ObjectId, ref: "user" },
+    sender:{type: Schema.Types.ObjectId, ref: "astrologer"},
+
+
   },
   { timestamps: true }
 );

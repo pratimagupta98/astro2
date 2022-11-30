@@ -65,13 +65,13 @@ exports.addchat = async (req, res) => {
 
 exports.add_chatroom = async (req, res) => {
     const uniqueroom = uuidv4();
-    const { userid,astroid, msg, msgbysupport } = req.body;
+    const { reciver,sender,astroid, msg, msg_reply } = req.body;
   
     const newChat = new Chat({
-      userid: userid,
-      astroid:req.params.id,
+      reciver: reciver,
+      sender:req.params.id,
       msg_reply: msg_reply,
-      roomid: uniqueroom,
+   //   roomid: uniqueroom,
        
     });
   
@@ -122,7 +122,7 @@ exports.add_chatroom = async (req, res) => {
   
 
 exports.allchatwithuser = async (req, res) => {
-    await Chat.find({ userid: req.params.id })
+    await Chat.find({  $or: [{ userid: req.params.id }, { reciver: req.params.id }] })
       .populate("userid")
       .sort({ createdAt: 1 })
       .then((data) => resp.successr(res, data))
