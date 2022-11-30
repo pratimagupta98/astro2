@@ -41,6 +41,7 @@ const blog_category = require("./routes/blog_category")
 const make_call = require("./routes/make_call")
 
 const ASK_qus = require("./routes/ASK_qus")
+const chat = require("./routes/chat")
 
 
 //use
@@ -73,6 +74,7 @@ app.use("/", recharge_plan);
 app.use("/", blog_category);
 app.use("/", make_call);
 app.use("/", ASK_qus);
+app.use("/", chat);
 
 
 
