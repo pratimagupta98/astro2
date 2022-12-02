@@ -132,7 +132,7 @@ exports.allchatwithuser = async (req, res) => {
 
   exports.userChatList = async (req, res) => {
     //const{roomid} = req.body
-      await Chatroom.find({userid:req.params.id })
+      await Chatroom.find({userid:req.params.id }).populate("userid").populate("astroid")
        // .populate("userid").populate("astroid")
         .sort({ createdAt: 1 })
         .then((data) => resp.successr(res, data))
