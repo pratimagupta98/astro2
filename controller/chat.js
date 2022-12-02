@@ -160,6 +160,15 @@ exports.allchatwithuser = async (req, res) => {
       .catch((error) => resp.errorr(res, error));
   };
 
+  exports.getone_chat = async (req, res) => {
+    //const{roomid} = req.body
+      await Chat.find({$and:[{userid:req.params.id},{astroid:req.params.id}]}).populate("userid").populate("astroid")
+       // .populate("userid").populate("astroid")
+        .sort({ createdAt: 1 })
+        .then((data) => resp.successr(res, data))
+        .catch((error) => resp.errorr(res, error));
+    };
+
   exports.userChatList = async (req, res) => {
     //const{roomid} = req.body
       await Chat.find({userid:req.params.id }).populate("userid").populate("astroid")

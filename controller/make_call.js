@@ -182,44 +182,44 @@ var request = require('request');
     
         const formUrlEncoded = x =>Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, '')
         const axios = require('axios')
-        url="https://"+key+":"+token+"@api.exotel.in/v1/Accounts/"+sid+"/Calls"+"a2f80c3aec91e3747a14198d32ae16bu"+".json"
-        axios.get(url, 
+        url="https://api.exotel.com/v1/Accounts/sveltosetechnologies2/Calls/a2f80c3aec91e3747a14198d32ae16bu.json"
+        axios.get(url, {headers:{"Authorization":'Basic ZDkwOWUyZTAxMjBkMGJjYmQyZWY3OTVkZDE5ZWIyZTk3YzJmOGQ3OGQ4ZWJiNmQ0Ojg1NjM3MWZlNmE5N2U4YmU4ZmVkNmFiMTRjOTViNDgzMmY4MmQxZDMxMTZjYjE3ZQ=='}},
            formUrlEncoded({
        
     
           "CallerId":'080-473-59942',
           "CallerType": 'promo',
-          // "Status" :"Status",
-          // "StartTime":"StartTime",
-          // "EndTime" :"EndTime",
-          // "Duration" :"Duration",
-          // "Price" :"Price",
-          // "RecordingUrl":"RecordingUrl"
+         
     
         }),
-      
-    
         {   
             withCredentials: true,
             headers: {
-                "Accept":"application/x-www-form-urlencoded",
-                "Content-Type": "application/x-www-form-urlencoded"
+                "accept": "application/json",
+                "Content-Type": "application/x-www-form-urlencoded",
+                'Authorization': 'Basic ZDkwOWUyZTAxMjBkMGJjYmQyZWY3OTVkZDE5ZWIyZTk3YzJmOGQ3OGQ4ZWJiNmQ0Ojg1NjM3MWZlNmE5N2U4YmU4ZmVkNmFiMTRjOTViNDgzMmY4MmQxZDMxMTZjYjE3ZQ=='
             }
           },
           )
-        
-    
-    
-  //         .then(async(response) => {
-  //           console.log(`statusCode: ${res.statusCode}`)
-  //           console.log("RES",response)
+          .then(async(response) => {
+            console.log(`statusCode: ${res.statusCode}`)
+            console.log("RES",response)
        
-  // })
+   })
+  
   //         .catch((error) => {
   //           console.error(error)
   //         })
-  .then((res) => {
-    console.log(`statusCode: ${res.statusCode}`)
-    console.log(res)
-  })
+  // .then((res) => {
+  //   console.log(`statusCode: ${res.statusCode}`)
+  //   console.log(res)
+  // })
       }
+
+
+
+
+
+//       curl -X GET 'https://api.exotel.com/v1/Accounts/sveltosetechnologies2/Calls/a2f80c3aec91e3747a14198d32ae16bu.json'
+// -H 'Authorization: Basic ZDkwOWUyZTAxMjBkMGJjYmQyZWY3OTVkZDE5ZWIyZTk3YzJmOGQ3OGQ4ZWJiNmQ0Ojg1NjM3MWZlNmE5N2U4YmU4ZmVkNmFiMTRjOTViNDgzMmY4MmQxZDMxMTZjYjE3ZQ=='
+// -H 'accept: application/json'
