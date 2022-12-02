@@ -22,6 +22,7 @@ exports.addchat = async (req, res) => {
     new_unread_msg: 1,
   });
   const findchatroom = await Chatroom.findOne( { $and: [{ userid: req.params.id }, { astroid:astroid }]} );
+  
   console.log("FINDDATA",findchatroom)
   if (findchatroom) {
     newChat.roomid = findchatroom._id;
@@ -161,7 +162,7 @@ exports.allchatwithuser = async (req, res) => {
 
   exports.userChatList = async (req, res) => {
     //const{roomid} = req.body
-      await Chatroom.find({userid:req.params.id }).populate("userid").populate("astroid")
+      await Chat.find({userid:req.params.id }).populate("userid").populate("astroid")
        // .populate("userid").populate("astroid")
         .sort({ createdAt: 1 })
         .then((data) => resp.successr(res, data))

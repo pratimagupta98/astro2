@@ -14,6 +14,9 @@ const thisSchema = new Schema(
     },
     reciver: { type: Schema.Types.ObjectId, ref: "user" },
     sender:{type: Schema.Types.ObjectId, ref: "astrologer"},
+    roomid: {
+      type: Schema.Types.ObjectId, ref: "chatroom"
+  },
   },
   { timestamps: true }
 );
