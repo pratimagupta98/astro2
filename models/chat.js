@@ -11,10 +11,7 @@ const thisSchema = new Schema(
     roomid: {
         type: Schema.Types.ObjectId, ref: "chatroom"
     },
-    msgbysupport: {
-      type: Boolean,
-      default: false
-    },
+     
     msg_reply:{
         type: String,
     },

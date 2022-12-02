@@ -5,14 +5,14 @@ const { v4: uuidv4 } = require("uuid");
 
 exports.addchat = async (req, res) => {
   const uniqueroom = uuidv4();
-  const { userid,astroid, msg, msgbysupport } = req.body;
+  const { userid,astroid, msg } = req.body;
 
   const newChat = new Chat({
     userid: req.params.id,
     astroid:astroid,
     msg: msg,
     roomid: uniqueroom,
-    msgbysupport: msgbysupport,
+    
   });
 
   const newChatroom = new Chatroom({
@@ -28,9 +28,9 @@ exports.addchat = async (req, res) => {
     let data = {
       new_unread_msg: parseInt(findchatroom.new_unread_msg) + 1,
     };
-    if (!msgbysupport) {
-      data.last_msg = msg;
-    }
+    // if (!msgbysupport) {
+    //   data.last_msg = msg;
+    // }
     console.log("DATA",data);
     const updatechat = await Chatroom.findOneAndUpdate(
         {
@@ -122,12 +122,22 @@ exports.add_chatroom = async (req, res) => {
   
 
 exports.allchatwithuser = async (req, res) => {
-    await Chat.find({  $or: [{ userid: req.params.id }, { reciver: req.params.id }] })
-      .populate("userid").populate("astroid").populate("reciver").populate("sender")
+  //const{roomid} = req.body
+    await Chat.find({roomid:req.params.id })
+     // .populate("userid").populate("astroid")
       .sort({ createdAt: 1 })
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   };
+
+  exports.userChatList = async (req, res) => {
+    //const{roomid} = req.body
+      await Chatroom.find({userid:req.params.id })
+       // .populate("userid").populate("astroid")
+        .sort({ createdAt: 1 })
+        .then((data) => resp.successr(res, data))
+        .catch((error) => resp.errorr(res, error));
+    };
 
   exports.allchatwithAstro = async (req, res) => {
     await Chat.find({  $or: [{ astroid: req.params.id }, { sender: req.params.id }] })
