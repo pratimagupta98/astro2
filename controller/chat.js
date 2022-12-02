@@ -92,22 +92,22 @@ exports.add_chatroom = async (req, res) => {
     //     data.last_msg = msg;
     //   }
     //   console.log("DATA",data);
-      const updatechat = await Chatroom.findOneAndUpdate(
-          {
-              $or: [
-                { $and: [{ userid: req.params.id }, { astroid: req.body.id }] },
-                { $and: [{ astroid: req.body.id }, { userid: req.params.id }] },
-              ],
-            },
-        {
-          $set: req.body,
-        },
-        { new: true }
-      );
-      newChat
-        .save()
-        .then((data) => resp.successr(res, data))
-        .catch((error) => resp.errorr(res, error));
+      // const updatechat = await Chatroom.findOneAndUpdate(
+      //     {
+      //         $or: [
+      //           { $and: [{ userid: req.params.id }, { astroid: req.body.id }] },
+      //           { $and: [{ astroid: req.body.id }, { userid: req.params.id }] },
+      //         ],
+      //       },
+      //   {
+      //     $set: req.body,
+      //   },
+      //   { new: true }
+      // );
+      // newChat
+      //   .save()
+      //   .then((data) => resp.successr(res, data))
+      //   .catch((error) => resp.errorr(res, error));
     // } else {
     //   const savechat = await newChatroom.save();
     //   if (savechat) {
@@ -117,13 +117,42 @@ exports.add_chatroom = async (req, res) => {
     //       .then((data) => resp.successr(res, data))
     //       .catch((error) => resp.errorr(res, error));
     //   }
+
+    const findchatroom = await Chatroom.findOne( { $and: [{ userid: reciver }, { astroid:req.params.id }]} );
+    console.log("FINDDATA",findchatroom)
+    if (findchatroom) {
+      newChat.roomid = findchatroom._id;
+      let data = {
+        new_unread_msg: parseInt(findchatroom.new_unread_msg) + 1,
+      };
+      // if (!msgbysupport) {
+      //   data.last_msg = msg;
+      // }
+      console.log("DATA",data);
+      const updatechat = await Chatroom.findOneAndUpdate(
+          {
+              $or: [
+                { $and: [{ userid: req.params.id }, { astroid: req.body.id }] },
+                { $and: [{ sender: req.params.id }, { userid: req.body.id }] },
+              ],
+            },
+        {
+          $set: data,
+        },
+        { new: true }
+      );
+      newChat
+        .save()
+        .then((data) => resp.successr(res, data))
+        .catch((error) => resp.errorr(res, error));
     }
+  }
   
   
 
 exports.allchatwithuser = async (req, res) => {
   //const{roomid} = req.body
-    await Chat.find({roomid:req.params.id })
+    await Chat.find({roomid:req.params.id}).populate("userid").populate("astroid").populate("reciver").populate("sender")
      // .populate("userid").populate("astroid")
       .sort({ createdAt: 1 })
       .then((data) => resp.successr(res, data))
