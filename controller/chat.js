@@ -171,11 +171,35 @@ exports.allchatwithuser = async (req, res) => {
 
   exports.userChatList = async (req, res) => {
     //const{roomid} = req.body
-      await Chat.find({userid:req.params.id }).populate("userid").populate("astroid")
+     const getdetails=  await Chat.find({userid:req.params.id }).populate("userid").populate("astroid")
+
+     let record = [];
+   
+    
+         for (const element of getdetails) {
+            if (element.astroid) {
+             
+              record.push(element.astroid);
+            }
+          }
+     let uniqueCharss = [...new Set(record)]
+     console.log("hfjdbf",uniqueCharss)
+     console.log("uniqueCharss",uniqueCharss)
        // .populate("userid").populate("astroid")
-        .sort({ createdAt: 1 })
-        .then((data) => resp.successr(res, data))
-        .catch((error) => resp.errorr(res, error));
+      //  .sort({ createdAt: 1 })
+        // .then((data) => resp.successr(res, data))
+        // .catch((error) => resp.errorr(res, error));
+
+
+        res.status(200).json({
+          status: true,
+          message: "success", 
+          count: uniqueCharss.length,
+          //data : getdetails,
+          //student :record,
+          //count :
+          astroid:uniqueCharss
+        })
     };
 
   exports.allchatwithAstro = async (req, res) => {
