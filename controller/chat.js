@@ -175,33 +175,41 @@ exports.allchatwithuser = async (req, res) => {
   exports.userChatList = async (req, res) => {
     //const{roomid} = req.body
      const getdetails=  await Chat.find({userid:req.params.id }).populate("userid").populate("astroid")
+    //  console.log("getdetails",getdetails)
 
-     let record = [];
-   
-    
-         for (const element of getdetails) {
-            if (element.astroid) {
+    //  getroomid =getdetails.indexOf('roomid')
+    //  console.log("getroomid",getroomid)
+ 
+    //  let record = [];
+    //      for (const element of getdetails) {
+    //         if (element.getdetails) {
              
-              record.push(element.astroid);
-            }
-          }
-     let uniqueCharss = [...new Set(record)]
-     console.log("hfjdbf",uniqueCharss)
-     console.log("uniqueCharss",uniqueCharss)
+    //           record.push(element.getdetails);
+    //         }
+    //       }
+        //S  uniquele.log("uniqueCharss",uniqueCharss)
        // .populate("userid").populate("astroid")
       //  .sort({ createdAt: 1 })
         // .then((data) => resp.successr(res, data))
         // .catch((error) => resp.errorr(res, error));
+       
 
-
+  //  const unique = [...new Map(getdetails.map((m) => [m.id, m])).values()];
+  //  console.log("UNIQUE",unique);
+  //  let uniqueCharss = [...new Set(unique)]
+  //    console.log("hfjdbf",uniqueCharss)
+ 
         res.status(200).json({
           status: true,
           message: "success", 
-          count: uniqueCharss.length,
+          count: getdetails.length,
           //data : getdetails,
           //student :record,
           //count :
-          astroid:uniqueCharss
+          // astroid:uniqueCharss,
+          // roomid:uniqueid,
+          data:getdetails
+
         })
     };
 
