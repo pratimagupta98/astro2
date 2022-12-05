@@ -162,7 +162,8 @@ exports.allchatwithuser = async (req, res) => {
 
   exports.getone_chat = async (req, res) => {
     //const{roomid} = req.body
-      const getone =await Chat.findOne({$and:[{userid:req.params.id},{astroid:req.params.id}]}).populate("userid").populate("astroid")
+      // const getone =await Chat.findOne({$and:[{userid:req.params.id},{astroid:req.params.id}]}).populate("userid").populate("astroid")
+      const getone =await Chat.findOne({_id:req.params.id})
       
        // .populate("userid").populate("astroid")
         .sort({ createdAt: 1 })
