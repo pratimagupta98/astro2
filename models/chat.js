@@ -12,7 +12,7 @@ const thisSchema = new Schema(
         type: Schema.Types.ObjectId, ref: "chatroom"
     },
      
-    msg_reply:{
+    type:{
         type: String,
     },
     reciver: { type: Schema.Types.ObjectId, ref: "user" },

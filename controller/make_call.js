@@ -204,6 +204,11 @@ var request = require('request');
           .then(async(response) => {
             console.log(`statusCode: ${res.statusCode}`)
             console.log("RES",response)
+            res.status(200).json({
+              status:true,
+              msg:"success",
+              data : response.data,
+            })
        
    })
   

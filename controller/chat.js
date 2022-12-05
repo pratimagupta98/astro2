@@ -12,6 +12,7 @@ exports.addchat = async (req, res) => {
     astroid:astroid,
     msg: msg,
     roomid: uniqueroom,
+    type:"user"
     
   });
 
@@ -71,7 +72,8 @@ exports.add_chatroom = async (req, res) => {
     const newChat = new Chat({
       reciver: reciver,
       sender:req.params.id,
-      msg_reply: msg_reply,
+      msg: msg,
+      type:"astrologer"
    //   roomid: uniqueroom,
        
     });
