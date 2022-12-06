@@ -134,9 +134,9 @@ exports.add_chatroom = async (req, res) => {
       let data = {
         new_unread_msg: parseInt(findchatroom.new_unread_msg) + 1,
       };
-      if (!msgbysupport) {
-        data.last_msg = msg;
-      }
+      // if (!msgbysupport) {
+      //   data.last_msg = msg;
+      // }
       console.log("DATA",data);
       const updatechat = await Chatroom.findOneAndUpdate(
           {
