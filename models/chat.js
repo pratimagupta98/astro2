@@ -18,10 +18,7 @@ const thisSchema = new Schema(
     reciver: { type: Schema.Types.ObjectId, ref: "user" },
     sender:{type: Schema.Types.ObjectId, ref: "astrologer"},
 
-    msgbysupport: {
-      type: Boolean,
-      default: false
-    }
+
   },
   { timestamps: true }
 );
