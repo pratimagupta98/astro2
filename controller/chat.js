@@ -239,7 +239,7 @@ console.log("ADDRESS",addresses)
           // astroid:uniqueCharss,
           // roomid:uniqueid,
         //  data:getdetails,
-        astroid:uniqueCharss
+        astroid:getdetails
 
         })
     };
