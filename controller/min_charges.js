@@ -27,15 +27,15 @@ exports.all_min_recharge= async (req, res) => {
       .catch((error) => resp.errorr(res, error));
   };
 
-  exports.getoneplan = async (req, res) => {
-    await Plans.findOne({ _id: req.params.id })
+  exports.getone_min_charge = async (req, res) => {
+    await Minutecharge.findOne({ _id: req.params.id })
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   };
   
 
-  exports.editplan = async (req, res) => {
-    await Plans.findOneAndUpdate(
+  exports.edit_min_charge = async (req, res) => {
+    await Minutecharge.findOneAndUpdate(
       {
         _id: req.params.id,
       },
@@ -47,8 +47,8 @@ exports.all_min_recharge= async (req, res) => {
   };
   
 
-  exports.dltplan = async (req, res) => {
-    await Plans.deleteOne({ _id: req.params.id })
+  exports.dlt_min_charge = async (req, res) => {
+    await Minutecharge.deleteOne({ _id: req.params.id })
       .then((data) => resp.deleter(res, data))
       .catch((error) => resp.errorr(res, error));
   };
