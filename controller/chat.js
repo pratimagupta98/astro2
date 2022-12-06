@@ -186,13 +186,18 @@ exports.allchatwithuser = async (req, res) => {
     //  getroomid =getdetails.indexOf('roomid')
     //  console.log("getroomid",getroomid)
  
-    //  let record = [];
-    //      for (const element of getdetails) {
-    //         if (element.getdetails) {
-             
-    //           record.push(element.getdetails);
-    //         }
-    //       }
+    let record = [];
+   
+    
+    for (const element of getdetails) {
+       if (element.astroid) {
+        
+         record.push(element.astroid);
+       }
+     }
+let uniqueCharss = [...new Set(record)]
+console.log("hfjdbf",uniqueCharss)
+console.log("uniqueCharss",uniqueCharss)
         //S  uniquele.log("uniqueCharss",uniqueCharss)
        // .populate("userid").populate("astroid")
       //  .sort({ createdAt: 1 })
@@ -234,7 +239,7 @@ console.log("ADDRESS",addresses)
           // astroid:uniqueCharss,
           // roomid:uniqueid,
         //  data:getdetails,
-          UNIQUEss:addresses
+        astroid:uniqueCharss
 
         })
     };
