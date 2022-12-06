@@ -2,6 +2,12 @@ const Chat = require("../models/chat");
 const Chatroom = require("../models/chatroom");
 const resp = require("../helpers/apiResponse");
 const { v4: uuidv4 } = require("uuid");
+var cron = require('node-cron');
+
+cron.schedule('*/10 * * * * *', () => {
+  console.log('running a task every minute');
+});
+
 
 exports.addchat = async (req, res) => {
   const uniqueroom = uuidv4();
@@ -128,9 +134,9 @@ exports.add_chatroom = async (req, res) => {
       let data = {
         new_unread_msg: parseInt(findchatroom.new_unread_msg) + 1,
       };
-      // if (!msgbysupport) {
-      //   data.last_msg = msg;
-      // }
+      if (!msgbysupport) {
+        data.last_msg = msg;
+      }
       console.log("DATA",data);
       const updatechat = await Chatroom.findOneAndUpdate(
           {
@@ -199,6 +205,25 @@ exports.allchatwithuser = async (req, res) => {
   //  let uniqueCharss = [...new Set(unique)]
   //    console.log("hfjdbf",uniqueCharss)
  
+
+  const newArray = getdetails.map((m) => [m.id, m]);
+  const newMap = new Map(newArray);
+  const iterator = newMap.values();
+  const unique = [...iterator];
+  //console.log("UNIQUE",unique)
+
+  function removeDuplicates(getdetails) {
+    return getdetails.filter((item,
+        index) => getdetails.indexOf(item) === index);
+}
+//console.log("string",removeDuplicates(getdetails));
+  
+ // console.log(unique);
+
+  let addresses = [...new Set([...getdetails.map(address => getdetails[address.roomid])])]
+
+console.log("ADDRESS",addresses)
+
         res.status(200).json({
           status: true,
           message: "success", 
@@ -208,7 +233,8 @@ exports.allchatwithuser = async (req, res) => {
           //count :
           // astroid:uniqueCharss,
           // roomid:uniqueid,
-          data:getdetails
+        //  data:getdetails,
+          UNIQUEss:addresses
 
         })
     };
