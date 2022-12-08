@@ -119,6 +119,24 @@ cloudinary.config({
       }  
     };
   
+
+    exports.getoneuserdetail = async (req, res) => {
+const getone = await User.findOne({_id:req.params.id})
+
+if(getone){
+  res.status(200).json({
+    status:true,
+    msg :"success",
+    data :getone
+  })
+}else{
+  res.status(400).json({
+    status:false,
+    msg :"error",
+    error:"error"
+  })
+}
+    }
   
 
 

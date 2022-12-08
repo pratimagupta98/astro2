@@ -15,7 +15,8 @@ const {
     userVryfyotp,
     getoneusertoken,
    // userlogin,
-   shipping_address
+   shipping_address,
+   getoneuserdetail
    
 } = require("../controller/users");
 
@@ -69,6 +70,9 @@ const storage = multer.diskStorage({
  router.post("/user/edit_myprofile/:id",multipleUpload, edit_myprofile);
  router.get("/user/viewoneuser/:id", viewoneuser);
  router.get("/user/getoneusertoken",verifytoken, getoneusertoken);
+
+ router.get("/user/getoneuserdetail/:id", getoneuserdetail);
+
 
  router.get("/admin/alluser", alluser);
  router.get("/admin/dltuser/:id", dltuser);

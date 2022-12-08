@@ -10,7 +10,7 @@ const {
     dlt_min_charge,
     getone_min_charge,
     edit_min_charge,
-    
+
 } = require("../controller/min_charges");
 
  
