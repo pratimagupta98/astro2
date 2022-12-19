@@ -15,16 +15,12 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
  
- 
-  
+
   exports.usersignup = async (req, res) => {
     let length = 6;
     let defaultotp = "123456";
     const { fullname, userimg, email, mobile,dob} =
       req.body;
-  
-    
-
     const newUser = new User({
       fullname: fullname,
       // password: hashPassword,

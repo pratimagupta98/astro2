@@ -124,12 +124,6 @@ exports.addtoCart = async (req, res) => {
      // gsttotal = (price*product_qty) +(product_price*product_qty)
       // .then((data) => resp.successr(res, data))
       // .catch((error) => resp.errorr(res, error));
-    
-  
-
-
-
-
   exports.cartbycustomer = async (req, res) => {
     //await Cart.remove()
     const findone = await Cart.find({userid: req.userId })
@@ -207,3 +201,26 @@ exports.addtoCart = async (req, res) => {
       .then((data) => resp.deleter(res, data))
       .catch((error) => resp.errorr(res, error));
   };
+
+  exports.pending_order = async (req, res, next) => {
+    const finddetails = await Ordertable.find({
+      $and: [{ seller: req.sellerId }, { status: "Pending" }],
+    })
+      .populate("customer")
+      .populate("product")
+      .then((result) => {
+        res.status(200).json({
+          status: true,
+          msg: "success",
+          data: result,
+        });
+      })
+      .catch((error) => {
+        res.status(400).json({
+          status: false,
+          msg: "error",
+          error: error,
+        });
+      });
+  };
+  

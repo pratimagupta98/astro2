@@ -5,12 +5,15 @@ const thisSchema = new Schema(
      
       fullname: {
         type: String,
+        default:false
       },
       email: {
         type: String,
+        default:false
       },
        mobile:{
-        type:Number
+        type:Number,
+        default:false
        },
       password: {
         type: String,

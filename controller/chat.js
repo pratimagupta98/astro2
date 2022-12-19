@@ -4,9 +4,9 @@ const resp = require("../helpers/apiResponse");
 const { v4: uuidv4 } = require("uuid");
 var cron = require('node-cron');
 
-cron.schedule('*/10 * * * * *', () => {
-  console.log('running a task every minute');
-});
+// cron.schedule('*/10 * * * * *', () => {
+//   console.log('running a task every minute');
+// });
 
 
 exports.addchat = async (req, res) => {
