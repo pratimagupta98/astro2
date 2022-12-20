@@ -41,15 +41,7 @@ exports.signup = async (req, res) => {
      return res.status(201).json(resData);
 
   }
-  // if(findexist.email == null){
-  //   var resData = {
-  //     status: false,
-  //     message: "error",
-       
-  //     error: "error",
-  //   };
-  // return res.status(201).json(resData);
-  //  }
+  
   else if(findexist.mobile ){
     console.log("success")
     res.json({
@@ -65,16 +57,17 @@ exports.signup = async (req, res) => {
 
     newAstrologer
     .save()
-    .then((data) => resp.successr(res, data))
-    .catch((error) => resp.errorr(res, error));
-    //.then((data) => {
-      // res.json({
-      //   status: "success",
-      //   msg: "Otp send successfully",
-      //  registered: data?.mobile,
-      //  _id: data?._id,
-      //   otp:defaultotp
-      // })
+   
+    .then((data) => {
+      res.json({
+        status: "success",
+        msg: "Otp send successfully",
+       registered: data?.mobile,
+       _id: data?._id,
+        otp:defaultotp
+      })
+    })
+      .catch((error) => resp.errorr(res, error));
       // var resData = {
       //   status: false,
       //   message: "success",
