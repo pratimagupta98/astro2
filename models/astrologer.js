@@ -1,20 +1,30 @@
 const mongoose = require("mongoose");
+const Joi = require('joi');
 const Schema = mongoose.Schema;
 const thisSchema = new Schema(
     {
      
-      fullname: {
-        type: String,
-        required:true
-      },
+    //   fullname: Joi.string()
+    // //  .alphanum()
+    //   .min(3)
+    //   //.max(30)
+    //   .required(),
+    fullname:{
+      type: String,
+      required: true,
+    },
+    mobile: {
+      type:Number,
+      required:true
+
+     },
       email: {
         type: String,
-        required:true
+        required: true,
       },
-       mobile:{
-        type:Number,
-        required:true
-       },
+      
+      //  Joi.string()
+      //  .required(),
       password: {
         type: String,
       },

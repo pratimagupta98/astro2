@@ -1,4 +1,5 @@
 const Astrologer = require("../models/astrologer");
+const Joi = require('joi');
 const resp = require("../helpers/apiResponse");
 const cloudinary = require("cloudinary").v2;
 const dotenv = require("dotenv");
@@ -13,40 +14,80 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 exports.signup = async (req, res) => {
+  const{fullname,mobile,email} = req.body
   let length = 6;
   let defaultotp = "123456";
 
   const newAstrologer = new Astrologer({
-    fullname: req.body.fullname,
-    mobile: req.body.mobile,
-    email: req.body.email,
+    fullname: fullname,
+    mobile:  mobile,
+    email:  email,
     otp: defaultotp
   });
+  
+ 
+   
+  let findexist= await Astrologer.findOne({mobile:mobile})
+ if(findexist){
+  if(findexist.mobile == null){
+    console.log("error")
+  var resData = {
+        status: false,
+        message: "error",
+       
+        error: "error",
+      };
 
-  let findexist= await Astrologer.findOne({mobile:req.body.mobile})
-  if(findexist){
-res.json({
-  status: "success",
-  msg: "Welcome Back Otp send successfully",
-  mobile:findexist.mobile,
-  otp: defaultotp,
-  _id: findexist?._id,
-})
-  }else{
+     return res.status(201).json(resData);
+
+  }
+  // if(findexist.email == null){
+  //   var resData = {
+  //     status: false,
+  //     message: "error",
+       
+  //     error: "error",
+  //   };
+  // return res.status(201).json(resData);
+  //  }
+  else if(findexist.mobile ){
+    console.log("success")
+    res.json({
+        status: "success",
+        msg: "Welcome Back Otp send successfully",
+        mobile:findexist.mobile,
+        otp: defaultotp,
+        _id: findexist?._id,
+  })
+}
+ }
+    else{
+
     newAstrologer
     .save()
-    .then((data) => {
-      res.json({
-        status: "success",
-        msg: "Otp send successfully",
-       registered: data?.mobile,
-       _id: data?._id,
-        otp:defaultotp
-      })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+    //.then((data) => {
+      // res.json({
+      //   status: "success",
+      //   msg: "Otp send successfully",
+      //  registered: data?.mobile,
+      //  _id: data?._id,
+      //   otp:defaultotp
+      // })
+      // var resData = {
+      //   status: false,
+      //   message: "success",
+      //   count: data.length,
+      //   data: data,
+      // };
+
+     // return res.status(201).json(resData);
       
-})
+//})
+    }
   }
-}
+
 exports.loginsendotp = async (req,res) =>{
   let length = 6;
   let defaultotp = "123456";
