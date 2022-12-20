@@ -33,7 +33,7 @@ exports.signup = async (req, res) => {
     console.log("error")
   var resData = {
         status: false,
-        message: "error",
+        message: "Validation error",
        
         error: "error",
       };
