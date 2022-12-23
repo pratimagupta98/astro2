@@ -187,7 +187,7 @@ exports.allchatwithuser = async (req, res) => {
           status: true,
           message: "success",
         //  count: data.length,
-          data: getone.roomid,
+          data: getone 
         })
         // .then((data) => resp.successr(res, data))
         // .catch((error) => resp.errorr(res, error));
