@@ -183,8 +183,14 @@ exports.allchatwithuser = async (req, res) => {
       
        // .populate("userid").populate("astroid")
         .sort({ createdAt: 1 })
-        .then((data) => resp.successr(res, data))
-        .catch((error) => resp.errorr(res, error));
+        res.status(200).json({
+          status: true,
+          message: "success",
+        //  count: data.length,
+          data: getone.roomid,
+        })
+        // .then((data) => resp.successr(res, data))
+        // .catch((error) => resp.errorr(res, error));
     };
 
   exports.userChatList = async (req, res) => {
@@ -333,5 +339,6 @@ var result = [...maparr.values()];//converting back to array from mapobject
         status: true,
         message: "success", 
       data:result,
+    //  details:arrOfObj
       })
   };
