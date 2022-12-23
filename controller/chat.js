@@ -40,9 +40,9 @@ exports.addchat = async (req, res) => {
     let data = {
       new_unread_msg: parseInt(findchatroom.new_unread_msg) + 1,
     };
-    // if (!msgbysupport) {
-    //   data.last_msg = msg;
-    // }
+    if (!msgbysupport) {
+      data.last_msg = msg;
+    }
     console.log("DATA",data);
     const updatechat = await Chatroom.findOneAndUpdate(
         {
@@ -309,36 +309,118 @@ if (getdetails) {
   };
 
 
-  exports.getroomid = async (req, res) => {
-    const arrOfObj=  await Chat.find({userid:req.params.id}).populate("userid").populate("astroid")
+//   exports.getroomid = async (req, res) => {
+
+//     const arrOfObj=  await Chat.find({userid:req.params.id}).populate("userid").populate("astroid")
+//     console.log("arrOfObj",arrOfObj)
+//     let newIterable = arrOfObj.entries(arrOfObj);
+//     console.log("newIterable",newIterable)
 //   let record = [];
-//   for (const element of getdetails) {
+//   for (const element of arrOfObj) {
 //      if (element.roomid) {
-      
+//     //  console.log("key " + key + " has value " + myArray[key]);
 //      record.push(element.roomid,);
 //      }
 //    }
+//  //  console.log("Record",record)
+//    // let uniqueCharss = [...new Set(record)]
+//  // console.log("Record",record)
+// //let uniqueCharss = [...new Set(record)]
+// //console.log("MP",record.keys());
 
-//   console.log("Record",record)
-// let uniqueCharss = [...new Set(record)]
-
-//const dataArr = ['1','5','6','1','3','5','90','334','90'];
-
-var dataArr = arrOfObj.map(item=>{
-  return [JSON.stringify(item.roomid),item.roomid]
-}); // creates array of array
-var maparr = new Map(dataArr); // create key value pair from array of array
-console.log("maparr",maparr)
-var result = [...maparr.values()];//converting back to array from mapobject
+// //const dataArr = ['1','5','6','1','3','5','90','334','90'];
+// var dataArr = arrOfObj.map(item=>{
+//   return [JSON.stringify(item.roomid),item.roomid]
+// }); // creates array of array
+// var maparr = new Map(dataArr); // create key value pair from array of array
+// //console.log("maparr",maparr)
+// var result = [...maparr.values()];//converting back to array from mapobject
 
 
-//console.log(result); 
-//[{"name":"abc","age":27},{"name":"pqr","age":27}]
+// //console.log(result); 
+// //[{"name":"abc","age":27},{"name":"pqr","age":27}]
 
-      res.status(200).json({
-        status: true,
-        message: "success", 
-      data:result,
-    //  details:arrOfObj
-      })
-  };
+
+// let recordss = [];
+
+// for (const [key, value] of Object.entries(arrOfObj)) {
+//  // console.log(`${key}: ${value}`);
+//   recordss.push ("DATA",`${key}: ${value}`)
+// }
+// newarr=[]
+// var newarr=Object.entries(arrOfObj).forEach(([key, value]) => {
+//   //console.log("data",`${key} ${value}`);
+// //  push.newarr(`${key} ${value}`)
+//   var newarr = `${key} ${value}`
+//   console.log("array",newarr)
+
+//   //array.push[JSON.stringify(`${key} ${value}`)]
+//   //console.log("data",data)
+//   return newarr
+
+// })
+//  let uniqueCharss = [...new Set(newarr)]
+//  console.log("uniqueCharss",uniqueCharss)
+//  //console.log("uniqueCharss",uniqueCharss)
+// //  const arr = [
+// //   { key: 'user1', value: 'John' },
+// //   { key: 'user2', value: 'Kate' },
+// //   { key: 'user3', value: 'Peter' },
+// // ];
+// const map = new Map(arrOfObj.map((obj) => [obj.key, obj.value]));
+// // Map(3) { 'user1' => 'John', 'user2' => 'Kate', 'user3' => 'Peter' }
+// console.log("MAP",map);
+
+// const arr = [
+//   { key: 'user1', value: 'John' },
+//   { key: 'user2', value: 'Kate' },
+//   { key: 'user3', value: 'Peter' },
+// ];
+// const mapp = new Map();
+// arrOfObj.forEach((arrOfObj) => {
+//   map.set(arrOfObj.key, arrOfObj.value);
+// });
+// // Map(3) { 'user1' => 'John', 'user2' => 'Kate', 'user3' => 'Peter' }
+// console.log(mapp);
+
+ 
+
+// var result = arrOfObj.reduce(function(map, obj) {
+//   map[obj.key] = obj.val;
+//   return map;
+// }, {});
+
+// console.log(result);
+
+// const twoDimensionalArr = arrOfObj.map(
+//   object => [object.key, object.value]
+// );
+// console.log(twoDimensionalArr)
+// // { foo:'bar', hello:'world' }
+// //console.log("recordss",recordss)
+//       res.status(200).json({
+//         status: true,
+//         message: "success", 
+//       data:newarr,
+//     //  details:arrOfObj
+//       })
+//   };
+
+
+exports.getroomid = async (req, res) => {
+  const arrOfObj=  await Chat.find({userid:req.params.id}).populate("userid").populate("astroid")
+ 
+
+ 
+
+
+ 
+
+    res.status(200).json({
+      status: true,
+      message: "success", 
+    data:arrOfObj,
+  //  details:arrOfObj
+    })
+};
+ 
