@@ -14,300 +14,300 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
- 
 
-  exports.usersignup = async (req, res) => {
-    let length = 6;
-    let defaultotp = "123456";
-    const { fullname, userimg, email, mobile,dob} =
-      req.body;
-    const newUser = new User({
-      fullname: fullname,
-      // password: hashPassword,
-      // cnfmPassword: hashPassword,
-      email: email,
-      mobile: mobile,
-      userimg: userimg,
-      dob :dob,
-     // tym_of_birth:tym_of_birth
-      //walletId:walletId,
-       otp: defaultotp
-    });
-  
-    const findexist = await User.findOne({
-      $or: [{ email: email }, { mobile: mobile }],
-    });
-    if (findexist) {
-      resp.alreadyr(res);
-    } else {
-      if (req.files) {
-        if (req.files.userimg) {
-          alluploads = [];
-          for (let i = 0; i < req.files.userimg.length; i++) {
-            const resp = await cloudinary.uploader.upload(
-              req.files.userimg[i].path,
-              { use_filename: true, unique_filename: false }
-            );
-            fs.unlinkSync(req.files.userimg[i].path);
-            alluploads.push(resp.secure_url);
-          }
-          newUser.userimg = alluploads;
+
+exports.usersignup = async (req, res) => {
+  let length = 6;
+  let defaultotp = "123456";
+  const { fullname, userimg, email, mobile, dob } =
+    req.body;
+  const newUser = new User({
+    fullname: fullname,
+    // password: hashPassword,
+    // cnfmPassword: hashPassword,
+    email: email,
+    mobile: mobile,
+    userimg: userimg,
+    dob: dob,
+    // tym_of_birth:tym_of_birth
+    //walletId:walletId,
+    otp: defaultotp
+  });
+
+  const findexist = await User.findOne({
+    $or: [{ email: email }, { mobile: mobile }],
+  });
+  if (findexist) {
+    resp.alreadyr(res);
+  } else {
+    if (req.files) {
+      if (req.files.userimg) {
+        alluploads = [];
+        for (let i = 0; i < req.files.userimg.length; i++) {
+          const resp = await cloudinary.uploader.upload(
+            req.files.userimg[i].path,
+            { use_filename: true, unique_filename: false }
+          );
+          fs.unlinkSync(req.files.userimg[i].path);
+          alluploads.push(resp.secure_url);
         }
+        newUser.userimg = alluploads;
       }
-     
-     // newUser.walletId =walletId
-      newUser.save()
+    }
+
+    // newUser.walletId =walletId
+    newUser.save()
       .then((data) => {
         res.status(200).json({
           status: true,
           msg: "otp send successfully",
           data: data.mobile,
-         otp:data.otp,
-         _id: data?._id,
-        // walletId:data._id
+          otp: data.otp,
+          _id: data?._id,
+          // walletId:data._id
 
         })
       })
       .catch((error) => resp.errorr(res, error));
-  
-  
-    }
+
+
   }
-  exports.userVryfyotp = async (req, res) => {
-    const { mobile, otp } = req.body;
-    const getuser = await User.findOne({ mobile: mobile })
-    if (getuser) {
-      if (otp == "123456") {
-        const token = jwt.sign(
-          {
-            userId: getuser._id,
-          },
-          key,
-          {
-            expiresIn: "365d",
-          }
-        );
-        await User.findOneAndUpdate(
-          {
-            _id: getuser._id,
-          },
-          { $set: { walletId:getuser._id  } },
-          { new: true }).then((data)=>{ 
-
-        res.header("auth-token", token).status(200).send({
-          status: true,
-          msg: "otp verified",
-          otp: otp,
-        //  data:data,
-          token:token,
-          // _id: getuser._id,
-       
-           data : data,
-           walletId: data.walletId,
-        })
-      })
-        }else {
-          res.status(200).json({
-            status: false,
-            msg: "Incorrect Otp",
-          });
+}
+exports.userVryfyotp = async (req, res) => {
+  const { mobile, otp } = req.body;
+  const getuser = await User.findOne({ mobile: mobile })
+  if (getuser) {
+    if (otp == "123456") {
+      const token = jwt.sign(
+        {
+          userId: getuser._id,
+        },
+        key,
+        {
+          expiresIn: "365d",
         }
-      }  
-    };
-  
-
-    exports.getoneuserdetail = async (req, res) => {
-const getone = await User.findOne({_id:req.params.id})
-
-if(getone){
-  res.status(200).json({
-    status:true,
-    msg :"success",
-    data :getone
-  })
-}else{
-  res.status(400).json({
-    status:false,
-    msg :"error",
-    error:"error"
-  })
-}
-    }
-  
-
-
-  // exports.userlogin = async(req,res)=>{
-  //   const{email,mobile,password} =req.body
-
-  //   const user = await User.findOne({
-  //     $or: [{ email: email }, { mobile: mobile }],
-  //   });
-  //   console.log("Strrr",user)
-  //   if(user){
-  //     const validPass = await  bcrypt.compare(password,user.password)
-  //     console.log("paaa",validPass)
-  //     if(validPass){
-  //       const token = jwt.sign(
-  //         {
-  //           userId: user._id,
-  //       }, 
-  //       key,
-  //       {
-  //         expiresIn: 86400000,
-  //       }
-  //       )
-  //       res.header("auth-token", token).status(200).send({
-  //         status: true,
-  //         token: token,
-  //         msg: "success",
-  //         user: user,
-  //       });
-  //     } else {
-  //       res.status(400).json({
-  //         status: false,
-  //         msg: "Incorrect Password",
-  //         error: "error",
-  //       });
-  //     }
-  //   } else {
-  //     res.status(400).json({
-  //       status: false,
-  //       msg: "User Doesnot Exist",
-  //       error: "error",
-  //     });
-  //   }
-  // };
-
-  exports.edit_myprofile = async(req,res)=>{
-    const{fullname,userimg,email,mobile,password,cnfmPassword,birth_tym,dob,bithplace,address,city,state,country,pincode} = req.body
-    
-    data ={}
-    if(fullname) {
-        data.fullname = fullname
-    }
-    
-    if(email){
-        data.email = email
-    }
-    if(mobile){
-        data.mobile = mobile
-    }
-    if (password) {
-      const salt = await bcrypt.genSalt(10);
-      let hashPassword = await bcrypt.hash(password, salt);
-      data.password = hashPassword;
-    }
-    if (cnfmPassword) {
-      const salt = await bcrypt.genSalt(10);
-      let hashPassword = await bcrypt.hash(password, salt);
-      data.cnfmPassword = hashPassword;
-    }
-    if(birth_tym){
-      data.birth_tym =birth_tym
-    }
-    if(dob){
-      data.dob = dob
-    }
-    if(bithplace){
-      data.bithplace = bithplace
-    }
-    if(address){
-      data.address =address
-    }
-    if(city){
-      data.city =city
-    }
-    if(state){
-      data.state =state
-    }
-if(country){
-  data.country = country
-}
-if(pincode){
-  data.pincode =pincode
-}
- 
-    if (req.files) {
-        if (req.files.userimg) {
-          alluploads = [];
-          for (let i = 0; i < req.files.userimg.length; i++) {
-            // console.log(i);
-            const resp = await cloudinary.uploader.upload(req.files.userimg[i].path, {
-              use_filename: true,
-              unique_filename: false,
-            });
-            fs.unlinkSync(req.files.userimg[i].path);
-            alluploads.push(resp.secure_url);
-          }
-          // newStore.storeImg = alluploads;
-          data.userimg = alluploads;
-        }
-     }
-     await User.findOneAndUpdate(
-        { _id: req.params.id},
-        { $set: data },
-        { new: true }
-      )
-        .then((data) => resp.successr(res, data))
-        .catch((error) => resp.errorr(res, error));
-    };
-    
-     
-    exports.viewoneuser = async (req, res) => {
-      await User.findOne({ _id: req.params.id })
-        .then((data) => resp.successr(res, data))
-        .catch((error) => resp.errorr(res, error));
-    };
-    exports.getoneusertoken = async (req, res) => {
-      await User.findOne({ _id: req.userId })
-        .then((data) => resp.successr(res, data))
-        .catch((error) => resp.errorr(res, error));
-    };
-
-    exports.alluser= async (req, res) => {
-      await User.find()
-        .sort({ sortorder: 1 })
-        .then((data) => resp.successr(res, data))
-        .catch((error) => resp.errorr(res, error));
-    };
-  
-    exports.dltuser = async (req, res) => {
-      await User.deleteOne({ _id: req.params.id })
-        .then((data) => resp.deleter(res, data))
-        .catch((error) => resp.errorr(res, error));
-    };
-
-
-    exports.userlogin = async (req, res) => {
-      let length = 6;
-      let defaultotp = "123456";
-      const getuser = await User.findOne({ mobile: req.body.mobile });
-      if (getuser) {
-        console.log("STRING", getuser)
-        res.status(200).send({
-          status: true,
-          msg: "otp Send Successfully",
-          otp: defaultotp,
-          // _id: getuser._id,
-          // mobile: getuser.mobile,
-          // approvedstatus: getuser.approvedstatus
-        })
-      } else if (!getuser) {
-        res.status(400).json({
-          status: true,
-          msg: "User doesn't Exist",
-        });
-      }  
-    };
-
-    exports.shipping_address = async (req, res) => {
+      );
       await User.findOneAndUpdate(
         {
-          _id: req.params.id,
+          _id: getuser._id,
         },
-        { $set: req.body },
-        { new: true }
-      )
-        .then((data) => resp.successr(res, data))
-        .catch((error) => resp.errorr(res, error));
-    };
+        { $set: { walletId: getuser._id } },
+        { new: true }).then((data) => {
+
+          res.header("auth-token", token).status(200).send({
+            status: true,
+            msg: "otp verified",
+            otp: otp,
+            //  data:data,
+            token: token,
+            // _id: getuser._id,
+
+            data: data,
+            walletId: data.walletId,
+          })
+        })
+    } else {
+      res.status(200).json({
+        status: false,
+        msg: "Incorrect Otp",
+      });
+    }
+  }
+};
+
+
+exports.getoneuserdetail = async (req, res) => {
+  const getone = await User.findOne({ _id: req.params.id })
+
+  if (getone) {
+    res.status(200).json({
+      status: true,
+      msg: "success",
+      data: getone
+    })
+  } else {
+    res.status(400).json({
+      status: false,
+      msg: "error",
+      error: "error"
+    })
+  }
+}
+
+
+
+// exports.userlogin = async(req,res)=>{
+//   const{email,mobile,password} =req.body
+
+//   const user = await User.findOne({
+//     $or: [{ email: email }, { mobile: mobile }],
+//   });
+//   console.log("Strrr",user)
+//   if(user){
+//     const validPass = await  bcrypt.compare(password,user.password)
+//     console.log("paaa",validPass)
+//     if(validPass){
+//       const token = jwt.sign(
+//         {
+//           userId: user._id,
+//       }, 
+//       key,
+//       {
+//         expiresIn: 86400000,
+//       }
+//       )
+//       res.header("auth-token", token).status(200).send({
+//         status: true,
+//         token: token,
+//         msg: "success",
+//         user: user,
+//       });
+//     } else {
+//       res.status(400).json({
+//         status: false,
+//         msg: "Incorrect Password",
+//         error: "error",
+//       });
+//     }
+//   } else {
+//     res.status(400).json({
+//       status: false,
+//       msg: "User Doesnot Exist",
+//       error: "error",
+//     });
+//   }
+// };
+
+exports.edit_myprofile = async (req, res) => {
+  const { fullname, userimg, email, mobile, password, cnfmPassword, birth_tym, dob, bithplace, address, city, state, country, pincode } = req.body
+
+  data = {}
+  if (fullname) {
+    data.fullname = fullname
+  }
+
+  if (email) {
+    data.email = email
+  }
+  if (mobile) {
+    data.mobile = mobile
+  }
+  if (password) {
+    const salt = await bcrypt.genSalt(10);
+    let hashPassword = await bcrypt.hash(password, salt);
+    data.password = hashPassword;
+  }
+  if (cnfmPassword) {
+    const salt = await bcrypt.genSalt(10);
+    let hashPassword = await bcrypt.hash(password, salt);
+    data.cnfmPassword = hashPassword;
+  }
+  if (birth_tym) {
+    data.birth_tym = birth_tym
+  }
+  if (dob) {
+    data.dob = dob
+  }
+  if (bithplace) {
+    data.bithplace = bithplace
+  }
+  if (address) {
+    data.address = address
+  }
+  if (city) {
+    data.city = city
+  }
+  if (state) {
+    data.state = state
+  }
+  if (country) {
+    data.country = country
+  }
+  if (pincode) {
+    data.pincode = pincode
+  }
+
+  if (req.files) {
+    if (req.files.userimg) {
+      alluploads = [];
+      for (let i = 0; i < req.files.userimg.length; i++) {
+        // console.log(i);
+        const resp = await cloudinary.uploader.upload(req.files.userimg[i].path, {
+          use_filename: true,
+          unique_filename: false,
+        });
+        fs.unlinkSync(req.files.userimg[i].path);
+        alluploads.push(resp.secure_url);
+      }
+      // newStore.storeImg = alluploads;
+      data.userimg = alluploads;
+    }
+  }
+  await User.findOneAndUpdate(
+    { _id: req.params.id },
+    { $set: data },
+    { new: true }
+  )
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
+
+exports.viewoneuser = async (req, res) => {
+  await User.findOne({ _id: req.params.id })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+exports.getoneusertoken = async (req, res) => {
+  await User.findOne({ _id: req.userId })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
+exports.alluser = async (req, res) => {
+  await User.find()
+    .sort({ sortorder: 1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
+exports.dltuser = async (req, res) => {
+  await User.deleteOne({ _id: req.params.id })
+    .then((data) => resp.deleter(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
+
+exports.userlogin = async (req, res) => {
+  let length = 6;
+  let defaultotp = "123456";
+  const getuser = await User.findOne({ mobile: req.body.mobile });
+  if (getuser) {
+    console.log("STRING", getuser)
+    res.status(200).send({
+      status: true,
+      msg: "otp Send Successfully",
+      otp: defaultotp,
+      // _id: getuser._id,
+      // mobile: getuser.mobile,
+      // approvedstatus: getuser.approvedstatus
+    })
+  } else if (!getuser) {
+    res.status(400).json({
+      status: true,
+      msg: "User doesn't Exist",
+    });
+  }
+};
+
+exports.shipping_address = async (req, res) => {
+  await User.findOneAndUpdate(
+    {
+      _id: req.params.id,
+    },
+    { $set: req.body },
+    { new: true }
+  )
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};

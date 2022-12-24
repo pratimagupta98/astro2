@@ -478,3 +478,21 @@ console.log(result); //[{"name":"abc","age":27},{"name":"pqr","age":27}]
 //     })
 // };
  
+exports.astrogetRoomid = async (req, res) => {
+
+  const arrOfObj=  await Chat.find({astroid:req.params.id}).populate("userid").populate("astroid")
+ 
+var dataArr = arrOfObj.map(item=>{
+  return [item.userid,item]
+}); // creates array of array
+var maparr = new Map(dataArr); // create key value pair from array of array
+var result = [...maparr.values()];//converting back to array from mapobject
+console.log(result); //[{"name":"abc","age":27},{"name":"pqr","age":27}]
+    res.status(200).json({
+      status: true,
+      message: "success", 
+     // length:uniqueCharss.length,
+    data:result,
+  //  details:arrOfObj
+    })
+};

@@ -10,8 +10,6 @@ var request = require('request');
     token="856371fe6a97e8be8fed6ab14c95b4832f82d1d3116cb17e	"
     from=req.body.from     
     to=req.body.to
-    
- 
 
     const formUrlEncoded = x =>Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, '')
     const axios = require('axios')

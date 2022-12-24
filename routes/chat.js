@@ -12,7 +12,8 @@ const {
   allchatwithAstro,
   userChatList,
   getone_chat,
-  getroomid
+  getroomid,
+  astrogetRoomid
   
 } = require("../controller/chat");
 
@@ -30,6 +31,8 @@ router.post("/user/markasread/:id", markasread);
 router.get("/user/userChatList/:id", userChatList);
 router.get("/user/getone_chat/:userid/:astroid", getone_chat);
 router.get("/user/getroomid/:id", getroomid);
+router.get("/user/astrogetRoomid/:id", astrogetRoomid);
+
 
 
 
