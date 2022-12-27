@@ -13,7 +13,7 @@ const {
   
  
  
- router.post("/user/make_call", make_call);
+// router.post("/user/make_call", make_call);
  router.get("/user/callStatus", callStatus);
 
  
