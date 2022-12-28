@@ -7,8 +7,57 @@ const { listenerCount } = require("../models/recharge_plan");
 
 exports.addtoCart = async (req, res) => {
     const {astroId,userId,productid,shipping_address,status} = req.body;
+
+
+    const findexist = await Cart.findOne({ userId : userId});
+    if(findexist){
+      const getastroproduct = await Astroproduct.findOne({ _id: req.body.astroId });
+
+      console.log("getastroproduct",getastroproduct)
+    //  if (getastroproduct ) {
+        const price  =getastroproduct.price
+      // console.log(price)
+       // totalgst =0
+ 
+      let  totalgst = price *18/100
+       console.log("gstotal",totalgst)
+      let total_amt =price + totalgst
+      await Cart.findOneAndUpdate(
+        {
+          
+             userId:userId  ,
+           
+        },
+        { $set: {astroId :astroId,productid:productid,shipping_address:shipping_address,total_amt:total_amt,gst:totalgst} },
+  
+        { new: true }
+      )
+        .then((data) => {
+          res.status(200).json({
+            status: true,
+            msg: "Order Detail ",
+            data: data,
+           gstotal: totalgst,
+           total_amt:total_amt
+          
+          });
+        })
+    
+        .catch((error) => {
+          res.status(200).json({
+            status: false,
+            msg: "error",
+            error: error,
+          });
+        });
+    
+
+    }else{
+
+
      const getastroproduct = await Astroproduct.findOne({ _id: req.body.astroId });
-    console.log("getastroproduct",getastroproduct)
+
+     console.log("getastroproduct",getastroproduct)
     if (getastroproduct ) {
        const price  =getastroproduct.price
      // console.log(price)
@@ -52,17 +101,8 @@ exports.addtoCart = async (req, res) => {
             error: error,
           });
         });
-
-        // await Cart.findOneAndUpdate(
-        //   {
-        //     astro_product:astro_product,
-        //   },
-        //   { $set: {total_amt:total_amt}},
-        //   { new: true }
-        // )
-    
   }  
- 
+}
 
   }
   

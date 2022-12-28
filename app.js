@@ -43,6 +43,8 @@ const make_call = require("./routes/make_call")
 const ASK_qus = require("./routes/ASK_qus")
 const chat = require("./routes/chat")
 const min_charges = require("./routes/min_charges")
+const order = require("./routes/order")
+
 
 
 
@@ -78,6 +80,8 @@ app.use("/", make_call);
 app.use("/", ASK_qus);
 app.use("/", chat);
 app.use("/", min_charges);
+app.use("/", order);
+
 
 
 

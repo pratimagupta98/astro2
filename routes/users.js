@@ -16,7 +16,8 @@ const {
     getoneusertoken,
    // userlogin,
    shipping_address,
-   getoneuserdetail
+   getoneuserdetail,
+   resetPassword
    
 } = require("../controller/users");
 
@@ -77,6 +78,8 @@ const storage = multer.diskStorage({
  router.get("/admin/alluser", alluser);
  router.get("/admin/dltuser/:id", dltuser);
  router.post("/user/shipping_address/:id", shipping_address);
+ router.post("/user/resetPassword/:id", resetPassword);
+
 
 
 module.exports = router;

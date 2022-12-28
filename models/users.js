@@ -54,6 +54,9 @@ const thisSchema = new Schema(
           type: Number,
           default: 0,
         },
+        oldpassword:{
+          type:String
+        }
 
   },
 
