@@ -18,6 +18,9 @@ const OrderSchema = new Schema(
         orderId: {
             type: String,
         },
+        orderNote:{
+            type: String
+        },
         date: {
             type: String
         },
