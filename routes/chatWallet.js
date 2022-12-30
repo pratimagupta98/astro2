@@ -3,13 +3,13 @@ const router = express.Router();
 
 const {
     addChatWallet,
-    getChatWallet
+    getOneChatWallet
  
 } = require("../controller/chatWallet");
 
 //Paths
 router.post("/user/addChatWallet", addChatWallet);
-router.get("/user/getChatWallet/:id", getChatWallet);
+router.get("/user/getOneChatWallet/:id", getOneChatWallet);
 
  
 

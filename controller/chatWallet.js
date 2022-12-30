@@ -216,7 +216,7 @@ res.status(400).json({
    }
 
 
-   exports.getChatWallet = async (req, res) => {
+   exports.getOneChatWallet = async (req, res) => {
     await ChatWallet.findOne({userid:req.params.id}).populate("userid").populate("astroid").populate("recharge_planId")
       .sort({ createdAt: -1 })
       .then((data) => resp.successr(res, data))
