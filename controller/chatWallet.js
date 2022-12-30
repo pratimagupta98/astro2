@@ -42,7 +42,6 @@ newamt =getwalletamt - totalamt
 console.log("camt",getwalletamt)
 console.log("new",newamt)
 newChatWallet.save()
-     
         .then((data) => {
           res.status(200).json({
             status: true,
@@ -50,11 +49,8 @@ newChatWallet.save()
             data: data,
             // callCharge:getoneastro.callCharge,
             // minute:
-           
-          
           });
         }) 
-    
         .catch((error) => {
           res.status(400).json({
             status: false,
@@ -75,7 +71,30 @@ newChatWallet.save()
           )
           if(finduserAndupdate){
 console.log("UPDATE USER AMOUNT",finduserAndupdate)
+
           }
+        //   const getplan = getplanchrge.minute
+        //   console.log("getplan",getplan) //45
+//         var d = new Date()
+//         var time = d.toLocaleTimeString()
+//         ;console.log(time);
+
+//           const findastroAndupdate = await Astrologer.findOneAndUpdate(
+  
+//             { _id: req.body.astroid },
+            
+//             { $set: {status:newamt } },
+           
+//           //     { amount: currntamt },
+               
+//           // { $set: {status:"success"} },
+//           { new: true },
+//           )
+//           if(finduserAndupdate){
+// console.log("UPDATE USER AMOUNT",finduserAndupdate)
+
+//           }
+
 
  }else{
     console.log("INSUFFICIENT BALANCE")
