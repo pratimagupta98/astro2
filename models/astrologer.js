@@ -123,7 +123,7 @@ const thisSchema = new Schema(
     default:"Offline"
   },
   callCharge:{
-    type:String
+    type:Number
   },
   otpverify: {
     type: String,
