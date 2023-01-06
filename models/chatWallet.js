@@ -8,7 +8,12 @@ const thisSchema = new Schema(
     recharge_planId: {
         type: Schema.Types.ObjectId, ref: "minCharge",
     },
-    
+    conversationId:{
+      type:String
+    },
+    type:{
+      type:String
+    }
     
 
   },
