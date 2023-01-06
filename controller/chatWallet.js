@@ -64,7 +64,7 @@ newChatWallet.save()
   
             { _id: req.body.userid },
             
-            { $set: {amount:newamt } },
+            { $set: {amount:newamt,deductedAmt:totalamt } },
            
           //     { amount: currntamt },
                
@@ -140,7 +140,7 @@ const newChatWallet = new ChatWallet({
     userid:userid,
     astroid:astroid,
     recharge_planId:recharge_planId,
-    type:"Call",
+    type:"Voice Call",
     conversationId:"#"+ Date.now()
 
 })
@@ -191,7 +191,133 @@ newChatWallet.save()
   
             { _id: req.body.userid },
             
-            { $set: {amount:newamt } },
+            { $set: {amount:newamt,deductedAmt:totalamt } },
+           
+          //     { amount: currntamt },
+               
+          // { $set: {status:"success"} },
+          { new: true },
+          )
+          if(finduserAndupdate){
+console.log("UPDATE USER AMOUNT",finduserAndupdate)
+
+          }
+        //   const getplan = getplanchrge.minute
+        //   console.log("getplan",getplan) //45
+//         var d = new Date()
+//         var time = d.toLocaleTimeString()
+//         ;console.log(time);
+
+//           const findastroAndupdate = await Astrologer.findOneAndUpdate(
+  
+//             { _id: req.body.astroid },
+            
+//             { $set: {status:newamt } },
+           
+//           //     { amount: currntamt },
+               
+//           // { $set: {status:"success"} },
+//           { new: true },
+//           )
+//           if(finduserAndupdate){
+// console.log("UPDATE USER AMOUNT",finduserAndupdate)
+
+//           }
+
+
+ }else{
+    console.log("INSUFFICIENT BALANCE")
+    res.status(201).json({
+        status:false,
+        msg:"Insufficient belence"
+    })
+ }
+
+ }else{
+    console.log("ERROR")
+    res.status(400).json({
+        status:false,
+        msg :"Something Went Wrong"
+    })
+ }
+ }else{
+console.log("error")
+res.status(400).json({
+    status:false,
+    msg :"Something Went Wrong"
+})
+ }
+
+}else{
+    console.log("error")
+    res.status(400).json({
+        status:false,
+        msg :"Something Went Wrong"
+    })
+}
+    
+
+  }  
+
+  exports.addVideoCallWallet = async (req, res) => {
+    const {userid,astroid,recharge_planId} = req.body;
+
+const newChatWallet = new ChatWallet({
+    userid:userid,
+    astroid:astroid,
+    recharge_planId:recharge_planId,
+    type:"Video Call",
+    conversationId:"#"+ Date.now()
+
+})
+const getoneastro = await Astrologer.findOne({_id:req.body.astroid})
+//console.log("ASTRO",getoneastro)
+if(getoneastro){
+const getcharge = getoneastro.callCharge
+console.log("CALLCHARGE",getcharge)
+
+ const getplanchrge = await Minutecharge.findOne({_id:req.body.recharge_planId})
+ console.log("MIN PLAN",getplanchrge)
+ if(getplanchrge){
+ const getplan = getplanchrge.minute
+ console.log("getplan",getplan)
+
+ const getuserdetail = await User.findOne({_id:req.body.userid})
+ //console.log("GETUSER",getuserdetail)
+ if(getuserdetail){
+    let totalamt = getcharge*getplan
+    console.log("TOTAL AMT WAS DEDUCTED",totalamt)
+ const getwalletamt = getuserdetail.amount
+ console.log("WALLET AMT",getwalletamt)
+ let  newamt=0
+ if (getwalletamt>totalamt){
+console.log("success")
+
+newamt =getwalletamt - totalamt
+console.log("camt",getwalletamt)
+console.log("new",newamt)
+newChatWallet.save()
+        .then((data) => {
+          res.status(200).json({
+            status: true,
+            msg: "success",
+            data: data,
+            // callCharge:getoneastro.callCharge,
+            // minute:
+          });
+        }) 
+        .catch((error) => {
+          res.status(400).json({
+            status: false,
+            msg: "error",
+            error: error,
+          });
+        });
+        const finduserAndupdate = await User.findOneAndUpdate(
+  
+            { _id: req.body.userid },
+            
+            { $set: {amount:newamt,deductedAmt:totalamt } },
            
           //     { amount: currntamt },
                

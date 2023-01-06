@@ -13,7 +13,8 @@ const thisSchema = new Schema(
     },
     type:{
       type:String
-    }
+    },
+   
     
 
   },

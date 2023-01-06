@@ -56,6 +56,9 @@ const thisSchema = new Schema(
         },
         oldpassword:{
           type:String
+        },
+        deductedAmt:{
+          type:Number
         }
 
   },
