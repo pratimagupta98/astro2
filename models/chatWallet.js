@@ -15,7 +15,9 @@ const thisSchema = new Schema(
       type:String
     },
    
-    
+  tran_Type:{
+    type:String
+  }
 
   },
   { timestamps: true }

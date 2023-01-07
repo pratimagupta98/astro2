@@ -4,7 +4,7 @@ const Astrologer = require("../models/astrologer");
 const Minutecharge = require("../models/min_charges");
 const User = require("../models/users");
 
-
+ const WalletT =  require("../models/walletTransaction");
 
 exports.addChatWallet = async (req, res) => {
     const {userid,astroid,recharge_planId} = req.body;
@@ -14,6 +14,7 @@ const newChatWallet = new ChatWallet({
     astroid:astroid,
     recharge_planId:recharge_planId,
     type :"Chat",
+    tran_Type:"Debit",
     conversationId:"#"+ Date.now()
 
 })
@@ -141,6 +142,7 @@ const newChatWallet = new ChatWallet({
     astroid:astroid,
     recharge_planId:recharge_planId,
     type:"Voice Call",
+    tran_Type:"Debit",
     conversationId:"#"+ Date.now()
 
 })
@@ -267,9 +269,11 @@ const newChatWallet = new ChatWallet({
     astroid:astroid,
     recharge_planId:recharge_planId,
     type:"Video Call",
+    tran_Type:"Debit",
     conversationId:"#"+ Date.now()
 
 })
+ 
 const getoneastro = await Astrologer.findOne({_id:req.body.astroid})
 //console.log("ASTRO",getoneastro)
 if(getoneastro){
@@ -297,6 +301,7 @@ newamt =getwalletamt - totalamt
 console.log("camt",getwalletamt)
 console.log("new",newamt)
 newChatWallet.save()
+
         .then((data) => {
           res.status(200).json({
             status: true,
@@ -490,8 +495,8 @@ res.status(400).json({
    }
 
 
-   exports.getOneChatWallet = async (req, res) => {
-    await ChatWallet.findOne({userid:req.params.id}).populate("userid").populate("astroid").populate("recharge_planId")
+   exports.getOne_Conversation_Wallet = async (req, res) => {
+    await ChatWallet.find({userid:req.params.id}).populate("userid").populate("astroid").populate("recharge_planId")
       .sort({ createdAt: -1 })
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));

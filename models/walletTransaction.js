@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const thisSchema = new Schema({
+const WalletTransactionSchema = new Schema({
   userid: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user'
@@ -30,7 +30,7 @@ creditAmt:{
 },
 { timestamps: true }
 );
- module.exports = mongoose.model("recharWallet", thisSchema);
+ module.exports = mongoose.model("WalletTransaction", WalletTransactionSchema);
 
 
  

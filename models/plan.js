@@ -5,7 +5,8 @@ const thisSchema = new Schema(
      
       
        title:{
-        type: String, 
+        type: Number,
+        default:0 
        },
       
        amount:{

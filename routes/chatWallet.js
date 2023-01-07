@@ -3,7 +3,7 @@ const router = express.Router();
 
 const {
     addChatWallet,
-    getOneChatWallet,
+    getOne_Conversation_Wallet,
     addCallWallet,
     addVideoCallWallet
  
@@ -11,7 +11,7 @@ const {
 
 //Paths
 router.post("/user/addChatWallet", addChatWallet);
-router.get("/user/getOneChatWallet/:id", getOneChatWallet);
+router.get("/user/getOne_Conversation_Wallet/:id", getOne_Conversation_Wallet);
 router.post("/user/addCallWallet", addCallWallet);
 router.post("/user/addVideoCallWallet", addVideoCallWallet);
 

@@ -1,6 +1,7 @@
 const Recharge = require("../models/recharge_plan");
 const Plans = require("../models/plan");
 const User = require("../models/users");
+const WalletT =  require("../models/walletTransaction");
 
 const resp = require("../helpers/apiResponse");
 
@@ -11,20 +12,44 @@ exports.purchase_plan= async (req, res) => {
     userid:userid,
     planid:planid,
     ttl_amt:req.body.ttl_amt,
+    tran_Type:"Credit",
     transaction_id: "RE" + Date.now()
      
    });
+
+   const newWalletT = new WalletT({
+    userid:userid,
+    planid:planid,
+    ttl_amt:req.body.ttl_amt,
+    tran_Type:"Credit",
+    transaction_id: "RE" + Date.now()
+     
+   });
+
+   const userdetail = await User.findOne({_id : req.body.userid })
+   const oldamt = userdetail.amount
+   console.log("OLD AMT",oldamt)
+
    const getone = await Plans.findOne({_id : req.body.planid })
    console.log("STRING",getone)
 
+
  var amt = getone.amount
+ var offer= getone.title
+ 
+ console.log("Offer",offer)
+ 
+ 
+ let totalAmt =  getone.title != 0 ?amt +  amt*offer/100:amt
+console.log("totalAmt",totalAmt)
  console.log("amt",amt)
+
+ let finalamt = oldamt +totalAmt
    var gstamt = amt*18/100
    console.log("gstAmt",gstamt)
-   totalamt=amt+gstamt
+   let totalamt=amt+gstamt
    console.log("ttl_amt",totalamt)
-
-
+   newWalletT.save()
     newRecharge
       .save()
       .then((data) => {
@@ -43,7 +68,21 @@ exports.purchase_plan= async (req, res) => {
           error: error,
         });
       });
+      const finduserAndupdate = await User.findOneAndUpdate(
+  
+        { _id: req.body.userid },
+        
+        { $set: {amount:finalamt,creditAmt:amt} },
+       
+      //     { amount: currntamt },
+           
+      // { $set: {status:"success"} },
+      { new: true },
+      )
+      if(finduserAndupdate){
+console.log("UPDATE USER AMOUNT",finduserAndupdate)
 
+      }
     //   .then((data) => resp.successr(res, data))
     //   .catch((error) => resp.errorr(res, error));
   }
