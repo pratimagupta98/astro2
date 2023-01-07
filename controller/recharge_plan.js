@@ -204,7 +204,7 @@ exports.add_custome_amt = async (req, res) => {
 
 exports.walletHistory = async (req, res) => {
   const getone= await WalletT.find({ userid: req.params.id })
-  .populate("userid").populate("planid").populate("astroid").populate("recharge_planId")
+  .populate("userid").populate("planid").populate("astroid").populate("recharge_planId") .sort({ createdAt: -1 })
   //.populate("astroid")
 //   .populate({
 //    path: "astroId",
