@@ -6,25 +6,9 @@ const WalletT = require("../models/walletTransaction");
 const resp = require("../helpers/apiResponse");
 
 exports.purchase_plan = async (req, res) => {
-  const { userid, planid } = req.body;
+  const { userid, planid,beforeAmt,creditedAmt,finalAmt } = req.body;
 
-  const newRecharge = new Recharge({
-    userid: userid,
-    planid: planid,
-    ttl_amt: req.body.ttl_amt,
-    tran_Type: "Credited",
-    transaction_id: "RE" + Date.now()
-
-  });
-
-  const newWalletT = new WalletT({
-    userid: userid,
-    planid: planid,
-    ttl_amt: req.body.ttl_amt,
-    tran_Type: "Credited",
-    transaction_id: "RE" + Date.now()
-
-  });
+  
   const userdetail = await User.findOne({ _id: req.body.userid })
   const oldamt = userdetail.amount
   console.log("OLD AMT", oldamt)
@@ -48,7 +32,28 @@ exports.purchase_plan = async (req, res) => {
   console.log("gstAmt", gstamt)
   let totalamt = amt + gstamt
   console.log("ttl_amt", totalamt)
+  const newRecharge = new Recharge({
+    userid: userid,
+    planid: planid,
+    ttl_amt: req.body.ttl_amt,
+    tran_Type: "Credited",
+    transaction_id: "RE" + Date.now(),
+    beforeAmt:oldamt,
+    creditedAmt:totalAmt,
+   finalAmt:finalamt
+  });
 
+  const newWalletT = new WalletT({
+    userid: userid,
+    planid: planid,
+    ttl_amt: req.body.ttl_amt,
+    tran_Type: "Credited",
+    transaction_id: "RE" + Date.now(),
+    beforeAmt:oldamt,
+    creditedAmt:totalAmt,
+    finalAmt:finalamt
+
+  });
   newRecharge
     .save()
     .then(async (data) => {
@@ -59,7 +64,10 @@ exports.purchase_plan = async (req, res) => {
         msg: "success",
         data: data,
         gstAmt: gstamt,
-        ttl_amt: totalamt
+        ttl_amt: totalamt,
+        beforeAmt:oldamt,
+        creditedAmt:totalAmt,
+    finalAmt:finalamt
       });
     })
     .catch((error) => {
@@ -73,7 +81,7 @@ exports.purchase_plan = async (req, res) => {
 
     { _id: req.body.userid },
 
-    { $set: { amount: finalamt, creditAmt: amt } },
+    { $set: { amount: finalamt, creditAmt: totalAmt } },
 
     //     { amount: currntamt },
 
@@ -84,6 +92,8 @@ exports.purchase_plan = async (req, res) => {
     console.log("UPDATE USER AMOUNT", finduserAndupdate)
 
   }
+
+   
   //   .then((data) => resp.successr(res, data))
   //   .catch((error) => resp.errorr(res, error));
 }

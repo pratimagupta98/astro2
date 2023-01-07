@@ -17,6 +17,15 @@ const thisSchema = new Schema(
    
   tran_Type:{
     type:String
+  },
+  beforeAmt:{
+    type:Number
+  },
+  deductedAmt:{
+    type:Number
+  },
+  finalAmt:{
+    type:Number
   }
 
   },

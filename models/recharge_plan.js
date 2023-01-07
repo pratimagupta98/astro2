@@ -28,6 +28,15 @@ creditAmt:{
 },
 tran_Type:{
   type:String
+},
+beforeAmt:{
+  type:Number
+},
+creditedAmt:{
+  type:Number
+},
+finalAmt:{
+  type:Number
 }
 
 },

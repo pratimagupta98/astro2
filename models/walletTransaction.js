@@ -39,7 +39,18 @@ tran_Type:{
     type:{
       type:String
     },
-   
+    beforeAmt:{
+      type:Number
+    },
+    deductedAmt:{
+      type:Number
+    },
+    creditedAmt:{
+      type:Number
+    },
+    finalAmt:{
+      type:Number
+    }
 
 },
 { timestamps: true }
