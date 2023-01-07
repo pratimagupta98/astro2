@@ -16,8 +16,17 @@ const newChatWallet = new ChatWallet({
     type :"Chat",
     tran_Type:"Debit",
     conversationId:"#"+ Date.now()
-
 })
+const newWalletT = new WalletT({
+  userid:userid,
+  astroid:astroid,
+  recharge_planId:recharge_planId,
+  type :"Chat",
+  tran_Type:"Debit",
+  conversationId:"#"+ Date.now()
+})
+
+
 const getoneastro = await Astrologer.findOne({_id:req.body.astroid})
 //console.log("ASTRO",getoneastro)
 if(getoneastro){
@@ -45,7 +54,9 @@ newamt =getwalletamt - totalamt
 console.log("camt",getwalletamt)
 console.log("new",newamt)
 newChatWallet.save()
-        .then((data) => {
+        .then(async (data) => {
+           const createnewtable = await WalletT.create(newWalletT);
+          console.log("MMMMMM",createnewtable)
           res.status(200).json({
             status: true,
             msg: "success",
@@ -132,8 +143,6 @@ res.status(400).json({
     
 
   }  
-
-
 exports.addCallWallet = async (req, res) => {
     const {userid,astroid,recharge_planId} = req.body;
 
@@ -145,6 +154,14 @@ const newChatWallet = new ChatWallet({
     tran_Type:"Debit",
     conversationId:"#"+ Date.now()
 
+})
+const newWalletT = new WalletT({
+  userid:userid,
+    astroid:astroid,
+    recharge_planId:recharge_planId,
+    type:"Voice Call",
+    tran_Type:"Debit",
+    conversationId:"#"+ Date.now()
 })
 const getoneastro = await Astrologer.findOne({_id:req.body.astroid})
 //console.log("ASTRO",getoneastro)
@@ -173,7 +190,9 @@ newamt =getwalletamt - totalamt
 console.log("camt",getwalletamt)
 console.log("new",newamt)
 newChatWallet.save()
-        .then((data) => {
+        .then(async(data) => {
+          const createnewtable = await WalletT.create(newWalletT);
+          console.log("MMMMMM",createnewtable)
           res.status(200).json({
             status: true,
             msg: "success",
@@ -273,6 +292,14 @@ const newChatWallet = new ChatWallet({
     conversationId:"#"+ Date.now()
 
 })
+const newWalletT = new WalletT({
+  userid:userid,
+    astroid:astroid,
+    recharge_planId:recharge_planId,
+    type:"Video Call",
+    tran_Type:"Debit",
+    conversationId:"#"+ Date.now()
+})
  
 const getoneastro = await Astrologer.findOne({_id:req.body.astroid})
 //console.log("ASTRO",getoneastro)
@@ -302,7 +329,9 @@ console.log("camt",getwalletamt)
 console.log("new",newamt)
 newChatWallet.save()
 
-        .then((data) => {
+        .then(async(data) => {
+          const createnewtable = await WalletT.create(newWalletT);
+          console.log("MMMMMM",createnewtable)
           res.status(200).json({
             status: true,
             msg: "success",

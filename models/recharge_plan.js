@@ -25,6 +25,9 @@ amount:{
 },
 creditAmt:{
   type:Number
+},
+tran_Type:{
+  type:String
 }
 
 },

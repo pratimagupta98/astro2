@@ -11,6 +11,10 @@ const WalletTransactionSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'plan'
   },
+  astroid:{type: Schema.Types.ObjectId, ref: "astrologer"},
+   recharge_planId: {
+        type: Schema.Types.ObjectId, ref: "minCharge",
+    },
 gstAmt:{
     type:Number
 },
@@ -25,7 +29,17 @@ amount:{
 },
 creditAmt:{
   type:Number
-}
+},
+tran_Type:{
+   type:String
+},
+ conversationId:{
+      type:String
+    },
+    type:{
+      type:String
+    },
+   
 
 },
 { timestamps: true }
