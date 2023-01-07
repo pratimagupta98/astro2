@@ -14,7 +14,7 @@ const newChatWallet = new ChatWallet({
     astroid:astroid,
     recharge_planId:recharge_planId,
     type :"Chat",
-    tran_Type:"Debit",
+    tran_Type:"Debited",
     conversationId:"#"+ Date.now()
 })
 const newWalletT = new WalletT({
@@ -22,7 +22,7 @@ const newWalletT = new WalletT({
   astroid:astroid,
   recharge_planId:recharge_planId,
   type :"Chat",
-  tran_Type:"Debit",
+  tran_Type:"Debited",
   conversationId:"#"+ Date.now()
 })
 
@@ -151,7 +151,7 @@ const newChatWallet = new ChatWallet({
     astroid:astroid,
     recharge_planId:recharge_planId,
     type:"Voice Call",
-    tran_Type:"Debit",
+    tran_Type:"Debited",
     conversationId:"#"+ Date.now()
 
 })
@@ -160,7 +160,7 @@ const newWalletT = new WalletT({
     astroid:astroid,
     recharge_planId:recharge_planId,
     type:"Voice Call",
-    tran_Type:"Debit",
+    tran_Type:"Debited",
     conversationId:"#"+ Date.now()
 })
 const getoneastro = await Astrologer.findOne({_id:req.body.astroid})
@@ -288,7 +288,7 @@ const newChatWallet = new ChatWallet({
     astroid:astroid,
     recharge_planId:recharge_planId,
     type:"Video Call",
-    tran_Type:"Debit",
+    tran_Type:"Debited",
     conversationId:"#"+ Date.now()
 
 })
@@ -297,7 +297,7 @@ const newWalletT = new WalletT({
     astroid:astroid,
     recharge_planId:recharge_planId,
     type:"Video Call",
-    tran_Type:"Debit",
+    tran_Type:"Debited",
     conversationId:"#"+ Date.now()
 })
  

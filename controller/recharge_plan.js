@@ -12,7 +12,7 @@ exports.purchase_plan = async (req, res) => {
     userid: userid,
     planid: planid,
     ttl_amt: req.body.ttl_amt,
-    tran_Type: "Credit",
+    tran_Type: "Credited",
     transaction_id: "RE" + Date.now()
 
   });
@@ -21,7 +21,7 @@ exports.purchase_plan = async (req, res) => {
     userid: userid,
     planid: planid,
     ttl_amt: req.body.ttl_amt,
-    tran_Type: "Credit",
+    tran_Type: "Credited",
     transaction_id: "RE" + Date.now()
 
   });
