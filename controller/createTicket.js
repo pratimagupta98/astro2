@@ -54,7 +54,7 @@ exports.ticketList = async (req, res) => {
   };
 
   exports.getOneTicket = async (req, res) => {
-    await Ticket.findOne({ userid: req.params.id })
+    await Ticket.findOne({ _id: req.params.id })
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   };
