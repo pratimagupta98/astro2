@@ -2,7 +2,7 @@ const Ticket = require("../models/createTicket");
 const resp = require("../helpers/apiResponse");
 
 exports.addTicket = async (req, res) => {
-  const {userid,astroid, subject,desc,status,ticketNo} = req.body;
+  const {userid, subject,desc,status,ticketNo} = req.body;
 
   create_randomString(9);
   function create_randomString(string_length) {
@@ -18,7 +18,7 @@ exports.addTicket = async (req, res) => {
   }
   const newTicket = new Ticket({
     userid:userid,
-    astroid:astroid,
+    
     subject: subject,
     desc:desc,
     status:status,

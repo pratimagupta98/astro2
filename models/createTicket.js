@@ -7,10 +7,10 @@ const thisSchema = new Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: "user",
       },
-      astroid:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "astrologer",
-      },
+      // astroid:{
+      //   type: mongoose.Schema.Types.ObjectId,
+      //   ref: "astrologer",
+      // },
       subject:{
         type: String,
        // required:true
