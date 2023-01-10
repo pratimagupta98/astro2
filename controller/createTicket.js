@@ -58,3 +58,37 @@ exports.ticketList = async (req, res) => {
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   };
+  exports.listbyticketNo = async (req, res) => {
+  const getdetail =   await Ticket.find({ ticketNo: req.params.ticketNo })
+  if(getdetail){
+    console.log("detail",getdetail)
+res.status(200).json({
+  status: true,
+  message: "success",
+  //count: data.length,
+ // subject: getdetail.
+  desc:getdetail.subject
+
+})
+  }else{
+    res.status(400).json({
+    status: false,
+    message: "error",
+    error: error,
+    })
+  }
+      // .then((data) => resp.successr(res, data))
+      // .catch((error) => resp.errorr(res, error));
+  };
+
+  exports.ticketReply = async (req, res) => {
+    await Ticket.findOneAndUpdate(
+      {
+        ticketNo: req.params.ticketNo,
+      },
+      { $set: req.body },
+      { new: true }
+    )
+      .then((data) => resp.successr(res, data))
+      .catch((error) => resp.errorr(res, error));
+  };

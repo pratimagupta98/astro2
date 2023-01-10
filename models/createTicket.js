@@ -20,6 +20,7 @@ const thisSchema = new Schema(
        },
        status:{
         type: String, 
+        default:"Deactive"
        },
        ticketNo:{
         type: Number, 

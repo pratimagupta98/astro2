@@ -7,7 +7,9 @@ const {
     ticketList,
     TicketbyUser,
     dltFaq,
-    getOneTicket
+    getOneTicket,
+    ticketReply,
+    listbyticketNo
    
 } = require("../controller/createTicket");
 
@@ -17,6 +19,10 @@ const {
 router.get("/admin/ticketList", ticketList);
 router.get("/user/TicketbyUser/:id", TicketbyUser);
 router.get("/user/getOneTicket/:id", getOneTicket);
+router.post("/user/ticketReply/:ticketNo", ticketReply);
+router.get("/user/listbyticketNo/:ticketNo", listbyticketNo);
+
+
 
 
 module.exports = router;
