@@ -205,26 +205,9 @@ exports.add_custome_amt = async (req, res) => {
 exports.walletHistory = async (req, res) => {
   const getone= await WalletT.find({ userid: req.params.id })
   .populate("userid").populate("planid").populate("astroid").populate("recharge_planId") .sort({ createdAt: -1 })
-  //.populate("astroid")
-//   .populate({
-//    path: "astroId",
-//    populate: {
-//      path: "astroid",
-//    },
-//  })
-//  .populate({
-//    path: "astroId",
-//    populate: {
-//      path: "product",
-//    },
-//  })
-//  .populate({
-//    path: "astroId",
-//    populate: {
-//      path: "category",
-//    },
-//  }).populate("productid")
  
  .then((data) => resp.successr(res, data))
   .catch((error) => resp.errorr(res, error));
   }
+
+   

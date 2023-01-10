@@ -45,6 +45,8 @@ const chat = require("./routes/chat")
 const min_charges = require("./routes/min_charges")
 const order = require("./routes/order")
 const chatWallet = require("./routes/chatWallet")
+const createTicket = require("./routes/createTicket")
+
  
 
 
@@ -85,6 +87,8 @@ app.use("/", chat);
 app.use("/", min_charges);
 app.use("/", order);
 app.use("/", chatWallet);
+app.use("/", createTicket);
+
  
 
 
