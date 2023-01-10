@@ -5,8 +5,9 @@ const router = express.Router();
 const {
     addTicket,
     ticketList,
-    getoneTicket,
-    dltFaq
+    TicketbyUser,
+    dltFaq,
+    getOneTicket
    
 } = require("../controller/createTicket");
 
@@ -14,7 +15,9 @@ const {
  
  router.post("/user/addTicket", addTicket);
 router.get("/admin/ticketList", ticketList);
-router.get("/user/getoneTicket/:id", getoneTicket);
+router.get("/user/TicketbyUser/:id", TicketbyUser);
+router.get("/user/getOneTicket/:id", getOneTicket);
+
 
 module.exports = router;
 

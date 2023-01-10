@@ -23,6 +23,9 @@ const thisSchema = new Schema(
        },
        ticketNo:{
         type: Number, 
+       },
+       reply:{
+        type: String, 
        }
       },
      

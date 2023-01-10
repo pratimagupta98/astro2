@@ -2,7 +2,7 @@ const Ticket = require("../models/createTicket");
 const resp = require("../helpers/apiResponse");
 
 exports.addTicket = async (req, res) => {
-  const {userid, subject,desc,status,ticketNo} = req.body;
+  const {userid, subject,desc,status,ticketNo,reply} = req.body;
 
   create_randomString(9);
   function create_randomString(string_length) {
@@ -22,7 +22,8 @@ exports.addTicket = async (req, res) => {
     subject: subject,
     desc:desc,
     status:status,
-    ticketNo:randomString
+    ticketNo:randomString,
+    reply:reply
   });
  
   newTicket
@@ -46,8 +47,14 @@ exports.ticketList = async (req, res) => {
       .catch((error) => resp.errorr(res, error));
   };
 
-  exports.getoneTicket = async (req, res) => {
+  exports.TicketbyUser = async (req, res) => {
     await Ticket.find({ userid: req.params.id })
+      .then((data) => resp.successr(res, data))
+      .catch((error) => resp.errorr(res, error));
+  };
+
+  exports.getOneTicket = async (req, res) => {
+    await Ticket.findOne({ userid: req.params.id })
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   };
