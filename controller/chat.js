@@ -162,6 +162,11 @@ exports.add_chatroom = async (req, res) => {
         .save()
         .then((data) => resp.successr(res, data))
         .catch((error) => resp.errorr(res, error));
+    }else{
+      res.status(400).json({
+        status:false,
+        error:"error"
+      })
     }
   }
   
