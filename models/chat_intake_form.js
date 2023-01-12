@@ -14,8 +14,24 @@ const thisSchema = new Schema(
     gender: {
       type: String,
     },
-   
-    
+   mobile:{
+    type: Number,
+   },
+    firstname:{
+      type: String,
+    },
+    lastname:{
+      type: String,
+    },
+    dob:{
+      type: String,
+    },
+    date_of_time:{
+      type: String,
+    },
+    birthPlace:{
+      type: String,
+    },
     marital_status:{
         type: String,
     },
