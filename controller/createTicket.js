@@ -1,4 +1,6 @@
 const Ticket = require("../models/createTicket");
+const TicketCommnt = require("../models/ticketComment");
+
 const resp = require("../helpers/apiResponse");
 
 exports.addTicket = async (req, res) => {
@@ -31,9 +33,30 @@ exports.addTicket = async (req, res) => {
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   }
-
-
-
+   
+  exports.addTicketComment = async (req, res) => {
+    const {userid, subject,desc,status,ticketNo,reply} = req.body;
+  
+  
+    const newTicketCommnt = new TicketCommnt({
+      userid:userid,
+      subject: subject,
+      desc:desc,
+      status:status,
+      ticketNo:ticketNo,
+      reply:reply
+    });
+   
+    newTicketCommnt
+        .save()
+        .then((data) => resp.successr(res, data))
+        .catch((error) => resp.errorr(res, error));
+    }
+    exports.CmntByTicketNo = async (req, res) => {
+      await TicketCommnt.find({ ticketNo: req.params.ticketNo })
+        .then((data) => resp.successr(res, data))
+        .catch((error) => resp.errorr(res, error));
+    };
 exports.ticketList = async (req, res) => {
     await Ticket.find()
       .sort({ sortorder: 1 })
@@ -67,7 +90,7 @@ res.status(200).json({
   message: "success",
   //count: data.length,
  // subject: getdetail.
-  desc:getdetail.subject
+  desc:getdetail
 
 })
   }else{
