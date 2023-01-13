@@ -589,3 +589,19 @@ exports.exp_high_to_low = async (req, res) => {
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
     };
+
+
+    exports.price_high_to_low = async (req, res) => {
+      await Astrologer.find().sort({"callCharge":-1}) 
+      .sort({ sortorder: 1 })
+      .then((data) => resp.successr(res, data))
+      .catch((error) => resp.errorr(res, error));
+      };
+
+
+      exports.price_low_to_high = async (req, res) => {
+        await Astrologer.find().sort({"callCharge":1}) 
+        .sort({ sortorder: 1 })
+        .then((data) => resp.successr(res, data))
+        .catch((error) => resp.errorr(res, error));
+        };
