@@ -574,3 +574,11 @@ exports.astrodetails = async (req, res) => {
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
+
+
+exports.sortbyexp = async (req, res) => {
+  await Astrologer.find({"exp_in_years":-1}) 
+  .sort({ sortorder: 1 })
+  .then((data) => resp.successr(res, data))
+  .catch((error) => resp.errorr(res, error));
+  };

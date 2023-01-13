@@ -20,7 +20,8 @@ const {
     updteApprovedsts,
     getoneAstro,
     admin_astrop_list,
-    status_change
+    status_change,
+    sortbyexp
      
    
 } = require("../controller/astrologer");
@@ -85,6 +86,8 @@ const storage = multer.diskStorage({
  router.get("/user/astrodetails/:id",astrodetails);
  router.post("/admin/updteApprovedsts/:id",updteApprovedsts);
  router.post("/user/status_change/:id",status_change);
+ router.get("/user/sortbyexp",sortbyexp);
+
 
 
 module.exports = router;

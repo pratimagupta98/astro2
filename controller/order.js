@@ -61,8 +61,44 @@ exports.myOrders = async (req, res) => {
         path: "cartId",
         populate: {
           path: "astroId",
+         // path:"astroid"
         },
     })
+    .populate({
+        path: "cartId",
+        populate: {
+          path: "productid",
+        },
+        
+    })
+    // .populate({
+         
+    //     path: "astroId",
+    //     populate: {
+    //       path: "astroid",
+    //     },
+        
+    // })
+    // .populate([
+    //     {
+    //       path: "cartId",
+    //       select: "astroId",
+    //       //model: astrologer
+    //     },
+    //     {
+    //       path: "path2",
+    //       select: "astroid",
+    //     //  model: astrologer
+    //     }
+    //   ])
+    // .populate({
+    //     path: "cartId",
+    //     populate: {
+    //       path: "astroid",
+    //     },
+    // })
+
+    
   //  .populate("shipping_address")
   //.populate("astroId")
         .then((data) => resp.successr(res, data))
