@@ -576,9 +576,16 @@ exports.astrodetails = async (req, res) => {
 };
 
 
-exports.sortbyexp = async (req, res) => {
-  await Astrologer.find({"exp_in_years":-1}) 
+exports.exp_high_to_low = async (req, res) => {
+  await Astrologer.find().sort({"exp_in_years":-1}) 
   .sort({ sortorder: 1 })
   .then((data) => resp.successr(res, data))
   .catch((error) => resp.errorr(res, error));
   };
+
+  exports.exp_low_to_high = async (req, res) => {
+    await Astrologer.find().sort({"exp_in_years":1}) 
+    .sort({ sortorder: 1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+    };

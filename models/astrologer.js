@@ -54,7 +54,7 @@ const thisSchema = new Schema(
         type: String,
       },
       exp_in_years: {
-        type: String,
+        type: Number,
       },
       conrubute_hrs: {
         type: String,
