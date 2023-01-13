@@ -4,12 +4,12 @@ const router = express.Router();
 
 
 const {
-  addreview,getallreview,totalcomment,totalrating,getavgrating,getonereviewproduct
+  addreview,allRevieAstro,totalcomment,totalrating,getavgrating,getonereviewproduct
 } = require("../controller/review");
 
 //Paths
 router.post("/user/addreview", addreview);
-router.get("/user/getallreview", getallreview);
+router.get("/user/allRevieAstro/:id", allRevieAstro);
 router.get("/user/totalcomment", totalcomment);
 router.get("/user/getonereviewproduct/:id", getonereviewproduct);
 

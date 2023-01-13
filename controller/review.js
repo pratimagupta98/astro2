@@ -13,13 +13,13 @@ exports.addreview = async(req,res)=>{
         
     })
    
-    const getastro = await Astrologer.findOne({_id:req.body.astroid})
-    if(getastro){
-      console.log("astro",getastro)
-      const avg= getastro.avg_rating
-      console.log("avg",avg)
+    // const getastro = await Astrologer.findOne({_id:req.body.astroid})
+    // if(getastro){
+    //   console.log("astro",getastro)
+    //   const avg= getastro.avg_rating
+    //   console.log("avg",avg)
 
-    }
+    // }
     
         newReview
         .save()
@@ -59,8 +59,8 @@ exports.addreview = async(req,res)=>{
     })
   }
 
-exports.getallreview =async(req,res)=>{
-    const findall =await Review.find().sort({sortorder:1}).populate("userid")
+exports.allRevieAstro =async(req,res)=>{
+    const findall =await Review.find({astroid:req.params.id}).sort({sortorder:1}).populate("userid").populate("astroid")
     if(findall){
         res.status(200).json({
             status:true,
