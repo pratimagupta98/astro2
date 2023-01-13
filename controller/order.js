@@ -2,7 +2,7 @@ const Order = require("../models/order");
 const resp = require("../helpers/apiResponse");
 
 exports.AddOrder = async (req, res) => {
-    const { cartId,userid, orderId, razorpay_payment_id, status,orderNote } = req.body
+    const { cartId,userid,astroid, orderId, razorpay_payment_id, status,orderNote } = req.body
     const cus_orderId = "ORDC" + Date.now();
     let d = new Date().toLocaleDateString()
     //    console.log('Today is: ' + d.toLocaleDateString());
@@ -11,6 +11,7 @@ exports.AddOrder = async (req, res) => {
     const newOrder = new Order({
         cartId: cartId,
         userid:userid,
+        astroid:astroid,
         orderId: cus_orderId,
         razorpay_payment_id: razorpay_payment_id,
         date: d,
@@ -57,13 +58,13 @@ exports.myOrders = async (req, res) => {
           path: "shipping_address",
         },
     })
-    .populate({
-        path: "cartId",
-        populate: {
-          path: "astroId",
-         // path:"astroid"
-        },
-    })
+    // .populate({
+    //     path: "cartId",
+    //     populate: {
+    //       path: "astroId",
+    //      // path:"astroid"
+    //     },
+    // })
     .populate({
         path: "cartId",
         populate: {
@@ -71,6 +72,7 @@ exports.myOrders = async (req, res) => {
         },
         
     })
+    .populate("astroid")
     // .populate({
          
     //     path: "astroId",

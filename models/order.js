@@ -7,6 +7,9 @@ const OrderSchema = new Schema(
         cartId: {
             type: mongoose.Schema.Types.ObjectId, ref: "Checkout"
         },
+        astroid: {
+            type: mongoose.Schema.Types.ObjectId, ref: "astrologer"
+        },
         status: {
             type: String,
             default: "Pending",
