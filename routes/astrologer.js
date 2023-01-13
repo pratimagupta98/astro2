@@ -24,7 +24,9 @@ const {
     exp_high_to_low,
     exp_low_to_high,
     price_high_to_low,
-    price_low_to_high
+    price_low_to_high,
+    rating_high_to_low,
+    rating_low_to_high
      
    
 } = require("../controller/astrologer");
@@ -93,10 +95,14 @@ const storage = multer.diskStorage({
  router.get("/user/exp_low_to_high",exp_low_to_high);
  router.get("/user/price_high_to_low",price_high_to_low);
  router.get("/user/price_low_to_high",price_low_to_high);
+ router.get("/user/rating_high_to_low",rating_high_to_low);
+ router.get("/user/rating_low_to_high",rating_low_to_high);
 
 
 
 
+
+ 
  
 
 module.exports = router;

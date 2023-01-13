@@ -135,6 +135,10 @@ const thisSchema = new Schema(
     //type: String,
    default: "false",
   },
+  avg_rating:{
+    type: Number,
+    default:0
+  }
       },
       
        

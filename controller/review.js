@@ -1,23 +1,26 @@
 const Review = require("../models/review");
+const Astrologer = require("../models/astrologer");
 
 exports.addreview = async(req,res)=>{
-    const {userid,rating,comment}  = req.body
+    const {userid,astroid,rating,comment}  = req.body
 
  
     const newReview  = new Review({
         userid: userid ,
+        astroid:astroid,
         rating : rating,
         comment :comment
         
     })
-    const alreadyReviewed = await Review.findOne({ userid:userid });
-    if (alreadyReviewed) {
-      res.status(400).json({
-        status: false,
-        msg: "already reviewed",
-        data: {},
-      });
-    } else {
+   
+    const getastro = await Astrologer.findOne({_id:req.body.astroid})
+    if(getastro){
+      console.log("astro",getastro)
+      const avg= getastro.avg_rating
+      console.log("avg",avg)
+
+    }
+    
         newReview
         .save()
         .then(
@@ -36,7 +39,7 @@ exports.addreview = async(req,res)=>{
           });
         });
     }
-  };
+ // };
 
 
   

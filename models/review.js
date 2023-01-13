@@ -6,7 +6,10 @@ const ReviewSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user'
   },
- 
+  astroid:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'astrologer'
+  },
   rating: {
     type: Number,
     min: 1,
@@ -16,6 +19,9 @@ const ReviewSchema = new Schema({
   comment:{
       type : String
 },
+avg_rating:{
+  type: Number,
+}
 
 },
 { timestamps: true }
