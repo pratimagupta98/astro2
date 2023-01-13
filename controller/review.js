@@ -1,6 +1,6 @@
 const Review = require("../models/review");
 const Astrologer = require("../models/astrologer");
-
+var _ = require('lodash');
 exports.addreview = async(req,res)=>{
     const {userid,astroid,rating,comment}  = req.body
 
@@ -13,13 +13,9 @@ exports.addreview = async(req,res)=>{
         
     })
    
-    // const getastro = await Astrologer.findOne({_id:req.body.astroid})
-    // if(getastro){
-    //   console.log("astro",getastro)
-    //   const avg= getastro.avg_rating
-    //   console.log("avg",avg)
-
-    // }
+  
+    //const getastro = await Astrologer.findOneAndUpdate({_id:req.body.astroid})
+  
     
         newReview
         .save()
@@ -29,6 +25,30 @@ exports.addreview = async(req,res)=>{
             msg: "success",
             data: newReview,
           })
+      
+        )
+
+        const getreview =  await Review.find({astroid:req.body.astroid})
+        console.log("getreview",getreview)
+        if(getreview){
+          var newarr1 = getreview.map(function (value) {
+          // return value+= value;
+    return value.rating
+         });
+        }
+    
+        console.log("New Array",newarr1)
+        var ttlr = newarr1.length
+        let ratingttl = _.sumBy([...newarr1]);
+        console.log("rTotal",ratingttl);
+        let average = (ratingttl/ttlr).toFixed(1)
+        console.log("Avrage",average)
+        await Astrologer.findOneAndUpdate(
+          {
+            _id: req.body.astroid,
+          },
+          { $set: {avg_rating:average} },
+          { new: true }
         )
   
         .catch((error) => {
