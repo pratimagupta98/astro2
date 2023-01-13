@@ -12,6 +12,9 @@ const OrderSchema = new Schema(
             default: "Pending",
             // enum: ["Pending", "complete", "Cancel", "Delivery"]
           },
+          userid:{
+            type: mongoose.Schema.Types.ObjectId, ref: "user"
+          },
         razorpay_payment_id: {
             type: String,
         },

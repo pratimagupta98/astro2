@@ -6,21 +6,21 @@ const fs = require("fs");
 
 const {
     AddOrder,
-   //  allplans,
-    // getoneplan,
+     myOrders,
+   getoneOrder,
     // dltplan,
-    // editplan,
+    editOrder,
     // active_plans
 } = require("../controller/order");
 
 
  
  router.post("/user/AddOrder", AddOrder);
-// router.get("/admin/allplans", allplans);
+ router.get("/user/myOrders/:id", myOrders);
 // router.get("/user/active_plans", active_plans);
 
-// router.get("/admin/getoneplan/:id", getoneplan);
-// router.post("/admin/editplan/:id", editplan);
+router.get("/user/getoneOrder/:id", getoneOrder);
+ router.post("/admin/editOrder/:id", editOrder);
 
 // router.get("/admin/dltplan/:id", dltplan);
 

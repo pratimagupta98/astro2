@@ -2,7 +2,7 @@ const Order = require("../models/order");
 const resp = require("../helpers/apiResponse");
 
 exports.AddOrder = async (req, res) => {
-    const { cartId, orderId, razorpay_payment_id, status,orderNote } = req.body
+    const { cartId,userid, orderId, razorpay_payment_id, status,orderNote } = req.body
     const cus_orderId = "ORDC" + Date.now();
     let d = new Date().toLocaleDateString()
     //    console.log('Today is: ' + d.toLocaleDateString());
@@ -10,10 +10,11 @@ exports.AddOrder = async (req, res) => {
     //    console.log("Today",today)
     const newOrder = new Order({
         cartId: cartId,
+        userid:userid,
         orderId: cus_orderId,
         razorpay_payment_id: razorpay_payment_id,
         date: d,
-        status: status,
+        status: "PENDING",
         orderNote:orderNote
     })
     console.log(newOrder)
@@ -40,7 +41,43 @@ exports.AddOrder = async (req, res) => {
 
 
 exports.getoneOrder = async (req, res) => {
-    await Order.findOne({ _id: req.params.id })
+    await Order.findOne({ _id: req.params.id }).populate("cartId")
         .then((data) => resp.successr(res, data))
         .catch((error) => resp.errorr(res, error));
 };
+
+
+exports.myOrders = async (req, res) => {
+    await Order.find({  $and: [{ status: "COMPLETED" }, { userid: req.params.id }], })
+    .populate("cartId")
+    .populate("userid")
+    .populate({
+        path: "cartId",
+        populate: {
+          path: "shipping_address",
+        },
+    })
+    .populate({
+        path: "cartId",
+        populate: {
+          path: "astroId",
+        },
+    })
+  //  .populate("shipping_address")
+  //.populate("astroId")
+        .then((data) => resp.successr(res, data))
+        .catch((error) => resp.errorr(res, error));
+};
+
+
+exports.editOrder = async (req, res) => {
+    await Order.findOneAndUpdate(
+      {
+        _id: req.params.id,
+      },
+      { $set: req.body },
+      { new: true }
+    )
+      .then((data) => resp.successr(res, data))
+      .catch((error) => resp.errorr(res, error));
+  };
