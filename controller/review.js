@@ -113,7 +113,7 @@ exports.addChatReview = async(req,res)=>{
             astroid:astroid,
             rating : rating,
             comment :comment,
-            type:"Video",
+            type:"Video Call",
             reply:reply
             
         })
