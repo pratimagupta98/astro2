@@ -4,7 +4,7 @@ const router = express.Router();
 
 
 const {
-  addChatReview,addCallReview,addVideoreview,allRevieAstro,totalcomment,totalrating,getavgrating,getonereviewproduct,reviewList,getone_review,edit_review
+  addChatReview,addCallReview,addVideoreview,allRevieAstro,totalcomment,totalrating,getavgrating,getonereviewproduct,reviewList,getone_review,edit_review,commentReply
 } = require("../controller/review");
 
 //Paths
@@ -18,6 +18,8 @@ router.get("/user/getonereviewproduct/:id", getonereviewproduct);
 router.get("/user/reviewList", reviewList);
 router.get("/user/getone_review/:id", getone_review);
 router.post("/user/edit_review/:id", edit_review);
+router.post("/user/commentReply/:id", commentReply);
+
 
 
 

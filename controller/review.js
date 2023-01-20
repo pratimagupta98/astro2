@@ -241,3 +241,17 @@ exports.reviewList= async (req, res) => {
       .catch((error) => resp.errorr(res, error));
   };
   
+
+  exports.commentReply = async (req, res) => {
+    await Review.findOneAndUpdate(
+      {
+        _id: req.params.id,
+      },
+      { $set: req.body },
+      { new: true }
+    )
+      .then((data) => resp.successr(res, data))
+      .catch((error) => resp.errorr(res, error));
+  };
+
+  
