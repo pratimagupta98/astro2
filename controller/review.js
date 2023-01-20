@@ -1,6 +1,8 @@
 const Review = require("../models/review");
 const Astrologer = require("../models/astrologer");
 var _ = require('lodash');
+const resp = require("../helpers/apiResponse");
+
 exports.addChatReview = async(req,res)=>{
     const {userid,astroid,rating,comment,reply}  = req.body
     const newReview  = new Review({
@@ -213,3 +215,29 @@ exports.allRevieAstro =async(req,res)=>{
 
   }
 
+exports.reviewList= async (req, res) => {
+    await Review.find()
+      .sort({ sortorder: 1 })
+      .then((data) => resp.successr(res, data))
+      .catch((error) => resp.errorr(res, error));
+  };
+
+  exports.getone_review = async (req, res) => {
+    await Review.findOne({ _id: req.params.id })
+      .then((data) => resp.successr(res, data))
+      .catch((error) => resp.errorr(res, error));
+  };
+  
+
+  exports.edit_review = async (req, res) => {
+    await Review.findOneAndUpdate(
+      {
+        _id: req.params.id,
+      },
+      { $set: req.body },
+      { new: true }
+    )
+      .then((data) => resp.successr(res, data))
+      .catch((error) => resp.errorr(res, error));
+  };
+  
