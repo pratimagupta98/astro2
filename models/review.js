@@ -21,6 +21,13 @@ const ReviewSchema = new Schema({
 },
 avg_rating:{
   type: Number,
+},
+type:{
+  type: String,
+
+},
+reply:{
+  type: String,
 }
 
 },

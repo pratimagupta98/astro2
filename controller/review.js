@@ -1,22 +1,17 @@
 const Review = require("../models/review");
 const Astrologer = require("../models/astrologer");
 var _ = require('lodash');
-exports.addreview = async(req,res)=>{
-    const {userid,astroid,rating,comment}  = req.body
-
- 
+exports.addChatReview = async(req,res)=>{
+    const {userid,astroid,rating,comment,reply}  = req.body
     const newReview  = new Review({
         userid: userid ,
         astroid:astroid,
         rating : rating,
-        comment :comment
+        comment :comment,
+        type:"Chat"
         
     })
-   
-  
     //const getastro = await Astrologer.findOneAndUpdate({_id:req.body.astroid})
-  
-    
         newReview
         .save()
         .then(
@@ -27,7 +22,6 @@ exports.addreview = async(req,res)=>{
           })
       
         )
-
         const getreview =  await Review.find({astroid:req.body.astroid})
         console.log("getreview",getreview)
         if(getreview){
@@ -36,7 +30,6 @@ exports.addreview = async(req,res)=>{
     return value.rating
          });
         }
-    
         console.log("New Array",newarr1)
         var ttlr = newarr1.length
         let ratingttl = _.sumBy([...newarr1]);
@@ -59,9 +52,113 @@ exports.addreview = async(req,res)=>{
           });
         });
     }
+
+
+    exports.addCallReview = async(req,res)=>{
+      const {userid,astroid,rating,comment,reply}  = req.body
+      const newReview  = new Review({
+          userid: userid ,
+          astroid:astroid,
+          rating : rating,
+          comment :comment,
+          type:"VoiceCall",
+          reply:reply
+          
+      })
+      //const getastro = await Astrologer.findOneAndUpdate({_id:req.body.astroid})
+          newReview
+          .save()
+          .then(
+            res.status(200).json({
+              status: true,
+              msg: "success",
+              data: newReview,
+            })
+        
+          )
+          const getreview =  await Review.find({astroid:req.body.astroid})
+          console.log("getreview",getreview)
+          if(getreview){
+            var newarr1 = getreview.map(function (value) {
+            // return value+= value;
+      return value.rating
+           });
+          }
+          console.log("New Array",newarr1)
+          var ttlr = newarr1.length
+          let ratingttl = _.sumBy([...newarr1]);
+          console.log("rTotal",ratingttl);
+          let average = (ratingttl/ttlr).toFixed(1)
+          console.log("Avrage",average)
+          await Astrologer.findOneAndUpdate(
+            {
+              _id: req.body.astroid,
+            },
+            { $set: {avg_rating:average} },
+            { new: true }
+          )
+    
+          .catch((error) => {
+            res.status(400).json({
+              status: false,
+              msg: "error",
+              error: error,
+            });
+          });
+      }
+      exports.addVideoreview = async(req,res)=>{
+        const {userid,astroid,rating,comment,reply}  = req.body
+        const newReview  = new Review({
+            userid: userid ,
+            astroid:astroid,
+            rating : rating,
+            comment :comment,
+            type:"Video",
+            reply:reply
+            
+        })
+        //const getastro = await Astrologer.findOneAndUpdate({_id:req.body.astroid})
+            newReview
+            .save()
+            .then(
+              res.status(200).json({
+                status: true,
+                msg: "success",
+                data: newReview,
+              })
+          
+            )
+            const getreview =  await Review.find({astroid:req.body.astroid})
+            console.log("getreview",getreview)
+            if(getreview){
+              var newarr1 = getreview.map(function (value) {
+              // return value+= value;
+        return value.rating
+             });
+            }
+            console.log("New Array",newarr1)
+            var ttlr = newarr1.length
+            let ratingttl = _.sumBy([...newarr1]);
+            console.log("rTotal",ratingttl);
+            let average = (ratingttl/ttlr).toFixed(1)
+            console.log("Avrage",average)
+            await Astrologer.findOneAndUpdate(
+              {
+                _id: req.body.astroid,
+              },
+              { $set: {avg_rating:average} },
+              { new: true }
+            )
+      
+            .catch((error) => {
+              res.status(400).json({
+                status: false,
+                msg: "error",
+                error: error,
+              });
+            });
+        }
  // };
-
-
   
   exports.totalcomment = async(req,res) =>{
     await Review.countDocuments().then((data)=>{

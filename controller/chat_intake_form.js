@@ -7,7 +7,6 @@ exports.add_chat_intake= async (req, res) => {
   const { userid,astroid,gender,mobile ,firstname,lastname,dob,date_of_time,birthPlace,marital_status,occupation,topic_of_cnsrn,entertopic_of_cnsrn} = req.body;
 
   const newIntek = new Intek({
- 
     userid:userid,
     astroid:astroid,
     mobile:mobile,
@@ -27,9 +26,9 @@ exports.add_chat_intake= async (req, res) => {
    if (findone) {
     await Intek.findOneAndUpdate(
         {
-          _id: req.body.userid,
+          userid: req.body.userid,
         },
-        { $set: {fullname:req.body.fullname,mobile:req.body.mobile,dob:req.body.dob}},
+        { $set: req.body},
         { new: true }
       )
         
@@ -37,6 +36,11 @@ exports.add_chat_intake= async (req, res) => {
        .save()
        .then((data) => resp.successr(res, data))
        .catch((error) => resp.errorr(res, error));
+   }else{
+    newIntek
+    .save()
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
    }
   }
   
