@@ -26,6 +26,14 @@ const thisSchema = new Schema(
   },
   finalAmt:{
     type:Number
+  },
+  type:{
+    type:String,
+  },
+  status:{
+    type:String,
+    default:"Requested"
+    //Requested,Accepted,Rejected,Completed
   }
 
   },

@@ -287,8 +287,9 @@ if(status){
   data.status = status
 }
   if(callCharge){
-    data.callCharge =callCharge
+    data.callCharge =parseInt(callCharge)+ parseInt(5)
   }
+  console.log("callCharge",data.callCharge)
 
   if (req.files) {
     if (req.files.img) {

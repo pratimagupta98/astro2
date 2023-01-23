@@ -50,6 +50,11 @@ tran_Type:{
     },
     finalAmt:{
       type:Number
+    },
+    status:{
+      type:String,
+      default:"Requested"
+      //Requested,Accepted,Rejected,Completed
     }
 
 },
