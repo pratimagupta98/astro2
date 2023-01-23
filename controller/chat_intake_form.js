@@ -53,7 +53,8 @@ exports.get_chat_intake = async (req, res) => {
   };
 
   exports.getone_user_chatintek = async (req, res) => {
-    await CatHorscope.findOne({ userid: req.params.id }).populate("category").populate("rashiId")
+    await Intek.findOne({ _id: req.params.id })
+    //.populate("category").populate("rashiId")
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   };
