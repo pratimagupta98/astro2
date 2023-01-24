@@ -3,6 +3,7 @@ const resp = require("../helpers/apiResponse");
 const Astrologer = require("../models/astrologer");
 const Minutecharge = require("../models/min_charges");
 const User = require("../models/users");
+const moment = require('moment');
 
  const WalletT =  require("../models/walletTransaction");
 
@@ -755,8 +756,10 @@ var getplan = getplanchrge.minute
   var currentDate = new Date();
   var delay30min = new Date(currentDate.getTime() + minutesToAdd*60000).toLocaleTimeString()
   console.log("fghg",delay30min)
-  
-   const [hours, minutes, seconds,ff] = delay30min.split(':');
+  var dayDiff = parseInt(delay30min) -parseInt( dtime)
+  //var duration = delay30min.diff(dtime);
+console.log(dayDiff)
+   const [hours, minutes, seconds,ff] = delay30min.split(":");
   console.log(hours); // 👉️ "09"
   console.log(minutes); // 👉️ "30"
   //console.log(seconds); 
@@ -782,6 +785,7 @@ var getplan = getplanchrge.minute
   // );
 //`${getplan} ${H} */${Int} * *`
 const task = cron.schedule(`0 ${minutes} ${hours} * * *`,async () => {
+  
   console.log('running a task every minute');
   const getdata=  await ChatWallet.findOneAndUpdate(
     {

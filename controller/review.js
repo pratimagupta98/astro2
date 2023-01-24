@@ -216,7 +216,7 @@ exports.allRevieAstro =async(req,res)=>{
   }
 
 exports.reviewList= async (req, res) => {
-    await Review.find()
+    await Review.find().populate("userid").populate("astroid")
       .sort({ sortorder: 1 })
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
