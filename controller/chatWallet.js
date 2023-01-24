@@ -756,10 +756,8 @@ var getplan = getplanchrge.minute
   var currentDate = new Date();
   var delay30min = new Date(currentDate.getTime() + minutesToAdd*60000).toLocaleTimeString()
   console.log("fghg",delay30min)
-  var dayDiff = parseInt(delay30min) -parseInt( dtime)
-  //var duration = delay30min.diff(dtime);
-console.log(dayDiff)
-   const [hours, minutes, seconds,ff] = delay30min.split(":");
+  
+     const [hours, minutes, seconds,ff] = delay30min.split(":");
   console.log(hours); // 👉️ "09"
   console.log(minutes); // 👉️ "30"
   //console.log(seconds); 
@@ -1036,3 +1034,11 @@ const task = cron.schedule(`0 ${minutes} ${hours} * * *`,async () => {
           // .then((data) => resp.successr(res, data))
           // .catch((error) => resp.errorr(res, error));
       }
+
+
+      exports.requested_notification = async (req, res) => {
+        await ChatWallet.find({$and:[{astroid:req.params.id},{status:"Requested"}]}).populate("astroid").populate("userid").populate("recharge_planId")
+          .sort({ createdAt: -1 })
+          .then((data) => resp.successr(res, data))
+          .catch((error) => resp.errorr(res, error));
+      };
