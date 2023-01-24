@@ -255,3 +255,9 @@ exports.reviewList= async (req, res) => {
   };
 
   
+  exports.dltComments = async (req, res) => {
+    await Review.deleteOne({ _id: req.params.id })
+      .then((data) => resp.deleter(res, data))
+      .catch((error) => resp.errorr(res, error));
+  };
+  

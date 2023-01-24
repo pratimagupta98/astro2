@@ -744,10 +744,44 @@ console.log("Accepted")
 const getplanchrge = await Minutecharge.findOne({_id:planid})
 console.log("MIN PLAN",getplanchrge)
 if(getplanchrge){
+   
+ 
 var getplan = getplanchrge.minute
-console.log("getplan",getplan)
+ console.log("getplan",getplan)
+ var f = new Date()
+  var dtime = new Date(f.getTime()).toLocaleTimeString()
+  console.log("dtime",dtime)
+  var minutesToAdd=getplan;
+  var currentDate = new Date();
+  var delay30min = new Date(currentDate.getTime() + minutesToAdd*60000).toLocaleTimeString()
+  console.log("fghg",delay30min)
+  
+   const [hours, minutes, seconds,ff] = delay30min.split(':');
+  console.log(hours); // 👉️ "09"
+  console.log(minutes); // 👉️ "30"
+  //console.log(seconds); 
+  //console.log(ff)
+// if(delay30min - delay30min){
+//   console.log("done")
+//   const getdata=  await ChatWallet.findOneAndUpdate(
+//         {
+//           _id: req.params.id,
+//         },
+//         { $set:{status: "Completed"} },
+//         { new: true }
+//       )
+//       task.stop()
+//       console.log("DATA",getdata)
+    
+// }
+  // setTimeout(() => {
+  //   console.log('timeout');
+
+  // }, `${delay30min}`
+  
+  // );
 //`${getplan} ${H} */${Int} * *`
-const task = cron.schedule('*/10 * * * * *',async () => {
+const task = cron.schedule(`0 ${minutes} ${hours} * * *`,async () => {
   console.log('running a task every minute');
   const getdata=  await ChatWallet.findOneAndUpdate(
     {
@@ -762,7 +796,7 @@ const task = cron.schedule('*/10 * * * * *',async () => {
 
 
 });
-}
+ }
 
     }else if(getdata.status == "Rejected"){
       console.log("Rejected")
