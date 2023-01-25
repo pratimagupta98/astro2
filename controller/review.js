@@ -24,7 +24,7 @@ exports.addChatReview = async(req,res)=>{
           })
       
         )
-        const getreview =  await Review.find({astroid:req.body.astroid})
+        const getreview =  await Review.find({astroid:req.body.id})
         console.log("getreview",getreview)
         if(getreview){
           var newarr1 = getreview.map(function (value) {

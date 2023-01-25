@@ -45,12 +45,19 @@ exports.add_chat_intake= async (req, res) => {
   }
   
 
-exports.get_chat_intake = async (req, res) => {
+exports.intekListByastro = async (req, res) => {
     await Intek.find({astroid:req.params.id}).populate("userid")
       .sort({ createdAt: -1 })
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   };
+  exports.get_chat_intake = async (req, res) => {
+    await Intek.find().populate("userid")
+      .sort({ createdAt: -1 })
+      .then((data) => resp.successr(res, data))
+      .catch((error) => resp.errorr(res, error));
+  };
+
 
   exports.getone_user_chatintek = async (req, res) => {
     await Intek.findOne({ _id: req.params.id })
@@ -73,8 +80,8 @@ exports.get_chat_intake = async (req, res) => {
   };
   
 
-  exports.dlt_CatHroscope= async (req, res) => {
-    await CatHorscope.deleteOne({ _id: req.params.id })
+  exports.dlt_ChatIntek = async (req, res) => {
+    await Intek.deleteOne({ _id: req.params.id })
       .then((data) => resp.deleter(res, data))
       .catch((error) => resp.errorr(res, error));
   };

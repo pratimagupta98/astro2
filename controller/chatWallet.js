@@ -749,42 +749,33 @@ if(getplanchrge){
  
 var getplan = getplanchrge.minute
  console.log("getplan",getplan)
+ let milliseconds = getplan * 60000
+ console.log("milliseconds",milliseconds)
  var f = new Date()
   var dtime = new Date(f.getTime()).toLocaleTimeString()
   console.log("dtime",dtime)
   var minutesToAdd=getplan;
-  var currentDate = new Date();
-  var delay30min = new Date(currentDate.getTime() + minutesToAdd*60000).toLocaleTimeString()
-  console.log("fghg",delay30min)
+  // var currentDate = new Date();
+  // var delay30min = new Date(currentDate.getTime() + minutesToAdd*60000).toLocaleTimeString()
+  // console.log("fghg",delay30min)
   
-     const [hours, minutes, seconds,ff] = delay30min.split(":");
-  console.log(hours); // 👉️ "09"
-  console.log(minutes); // 👉️ "30"
-  //console.log(seconds); 
-  //console.log(ff)
-// if(delay30min - delay30min){
-//   console.log("done")
-//   const getdata=  await ChatWallet.findOneAndUpdate(
-//         {
-//           _id: req.params.id,
-//         },
-//         { $set:{status: "Completed"} },
-//         { new: true }
-//       )
-//       task.stop()
-//       console.log("DATA",getdata)
-    
-// }
-  // setTimeout(() => {
-  //   console.log('timeout');
+   //  const [hours, minutes, seconds,ff] = delay30min.split(":");
+ // console.log(hours); // 👉️ "09"
+ // console.log(minutes); // 👉️ "30"
 
-  // }, `${delay30min}`
-  
-  // );
-//`${getplan} ${H} */${Int} * *`
-const task = cron.schedule(`0 ${minutes} ${hours} * * *`,async () => {
-  
-  console.log('running a task every minute');
+
+  // setTimeout(() => {
+  //   console.log('Hello World!');
+  // }, `${milliseconds}`);
+
+
+function myFunction() {
+  timeout = setTimeout(alertFunc, `${getplan}`* 60 *1000);
+  console.log("success")
+}
+
+async function alertFunc() {
+  console.log("Hello!");
   const getdata=  await ChatWallet.findOneAndUpdate(
     {
       _id: req.params.id,
@@ -792,12 +783,37 @@ const task = cron.schedule(`0 ${minutes} ${hours} * * *`,async () => {
     { $set:{status: "Completed"} },
     { new: true }
   )
-  task.stop()
-  console.log("DATA",getdata)
+
+   await Astrologer.findOneAndUpdate(
+    {
+      _id:astroid,
+    },
+    { $set:{waiting_queue:getplan } },
+    { new: true }
+  )
+}
+console.log("DATA",getdata)
+myFunction()
 
 
 
-});
+
+// const task = cron.schedule(`0 ${minutes} ${hours} * * *`,async () => {
+  
+//   console.log('running a task every minute');
+//   const getdata=  await ChatWallet.findOneAndUpdate(
+//     {
+//       _id: req.params.id,
+//     },
+//     { $set:{status: "Completed"} },
+//     { new: true }
+//   )
+//   task.stop()
+//   console.log("DATA",getdata)
+
+
+
+// });
  }
 
     }else if(getdata.status == "Rejected"){

@@ -138,6 +138,10 @@ const thisSchema = new Schema(
   avg_rating:{
     type: Number,
     default:0
+  },
+  waiting_queue :{
+    type: Number,
+    default:0
   }
       },
       
