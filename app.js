@@ -46,6 +46,8 @@ const min_charges = require("./routes/min_charges")
 const order = require("./routes/order")
 const chatWallet = require("./routes/chatWallet")
 const createTicket = require("./routes/createTicket")
+const match_making = require("./routes/match_making")
+
 
  
 
@@ -88,6 +90,8 @@ app.use("/", min_charges);
 app.use("/", order);
 app.use("/", chatWallet);
 app.use("/", createTicket);
+app.use("/", match_making);
+
 
  
 

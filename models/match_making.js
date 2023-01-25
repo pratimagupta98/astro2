@@ -3,8 +3,10 @@ const Schema = mongoose.Schema;
 const thisSchema = new Schema(
     {
      
-      
-        m_day:{
+      // userId :{
+      //   type: mongoose.Schema.Types.ObjectId, ref: "user"
+      // },
+      m_day:{
         type: Number, 
        },
        m_month:{
@@ -52,6 +54,12 @@ const thisSchema = new Schema(
    },
    f_tzone:{
     type: Number,
+   },
+   match_method:{
+    type: String,
+   },
+   manglik_regional_setting:{
+    type: String,
    }
        
       },

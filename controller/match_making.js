@@ -1,6 +1,6 @@
  
 const matchMaking = require("../models/match_making.js");
-
+var btoa = require('btoa');
 exports.make_Making = async (req, res) => {
 var request = require('request');
 
@@ -8,7 +8,7 @@ var request = require('request');
 
     const formUrlEncoded = x =>Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, '')
     const axios = require('axios')
-    url="https://json.astrologyapi.com/v1/match_birth_details"
+    url="https://json.astrologyapi.com/v1/match_horoscope"
     axios.post(url, 
        formUrlEncoded({
       "From": req.body.From,   //USER
@@ -99,9 +99,18 @@ var request = require('request');
 
 
 
+  var $ = require( "jquery" );
 
+
+exports.match_horoscope = async (req, res) => {
+  var jsdom = require('jsdom');
+  const { JSDOM } = jsdom;
+  const { window } = new JSDOM();
+  const { document } = (new JSDOM('')).window;
+  global.document = document;
   
-var api = 'planets';
+  var $ = jQuery = require('jquery')(window);
+  var api = 'planets';
 var userId = '621855';
 var apiKey = 'b7286553ee49b95a0087d81b3a9d99e0';
 var data = {
@@ -115,19 +124,44 @@ lon:72.342,
 tzone:5.5
 };
 var request = $.ajax({
-url: "https://json.astrologyapi.com/v1/"+api,
+url: "https://json.astrologyapi.com/v1/match_horoscope"+`${api}`,
 method: "POST",
 dataType:'json',
 headers: {
-"authorization": "Basic " + btoa(userId+":"+apiKey),
+"authorization": "Basic " + btoa(`${userId}`+":"+`${apiKey}`),
 "Content-Type":'application/json'
 },
 data:JSON.stringify(data)
 });
+ 
+    var $ = require("jquery")(window);
 
+    //  function getLocationFromIp() {
+    //   var request =   $.ajax({
+    //       url: "https://json.astrologyapi.com/v1/match_horoscope"+`${api}`,
+    //         type: "POST",
+    //         dataType: "json",
+    //         headers: {
+    //           "authorization": "Basic " + btoa(`${userId}`+":"+`${apiKey}`),
+    //           "Content-Type":'application/json'
+    //           },
+    //           data:JSON.stringify(data)
+    //           });
+    //     //     success: function() {
+    //     //         console.log("success!")
+    //     //     },
+    //     //     error: function() {
+    //     //         console.log("error", arguments[2])
+    //     //     }
+    //     // });
+    // }
+    // var ip = getLocationFromIp();
+    // console.log(ip);
+//}
+//);
 request.then( function(resp){
 console.log(resp);
 }, function(err){
 console.log(err);
 });
-
+}
