@@ -16,7 +16,7 @@ const {
   
  
  
- router.post("/user/match_horoscope", match_horoscope);
+ router.get("/user/match_horoscope", match_horoscope);
   
 
 module.exports = router;

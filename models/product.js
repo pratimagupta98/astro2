@@ -26,6 +26,7 @@ const thisSchema = new Schema(
     },
     price:{
         type: Number,
+        default:0
     },
     // des_price:{
     //     type: Number,

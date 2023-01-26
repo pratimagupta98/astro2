@@ -1,5 +1,6 @@
 const Astroproduct = require("../models/astroproduct");
 const resp = require("../helpers/apiResponse");
+const Product = require("../models/product");
 
 const fs = require("fs");
 const cloudinary = require("cloudinary").v2;
@@ -39,10 +40,29 @@ exports.add_astro_product = async (req, res) => {
 
 exports.product_consltnt_list = async (req, res) => {
 
-await Astroproduct.find({product:req.params.id}).populate("astroid").populate("product").populate("category")
-.sort({ sortorder: 1 })
+const getdata = await Astroproduct.find({product:req.params.id}).populate("astroid").populate("product").populate("category")
+
+//console.log("get1product",get1product)
+
+
+
+.sort({ sortorder: -1 })
 .then((data) => resp.successr(res, data))
+
 .catch((error) => resp.errorr(res, error));
+let getproduct = await Astroproduct.findOne({product:req.params.id}).sort({"price":1}).limit(1)
+console.log("product",getproduct)
+let minPrice = getproduct.price
+let get1product = getproduct.product
+//console.log("getdata",getdata)
+const data =await Product.findOneAndUpdate(
+  {
+    _id:get1product,
+  },
+  { $set:{ price:minPrice} },
+  { new: true }
+)
+//console.log("data",data)
 };
 
 exports.productlist = async (req, res) => {
