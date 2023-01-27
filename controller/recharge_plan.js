@@ -128,8 +128,8 @@ exports.updateRashi = async (req, res) => {
 };
 
 
-exports.deleteMany = async (req, res) => {
-  await Recharge.deleteMany()
+exports.del_reList = async (req, res) => {
+  await Recharge.deleteOne({_id:req.params.id})
     .then((data) => resp.deleter(res, data))
     .catch((error) => resp.errorr(res, error));
 };
