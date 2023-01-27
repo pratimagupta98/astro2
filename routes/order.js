@@ -11,7 +11,8 @@ const {
     // dltplan,
     editOrder,
     // active_plans
-    admin_product_Orderslist
+    admin_product_Orderslist,
+    dltOrder
 } = require("../controller/order");
 
 
@@ -23,6 +24,8 @@ const {
 router.get("/user/getoneOrder/:id", getoneOrder);
  router.post("/admin/editOrder/:id", editOrder);
  router.get("/admin/admin_product_Orderslist", admin_product_Orderslist);
+ router.get("/admin/dltOrder/:id", dltOrder);
+
 
 
 // router.get("/admin/dltplan/:id", dltplan);
