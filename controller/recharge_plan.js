@@ -211,3 +211,10 @@ exports.walletHistory = async (req, res) => {
   }
 
    
+  exports.admin_walletHistory = async (req, res) => {
+    const getone= await WalletT.find ()
+  .populate("userid").populate("planid").populate("astroid").populate("recharge_planId") .sort({ createdAt: -1 })
+ 
+ .then((data) => resp.successr(res, data))
+  .catch((error) => resp.errorr(res, error));
+  }

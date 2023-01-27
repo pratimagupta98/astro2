@@ -4,7 +4,7 @@ const Astrologer = require("../models/astrologer");
 const Minutecharge = require("../models/min_charges");
 const User = require("../models/users");
 const moment = require('moment');
-
+var cron = require('node-cron');
  const WalletT =  require("../models/walletTransaction");
 
 // exports.addChatWallet = async (req, res) => {
@@ -635,7 +635,7 @@ res.status(400).json({
   
 
  
-  var cron = require('node-cron');
+  
 
 
   exports.acceptChat = async (req, res) => {
