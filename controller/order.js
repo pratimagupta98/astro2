@@ -1,5 +1,6 @@
 const Order = require("../models/order");
 const resp = require("../helpers/apiResponse");
+const Cart = require("../models/Checkout");
 
 exports.AddOrder = async (req, res) => {
     const { cartId,userid,astroid, orderId, razorpay_payment_id, status,orderNote } = req.body
@@ -8,8 +9,14 @@ exports.AddOrder = async (req, res) => {
     //    console.log('Today is: ' + d.toLocaleDateString());
     //    var today = moment(d).format('DD-MM-YYYY');
     //    console.log("Today",today)
+    const getproduct = await Cart.findOne({_id :req.body.cartId})
+    console.log("getproduct",getproduct)
+    const getoneproduct = getproduct.productid
+    console.log("product",getoneproduct)
+    
     const newOrder = new Order({
         cartId: cartId,
+        product:getoneproduct,
         userid:userid,
         astroid:astroid,
         orderId: cus_orderId,
@@ -95,9 +102,14 @@ exports.editOrder = async (req, res) => {
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   };
-  
+
   exports.admin_product_Orderslist = async (req, res) => {
-    await Order.find()
+    await Order.find() .populate({
+        path: "product",
+        populate: {
+          path: "product",
+        },
+    })
     .populate("cartId")
     .populate("userid")
     .populate({
@@ -106,13 +118,13 @@ exports.editOrder = async (req, res) => {
           path: "shipping_address",
         },
     })
-    // .populate({
-    //     path: "cartId",
-    //     populate: {
-    //       path: "astroId",
-    //      // path:"astroid"
-    //     },
-    // })
+    .populate({
+        path: "cartId",
+        populate: {
+          path: "astroId",
+         // path:"astroid"
+        },
+    })
     .populate({
         path: "cartId",
         populate: {

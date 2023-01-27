@@ -30,7 +30,9 @@ const OrderSchema = new Schema(
         date: {
             type: String
         },
-         
+         product:{
+            type: mongoose.Schema.Types.ObjectId, ref: "consultant"
+         }
 
     },
 
