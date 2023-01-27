@@ -102,7 +102,7 @@ exports.purchase_plan = async (req, res) => {
 
 
 exports.recharge_list = async (req, res) => {
-  await Recharge.find()
+  await Recharge.find().populate("userid").populate("planid")
     .sort({ sortorder: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
@@ -141,14 +141,14 @@ exports.add_custome_amt = async (req, res) => {
   const newRecharge = new Recharge({
     userid: userid,
     amount: amount,
-    tran_Type: "Credit",
+    tran_Type: "Credited",
     transaction_id: "RE" + Date.now()
   });
 
   const newWalletT = new WalletT({
     userid: userid,
     amount: amount,
-    tran_Type: "Credit",
+    tran_Type: "Credited",
     transaction_id: "RE" + Date.now()
   });
   var gstamt = amount * 18 / 100

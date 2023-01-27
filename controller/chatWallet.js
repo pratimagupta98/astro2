@@ -696,7 +696,7 @@ status:"Completed"
 })
 newWalletT.save()
         .then(async (data) => {
-         //  const createnewtable = await WalletT.create(newWalletT);
+           const createnewtable = await WalletT.create(newWalletT);
        //   console.log("MMMMMM",createnewtable)
           res.status(200).json({
             status: true,
@@ -795,7 +795,11 @@ async function alertFunc() {
 console.log("DATA",getdata)
 myFunction()
 
-
+res.status(200).json({
+  status:true,
+  msg:"Your Request is Accepted",
+  data:getdata
+})
 
 
 // const task = cron.schedule(`0 ${minutes} ${hours} * * *`,async () => {
@@ -818,6 +822,10 @@ myFunction()
 
     }else if(getdata.status == "Rejected"){
       console.log("Rejected")
+      res.status(200).json({
+        status:true,
+        msg : "Your Request is Rejected"
+      })
 
     }
 

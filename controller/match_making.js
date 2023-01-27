@@ -193,7 +193,7 @@ method: "POST",
 dataType:'json',
 headers: {
 "authorization": "Basic " + btoa(`${userId}`+":"+`${apiKey}`),
-"Content-Type":'application/json'
+"Content-Type":'application/json' 
 },
 data:JSON.stringify(data)
 });
