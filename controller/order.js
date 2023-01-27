@@ -73,36 +73,12 @@ exports.myOrders = async (req, res) => {
         
     })
     .populate("astroid")
-    // .populate({
-         
-    //     path: "astroId",
-    //     populate: {
-    //       path: "astroid",
-    //     },
-        
-    // })
-    // .populate([
-    //     {
-    //       path: "cartId",
-    //       select: "astroId",
-    //       //model: astrologer
-    //     },
-    //     {
-    //       path: "path2",
-    //       select: "astroid",
-    //     //  model: astrologer
-    //     }
-    //   ])
-    // .populate({
-    //     path: "cartId",
-    //     populate: {
-    //       path: "astroid",
-    //     },
-    // })
+  
+    
+    
 
     
-  //  .populate("shipping_address")
-  //.populate("astroId")
+   
         .then((data) => resp.successr(res, data))
         .catch((error) => resp.errorr(res, error));
 };
@@ -119,3 +95,38 @@ exports.editOrder = async (req, res) => {
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   };
+  
+  exports.admin_product_Orderslist = async (req, res) => {
+    await Order.find()
+    .populate("cartId")
+    .populate("userid")
+    .populate({
+        path: "cartId",
+        populate: {
+          path: "shipping_address",
+        },
+    })
+    // .populate({
+    //     path: "cartId",
+    //     populate: {
+    //       path: "astroId",
+    //      // path:"astroid"
+    //     },
+    // })
+    .populate({
+        path: "cartId",
+        populate: {
+          path: "productid",
+        },
+        
+    })
+    .populate("astroid")
+  
+    
+    
+
+    
+   
+        .then((data) => resp.successr(res, data))
+        .catch((error) => resp.errorr(res, error));
+};

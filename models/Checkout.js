@@ -9,12 +9,12 @@ const CartSchema = new mongoose.Schema(
     shipping_address: { type: mongoose.Schema.Types.ObjectId, ref: "shipping_address" },
     // customer: { type: String },
      
-    astroId: { type: mongoose.Schema.Types.ObjectId, ref: "consultant" },
+    astroId: { type: mongoose.Schema.Types.ObjectId, ref: "astrologer" },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 
 
     
-    productid: { type: mongoose.Schema.Types.ObjectId, ref: "astromall" },
+    productid: { type: mongoose.Schema.Types.ObjectId, ref: "consultant" },
     gst: {
       type: Number,
     },

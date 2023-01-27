@@ -11,10 +11,10 @@ exports.addtoCart = async (req, res) => {
 
     const findexist = await Cart.findOne({ userId : userId});
     if(findexist){
-      const getastroproduct = await Astroproduct.findOne({ _id: req.body.astroId });
+      const getastroproduct = await Astroproduct.findOne({ _id: req.body.productid });
 
       console.log("getastroproduct",getastroproduct)
-    //  if (getastroproduct ) {
+     if (getastroproduct ) {
         const price  =getastroproduct.price
       // console.log(price)
        // totalgst =0
@@ -50,12 +50,17 @@ exports.addtoCart = async (req, res) => {
             error: error,
           });
         });
-    
+      }else{
+        res.status(400).json({
+          status:false,
+          error:"error"
+        })
+      }
 
     }else{
 
 
-     const getastroproduct = await Astroproduct.findOne({ _id: req.body.astroId });
+     const getastroproduct = await Astroproduct.findOne({ _id: req.body.productid });
 
      console.log("getastroproduct",getastroproduct)
     if (getastroproduct ) {
