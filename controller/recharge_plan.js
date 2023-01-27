@@ -218,3 +218,11 @@ exports.walletHistory = async (req, res) => {
  .then((data) => resp.successr(res, data))
   .catch((error) => resp.errorr(res, error));
   }
+
+  exports.delete_walletHistory = async (req, res) => {
+   
+    await WalletT.deleteOne({_id:req.params.id})
+    .then((data) => resp.deleter(res, data))
+    .catch((error) => resp.errorr(res, error));
+  
+  }
