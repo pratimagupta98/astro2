@@ -27,4 +27,4 @@ const thisSchema = new Schema(
   );
 
 
-  module.exports = mongoose.model("comision", thisSchema);
+  module.exports = mongoose.model("commission", thisSchema);

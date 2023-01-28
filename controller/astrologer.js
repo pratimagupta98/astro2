@@ -287,7 +287,9 @@ if(status){
   data.status = status
 }
   if(callCharge){
-    data.callCharge =parseInt(callCharge)+ parseInt(5)
+    data.callCharge =parseInt(callCharge)*25/100
+    data.callCharge =parseInt(req.body.callCharge)+parseInt(data.callCharge)
+
   }
   console.log("callCharge",data.callCharge)
 
@@ -309,7 +311,7 @@ if(status){
   }
   await Astrologer.findOneAndUpdate(
     { _id: req.params.id },
-    { $set: data },
+    { $set: data},
     { new: true }
   )
     .then((data) => resp.successr(res, data))

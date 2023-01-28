@@ -12,7 +12,8 @@ exports.add_Comision= async (req, res) => {
     status:status,
     
    });
-  const findexist = await Contactus.Commision({$or:[{category:category},{product:product}] });
+  const findexist = await Commision.findOne({$and:[{category:category},{product:product}] });
+  console.log("findexist",findexist)
   if (findexist) {
     resp.alreadyr(res);
   } else {
@@ -25,14 +26,14 @@ exports.add_Comision= async (req, res) => {
 
 
 exports.comisionList = async (req, res) => {
-    await Commision.find()
+    await Commision.find().populate("product")
       .sort({ sortorder: 1 })
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   };
 
   exports.getOneComision = async (req, res) => {
-    await Commision.findOne({ _id: req.params.id })
+    await Commision.findOne({ _id: req.params.id }).populate("product")
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   };
