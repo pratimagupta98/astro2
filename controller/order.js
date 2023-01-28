@@ -56,7 +56,12 @@ exports.getoneOrder = async (req, res) => {
 
 
 exports.myOrders = async (req, res) => {
-    await Order.find({  $and: [{ status: "COMPLETED" }, { userid: req.params.id }], })
+    await Order.find({  $and: [{ status: "COMPLETED" }, { userid: req.params.id }], }).populate({
+      path: "product",
+      populate: {
+        path: "product",
+      },
+  })
     .populate("cartId")
     .populate("userid")
     .populate({
