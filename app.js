@@ -49,11 +49,9 @@ const createTicket = require("./routes/createTicket")
 const match_making = require("./routes/match_making")
 
 const commision = require("./routes/commision")
+const payout = require("./routes/payout")
 
  
-
-
-
 
 
 //use
@@ -93,6 +91,8 @@ app.use("/", chatWallet);
 app.use("/", createTicket);
 app.use("/", match_making);
 app.use("/", commision);
+app.use("/", payout);
+
 
 
 

@@ -20,16 +20,32 @@ const thisSchema = new Schema(
     firstname:{
       type: String,
     },
+    p_firstname:{
+      type: String,
+    },
+
     lastname:{
       type: String,
     },
+p_lastname:{
+  type: String,
+},
     dob:{
+      type: String,
+    },
+    p_dob:{
       type: String,
     },
     date_of_time:{
       type: String,
     },
+    p_date_of_time:{
+      type: String,
+    },
     birthPlace:{
+      type: String,
+    },
+    p_birthPlace:{
       type: String,
     },
     marital_status:{
