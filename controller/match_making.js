@@ -175,20 +175,21 @@ exports.match_horoscope = async (req, res) => {
   
   var $ = jQuery = require('jquery')(window);
   var api = 'planets';
-var userId = '621855';
-var apiKey = 'b7286553ee49b95a0087d81b3a9d99e0';
+var userId = '621972';
+var apiKey = '3babf3f8325166341e70506b10fc2a8e';
 var data = {
-day:12,
-month:3,
-year:1992,
-hour:2,
-min:23,
-lat:19.132,
-lon:72.342,
-tzone:5.5
+  day:12,
+  month:3,
+  year:1992,
+  hour:2,
+  min:23,
+  lat:19.132,
+  lon:72.342,
+  tzone:5.5
 };
+//https://json.astrologyapi.com/v1/match_making_report
 var request = $.ajax({
-url: "https://json.astrologyapi.com/v1/"+`${api}`,
+  url: "https://json.astrologyapi.com/v1/"+`${api}`,
 method: "POST",
 dataType:'json',
 headers: {
