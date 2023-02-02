@@ -66,7 +66,7 @@ exports.intekListByastro = async (req, res) => {
 
 
   exports.getone_user_chatintek = async (req, res) => {
-    await Intek.findOne({ userid: req.params.id })
+    await Intek.findOne({ userid: req.params.id }).populate("userid")
     //.populate("category").populate("rashiId")
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
