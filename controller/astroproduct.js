@@ -84,7 +84,11 @@ exports.del_astro_product = async (req, res) => {
       .catch((error) => resp.errorr(res, error));
   };
 
- 
+  exports.added_product_byastro = async (req, res) => {
+    await Astroproduct.find({product:req.params.id}).populate("astroid").populate("product").populate("category")
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+    };
 
 
 
