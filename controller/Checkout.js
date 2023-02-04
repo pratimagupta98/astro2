@@ -112,26 +112,28 @@ exports.addtoCart = async (req, res) => {
   }
   
   exports.getoneCart = async (req, res) => {
-   const getone= await Cart.findOne({ _id: req.params.id }).populate("shipping_address").populate("astroId")
-   //.populate("astroid")
-   .populate({
-    path: "astroId",
-    populate: {
-      path: "astroid",
-    },
-  })
+    const getone= await Cart.findOne({ _id: req.params.id })
+  .populate("shipping_address").populate("astroId")
+  .populate("productid")
+  //  .populate({
+  //   path: "astroId",
+  //   populate: {
+  //     path: "astroid",
+  //   },
+  // })
   .populate({
-    path: "astroId",
+    path: "productid",
     populate: {
       path: "product",
     },
   })
-  .populate({
-    path: "astroId",
-    populate: {
-      path: "category",
-    },
-  }).populate("productid")
+  //.populate("userId")
+  // .populate({
+  //   path: "astroId",
+  //   populate: {
+  //     path: "category",
+  //   },
+  // }).populate("productid")
 //console.log("strng",getone)
   //  if(getone){
   //   const astropro = getone.astro_product
