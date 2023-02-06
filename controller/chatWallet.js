@@ -1066,3 +1066,10 @@ res.status(200).json({
           .then((data) => resp.successr(res, data))
           .catch((error) => resp.errorr(res, error));
       };
+
+      exports.accepted_notification = async (req, res) => {
+        await ChatWallet.find({$and:[{userid:req.params.id},{status:"Accepted"}]}).populate("astroid").populate("userid").populate("recharge_planId")
+          .sort({ createdAt: -1 })
+          .then((data) => resp.successr(res, data))
+          .catch((error) => resp.errorr(res, error));
+      };
