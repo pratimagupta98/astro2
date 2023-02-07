@@ -26,7 +26,10 @@ exports.add_Comision= async (req, res) => {
 
 
 exports.comisionList = async (req, res) => {
-    await Commision.find().populate("product")
+    await Commision.find().populate("product").populate({ path: "product",
+    populate: {
+      path: "category",
+    },})
       .sort({ sortorder: 1 })
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
