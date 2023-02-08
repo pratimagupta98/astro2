@@ -7,9 +7,11 @@ const fs = require("fs");
  
 
 const {
-  match_making,
-    dailyhoroscope
-   
+  match_making_report,
+  dailyHoroscope,
+  weeklyHoroscope,
+  monthlyHoroscope,
+  ChineseHoroscope
 
 } = require("../controller/match_making");
 
@@ -17,10 +19,16 @@ const {
   
  
  
-  router.post("/user/match_making", match_making);
- router.post("/user/dailyhoroscope", dailyhoroscope);
+  router.post("/user/match_making_report", match_making_report);
+ router.post("/user/dailyHoroscope", dailyHoroscope);
+ router.post("/user/weeklyHoroscope", weeklyHoroscope);
+ router.post("/user/monthlyHoroscope", monthlyHoroscope);
+ router.post("/user/ChineseHoroscope", ChineseHoroscope);
 
-  
 
+
+
+ 
+ 
 module.exports = router;
   
