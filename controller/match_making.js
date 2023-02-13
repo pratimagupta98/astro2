@@ -434,14 +434,14 @@ exports.ManglikDosh = async (req, res) => {
   // };
  
   var data = {
-    day: 16,
-    month: 1,
-    year: 1991,
-    hour: 8,
-    min: 00,
-    lat: 19.132,
-    lon: 72.342,
-    tzone: 5.5,
+    day: req.body.day,
+    month: req.body.month,
+    year: req.body.year,
+    hour: req.body.hour,
+    min: req.body.min,
+    lat: req.body.lat,
+    lon: req.body.lon,
+    tzone: req.body.tzone,
   };
 //https://json.astrologyapi.com/v1/match_making_report
 var request = $.ajax({
@@ -498,14 +498,14 @@ exports.kalsharpDosh = async (req, res) => {
   // };
  
   var data = {
-    day: 6,
-    month: 1,
-    year: 2000,
-    hour: 7,
-    min: 45,
-    lat: 19.132,
-    lon: 72.342,
-    tzone: 5.5,
+    day: req.body.day,
+    month: req.body.month,
+    year: req.body.year,
+    hour: req.body.hour,
+    min: req.body.min,
+    lat: req.body.lat,
+    lon: req.body.lon,
+    tzone: req.body.tzone,
   };
 //https://json.astrologyapi.com/v1/match_making_report
 var request = $.ajax({
@@ -562,14 +562,14 @@ exports.PitriDosh = async (req, res) => {
   // };
  
   var data = {
-    day: 6,
-    month: 1,
-    year: 2000,
-    hour: 7,
-    min: 45,
-    lat: 19.132,
-    lon: 72.342,
-    tzone: 5.5,
+    day: req.body.day,
+    month: req.body.month,
+    year: req.body.year,
+    hour: req.body.hour,
+    min: req.body.min,
+    lat: req.body.lat,
+    lon: req.body.lon,
+    tzone:req.body.tzone,
   };
 //https://json.astrologyapi.com/v1/match_making_report
 var request = $.ajax({
