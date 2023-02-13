@@ -405,3 +405,196 @@ err
 
 //var userId = '621972';
 // var apiKey = '3babf3f8325166341e70506b10fc2a8e';
+
+
+exports.ManglikDosh = async (req, res) => {
+  var jsdom = require('jsdom');
+  const { JSDOM } = jsdom;
+  const { window } = new JSDOM();
+  const { document } = (new JSDOM('')).window;
+  global.document = document;
+  
+  var $ = jQuery = require('jquery')(window);
+
+  var api = 'manglik';
+  var userId = '622026';
+  var apiKey = '82aa85420d5fdfd9eda55f0f4c69cb0a';
+ 
+
+
+  // var data = {
+  //   day: req.body.day,
+  //   month: req.body.month,
+  //   year: req.body.year,
+  //   hour: req.body.hour,
+  //   min: req.body.min,
+  //   lat: req.body.lat,
+  //   lon: req.body.lon,
+  //   tzone: req.body.tzone,
+  // };
+ 
+  var data = {
+    day: 16,
+    month: 1,
+    year: 1991,
+    hour: 8,
+    min: 00,
+    lat: 19.132,
+    lon: 72.342,
+    tzone: 5.5,
+  };
+//https://json.astrologyapi.com/v1/match_making_report
+var request = $.ajax({
+ // url: "https://json.astrologyapi.com/v1/match_making_report",
+  url: "https://json.astrologyapi.com/v1/"+`${api}`,
+method: "POST",
+dataType:'json',
+headers: {
+"authorization": "Basic " + btoa(`${userId}`+":"+`${apiKey}`),
+"Content-Type":'application/json' 
+},
+data:JSON.stringify(data)
+});
+ 
+request.then( function(resp){
+console.log(resp);
+res.status(200).json({
+  status:true,
+  msg:"success",
+  data :resp
+})
+}, function(err){
+console.log(err);
+res.status(405).json({
+err
+})
+});
+}
+
+exports.kalsharpDosh = async (req, res) => {
+  var jsdom = require('jsdom');
+  const { JSDOM } = jsdom;
+  const { window } = new JSDOM();
+  const { document } = (new JSDOM('')).window;
+  global.document = document;
+  
+  var $ = jQuery = require('jquery')(window);
+
+  var api = 'kalsarpa_details';
+  var userId = '622026';
+  var apiKey = '82aa85420d5fdfd9eda55f0f4c69cb0a';
+ 
+
+
+  // var data = {
+  //   day: req.body.day,
+  //   month: req.body.month,
+  //   year: req.body.year,
+  //   hour: req.body.hour,
+  //   min: req.body.min,
+  //   lat: req.body.lat,
+  //   lon: req.body.lon,
+  //   tzone: req.body.tzone,
+  // };
+ 
+  var data = {
+    day: 6,
+    month: 1,
+    year: 2000,
+    hour: 7,
+    min: 45,
+    lat: 19.132,
+    lon: 72.342,
+    tzone: 5.5,
+  };
+//https://json.astrologyapi.com/v1/match_making_report
+var request = $.ajax({
+ // url: "https://json.astrologyapi.com/v1/match_making_report",
+  url: "https://json.astrologyapi.com/v1/"+`${api}`,
+method: "POST",
+dataType:'json',
+headers: {
+"authorization": "Basic " + btoa(`${userId}`+":"+`${apiKey}`),
+"Content-Type":'application/json' 
+},
+data:JSON.stringify(data)
+});
+ 
+request.then( function(resp){
+console.log(resp);
+res.status(200).json({
+  status:true,
+  msg:"success",
+  data :resp
+})
+}, function(err){
+console.log(err);
+res.status(405).json({
+err
+})
+});
+}
+
+exports.PitriDosh = async (req, res) => {
+  var jsdom = require('jsdom');
+  const { JSDOM } = jsdom;
+  const { window } = new JSDOM();
+  const { document } = (new JSDOM('')).window;
+  global.document = document;
+  
+  var $ = jQuery = require('jquery')(window);
+
+  var api = 'pitra_dosha_report';
+  var userId = '622026';
+  var apiKey = '82aa85420d5fdfd9eda55f0f4c69cb0a';
+ 
+
+
+  // var data = {
+  //   day: req.body.day,
+  //   month: req.body.month,
+  //   year: req.body.year,
+  //   hour: req.body.hour,
+  //   min: req.body.min,
+  //   lat: req.body.lat,
+  //   lon: req.body.lon,
+  //   tzone: req.body.tzone,
+  // };
+ 
+  var data = {
+    day: 6,
+    month: 1,
+    year: 2000,
+    hour: 7,
+    min: 45,
+    lat: 19.132,
+    lon: 72.342,
+    tzone: 5.5,
+  };
+//https://json.astrologyapi.com/v1/match_making_report
+var request = $.ajax({
+ // url: "https://json.astrologyapi.com/v1/match_making_report",
+  url: "https://json.astrologyapi.com/v1/"+`${api}`,
+method: "POST",
+dataType:'json',
+headers: {
+"authorization": "Basic " + btoa(`${userId}`+":"+`${apiKey}`),
+"Content-Type":'application/json' 
+},
+data:JSON.stringify(data)
+});
+ 
+request.then( function(resp){
+console.log(resp);
+res.status(200).json({
+  status:true,
+  msg:"success",
+  data :resp
+})
+}, function(err){
+console.log(err);
+res.status(405).json({
+err
+})
+});
+}
