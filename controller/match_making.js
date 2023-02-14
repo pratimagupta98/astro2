@@ -629,7 +629,7 @@ exports.time_zone= async (req, res) => {
  
  
   var data = {
-    country_code:  "Asia/Kolkata",
+    country_code:  req.body.country_code,
     isDst: true,
  };
 //https://json.astrologyapi.com/v1/match_making_report
