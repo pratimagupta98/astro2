@@ -14,7 +14,9 @@ const {
   ChineseHoroscope,
   ManglikDosh,
   kalsharpDosh,
-  PitriDosh
+  PitriDosh,
+  geo_detail,
+  time_zone
 
 } = require("../controller/match_making");
 
@@ -30,6 +32,10 @@ const {
  router.post("/user/ManglikDosh", ManglikDosh);
  router.post("/user/kalsharpDosh", kalsharpDosh);
  router.post("/user/PitriDosh", PitriDosh);
+ router.post("/user/geo_detail", geo_detail);
+ router.post("/user/time_zone", time_zone);
+
+
 
 
 

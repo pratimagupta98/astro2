@@ -422,16 +422,6 @@ exports.ManglikDosh = async (req, res) => {
  
 
 
-  // var data = {
-  //   day: req.body.day,
-  //   month: req.body.month,
-  //   year: req.body.year,
-  //   hour: req.body.hour,
-  //   min: req.body.min,
-  //   lat: req.body.lat,
-  //   lon: req.body.lon,
-  //   tzone: req.body.tzone,
-  // };
  
   var data = {
     day: req.body.day,
@@ -486,17 +476,6 @@ exports.kalsharpDosh = async (req, res) => {
  
 
 
-  // var data = {
-  //   day: req.body.day,
-  //   month: req.body.month,
-  //   year: req.body.year,
-  //   hour: req.body.hour,
-  //   min: req.body.min,
-  //   lat: req.body.lat,
-  //   lon: req.body.lon,
-  //   tzone: req.body.tzone,
-  // };
- 
   var data = {
     day: req.body.day,
     month: req.body.month,
@@ -548,18 +527,6 @@ exports.PitriDosh = async (req, res) => {
   var userId = '622026';
   var apiKey = '82aa85420d5fdfd9eda55f0f4c69cb0a';
  
-
-
-  // var data = {
-  //   day: req.body.day,
-  //   month: req.body.month,
-  //   year: req.body.year,
-  //   hour: req.body.hour,
-  //   min: req.body.min,
-  //   lat: req.body.lat,
-  //   lon: req.body.lon,
-  //   tzone: req.body.tzone,
-  // };
  
   var data = {
     day: req.body.day,
@@ -571,6 +538,100 @@ exports.PitriDosh = async (req, res) => {
     lon: req.body.lon,
     tzone:req.body.tzone,
   };
+//https://json.astrologyapi.com/v1/match_making_report
+var request = $.ajax({
+ // url: "https://json.astrologyapi.com/v1/match_making_report",
+  url: "https://json.astrologyapi.com/v1/"+`${api}`,
+method: "POST",
+dataType:'json',
+headers: {
+"authorization": "Basic " + btoa(`${userId}`+":"+`${apiKey}`),
+"Content-Type":'application/json' 
+},
+data:JSON.stringify(data)
+});
+ 
+request.then( function(resp){
+console.log(resp);
+res.status(200).json({
+  status:true,
+  msg:"success",
+  data :resp
+})
+}, function(err){
+console.log(err);
+res.status(405).json({
+err
+})
+});
+}
+
+
+exports.geo_detail = async (req, res) => {
+  var jsdom = require('jsdom');
+  const { JSDOM } = jsdom;
+  const { window } = new JSDOM();
+  const { document } = (new JSDOM('')).window;
+  global.document = document;
+  
+  var $ = jQuery = require('jquery')(window);
+
+  var api = 'geo_details';
+  var userId = '622026';
+  var apiKey = '82aa85420d5fdfd9eda55f0f4c69cb0a';
+ 
+ 
+  var data = {
+    place:  req.body.place,
+    maxRows: 6,
+ 
+ };
+//https://json.astrologyapi.com/v1/match_making_report
+var request = $.ajax({
+ // url: "https://json.astrologyapi.com/v1/match_making_report",
+  url: "https://json.astrologyapi.com/v1/"+`${api}`,
+method: "POST",
+dataType:'json',
+headers: {
+"authorization": "Basic " + btoa(`${userId}`+":"+`${apiKey}`),
+"Content-Type":'application/json' 
+},
+data:JSON.stringify(data)
+});
+ 
+request.then( function(resp){
+console.log(resp);
+res.status(200).json({
+  status:true,
+  msg:"success",
+  data :resp
+})
+}, function(err){
+console.log(err);
+res.status(405).json({
+err
+})
+});
+}
+
+exports.time_zone= async (req, res) => {
+  var jsdom = require('jsdom');
+  const { JSDOM } = jsdom;
+  const { window } = new JSDOM();
+  const { document } = (new JSDOM('')).window;
+  global.document = document;
+  
+  var $ = jQuery = require('jquery')(window);
+
+  var api = 'timezone';
+  var userId = '622026';
+  var apiKey = '82aa85420d5fdfd9eda55f0f4c69cb0a';
+ 
+ 
+  var data = {
+    country_code:  "Asia/Kolkata",
+    isDst: true,
+ };
 //https://json.astrologyapi.com/v1/match_making_report
 var request = $.ajax({
  // url: "https://json.astrologyapi.com/v1/match_making_report",
