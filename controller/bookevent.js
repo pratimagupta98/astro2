@@ -28,14 +28,14 @@ exports.add_event = async (req, res) => {
  
 
 exports.eventlist = async (req, res) => {
-    await Bookevent.find()
+    await Bookevent.find().populate("userid")
       .sort({ createdAt: -1 })
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   };
 
   exports.getone_event = async (req, res) => {
-    await Bookevent.findOne({ _id: req.params.id })
+    await Bookevent.findOne({ _id: req.params.id }).populate("userid")
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   };
