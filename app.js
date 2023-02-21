@@ -50,6 +50,8 @@ const match_making = require("./routes/match_making")
 
 const commision = require("./routes/commision")
 const payout = require("./routes/payout")
+const bookevent = require("./routes/bookevent")
+
 
  
 
@@ -92,6 +94,8 @@ app.use("/", createTicket);
 app.use("/", match_making);
 app.use("/", commision);
 app.use("/", payout);
+app.use("/", bookevent);
+
 
 
 
