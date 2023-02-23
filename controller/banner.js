@@ -20,13 +20,13 @@ cloudinary.config({
 
 exports.addbanner = async (req, res) => {
   //console.log(req.body);
-  const { banner_title, banner_img, status,type } = req.body;
+  const { banner_title, banner_img, status, } = req.body;
 
   const newBanner = new Banner({
     banner_title: banner_title,
     banner_img: banner_img,
      status: status,
-     type:type
+   
   });
 
     const findexist = await Banner.findOne({
@@ -181,5 +181,14 @@ exports.editBanner = async(req,res)=>{
         .catch((error) => resp.errorr(res, error));
     };
 
+
+    exports.get_astromall_banner = async (req, res) => {
+      await Banner.find( { $and: [{ banner_title: "astromall" }, { status:"Active"}]} )
+     // find({status:"Active"}) 
+
+      .sort({ sortorder: 1 })
+      .then((data) => resp.successr(res, data))
+      .catch((error) => resp.errorr(res, error));
+      };
 
   
