@@ -154,3 +154,38 @@ exports.dltOrder = async (req, res) => {
       .then((data) => resp.deleter(res, data))
       .catch((error) => resp.errorr(res, error));
   };
+
+
+  exports.completed_order = async (req, res) => {
+    await Order.find({  $and: [{ status: "COMPLETED" }, { userid: req.params.id }], }).populate({
+      path: "product",
+      populate: {
+        path: "product",
+      },
+  })
+    .populate("cartId")
+    .populate("userid")
+    .populate({
+        path: "cartId",
+        populate: {
+          path: "shipping_address",
+        },
+    })
+    // .populate({
+    //     path: "cartId",
+    //     populate: {
+    //       path: "astroId",
+    //      // path:"astroid"
+    //     },
+    // })
+    .populate({
+        path: "cartId",
+        populate: {
+          path: "productid",
+        },
+        
+    })
+    .populate("astroid")
+        .then((data) => resp.successr(res, data))
+        .catch((error) => resp.errorr(res, error));
+};

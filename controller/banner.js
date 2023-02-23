@@ -125,7 +125,7 @@ exports.delbanner = async (req, res) => {
   };
 
 exports.getbannerbytype = async (req, res) => {
-  const findall = await Banner.find({ bannertype: req.params.id }).sort({
+  const findall = await Banner.find({ banner_title: req.params.id }).sort({
     sortorder: 1,
   });
   if (findall) {
