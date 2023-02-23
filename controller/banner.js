@@ -20,16 +20,15 @@ cloudinary.config({
 
 exports.addbanner = async (req, res) => {
   //console.log(req.body);
-  const { banner_title, banner_img, status } = req.body;
+  const { banner_title, banner_img, status,type } = req.body;
 
   const newBanner = new Banner({
     banner_title: banner_title,
     banner_img: banner_img,
      status: status,
+     type:type
   });
 
-  
-  
     const findexist = await Banner.findOne({
       banner_title: banner_title,
     });
