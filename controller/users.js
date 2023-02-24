@@ -183,7 +183,7 @@ exports.getoneuserdetail = async (req, res) => {
 // };
 
 exports.edit_myprofile = async (req, res) => {
-  const { fullname, userimg, email, mobile, password, cnfmPassword, birth_tym, dob, bithplace, address, city, state, country, pincode } = req.body
+  const { fullname, userimg, email, mobile, password, cnfmPassword, birth_tym, dob, bithplace, address, city, state, country, pincode,gender } = req.body
 
   data = {}
   if (fullname) {
@@ -195,6 +195,9 @@ exports.edit_myprofile = async (req, res) => {
   }
   if (mobile) {
     data.mobile = mobile
+  }
+  if (gender) {
+    data.gender = gender
   }
   if (password) {
     const salt = await bcrypt.genSalt(10);
