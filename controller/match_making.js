@@ -207,7 +207,7 @@ headers: {
 "authorization": "Basic " + btoa(`${userId}`+":"+`${apiKey}`),
 "Content-Type":'application/json' 
 },
-data:JSON.stringify(data)
+data:JSON.stringify(       )
 });
  
 request.then( function(resp){

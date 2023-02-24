@@ -8,9 +8,9 @@ var request = require('request');
     // key="d909e2e0120d0bcbd2ef795dd19eb2e97c2f8d78d8ebb6d4"
     // sid="sveltosetechnologies2"
     // token="856371fe6a97e8be8fed6ab14c95b4832f82d1d3116cb17e	"
-    key="47e891daa0cd26fa9eb66c20bc1f96c74ad9a58d039510ef"
-    sid="astrologically2"
-    token="61728b12b9453727bdadcb70b40708c3ce16f76b3cef9ecf"
+    key="90c1bddcdace6f704819ebc54d740ebbbdf37f2ad30a4e8f"
+    sid="astrologically3"
+    token="04d432d9144e8521e1e31f8297e3d199d3c73b8676c49df8"
     from=req.body.from     
     to=req.body.to
 
@@ -23,10 +23,9 @@ var request = require('request');
       "To": req.body.To,       //ASTRO
       "userid":req.body.userid,
       "astroid" :req.body.astroid,
-
-      "CallerId":'080-473-59942',
+      "CallerId":'011-411-68588',
       "CallerType": 'promo',
-      // "Status" :"Status",
+      // "Status" :"Status",2
       // "StartTime":"StartTime",
       // "EndTime" :"EndTime",
       // "Duration" :"Duration",
@@ -34,16 +33,39 @@ var request = require('request');
       // "RecordingUrl":"RecordingUrl"
 
     }),
-  
-
     {   
         withCredentials: true,
         headers: {
             "Accept":"application/x-www-form-urlencoded",
             "Content-Type": "application/x-www-form-urlencoded"
-        }
+        },
+        data:JSON.stringify(`statusCode: ${res.statusCode}`)
       },
       )
+//       .then(async(response)=>{
+// console.log(response)
+// res.status(200).json({
+//   data :JSON.stringify(response)
+// })
+     // })
+      res.status(200).json({
+       statusCode: `${res.statusCode}`,
+          From: req.body.From,   //USER
+         To: req.body.To,       //ASTRO
+         userid:req.body.userid,
+         astroid :req.body.astroid,
+      });
+      // axios.then( function(resp){
+      //   console.log(resp);
+      //   res.status(200).json({
+      //     status:true,
+      //     msg:"success",
+      //     data :resp
+      //   })
+        }, function(err){
+        console.log(err);
+      //  });
+      }
 //       // request(options, function (error, response, body) {
 //       //   if (response) {
 //       //     var toparse = response.body;
@@ -55,16 +77,18 @@ var request = require('request');
 //       // });
 
 
-      .then(async(response) => {
-         console.log(`statusCode: ${res.statusCode}`)
-         console.log("RES",response)
-         var requestBody = {
-          From: req.body.From,   //USER
-        To: req.body.To,       //ASTRO
-        userid:req.body.userid,
-        astroid :req.body.astroid,
+      // .then(async(response) => {
+      //    console.log(`statusCode: ${res.statusCode}`)
+      //    console.log("RES",response)
+      //    res.send(response)
+        //  var requestBody = {
+        //   From: req.body.From,   //USER
+        // To: req.body.To,       //ASTRO
+        // userid:req.body.userid,
+        // astroid :req.body.astroid,
+        // data :response
       
-         }
+         
         
 //      // res.json({data:response.data})
 //  //    res.send(JSON.stringify(response.data));
@@ -101,9 +125,9 @@ var request = require('request');
 
 //     // .catch((error) => {
 //     //   console.error(error)
-      })
+   //   })
 
-   }
+   //}
 
   
 // exports.callStatus = async (req, res) => {
