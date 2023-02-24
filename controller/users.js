@@ -19,7 +19,7 @@ cloudinary.config({
 exports.usersignup = async (req, res) => {
   let length = 6;
   let defaultotp = "123456";
-  const { fullname, userimg, email, mobile, dob } =
+  const { fullname, userimg, email, mobile, dob,gender,birth_tym,city,bithplace } =
     req.body;
   const newUser = new User({
     fullname: fullname,
@@ -29,6 +29,10 @@ exports.usersignup = async (req, res) => {
     mobile: mobile,
     userimg: userimg,
     dob: dob,
+    birth_tym:birth_tym,
+    bithplace:bithplace,
+    city:city,
+    gender:gender,
     // tym_of_birth:tym_of_birth
     //walletId:walletId,
     otp: defaultotp

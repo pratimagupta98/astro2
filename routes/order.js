@@ -13,7 +13,7 @@ const {
     // active_plans
     admin_product_Orderslist,
     dltOrder,
-    completed_order
+   completed_order
 } = require("../controller/order");
 
 

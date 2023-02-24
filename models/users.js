@@ -59,6 +59,9 @@ const thisSchema = new Schema(
         },
         deductedAmt:{
           type:Number
+        },
+        gender:{
+          type:String
         }
 
   },

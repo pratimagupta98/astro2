@@ -224,22 +224,33 @@ exports.addtoCart = async (req, res) => {
       .catch((error) => resp.errorr(res, error));
   };
 
-  exports.completed_order = async (req, res) => {
+//   exports.completed_order = async (req, res) => {
 
-    // const findone =  await Cart.find({
-    //   $and: [{ userId: req.params.userId}, { status: "Completed" }],
-    // })
-    await Cart.find({$and: [{ userId: req.params.id}, { status: "Completed" }]}).populate({
-      path: "astroId",
-      populate: {
-        path: "astroid",
-      },
-    })
-    .populate("shipping_address")
-      .sort({ createdAt: -1 })
-      .then((data) => resp.successr(res, data))
-      .catch((error) => resp.errorr(res, error));
-  };
+//     // const findone =  await Cart.find({
+//     //   $and: [{ userId: req.params.userId}, { status: "Completed" }],
+//     // })
+//     const getdata =await Cart.find({$and: [{ userId: req.params.id}, { status: "Completed" }]}).populate({
+//       path: "astroId",
+//       populate: {
+//         path: "astroid",
+//       },
+//     })
+//     if(getdata){
+// res.status(200).json({
+//   status: true,
+//     message:"success",
+//     cartId :getdata.cartId,
+//     astroid:getdata.astroid,
+
+// })
+//     }else{
+
+//     }
+//     // .populate("shipping_address")
+//     //   .sort({ createdAt: -1 })
+//     //   .then((data) => resp.successr(res, data))
+//     //   .catch((error) => resp.errorr(res, error));
+//   };
 
 
 

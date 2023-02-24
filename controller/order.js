@@ -157,7 +157,7 @@ exports.dltOrder = async (req, res) => {
 
 
   exports.completed_order = async (req, res) => {
-    await Order.find({  $and: [{ status: "COMPLETED" }, { userid: req.params.id }], }).populate({
+  const getdata=   await Order.find({  $and: [{ status: "COMPLETED" }, { userid: req.params.id }], }).populate({
       path: "product",
       populate: {
         path: "product",
@@ -185,6 +185,17 @@ exports.dltOrder = async (req, res) => {
         },
         
     })
+    // console.log("data",getdata)
+    // if(getdata){
+    //   res.status(200).json({
+    //     status: true,
+    //       message:"success",
+    //      data:getdata
+      
+    //   })
+    //       }else{
+      
+    //       }
     .populate("astroid")
         .then((data) => resp.successr(res, data))
         .catch((error) => resp.errorr(res, error));
