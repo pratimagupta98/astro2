@@ -5,7 +5,7 @@ const fs = require("fs");
 
 
 const {
-    make_call,callStatus
+    make_call,callStatus,call_Status
    
 } = require("../controller/make_call");
 
@@ -15,6 +15,8 @@ const {
  
  router.post("/user/make_call", make_call);
  router.get("/user/callStatus", callStatus);
+ router.get("/user/call_Status", call_Status);
+
 
  
 

@@ -1,7 +1,8 @@
 
 const make_call = require("../models/make_call.js");
 
- 
+const resp = require("../helpers/apiResponse");
+
 exports.make_call = async (req, res) => {
 var request = require('request');
 CircularJSON = require('circular-json')
@@ -313,7 +314,7 @@ exports.callStatus = async (req, res) => {
   sid="astrologically3"
   token="04d432d9144e8521e1e31f8297e3d199d3c73b8676c49df8"
 var options = {
-    url: 'https://90c1bddcdace6f704819ebc54d740ebbbdf37f2ad30a4e8f:04d432d9144e8521e1e31f8297e3d199d3c73b8676c49df8@api.exotel.in/v1/Accounts/astrologically3/Calls/3d5c1dc4e126bef1ffffb5f2a8081732.json'
+    url: 'https://90c1bddcdace6f704819ebc54d740ebbbdf37f2ad30a4e8f:04d432d9144e8521e1e31f8297e3d199d3c73b8676c49df8@api.exotel.in/v1/Accounts/astrologically3/Calls/8b82ef5cb59f7b09af47fe32d6771732.json'
 };
 //console.log("options",options)
 function callback(error, response, body) {
@@ -328,28 +329,15 @@ function callback(error, response, body) {
 request(options, callback);
 }
 
-// exports.make_call = async (req, res) => {
-// key="90c1bddcdace6f704819ebc54d740ebbbdf37f2ad30a4e8f"
-// sid="astrologically3"
-// token="04d432d9144e8521e1e31f8297e3d199d3c73b8676c49df8"
-//  var request = require('request');
+ 
 
-// var dataString = 'From=7489651191&To=8461809095&CallerId=011-411-68588';
 
-// var options = {
-//     url: "https://"+key+":"+token+"@api.exotel.in/v1/Accounts/"+sid+"/Calls/connect.json",
-//     method: 'POST',
-//     body: dataString
-// };
-// console.log("options",options)
-// function callback(error, response, body) {
-//   console.log("tt",body)
-//   console.log("response",response)
 
-//     if (!error && response.statusCode == 200) {
-//         console.log(response);
-//     }
-// }
+ 
 
-// request(options, callback);
-// }
+exports.call_Status = async (req, res) => {
+  await make_call.find().populate("userid").populate("astroid")
+    .sort({ sortorder: 1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
