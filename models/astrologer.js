@@ -142,7 +142,10 @@ const thisSchema = new Schema(
   waiting_queue :{
     type: Number,
     default:0
-  }
+  },
+  availability:[{
+    type: String,
+  }]
       },
       
        
