@@ -235,7 +235,7 @@ const minute = 5
  const getuserdetail = await User.findOne({_id:req.body.userid})
  //console.log("GETUSER",getuserdetail)
  if(getuserdetail){
-    let totalamt = getcharge*getplan
+    let totalamt = getcharge*minute
     console.log("TOTAL AMT WAS DEDUCTED",totalamt)
  const getwalletamt = getuserdetail.amount
  console.log("WALLET AMT",getwalletamt)
