@@ -9,7 +9,8 @@ const {
     acceptChat,
     ChatWaiting,
     requested_notification,
-    accepted_notification
+    accepted_notification,
+ //   addCallWallet_new
  
 } = require("../controller/chatWallet");
 
@@ -23,6 +24,7 @@ router.get("/user/ChatWaiting/:id", ChatWaiting);
 router.get("/user/requested_notification/:id", requested_notification);
 router.get("/user/accepted_notification/:id", accepted_notification);
 
+//router.post("/user/addCallWallet_new", addCallWallet_new);
 
 
 
