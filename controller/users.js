@@ -19,20 +19,23 @@ cloudinary.config({
 exports.usersignup = async (req, res) => {
   let length = 6;
   let defaultotp = "123456";
-  const { fullname, userimg, email, mobile, dob,gender,birth_tym,city,bithplace } =
+  const { fullname, userimg, email, mobile, dob, gender, birth_tym, city, bithplace, password, cnfmPassword } =
     req.body;
+
+  const salt = await bcrypt.genSalt(10);
+  const hashPassword = await bcrypt.hash(password, salt);
   const newUser = new User({
     fullname: fullname,
-    // password: hashPassword,
-    // cnfmPassword: hashPassword,
+    password: hashPassword,
+    cnfmPassword: hashPassword,
     email: email,
     mobile: mobile,
     userimg: userimg,
     dob: dob,
-    birth_tym:birth_tym,
-    bithplace:bithplace,
-    city:city,
-    gender:gender,
+    birth_tym: birth_tym,
+    bithplace: bithplace,
+    city: city,
+    gender: gender,
     // tym_of_birth:tym_of_birth
     //walletId:walletId,
     otp: defaultotp
@@ -140,50 +143,52 @@ exports.getoneuserdetail = async (req, res) => {
 
 
 
-// exports.userlogin = async(req,res)=>{
-//   const{email,mobile,password} =req.body
+exports.loginWithPassword = async (req, res) => {
+  const { email, mobile, password } = req.body
 
-//   const user = await User.findOne({
-//     $or: [{ email: email }, { mobile: mobile }],
-//   });
-//   console.log("Strrr",user)
-//   if(user){
-//     const validPass = await  bcrypt.compare(password,user.password)
-//     console.log("paaa",validPass)
-//     if(validPass){
-//       const token = jwt.sign(
-//         {
-//           userId: user._id,
-//       }, 
-//       key,
-//       {
-//         expiresIn: 86400000,
-//       }
-//       )
-//       res.header("auth-token", token).status(200).send({
-//         status: true,
-//         token: token,
-//         msg: "success",
-//         user: user,
-//       });
-//     } else {
-//       res.status(400).json({
-//         status: false,
-//         msg: "Incorrect Password",
-//         error: "error",
-//       });
-//     }
-//   } else {
-//     res.status(400).json({
-//       status: false,
-//       msg: "User Doesnot Exist",
-//       error: "error",
-//     });
-//   }
-// };
+  const user = await User.findOne({
+    mobile: mobile
+  });
+  console.log("Strrr", user)
+  if (user) {
+    const validPass = await bcrypt.compare(req.body.password, user.password)
+    console.log("paaa", validPass)
+    if (validPass) {
+      const token = jwt.sign(
+        {
+          userId: user._id,
+        },
+        key,
+        {
+          expiresIn: 86400000,
+        }
+      )
+      res.header("auth-token", token).status(200).send({
+        status: true,
+        token: token,
+        msg: "success",
+        user: user,
+      });
+    } else {
+      res.status(400).json({
+        status: false,
+        msg: "Incorrect Password",
+        error: "error",
+      });
+    }
+  } else {
+    res.status(400).json({
+      status: false,
+      msg: "User Doesnot Exist",
+      error: "error",
+    });
+  }
+};
+
+
 
 exports.edit_myprofile = async (req, res) => {
-  const { fullname, userimg, email, mobile, password, cnfmPassword, birth_tym, dob, bithplace, address, city, state, country, pincode,gender } = req.body
+  const { fullname, userimg, email, mobile, password, cnfmPassword, birth_tym, dob, bithplace, address, city, state, country, pincode, gender } = req.body
 
   data = {}
   if (fullname) {
@@ -321,17 +326,17 @@ exports.shipping_address = async (req, res) => {
 
 
 exports.resetPassword = async (req, res) => {
-  const { oldpassword ,password, cnfmPassword } = req.body
-  const userData = await User.findOne({_id : req.params.id})
-  if(userData){
-  const passwordMatch = await bcrypt.compare(oldpassword,userData.password)
-  if(passwordMatch){
+  const { oldpassword, password, cnfmPassword } = req.body
+  const userData = await User.findOne({ _id: req.params.id })
+  if (userData) {
+    const passwordMatch = await bcrypt.compare(oldpassword, userData.password)
+    if (passwordMatch) {
 
-    console.log("matched")
-    if(password === cnfmPassword){
-      const salt = await bcrypt.genSalt(10);
-    const hashPassword = await bcrypt.hash(password, salt);
-    const findandUpdateEntry = await User.findOneAndUpdate(
+      console.log("matched")
+      if (password === cnfmPassword) {
+        const salt = await bcrypt.genSalt(10);
+        const hashPassword = await bcrypt.hash(password, salt);
+        const findandUpdateEntry = await User.findOneAndUpdate(
           {
             _id: req.params.id
           },
@@ -344,21 +349,21 @@ exports.resetPassword = async (req, res) => {
             msg: "success",
             data: findandUpdateEntry,
           });
-        } 
-    }else {
-      res.status(401).json({
-        status: false,
-        msg: "Password confirm password not matched"
-        
-      });
-    }
-  }else{
-    res.status(400).json({
+        }
+      } else {
+        res.status(401).json({
           status: false,
-          msg: "Old Password not matched",
-         
-        })
+          msg: "Password confirm password not matched"
+
+        });
       }
-  
+    } else {
+      res.status(400).json({
+        status: false,
+        msg: "Old Password not matched",
+
+      })
+    }
+
   }
 };
