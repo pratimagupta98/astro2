@@ -18,7 +18,9 @@ const {
   shipping_address,
   getoneuserdetail,
   resetPassword,
-  loginWithPassword
+  loginWithPassword,
+  forget_sendotp
+
 
 } = require("../controller/users");
 
@@ -81,6 +83,9 @@ router.get("/admin/dltuser/:id", dltuser);
 router.post("/user/shipping_address/:id", shipping_address);
 router.post("/user/resetPassword/:id", resetPassword);
 router.post("/user/loginWithPassword", loginWithPassword);
+router.post("/user/resetPassword/:id", resetPassword);
+router.post("/user/forget_sendotp", forget_sendotp);
+
 
 
 

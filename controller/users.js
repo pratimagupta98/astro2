@@ -325,15 +325,19 @@ exports.shipping_address = async (req, res) => {
 };
 
 
+
+
+
+
 exports.resetPassword = async (req, res) => {
-  const { oldpassword, password, cnfmPassword } = req.body
+  const { oldpassword, password, cnfrmPassword } = req.body
   const userData = await User.findOne({ _id: req.params.id })
   if (userData) {
     const passwordMatch = await bcrypt.compare(oldpassword, userData.password)
     if (passwordMatch) {
 
       console.log("matched")
-      if (password === cnfmPassword) {
+      if (password === cnfrmPassword) {
         const salt = await bcrypt.genSalt(10);
         const hashPassword = await bcrypt.hash(password, salt);
         const findandUpdateEntry = await User.findOneAndUpdate(
@@ -349,6 +353,7 @@ exports.resetPassword = async (req, res) => {
             msg: "success",
             data: findandUpdateEntry,
           });
+
         }
       } else {
         res.status(401).json({
@@ -365,5 +370,27 @@ exports.resetPassword = async (req, res) => {
       })
     }
 
+  }
+};
+
+
+exports.forget_sendotp = async (req, res) => {
+  let length = 6;
+  let defaultotp = "123456";
+  const getuser = await User.findOne({ mobile: req.body.mobile });
+  if (getuser) {
+    console.log("STRING", getuser)
+    res.status(200).send({
+      status: true,
+      msg: "otp Send Successfully",
+      //otp: otp,
+      _id: getuser._id,
+      mobile: getuser.mobile
+    })
+  } else {
+    res.status(400).json({
+      status: false,
+      msg: "User doesn't Exist"
+    })
   }
 };
