@@ -394,3 +394,44 @@ exports.forget_sendotp = async (req, res) => {
     })
   }
 };
+
+
+
+exports.forget_verify = async (req, res) => {
+  const { mobile, otp } = req.body;
+  const getuser = await User.findOne({ mobile: mobile })
+  if (getuser) {
+    if (otp == "123456") {
+      const token = jwt.sign(
+        {
+          userId: getuser._id,
+        },
+        key,
+        {
+          expiresIn: "365d",
+        }
+      )
+      //.then((data)=>{ 
+      res.header("auth-token", token).status(200).send({
+        status: true,
+        msg: "otp verified",
+        otp: otp,
+        _id: getuser._id,
+        mobile: getuser.mobile,
+        token: token
+      })
+      // });
+    } else {
+      res.status(200).json({
+        status: false,
+        msg: "Incorrect Otp",
+      });
+    }
+  } else {
+    res.status(200).json({
+      status: false,
+      msg: "User Doesn't exist",
+    });
+
+  }
+}

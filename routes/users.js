@@ -19,7 +19,8 @@ const {
   getoneuserdetail,
   resetPassword,
   loginWithPassword,
-  forget_sendotp
+  forget_sendotp,
+  forget_verify
 
 
 } = require("../controller/users");
@@ -85,6 +86,8 @@ router.post("/user/resetPassword/:id", resetPassword);
 router.post("/user/loginWithPassword", loginWithPassword);
 router.post("/user/resetPassword/:id", resetPassword);
 router.post("/user/forget_sendotp", forget_sendotp);
+router.post("/user/forget_verify", forget_verify);
+
 
 
 
