@@ -3,9 +3,9 @@ const Schema = mongoose.Schema;
 
 const thisSchema = new Schema(
     {
-        event_list: {
-            userid: { type: mongoose.Schema.Types.ObjectId, ref: "eventList" },
-        },
+
+        event_list: { type: mongoose.Schema.Types.ObjectId, ref: "eventList" },
+
         desc: {
             type: String,
         },
