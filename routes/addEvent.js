@@ -15,7 +15,7 @@ const {
 router.post("/admin/admin_Addevent", admin_Addevent);
 
 router.get("/admin/get_adminevent", get_adminevent);
-router.get("/admin/admin_getone_event", admin_getone_event);
+router.get("/admin/admin_getone_event/:id", admin_getone_event);
 
 
 
