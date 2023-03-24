@@ -4,7 +4,8 @@ const router = express.Router();
 
 const {
     add_eventList,
-    EventList
+    EventListAdmin,
+    dlt_eventList
 
 } = require("../controller/eventList");
 
@@ -12,7 +13,9 @@ const {
 
 router.post("/admin/add_eventList", add_eventList);
 
-router.get("/admin/EventList", EventList);
+router.get("/admin/EventListAdmin", EventListAdmin);
+router.get("/admin/dlt_eventList/:id", dlt_eventList);
+
 
 
 module.exports = router;

@@ -35,8 +35,8 @@ exports.admin_getone_event = async (req, res) => {
 };
 
 
-exports.edit_event = async (req, res) => {
-    await Bookevent.findOneAndUpdate(
+exports.admin_edit_event = async (req, res) => {
+    await AdminEventList.findOneAndUpdate(
         {
             _id: req.params.id,
         },
@@ -48,8 +48,8 @@ exports.edit_event = async (req, res) => {
 };
 
 
-exports.dlt_event = async (req, res) => {
-    await Bookevent.deleteOne({ _id: req.params.id })
+exports.admin_dlt_event = async (req, res) => {
+    await AdminEventList.deleteOne({ _id: req.params.id })
         .then((data) => resp.deleter(res, data))
         .catch((error) => resp.errorr(res, error));
 };

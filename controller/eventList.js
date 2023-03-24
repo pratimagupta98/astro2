@@ -18,15 +18,15 @@ exports.add_eventList = async (req, res) => {
 
 
 
-exports.EventList = async (req, res) => {
-    await EventList.find().populate("userid")
+exports.EventListAdmin = async (req, res) => {
+    await EventList.find()
         .sort({ createdAt: -1 })
         .then((data) => resp.successr(res, data))
         .catch((error) => resp.errorr(res, error));
 };
 
 exports.getone_event = async (req, res) => {
-    await Bookevent.findOne({ _id: req.params.id }).populate("userid")
+    await Bookevent.findOne({ _id: req.params.id })
         .then((data) => resp.successr(res, data))
         .catch((error) => resp.errorr(res, error));
 };
@@ -45,8 +45,8 @@ exports.edit_event = async (req, res) => {
 };
 
 
-exports.dlt_event = async (req, res) => {
-    await Bookevent.deleteOne({ _id: req.params.id })
+exports.dlt_eventList = async (req, res) => {
+    await EventList.deleteOne({ _id: req.params.id })
         .then((data) => resp.deleter(res, data))
         .catch((error) => resp.errorr(res, error));
 };
