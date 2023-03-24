@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
- 
+
 require("dotenv").config();
 const mongoose = require("mongoose");
 //const cors = require("cors");
@@ -11,10 +11,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 //require
- 
- const users = require("./routes/users")
- const astrologer = require("./routes/astrologer")
- const admin = require("./routes/admin")
+
+const users = require("./routes/users")
+const astrologer = require("./routes/astrologer")
+const admin = require("./routes/admin")
 const aboutus = require("./routes/aboutus")
 const terms_condition = require("./routes/terms_condition")
 const contact_us = require("./routes/contact_us")
@@ -51,9 +51,13 @@ const match_making = require("./routes/match_making")
 const commision = require("./routes/commision")
 const payout = require("./routes/payout")
 const bookevent = require("./routes/bookevent")
+const eventList = require("./routes/eventList")
+const addEvent = require("./routes/addEvent")
 
 
- 
+
+
+
 
 
 //use
@@ -95,12 +99,16 @@ app.use("/", match_making);
 app.use("/", commision);
 app.use("/", payout);
 app.use("/", bookevent);
+app.use("/", eventList);
+app.use("/", addEvent);
 
 
 
 
 
- 
+
+
+
 
 
 
@@ -127,7 +135,7 @@ mongoose
   .catch((error) => {
     console.log(error);
   });
-  
+
 
 app.listen(process.env.PORT || 8000, () => {
   console.log("Example app listening on port 8000");
