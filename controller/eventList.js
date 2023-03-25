@@ -25,15 +25,15 @@ exports.EventListAdmin = async (req, res) => {
         .catch((error) => resp.errorr(res, error));
 };
 
-exports.getone_event = async (req, res) => {
-    await Bookevent.findOne({ _id: req.params.id })
+exports.getone_eventList = async (req, res) => {
+    await EventList.findOne({ _id: req.params.id })
         .then((data) => resp.successr(res, data))
         .catch((error) => resp.errorr(res, error));
 };
 
 
-exports.edit_event = async (req, res) => {
-    await Bookevent.findOneAndUpdate(
+exports.edit_eventlist = async (req, res) => {
+    await EventList.findOneAndUpdate(
         {
             _id: req.params.id,
         },
