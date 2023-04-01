@@ -15,95 +15,95 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 exports.signup = async (req, res) => {
-  const{fullname,mobile,email} = req.body
+  const { fullname, mobile, email } = req.body
   let length = 6;
   let defaultotp = "123456";
 
   const newAstrologer = new Astrologer({
     fullname: fullname,
-    mobile:  mobile,
-    email:  email,
+    mobile: mobile,
+    email: email,
     otp: defaultotp
   });
-  
- 
-   
-  let findexist= await Astrologer.findOne({mobile:mobile})
- if(findexist){
-  if(findexist.mobile == null){
-    console.log("error")
-  var resData = {
+
+
+
+  let findexist = await Astrologer.findOne({ mobile: mobile })
+  if (findexist) {
+    if (findexist.mobile == null) {
+      console.log("error")
+      var resData = {
         status: false,
         message: "Validation error",
-       
+
         error: "error",
       };
 
-     return res.status(201).json(resData);
+      return res.status(201).json(resData);
 
-  }
-  
-  else if(findexist.mobile ){
-    console.log("success")
-    res.json({
-        status: "success",
-        msg: "Welcome Back Otp send successfully",
-        mobile:findexist.mobile,
-        otp: defaultotp,
-        _id: findexist?._id,
-  })
-}
- }
-    else{
+    }
 
-    newAstrologer
-    .save()
-   
-    .then((data) => {
+    else if (findexist.mobile) {
+      console.log("success")
       res.json({
         status: "success",
-        msg: "Otp send successfully",
-       registered: data?.mobile,
-       _id: data?._id,
-        otp:defaultotp
+        msg: "Welcome Back Otp send successfully",
+        mobile: findexist.mobile,
+        otp: defaultotp,
+        _id: findexist?._id,
       })
-    })
-      .catch((error) => resp.errorr(res, error));
-      // var resData = {
-      //   status: false,
-      //   message: "success",
-      //   count: data.length,
-      //   data: data,
-      // };
-
-     // return res.status(201).json(resData);
-      
-//})
     }
   }
+  else {
 
-exports.loginsendotp = async (req,res) =>{
+    newAstrologer
+      .save()
+
+      .then((data) => {
+        res.json({
+          status: "success",
+          msg: "Otp send successfully",
+          registered: data?.mobile,
+          _id: data?._id,
+          otp: defaultotp
+        })
+      })
+      .catch((error) => resp.errorr(res, error));
+    // var resData = {
+    //   status: false,
+    //   message: "success",
+    //   count: data.length,
+    //   data: data,
+    // };
+
+    // return res.status(201).json(resData);
+
+    //})
+  }
+}
+
+exports.loginsendotp = async (req, res) => {
   let length = 6;
   let defaultotp = "123456";
   const getuser = await Astrologer.findOne({ mobile: req.body.mobile });
   if (getuser?.approvedstatus == "true") {
-    console.log("STRING",getuser)
+    console.log("STRING", getuser)
     res.status(200).send({
       status: true,
       msg: "otp Send Successfully",
       //otp: otp,
       _id: getuser._id,
-      mobile:getuser.mobile
+      mobile: getuser.mobile
     })
-   } else if(getuser?.approvedstatus == "false") {
+  } else if (getuser?.approvedstatus == "false") {
     res.status(200).json({
       status: true,
       msg: "Waiting for Admin Approval",
     });
-  }else{
+  } else {
     res.status(400).json({
-      status : false,
-      msg :"User doesn't Exist"
+      status: false,
+      msg: "User doesn't Exist"
     })
   }
 };
@@ -184,10 +184,10 @@ exports.astrosignup = async (req, res) => {
 }
 
 exports.editAstroDetails = async (req, res) => {
-  const { fullname, email, password, cnfmPassword, gender, dob, primary_skills, all_skills, language, exp_in_years, conrubute_hrs, hear_abt_astrology, other_online_platform, why_onboard_you, suitable_tym_interview, crnt_city, income_src, highest_qualification, degree_deploma, clg_scl_name, lrn_abt_astrology, insta_link, fb_link, linkedln_link, youtube_link, website_link, anybody_prefer, min_earning_expe, max_earning_expe, long_bio,status,callCharge,availability } = req.body;
+  const { fullname, email, password, cnfmPassword, gender, dob, primary_skills, all_skills, language, exp_in_years, conrubute_hrs, hear_abt_astrology, other_online_platform, why_onboard_you, suitable_tym_interview, crnt_city, income_src, highest_qualification, degree_deploma, clg_scl_name, lrn_abt_astrology, insta_link, fb_link, linkedln_link, youtube_link, website_link, anybody_prefer, min_earning_expe, max_earning_expe, long_bio, status, callCharge, availability } = req.body;
 
 
-  data = {};
+  let data = {};
 
   if (fullname) {
     data.fullname = fullname
@@ -284,18 +284,18 @@ exports.editAstroDetails = async (req, res) => {
   if (long_bio) {
     data.long_bio = long_bio
   }
-if(status){
-  data.status = status
-}
-if(availability){
-  data.availability =availability
-}
-  if(callCharge){
-    data.callCharge =parseInt(callCharge)*25/100
-    data.callCharge =parseInt(req.body.callCharge)+parseInt(data.callCharge)
+  if (status) {
+    data.status = status
+  }
+  if (availability) {
+    data.availability = availability
+  }
+  if (callCharge) {
+    data.callCharge = parseInt(callCharge) * 25 / 100
+    data.callCharge = parseInt(req.body.callCharge) + parseInt(data.callCharge)
 
   }
-  console.log("callCharge",data.callCharge)
+  console.log("callCharge", data.callCharge)
 
   if (req.files) {
     if (req.files.img) {
@@ -315,7 +315,7 @@ if(availability){
   }
   await Astrologer.findOneAndUpdate(
     { _id: req.params.id },
-    { $set: data},
+    { $set: data },
     { new: true }
   )
     .then((data) => resp.successr(res, data))
@@ -342,15 +342,15 @@ exports.verifyotp = async (req, res) => {
           _id: getuser._id,
         },
         { $set: { otpverify: "true" } },
-        { new: true }).then((data)=>{ 
-      res.header("auth-adtoken", token).status(200).send({
-        status: true,
-        msg: "otp verified",
-        otp: otp,
-        _id: getuser._id,
-        mobile:getuser.mobile
-      })
-      });
+        { new: true }).then((data) => {
+          res.header("auth-adtoken", token).status(200).send({
+            status: true,
+            msg: "otp verified",
+            otp: otp,
+            _id: getuser._id,
+            mobile: getuser.mobile
+          })
+        });
     } else {
       res.status(200).json({
         status: false,
@@ -375,37 +375,37 @@ exports.loginVerify = async (req, res) => {
           expiresIn: "365d",
         }
       )
-    //.then((data)=>{ 
+      //.then((data)=>{ 
       res.header("astro-token", token).status(200).send({
         status: true,
         msg: "otp verified",
         otp: otp,
         _id: getuser._id,
-        mobile:getuser.mobile,
-        token :token
+        mobile: getuser.mobile,
+        token: token
       })
-     // });
+      // });
     } else {
       res.status(200).json({
         status: false,
         msg: "Incorrect Otp",
       });
     }
-  }else{
+  } else {
     res.status(200).json({
       status: false,
       msg: "User Doesn't exist",
     });
 
-}
+  }
 }
 
 exports.astrologin = async (req, res) => {
   const { email, mobile, password } = req.body
 
-  const user = await Astrologer.findOne( { mobile: mobile })
-  
-   if (user) {
+  const user = await Astrologer.findOne({ mobile: mobile })
+
+  if (user) {
     const validPass = await bcrypt.compare(password, user.password)
     console.log("paaa", validPass)
     if (validPass) {
@@ -455,7 +455,7 @@ exports.getoneAstro = async (req, res) => {
 
 
 exports.allAstro = async (req, res) => {
-  await Astrologer.find({"approvedstatus" :"true"}).sort({ createdAt: -1 })
+  await Astrologer.find({ "approvedstatus": "true" }).sort({ createdAt: -1 })
     .sort({ sortorder: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
@@ -475,21 +475,21 @@ exports.dltAstro = async (req, res) => {
 };
 
 exports.updteApprovedsts = async (req, res) => {
- findone= await Astrologer.findOneAndUpdate(
-    {_id :req.params.id},
-      { $set: {approvedstatus:req.body.approvedstatus}},
-      { new: true }
-    ).then((data) => {
-res.status(200).json({
-  status:true,
-  message :"success",
-  approvedstatus:data.approvedstatus
+  findone = await Astrologer.findOneAndUpdate(
+    { _id: req.params.id },
+    { $set: { approvedstatus: req.body.approvedstatus } },
+    { new: true }
+  ).then((data) => {
+    res.status(200).json({
+      status: true,
+      message: "success",
+      approvedstatus: data.approvedstatus
 
-})
-      })
-      .catch((error) => resp.errorr(res, error));
-  };
-  
+    })
+  })
+    .catch((error) => resp.errorr(res, error));
+};
+
 
 
 exports.stafflogin = async (req, res) => {
@@ -509,7 +509,7 @@ exports.stafflogin = async (req, res) => {
   })
   if (staff) {
     //console.log(staff);
-    if (staff.approvedstatus == true ) {
+    if (staff.approvedstatus == true) {
       const validPass = await bcrypt.compare(password, staff.password);
       if (validPass) {
         const token = jwt.sign(
@@ -552,30 +552,30 @@ exports.stafflogin = async (req, res) => {
 
 
 exports.astrodetails = async (req, res) => {
-  const getone=  await Astrologer.findOne({ _id: req.params.id })
-      if(getone){
-       res.status(200).json({
-         status :true,
-         msg :"success",
-         Name :getone.fullname,
-         Skills:getone.all_skills,
-         language:getone.language,
-         Exp:getone.exp_in_years,
-         callCharge:getone.callCharge,
-         about_me : getone.long_bio,
-         img:getone.img
- 
-       })
-      }
- };
- 
+  const getone = await Astrologer.findOne({ _id: req.params.id })
+  if (getone) {
+    res.status(200).json({
+      status: true,
+      msg: "success",
+      Name: getone.fullname,
+      Skills: getone.all_skills,
+      language: getone.language,
+      Exp: getone.exp_in_years,
+      callCharge: getone.callCharge,
+      about_me: getone.long_bio,
+      img: getone.img
 
- exports.status_change = async (req, res) => {
+    })
+  }
+};
+
+
+exports.status_change = async (req, res) => {
   await Astrologer.findOneAndUpdate(
     {
       _id: req.params.id,
     },
-    { $set: {status:req.body.status}},
+    { $set: { status: req.body.status } },
     { new: true }
   )
     .then((data) => resp.successr(res, data))
@@ -584,47 +584,47 @@ exports.astrodetails = async (req, res) => {
 
 
 exports.exp_high_to_low = async (req, res) => {
-  await Astrologer.find().sort({"exp_in_years":-1}) 
-  .sort({ sortorder: 1 })
-  .then((data) => resp.successr(res, data))
-  .catch((error) => resp.errorr(res, error));
-  };
-
-  exports.exp_low_to_high = async (req, res) => {
-    await Astrologer.find().sort({"exp_in_years":1}) 
+  await Astrologer.find().sort({ "exp_in_years": -1 })
     .sort({ sortorder: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
-    };
+};
+
+exports.exp_low_to_high = async (req, res) => {
+  await Astrologer.find().sort({ "exp_in_years": 1 })
+    .sort({ sortorder: 1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
 
 
-    exports.price_high_to_low = async (req, res) => {
-      await Astrologer.find().sort({"callCharge":-1}) 
-      .sort({ sortorder: 1 })
-      .then((data) => resp.successr(res, data))
-      .catch((error) => resp.errorr(res, error));
-      };
+exports.price_high_to_low = async (req, res) => {
+  await Astrologer.find().sort({ "callCharge": -1 })
+    .sort({ sortorder: 1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
 
 
-      exports.price_low_to_high = async (req, res) => {
-        await Astrologer.find().sort({"callCharge":1}) 
-        .sort({ sortorder: 1 })
-        .then((data) => resp.successr(res, data))
-        .catch((error) => resp.errorr(res, error));
-        };
+exports.price_low_to_high = async (req, res) => {
+  await Astrologer.find().sort({ "callCharge": 1 })
+    .sort({ sortorder: 1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
 
 
-        exports.rating_high_to_low = async (req, res) => {
-          await Astrologer.find().sort({"avg_rating":-1}) 
-         // .sort({ sortorder: 1 })
-          .then((data) => resp.successr(res, data))
-          .catch((error) => resp.errorr(res, error));
-          };
+exports.rating_high_to_low = async (req, res) => {
+  await Astrologer.find().sort({ "avg_rating": -1 })
+    // .sort({ sortorder: 1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
 
 
-          exports.rating_low_to_high = async (req, res) => {
-            await Astrologer.find().sort({"avg_rating":1}) 
-            //.sort({ sortorder: 1 })
-            .then((data) => resp.successr(res, data))
-            .catch((error) => resp.errorr(res, error));
-            };
+exports.rating_low_to_high = async (req, res) => {
+  await Astrologer.find().sort({ "avg_rating": 1 })
+    //.sort({ sortorder: 1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
