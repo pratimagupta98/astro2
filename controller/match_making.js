@@ -583,13 +583,15 @@ exports.time_zone = async (req, res) => {
 // }
 
 
-// const axios = require('axios');
-
-// const api = 'panchang_festival';
+const axios = require('axios');
+const api = 'panchang_festival';
 // const userId = '622692';
 // const apiKey = '220d9d0777a7645f8f62e6b03354cf51';
 
 exports.monthly_pancchang = async (req, res) => {
+  var api = 'basic_panchang';
+  var userId = process.env.USERID;
+  var apiKey = process.env.APIKEY;
   const data = {
     day: 6,
     month: 1,
@@ -601,7 +603,7 @@ exports.monthly_pancchang = async (req, res) => {
     tzone: 5.5,
   };
 
-  const auth = "Basic " + Buffer.from(userId + ":" + apiKey).toString("base64");
+  const auth = "Basic " + Buffer.from(process.env.USERID + ":" + process.env.APIKEY).toString("base64");
 
   axios.post(`https://json.astrologyapi.com/v1/${api}`, data, {
     headers: {
@@ -617,6 +619,114 @@ exports.monthly_pancchang = async (req, res) => {
     });
 }
 
+exports.lalkitab_horoscope = async (req, res) => {
+
+  var jsdom = require('jsdom');
+  const { JSDOM } = jsdom;
+  const { window } = new JSDOM();
+  const { document } = (new JSDOM('')).window;
+  global.document = document;
+
+  var $ = jQuery = require('jquery')(window);
+  var api = 'lalkitab_horoscope';
+  // var userId = '<Your User Id>';
+  // var apiKey = '<Your Api Key>';
+  var data = {
+    day: req.body.day,
+    month: req.body.month,
+    year: req.body.year,
+    hour: req.body.hour,
+    min: req.body.min,
+    lat: req.body.lat,
+    lon: req.body.lon,
+    tzone: 5.5,
+  };
+
+  //var auth = "Basic " + new Buffer(userId + ":" + apiKey).toString("base64");
+  const auth = "Basic " + Buffer.from(process.env.USERID + ":" + process.env.APIKEY).toString("base64");
+
+
+  var request = $.ajax({
+    url: "https://json.astrologyapi.com/v1/" + api,
+    method: "POST",
+    dataType: 'json',
+    headers: {
+      "authorization": auth,
+      "Content-Type": 'application/json'
+    },
+    data: JSON.stringify(data)
+  });
+
+  request.then(function (resp) {
+    //  console.log(resp);
+    res.status(200).json({
+      status: true,
+      msg: "success",
+      data: resp
+    })
+  }, function (err) {
+    console.log(err);
+    res.status(405).json({
+      err
+    })
+
+  });
+}
+
+
+exports.tarot_predictions = async (req, res) => {
+
+  var jsdom = require('jsdom');
+  const { JSDOM } = jsdom;
+  const { window } = new JSDOM();
+  const { document } = (new JSDOM('')).window;
+  global.document = document;
+
+  var $ = jQuery = require('jquery')(window);
+  var api = 'tarot_predictions';
+  // var userId = '<Your User Id>';
+  // var apiKey = '<Your Api Key>';
+  var data = {
+    day: req.body.day,
+    month: req.body.month,
+    year: req.body.year,
+    hour: req.body.hour,
+    min: req.body.min,
+    lat: req.body.lat,
+    lon: req.body.lon,
+    tzone: 5.5,
+  };
+
+  //var auth = "Basic " + new Buffer(userId + ":" + apiKey).toString("base64");
+  const auth = "Basic " + Buffer.from(process.env.USERID + ":" + process.env.APIKEY).toString("base64");
+
+
+  var request = $.ajax({
+    url: "https://json.astrologyapi.com/v1/" + api,
+    method: "POST",
+    dataType: 'json',
+    headers: {
+      "authorization": auth,
+      "Content-Type": 'application/json'
+    },
+    data: JSON.stringify(data)
+  });
+
+  request.then(function (resp) {
+    //  console.log(resp);
+    res.status(200).json({
+      status: true,
+      msg: "success",
+      data: resp
+    })
+  }, function (err) {
+    console.log(err);
+    res.status(405).json({
+      err
+    })
+
+  });
+}
 
 const fs = require('fs');
 

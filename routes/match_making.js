@@ -17,7 +17,8 @@ const {
   PitriDosh,
   geo_detail,
   time_zone,
-  monthly_pancchang
+  monthly_pancchang,
+  lalkitab_horoscope
 
 } = require("../controller/match_making");
 
@@ -36,9 +37,7 @@ router.post("/user/PitriDosh", PitriDosh);
 router.post("/user/geo_detail", geo_detail);
 router.post("/user/time_zone", time_zone);
 router.post("/user/monthly_pancchang", monthly_pancchang);
-
-
-
+router.post("/user/lalkitab_horoscope", lalkitab_horoscope);
 
 
 
