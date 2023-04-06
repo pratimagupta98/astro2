@@ -4,7 +4,7 @@ var sdkClient = require("../sdk");
 var $ = require("jquery");
 var btoa = require('btoa');
 var request = require('request');
-
+require('dotenv').config();
 
 
 
@@ -18,8 +18,9 @@ exports.match_making_report = async (req, res) => {
   var $ = jQuery = require('jquery')(window);
 
   var api = 'match_making_report';
-  var userId = '622692';
-  var apiKey = '220d9d0777a7645f8f62e6b03354cf51';
+  var userId = process.env.USERID;
+  var apiKey = process.env.APIKEY;
+
 
 
   var request_data = {
@@ -53,7 +54,7 @@ exports.match_making_report = async (req, res) => {
   });
 
   request.then(function (resp) {
-    console.log(resp);
+    // console.log(resp);
     res.status(200).json({
       status: true,
       msg: "success",
@@ -64,7 +65,7 @@ exports.match_making_report = async (req, res) => {
       status: false,
       msg: err
     })
-    console.log(err);
+    //  console.log(err);
   });
 }
 
@@ -74,8 +75,8 @@ exports.dailyHoroscope = async (req, res) => {
   //Zodiac sign
   var zodiacName = req.body.zodiacName;
   var timezone = 5.5;
-  var userId = '622692';
-  var apiKey = '220d9d0777a7645f8f62e6b03354cf51';
+  var userId = process.env.USERID;
+  var apiKey = process.env.APIKEY;
   //Daily Horoscope APIs need to be called
   var resource = "sun_sign_prediction/daily/" + `${zodiacName}`;
   //call dailyHoroCall method for daily predictions
@@ -85,14 +86,14 @@ exports.dailyHoroscope = async (req, res) => {
     timezone,
     function (error, result) {
       if (error) {
-        console.log("Error returned!!");
+        // console.log("Error returned!!");
         res.status(405).json({
           error
         })
 
       } else {
-        console.log("Response has arrived from API server --");
-        console.log(JSON.parse(result));
+        // console.log("Response has arrived from API server --");
+        //console.log(JSON.parse(result));
 
         res.status(200).json({
           status: true,
@@ -112,8 +113,8 @@ exports.weeklyHoroscope = async (req, res) => {
   //Zodiac sign
   var zodiacName = req.body.zodiacName;
   var timezone = 5.5;
-  var userId = '622692';
-  var apiKey = '220d9d0777a7645f8f62e6b03354cf51';
+  var userId = process.env.USERID;
+  var apiKey = process.env.APIKEY;
   //Daily Horoscope APIs need to be called
 
   var resource = "horoscope_prediction/weekly/" + `${zodiacName}`;
@@ -125,13 +126,13 @@ exports.weeklyHoroscope = async (req, res) => {
     timezone,
     function (error, result) {
       if (error) {
-        console.log("Error returned!!");
+        //  console.log("Error returned!!");
         res.status(405).json({
           error
         })
       } else {
-        console.log("Response has arrived from API server --");
-        console.log(JSON.parse(result));
+        // console.log("Response has arrived from API server --");
+        // console.log(JSON.parse(result));
 
         res.status(200).json({
           status: true,
@@ -151,8 +152,8 @@ exports.monthlyHoroscope = async (req, res) => {
   //Zodiac sign
   var zodiacName = req.body.zodiacName;
   var timezone = 5.5;
-  var userId = '622692';
-  var apiKey = '220d9d0777a7645f8f62e6b03354cf51';
+  var userId = process.env.USERID;
+  var apiKey = process.env.APIKEY;
   //Daily Horoscope APIs need to be called
 
 
@@ -164,13 +165,13 @@ exports.monthlyHoroscope = async (req, res) => {
     timezone,
     function (error, result) {
       if (error) {
-        console.log("Error returned!!");
+        //  console.log("Error returned!!");
         res.status(405).json({
           error
         })
       } else {
-        console.log("Response has arrived from API server --");
-        console.log(JSON.parse(result));
+        //console.log("Response has arrived from API server --");
+        //  console.log(JSON.parse(result));
 
         res.status(200).json({
           status: true,
@@ -195,8 +196,8 @@ exports.ChineseHoroscope = async (req, res) => {
   var $ = jQuery = require('jquery')(window);
 
   var api = 'chinese_zodiac';
-  var userId = '622692';
-  var apiKey = '220d9d0777a7645f8f62e6b03354cf51';
+  var userId = process.env.USERID;
+  var apiKey = process.env.APIKEY;
 
 
 
@@ -225,14 +226,14 @@ exports.ChineseHoroscope = async (req, res) => {
   });
 
   request.then(function (resp) {
-    console.log(resp);
+    //  console.log(resp);
     res.status(200).json({
       status: true,
       msg: "success",
       data: resp
     })
   }, function (err) {
-    console.log(err);
+    // console.log(err);
     res.status(405).json({
       err
     })
@@ -251,8 +252,8 @@ exports.ManglikDosh = async (req, res) => {
   var $ = jQuery = require('jquery')(window);
 
   var api = 'manglik';
-  var userId = '622692';
-  var apiKey = '220d9d0777a7645f8f62e6b03354cf51';
+  var userId = process.env.USERID;
+  var apiKey = process.env.APIKEY;
 
   var data = {
     day: req.body.day,
@@ -278,14 +279,14 @@ exports.ManglikDosh = async (req, res) => {
   });
 
   request.then(function (resp) {
-    console.log(resp);
+    // console.log(resp);
     res.status(200).json({
       status: true,
       msg: "success",
       data: resp
     })
   }, function (err) {
-    console.log(err);
+    // console.log(err);
     res.status(405).json({
       err
     })
@@ -302,8 +303,8 @@ exports.kalsharpDosh = async (req, res) => {
   var $ = jQuery = require('jquery')(window);
 
   var api = 'kalsarpa_details';
-  var userId = '622692';
-  var apiKey = '220d9d0777a7645f8f62e6b03354cf51';
+  var userId = process.env.USERID;
+  var apiKey = process.env.APIKEY;
 
   var data = {
     day: req.body.day,
@@ -329,14 +330,14 @@ exports.kalsharpDosh = async (req, res) => {
   });
 
   request.then(function (resp) {
-    console.log(resp);
+    // console.log(resp);
     res.status(200).json({
       status: true,
       msg: "success",
       data: resp
     })
   }, function (err) {
-    console.log(err);
+    // console.log(err);
     res.status(405).json({
       err
     })
@@ -353,8 +354,8 @@ exports.PitriDosh = async (req, res) => {
   var $ = jQuery = require('jquery')(window);
 
   var api = 'pitra_dosha_report';
-  var userId = '622692';
-  var apiKey = '220d9d0777a7645f8f62e6b03354cf51';
+  var userId = process.env.USERID;
+  var apiKey = process.env.APIKEY;
 
 
   var data = {
@@ -406,8 +407,8 @@ exports.geo_detail = async (req, res) => {
   var $ = jQuery = require('jquery')(window);
 
   var api = 'geo_details';
-  var userId = '622692';
-  var apiKey = '220d9d0777a7645f8f62e6b03354cf51';
+  var userId = process.env.USERID;
+  var apiKey = process.env.APIKEY;
   var data = {
     place: req.body.place,
     maxRows: 6,
@@ -427,14 +428,14 @@ exports.geo_detail = async (req, res) => {
   });
 
   request.then(function (resp) {
-    console.log(resp);
+    // console.log(resp);
     res.status(200).json({
       status: true,
       msg: "success",
       data: resp
     })
   }, function (err) {
-    console.log(err);
+    //  console.log(err);
     res.status(405).json({
       err
     })
@@ -451,8 +452,8 @@ exports.time_zone = async (req, res) => {
   var $ = jQuery = require('jquery')(window);
 
   var api = 'timezone';
-  var userId = '622692';
-  var apiKey = '220d9d0777a7645f8f62e6b03354cf51';
+  var userId = process.env.USERID;
+  var apiKey = process.env.APIKEY;
   var data = {
     country_code: req.body.country_code,
     isDst: true,
@@ -471,14 +472,14 @@ exports.time_zone = async (req, res) => {
   });
 
   request.then(function (resp) {
-    console.log(resp);
+    //  console.log(resp);
     res.status(200).json({
       status: true,
       msg: "success",
       data: resp
     })
   }, function (err) {
-    console.log(err);
+    //  console.log(err);
     res.status(405).json({
       err
     })
@@ -537,56 +538,56 @@ exports.time_zone = async (req, res) => {
 
 
 
-exports.time_zone = async (req, res) => {
-  var jsdom = require('jsdom');
-  const { JSDOM } = jsdom;
-  const { window } = new JSDOM();
-  const { document } = (new JSDOM('')).window;
-  global.document = document;
+// exports.time_zone = async (req, res) => {
+//   var jsdom = require('jsdom');
+//   const { JSDOM } = jsdom;
+//   const { window } = new JSDOM();
+//   const { document } = (new JSDOM('')).window;
+//   global.document = document;
 
-  var $ = jQuery = require('jquery')(window);
+//   var $ = jQuery = require('jquery')(window);
 
-  var api = 'timezone';
-  var userId = '622692';
-  var apiKey = '220d9d0777a7645f8f62e6b03354cf51';
-  var data = {
-    country_code: req.body.country_code,
-    isDst: true,
-  };
-  //https://json.astrologyapi.com/v1/match_making_report
-  var request = $.ajax({
-    // url: "https://json.astrologyapi.com/v1/match_making_report",
-    url: "https://json.astrologyapi.com/v1/" + `${api}`,
-    method: "POST",
-    dataType: 'json',
-    headers: {
-      "authorization": "Basic " + btoa(`${userId}` + ":" + `${apiKey}`),
-      "Content-Type": 'application/json'
-    },
-    data: JSON.stringify(data)
-  });
+//   var api = 'timezone';
+//   var userId = '622692';
+//   var apiKey = '220d9d0777a7645f8f62e6b03354cf51';
+//   var data = {
+//     country_code: req.body.country_code,
+//     isDst: true,
+//   };
+//   //https://json.astrologyapi.com/v1/match_making_report
+//   var request = $.ajax({
+//     // url: "https://json.astrologyapi.com/v1/match_making_report",
+//     url: "https://json.astrologyapi.com/v1/" + `${api}`,
+//     method: "POST",
+//     dataType: 'json',
+//     headers: {
+//       "authorization": "Basic " + btoa(`${userId}` + ":" + `${apiKey}`),
+//       "Content-Type": 'application/json'
+//     },
+//     data: JSON.stringify(data)
+//   });
 
-  request.then(function (resp) {
-    console.log(resp);
-    res.status(200).json({
-      status: true,
-      msg: "success",
-      data: resp
-    })
-  }, function (err) {
-    console.log(err);
-    res.status(405).json({
-      err
-    })
-  });
-}
+//   request.then(function (resp) {
+//     console.log(resp);
+//     res.status(200).json({
+//       status: true,
+//       msg: "success",
+//       data: resp
+//     })
+//   }, function (err) {
+//     console.log(err);
+//     res.status(405).json({
+//       err
+//     })
+//   });
+// }
 
 
-const axios = require('axios');
+// const axios = require('axios');
 
-const api = 'panchang_festival';
-const userId = '622692';
-const apiKey = '220d9d0777a7645f8f62e6b03354cf51';
+// const api = 'panchang_festival';
+// const userId = '622692';
+// const apiKey = '220d9d0777a7645f8f62e6b03354cf51';
 
 exports.monthly_pancchang = async (req, res) => {
   const data = {
