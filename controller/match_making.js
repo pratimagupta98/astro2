@@ -5,6 +5,7 @@ var $ = require("jquery");
 var btoa = require('btoa');
 var request = require('request');
 require('dotenv').config();
+const fetch = require('node-fetch');
 
 
 
@@ -187,57 +188,36 @@ exports.monthlyHoroscope = async (req, res) => {
 
 
 exports.ChineseHoroscope = async (req, res) => {
-  var jsdom = require('jsdom');
-  const { JSDOM } = jsdom;
-  const { window } = new JSDOM();
-  const { document } = (new JSDOM('')).window;
-  global.document = document;
-
-  var $ = jQuery = require('jquery')(window);
+  // const fetch = require('node-fetch');
 
   var api = 'chinese_zodiac';
-  var userId = process.env.USERID;
-  var apiKey = process.env.APIKEY;
-
-
-
+  var userId = '622068';
+  var apiKey = '9368f495ac9208713487f09c063269e9';
   var data = {
-    day: req.body.day,
-    month: req.body.month,
-    year: req.body.year,
-    hour: req.body.hour,
-    min: req.body.min,
-    lat: req.body.lat,
-    lon: req.body.lon,
-    tzone: req.body.tzone,
+    day: 6,
+    month: 1,
+    year: 2000,
+    hour: 7,
+    min: 45,
+    lat: 19.132,
+    lon: 72.342,
+    tzone: 5.5,
   };
 
-  //https://json.astrologyapi.com/v1/match_making_report
-  var request = $.ajax({
-    // url: "https://json.astrologyapi.com/v1/match_making_report",
-    url: "https://json.astrologyapi.com/v1/" + `${api}`,
-    method: "POST",
-    dataType: 'json',
-    headers: {
-      "authorization": "Basic " + btoa(`${userId}` + ":" + `${apiKey}`),
-      "Content-Type": 'application/json'
-    },
-    data: JSON.stringify(data)
-  });
+  var auth = "Basic " + Buffer.from(userId + ":" + apiKey).toString('base64');
 
-  request.then(function (resp) {
-    //  console.log(resp);
-    res.status(200).json({
-      status: true,
-      msg: "success",
-      data: resp
-    })
-  }, function (err) {
-    // console.log(err);
-    res.status(405).json({
-      err
-    })
-  });
+  fetch("https://json.astrologyapi.com/v1/" + api, {
+    method: "POST",
+    headers: {
+      "Authorization": auth,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error(error));
+
 }
 
 
@@ -589,7 +569,7 @@ const api = 'panchang_festival';
 // const apiKey = '220d9d0777a7645f8f62e6b03354cf51';
 
 exports.monthly_pancchang = async (req, res) => {
-  var api = 'basic_panchang';
+  var api = 'birth_details';
   var userId = process.env.USERID;
   var apiKey = process.env.APIKEY;
   const data = {
@@ -683,18 +663,19 @@ exports.tarot_predictions = async (req, res) => {
   global.document = document;
 
   var $ = jQuery = require('jquery')(window);
-  var api = 'tarot_predictions';
+  var api = 'birth_details';
   // var userId = '<Your User Id>';
   // var apiKey = '<Your Api Key>';
   var data = {
-    day: req.body.day,
-    month: req.body.month,
-    year: req.body.year,
-    hour: req.body.hour,
-    min: req.body.min,
-    lat: req.body.lat,
-    lon: req.body.lon,
+    day: 6,
+    month: 1,
+    year: 2000,
+    hour: 7,
+    min: 45,
+    lat: 19.132,
+    lon: 72.342,
     tzone: 5.5,
+
   };
 
   //var auth = "Basic " + new Buffer(userId + ":" + apiKey).toString("base64");
@@ -702,7 +683,7 @@ exports.tarot_predictions = async (req, res) => {
 
 
   var request = $.ajax({
-    url: "https://json.astrologyapi.com/v1/" + api,
+    url: `https://json.astrologyapi.com/v1/" + ${api}`,
     method: "POST",
     dataType: 'json',
     headers: {
@@ -726,6 +707,44 @@ exports.tarot_predictions = async (req, res) => {
     })
 
   });
+}
+exports.tomorrowHoroscope = async (req, res) => {
+
+  //Zodiac sign
+  var zodiacName = req.body.zodiacName;
+  var timezone = 5.5;
+  var userId = process.env.USERID;
+  var apiKey = process.env.APIKEY;
+  //Daily Horoscope APIs need to be called
+  var resource = "sun_sign_prediction/daily/next/" + `${zodiacName}`;
+  //var resource = "sun_sign_prediction/daily/next/" + zodiacName;
+
+  //call dailyHoroCall method for daily predictions
+  var dailyHoroData = sdkClient.dailyHoroCall(
+    resource,
+    zodiacName,
+    timezone,
+    function (error, result) {
+      if (error) {
+        // console.log("Error returned!!");
+        res.status(405).json({
+          error
+        })
+
+      } else {
+        // console.log("Response has arrived from API server --");
+        //console.log(JSON.parse(result));
+
+        res.status(200).json({
+          status: true,
+          msg: "success",
+          // data :result
+          data: JSON.parse(result)
+        })
+
+      }
+    }
+  );
 }
 
 const fs = require('fs');
@@ -752,3 +771,40 @@ const downloadPdf = async () => {
 }
 
 downloadPdf();
+
+
+exports.basicPanchang = async (req, res) => {
+  var api = 'basic_panchang';
+  var data = {
+    day: req.body.day,
+    month: req.body.month,
+    year: req.body.year,
+    hour: req.body.hour,
+    min: req.body.min,
+    lat: req.body.lat,
+    lon: req.body.lon,
+    tzone: 5.5,
+  };
+  var auth = "Basic " + Buffer.from(process.env.USERID + ":" + process.env.APIKEY).toString('base64');
+
+  try {
+    const response = await fetch("https://json.astrologyapi.com/v1/" + api, {
+      method: "POST",
+      headers: {
+        "Authorization": auth,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+    const result = await response.json();
+    res.status(200).json({
+      status: true,
+      msg: "success",
+      data: result
+    });
+  } catch (error) {
+    res.status(405).json({
+      error
+    });
+  }
+};
