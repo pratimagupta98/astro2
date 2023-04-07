@@ -18,7 +18,7 @@ const {
   geo_detail,
   time_zone,
   monthly_pancchang,
-  lalkitab_horoscope, tarot_predictions,
+  lalkitab_horoscope, numerologyApi,
   tomorrowHoroscope,
   basicPanchang
 
@@ -40,7 +40,7 @@ router.post("/user/geo_detail", geo_detail);
 router.post("/user/time_zone", time_zone);
 router.post("/user/monthly_pancchang", monthly_pancchang);
 router.post("/user/lalkitab_horoscope", lalkitab_horoscope);
-router.post("/user/tarot_predictions", tarot_predictions);
+router.post("/user/numerologyApi", numerologyApi);
 router.post("/user/tomorrowHoroscope", tomorrowHoroscope
 );
 router.post("/user/basicPanchang", basicPanchang);
