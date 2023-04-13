@@ -25,6 +25,7 @@ exports.match_making_report = async (req, res) => {
 
 
   var request_data = {
+
     m_day: req.body.m_day,
     m_month: req.body.m_month,
     m_year: req.body.m_year,
@@ -694,4 +695,247 @@ exports.basicPanchang = async (req, res) => {
       error
     });
   }
+};
+exports.taraot_prediction = async (req, res) => {
+  var api = 'tarot_predictions';
+  var data = {
+    love: 13,
+    career: 2,
+    finance: 54
+  };
+  var auth = "Basic " + Buffer.from(process.env.USERID + ":" + process.env.APIKEY).toString('base64');
+
+  try {
+    const response = await fetch("https://json.astrologyapi.com/v1/" + api, {
+      method: "POST",
+      headers: {
+        "Authorization": auth,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+    const result = await response.json();
+    res.status(200).json({
+      status: true,
+      msg: "success",
+      data: result
+    });
+  } catch (error) {
+    res.status(405).json({
+      error
+    });
+  }
+};
+
+
+exports.lalkitab_debts = async (req, res) => {
+  var api = 'lalkitab_debts';
+
+
+  var data = {
+    day: 6,
+    month: 1,
+    year: 2000,
+    hour: 7,
+    min: 45,
+    lat: 19.132,
+    lon: 72.342,
+    tzone: 5.5,
+  };
+  var auth = "Basic " + Buffer.from(process.env.USERID + ":" + process.env.APIKEY).toString('base64');
+
+  try {
+    const response = await fetch("https://json.astrologyapi.com/v1/" + api, {
+      method: "POST",
+      headers: {
+        "Authorization": auth,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+    const result = await response.json();
+    res.status(200).json({
+      status: true,
+      msg: "success",
+      data: result
+    });
+  } catch (error) {
+    res.status(405).json({
+      error
+    });
+  }
+};
+
+
+
+exports.todayPanchang = async (req, res) => {
+  var api = 'basic_panchang';
+
+  var now = new Date();
+  var data = {
+    day: now.getDate(),
+    month: now.getMonth() + 1,
+    year: now.getFullYear(),
+    hour: now.getHours(),
+    min: now.getMinutes(),
+    lat: req.body.lat,
+    lon: req.body.lon,
+    tzone: 5.5,
+  };
+
+  // var auth = "Basic " + new Buffer(userId + ":" + apiKey).toString("base64");
+  var auth = "Basic " + Buffer.from(process.env.USERID + ":" + process.env.APIKEY).toString('base64');
+
+
+  try {
+    const response = await fetch("https://json.astrologyapi.com/v1/" + api, {
+      method: "POST",
+      headers: {
+        "Authorization": auth,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+    const result = await response.json();
+    res.status(200).json({
+      status: true,
+      msg: "success",
+      data: result
+    });
+  } catch (error) {
+    res.status(405).json({
+      error
+    });
+  }
+
+};
+
+exports.lalkitab_houses = async (req, res) => {
+  var api = 'lalkitab_houses';
+
+
+  var data = {
+    day: req.body.day,
+    month: req.body.month,
+    year: req.body.year,
+    hour: req.body.hour,
+    min: req.body.min,
+    lat: req.body.lat,
+    lon: req.body.lon,
+    tzone: 5.5,
+  };
+
+  // var auth = "Basic " + new Buffer(userId + ":" + apiKey).toString("base64");
+  var auth = "Basic " + Buffer.from(process.env.USERID + ":" + process.env.APIKEY).toString('base64');
+
+
+  try {
+    const response = await fetch("https://json.astrologyapi.com/v1/" + api, {
+      method: "POST",
+      headers: {
+        "Authorization": auth,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+    const result = await response.json();
+    res.status(200).json({
+      status: true,
+      msg: "success",
+      data: result
+    });
+  } catch (error) {
+    res.status(405).json({
+      error
+    });
+  }
+
+};
+
+
+
+exports.lalkitab_planets = async (req, res) => {
+  var api = 'lalkitab_planets';
+
+
+  var data = {
+    day: req.body.day,
+    month: req.body.month,
+    year: req.body.year,
+    hour: req.body.hour,
+    min: req.body.min,
+    lat: req.body.lat,
+    lon: req.body.lon,
+    tzone: 5.5,
+
+  };
+
+
+  var auth = "Basic " + Buffer.from(process.env.USERID + ":" + process.env.APIKEY).toString('base64');
+
+
+  try {
+    const response = await fetch("https://json.astrologyapi.com/v1/" + api, {
+      method: "POST",
+      headers: {
+        "Authorization": auth,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+    const result = await response.json();
+    res.status(200).json({
+      status: true,
+      msg: "success",
+      data: result
+    });
+  } catch (error) {
+    res.status(405).json({
+      error
+    });
+  }
+
+};
+exports.lalkitab_remedies = async (req, res) => {
+  ;
+  var api = 'lalkitab_remedies/:planet_name';
+
+
+  var data = {
+    day: req.body.day,
+    month: req.body.month,
+    year: req.body.year,
+    hour: req.body.hour,
+    min: req.body.min,
+    lat: req.body.lat,
+    lon: req.body.lon,
+    tzone: 5.5,
+
+  };
+
+
+  var auth = "Basic " + Buffer.from(process.env.USERID + ":" + process.env.APIKEY).toString('base64');
+
+
+  try {
+    const response = await fetch("https://json.astrologyapi.com/v1/" + api, {
+      method: "POST",
+      headers: {
+        "Authorization": auth,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+    const result = await response.json();
+    res.status(200).json({
+      status: true,
+      msg: "success",
+      data: result
+    });
+  } catch (error) {
+    res.status(405).json({
+      error
+    });
+  }
+
 };

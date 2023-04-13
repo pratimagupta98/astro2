@@ -184,7 +184,8 @@ exports.astrosignup = async (req, res) => {
 }
 
 exports.editAstroDetails = async (req, res) => {
-  const { fullname, email, password, cnfmPassword, gender, dob, primary_skills, all_skills, language, exp_in_years, conrubute_hrs, hear_abt_astrology, other_online_platform, why_onboard_you, suitable_tym_interview, crnt_city, income_src, highest_qualification, degree_deploma, clg_scl_name, lrn_abt_astrology, insta_link, fb_link, linkedln_link, youtube_link, website_link, anybody_prefer, min_earning_expe, max_earning_expe, long_bio, status, callCharge, availability } = req.body;
+  const { fullname, email, password, cnfmPassword, gender, dob, primary_skills, all_skills, language, exp_in_years, conrubute_hrs, hear_abt_astrology, other_online_platform, why_onboard_you, suitable_tym_interview, crnt_city, income_src, highest_qualification, degree_deploma, clg_scl_name, lrn_abt_astrology, insta_link, fb_link, linkedln_link, youtube_link, website_link, anybody_prefer, min_earning_expe, max_earning_expe, long_bio, status, callCharge, availability, min_amount, max_amount, } = req.body;
+
 
 
   let data = {};
@@ -289,6 +290,12 @@ exports.editAstroDetails = async (req, res) => {
   }
   if (availability) {
     data.availability = availability
+  }
+  if (min_amount) {
+    data.min_amount = min_amount
+  }
+  if (max_amount) {
+    data.max_amount = max_amount
   }
   if (callCharge) {
     data.callCharge = parseInt(callCharge) * 25 / 100
@@ -443,6 +450,7 @@ exports.astrologin = async (req, res) => {
 
 exports.viewoneAstro = async (req, res) => {
   await Astrologer.findOne({ _id: req.astroId })
+
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };

@@ -23,6 +23,7 @@ exports.make_call = async (req, res) => {
         "To": req.body.To,       //ASTRO
         "userid": req.body.userid,
         "astroid": req.body.astroid,
+        "walletId": req.body.walletId,
         //  "CallerId": '011-411-68588',
         "CallerId": '080-473-59942',
 

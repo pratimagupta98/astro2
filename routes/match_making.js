@@ -20,7 +20,13 @@ const {
   monthly_pancchang,
   lalkitab_horoscope, numerologyApi,
   tomorrowHoroscope,
-  basicPanchang
+  basicPanchang,
+  taraot_prediction,
+  lalkitab_debts,
+  todayPanchang,
+  lalkitab_houses,
+  lalkitab_planets,
+  lalkitab_remedies
 
 } = require("../controller/match_making");
 
@@ -44,10 +50,12 @@ router.post("/user/numerologyApi", numerologyApi);
 router.post("/user/tomorrowHoroscope", tomorrowHoroscope
 );
 router.post("/user/basicPanchang", basicPanchang);
-
-
-
-
+router.post("/user/taraot_prediction", taraot_prediction);
+router.post("/user/lalkitab_debts", lalkitab_debts);
+router.post("/user/todayPanchang", todayPanchang);
+router.post("/user/lalkitab_houses", lalkitab_houses);
+router.post("/user/lalkitab_planets", lalkitab_planets);
+router.post("/user/lalkitab_remedies/:planet_name", lalkitab_remedies);
 
 
 
