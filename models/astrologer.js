@@ -143,9 +143,9 @@ const thisSchema = new Schema(
       type: Number,
       default: 0
     },
-    availability: [{
-      type: String,
-    }],
+    // availability: [{
+    //   type: String,
+    // }],
     min_amount: {
       type: Number
     },
@@ -153,19 +153,19 @@ const thisSchema = new Schema(
       type: Number
 
     },
-    availability: {
-      type: Object, default: {
-        Monday: "",
-        Tuesday: "",
-        Wednesday: "",
-        Thursday: "",
-        Friday: "",
-        Saturday: "",
-        Sunday: ""
-      }
-    }
-
+    // availability: {
+    //   type: Object, default: {
+    Monday: { type: String },
+    Tuesday: { type: String },
+    Wednesday: { type: String },
+    Thursday: { type: String },
+    Friday: { type: String },
+    Saturday: { type: String },
+    Sunday: { type: String }
   },
+
+
+
 
 
 
