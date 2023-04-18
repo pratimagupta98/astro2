@@ -53,6 +53,8 @@ const payout = require("./routes/payout")
 const bookevent = require("./routes/bookevent")
 const eventList = require("./routes/eventList")
 const addEvent = require("./routes/addEvent")
+const youtubeVideo = require("./routes/youtubeVideo")
+
 
 
 
@@ -101,6 +103,8 @@ app.use("/", payout);
 app.use("/", bookevent);
 app.use("/", eventList);
 app.use("/", addEvent);
+app.use("/", youtubeVideo);
+
 
 
 
