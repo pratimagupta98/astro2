@@ -939,3 +939,174 @@ exports.lalkitab_remedies = async (req, res) => {
   }
 
 };
+
+exports.basic_gem_suggestion = async (req, res) => {
+  ;
+  var api = 'basic_gem_suggestion';
+
+
+  var data = {
+    day: req.body.day,
+    month: req.body.month,
+    year: req.body.year,
+    hour: req.body.hour,
+    min: req.body.min,
+    lat: req.body.lat,
+    lon: req.body.lon,
+    tzone: 5.5,
+
+  };
+
+
+  var auth = "Basic " + Buffer.from(process.env.USERID + ":" + process.env.APIKEY).toString('base64');
+
+
+  try {
+    const response = await fetch("https://json.astrologyapi.com/v1/" + api, {
+      method: "POST",
+      headers: {
+        "Authorization": auth,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+    const result = await response.json();
+    res.status(200).json({
+      status: true,
+      msg: "success",
+      data: result
+    });
+  } catch (error) {
+    res.status(405).json({
+      error
+    });
+  }
+
+};
+
+exports.panchang_festival = async (req, res) => {
+  ;
+  var api = 'panchang_festival';
+
+
+  var data = {
+    day: req.body.day,
+    month: req.body.month,
+    year: req.body.year,
+    hour: req.body.hour,
+    min: req.body.min,
+    lat: req.body.lat,
+    lon: req.body.lon,
+    tzone: 5.5,
+
+  };
+
+
+  var auth = "Basic " + Buffer.from(process.env.USERID + ":" + process.env.APIKEY).toString('base64');
+
+
+  try {
+    const response = await fetch("https://json.astrologyapi.com/v1/" + api, {
+      method: "POST",
+      headers: {
+        "Authorization": auth,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+    const result = await response.json();
+    res.status(200).json({
+      status: true,
+      msg: "success",
+      data: result
+    });
+  } catch (error) {
+    res.status(405).json({
+      error
+    });
+  }
+
+};
+
+// exports.pdf_report = async (req, res) => {
+
+//   // Request data - replace with your own values
+//   const birthDetails = {
+//     date: '1990-01-01',
+//     time: '12:00:00',
+//     latitude: '51.5074',
+//     longitude: '0.1278',
+//     timezone: 'Europe/London',
+//     name: 'John Doe'
+//   };
+//   const options = {
+//     borderStyle: 'dashed',
+//     footerLinks: ['https://example.com', 'https://example.net'],
+//     lordGaneshaStyle: 'circle'
+//   };
+
+//   // Make API request
+//   axios.post('https://pdf.astrologyapi.com/v1/basic_horoscope_pdf', {
+//     birth_details: birthDetails,
+//     options: options
+//   }, {
+//     headers: {
+//       'Authorization': 'Bearer9368f495ac9208713487f09c063269e9',
+//       'Content-Type': 'application/json'
+//     }
+
+//   }).then(response => {
+//     console.log(response.data); // Contains the PDF URL
+//   }).catch(error => {
+//     console.log(error);
+//   });
+// }
+
+exports.pdf_report = async (req, res) => {
+
+  try {
+    const birthDetails = {
+      date: '1990-01-01',
+      time: '12:00:00',
+      latitude: '51.5074',
+      longitude: '0.1278',
+      timezone: 'Europe/London',
+      name: 'John Doe'
+    };
+    const options = {
+      borderStyle: 'dashed',
+      footerLinks: ['https://example.com', 'https://example.net'],
+      lordGaneshaStyle: 'circle'
+    };
+    // Check if variables are defined
+    if (!birthDetails || !options) {
+      throw new Error('Birth details and options are required');
+    }
+
+    // Make API request
+    const response = await axios.post('https://pdf.astrologyapi.com/v1/basic_horoscope_pdf', {
+      birth_details: birthDetails,
+      options: options
+    }, {
+      headers: {
+        'Authorization': 'Bearer process.env.APIKEY',
+        'Content-Type': 'application/json'
+      }
+    });
+
+    // Return response
+    res.status(200).json({
+      status: true,
+      msg: "success",
+      data: response.data
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      status: false,
+      msg: "An error occurred",
+      error: error.message
+    });
+  }
+
+}
