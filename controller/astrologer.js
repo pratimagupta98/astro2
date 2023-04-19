@@ -184,7 +184,7 @@ exports.astrosignup = async (req, res) => {
 }
 
 exports.editAstroDetails = async (req, res) => {
-  const { fullname, email, password, cnfmPassword, gender, dob, primary_skills, all_skills, language, exp_in_years, conrubute_hrs, hear_abt_astrology, other_online_platform, why_onboard_you, suitable_tym_interview, crnt_city, income_src, highest_qualification, degree_deploma, clg_scl_name, lrn_abt_astrology, insta_link, fb_link, linkedln_link, youtube_link, website_link, anybody_prefer, min_earning_expe, max_earning_expe, long_bio, status, callCharge, min_amount, max_amount, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday } = req.body;
+  const { fullname, email, password, cnfmPassword, gender, dob, primary_skills, all_skills, language, exp_in_years, conrubute_hrs, hear_abt_astrology, other_online_platform, why_onboard_you, suitable_tym_interview, crnt_city, income_src, highest_qualification, degree_deploma, clg_scl_name, lrn_abt_astrology, insta_link, fb_link, linkedln_link, youtube_link, website_link, anybody_prefer, min_earning_expe, max_earning_expe, long_bio, status, callCharge, min_amount, max_amount, monday, tuesday, wednesday, thursday, friday, saturday, sunday } = req.body;
 
 
 
@@ -288,26 +288,26 @@ exports.editAstroDetails = async (req, res) => {
   if (status) {
     data.status = status
   }
-  if (Monday) {
-    data.Monday = Monday
+  if (monday) {
+    data.monday = monday
   }
-  if (Tuesday) {
-    data.Tuesday = Tuesday
+  if (tuesday) {
+    data.tuesday = tuesday
   }
-  if (Wednesday) {
-    data.Wednesday = Wednesday
+  if (wednesday) {
+    data.wednesday = wednesday
   }
-  if (Thursday) {
-    data.Thursday = Thursday
+  if (thursday) {
+    data.thursday = thursday
   }
-  if (Friday) {
+  if (friday) {
     data.Friday = Friday
   }
-  if (Saturday) {
-    data.Saturday = Saturday
+  if (saturday) {
+    data.saturday = saturday
   }
-  if (Sunday) {
-    data.Sunday = Sunday
+  if (sunday) {
+    data.sunday = sunday
   }
 
   if (min_amount) {

@@ -99,3 +99,23 @@ exports.intekListByUser = async (req, res) => {
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
+
+exports.intekListforApp = async (req, res) => {
+  await Intek.find({ userid: req.params.id }).populate("userid")
+    .sort({ createdAt: -1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+exports.intekListforCall = async (req, res) => {
+  await Intek.find({ userid: req.params.id }).populate("userid")
+    .sort({ createdAt: -1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
+exports.intekListforVideo = async (req, res) => {
+  await Intek.find({ userid: req.params.id }).populate("userid")
+    .sort({ createdAt: -1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
