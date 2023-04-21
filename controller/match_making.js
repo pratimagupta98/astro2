@@ -1089,7 +1089,7 @@ exports.pdf_report = async (req, res) => {
       options: options
     }, {
       headers: {
-        'Authorization': 'Bearer process.env.APIKEY',
+        'Authorization': 'Bearer ByVOIaODH57QRVi6CqswHXGlcpDvj7tZBRoorY',
         'Content-Type': 'application/json'
       }
     });
