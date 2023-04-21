@@ -54,6 +54,8 @@ const bookevent = require("./routes/bookevent")
 const eventList = require("./routes/eventList")
 const addEvent = require("./routes/addEvent")
 const youtubeVideo = require("./routes/youtubeVideo")
+const package = require("./routes/package")
+
 
 
 
@@ -104,7 +106,7 @@ app.use("/", bookevent);
 app.use("/", eventList);
 app.use("/", addEvent);
 app.use("/", youtubeVideo);
-
+app.use("/", package);
 
 
 
