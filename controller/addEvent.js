@@ -1,6 +1,15 @@
 const AdminEventList = require("../models/addEvent");
 const resp = require("../helpers/apiResponse");
+const cloudinary = require("cloudinary").v2;
+const dotenv = require("dotenv");
+const fs = require("fs");
 
+dotenv.config();
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 // exports.admin_Addevent = async (req, res) => {
 
 //     const { pooja_type, duration, desc, price_online, price_offline, benefits } = req.body;

@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const thisSchema = new Schema(
     {
 
-        pooja_type: { type: mongoose.Schema.Types.ObjectId, ref: "poojalist" },
+        pooja_type: { type: mongoose.Schema.Types.ObjectId, ref: "poojaList" },
 
         desc: {
             type: String,
