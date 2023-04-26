@@ -21,6 +21,10 @@ const thisSchema = new Schema(
         benefits: {
             type: String,
         },
+        poojaimg: {
+            type: Array,
+
+        }
     },
     { timestamps: true }
 );

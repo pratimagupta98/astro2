@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const thisSchema = new Schema(
     {
-        event_name: {
+        pooja_name: {
             type: String,
         },
 

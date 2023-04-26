@@ -3,10 +3,10 @@ const resp = require("../helpers/apiResponse");
 
 exports.add_poojaList = async (req, res) => {
 
-    const { event_name } = req.body;
+    const { pooja_name } = req.body;
 
     const newPoojaList = new PoojaList({
-        event_name: event_name
+        pooja_name: pooja_name
     });
 
 
