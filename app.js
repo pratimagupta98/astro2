@@ -55,6 +55,7 @@ const poojaList = require("./routes/poojaList")
 const addEvent = require("./routes/addEvent")
 const youtubeVideo = require("./routes/youtubeVideo")
 const package = require("./routes/package")
+const astro_addPoojaevent = require("./routes/astro_addPoojaevent")
 
 
 
@@ -107,16 +108,7 @@ app.use("/", poojaList);
 app.use("/", addEvent);
 app.use("/", youtubeVideo);
 app.use("/", package);
-
-
-
-
-
-
-
-
-
-
+app.use("/", astro_addPoojaevent);
 
 
 
