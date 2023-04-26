@@ -7,7 +7,7 @@ const thisSchema = new Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "astrologer",
         },
-        eventList: {
+        selectedPooja: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "adminAddEvent"
         },

@@ -19,11 +19,11 @@ cloudinary.config({
 
 exports.add_astro_poojaEvent = async (req, res) => {
     //console.log(req.body);
-    const { astroid, eventList, pooja_price, offer, duration, location_of_pooja, fullfill_location, availablity_time } = req.body;
+    const { astroid, selectedPooja, pooja_price, offer, duration, location_of_pooja, fullfill_location, availablity_time } = req.body;
 
     const newAstroPoojaEvent = new AstroPoojaEvent({
         astroid: astroid,
-        eventList: eventList,
+        selectedPooja: selectedPooja,
         offer: offer,
         duration: duration,
         pooja_price: pooja_price,
@@ -84,7 +84,7 @@ exports.astro_pooja_list = async (req, res) => {
 
 exports.astro_pooja_list = async (req, res) => {
     await AstroPoojaEvent.find({
-    }).populate("astroid").populate("eventList")
+    }).populate("astroid").populate("selectedPooja")
         .then((data) => resp.successr(res, data))
         .catch((error) => resp.errorr(res, error));
 };
