@@ -57,14 +57,14 @@ exports.admin_Addevent = async (req, res) => {
 
 
 exports.get_adminevent = async (req, res) => {
-    await AdminEventList.find().populate("event_list")
+    await AdminEventList.find().populate("pooja_type")
         .sort({ createdAt: -1 })
         .then((data) => resp.successr(res, data))
         .catch((error) => resp.errorr(res, error));
 };
 
 exports.admin_getone_event = async (req, res) => {
-    await AdminEventList.findOne({ _id: req.params.id }).populate("event_list")
+    await AdminEventList.findOne({ _id: req.params.id }).populate("pooja_type")
         .then((data) => resp.successr(res, data))
         .catch((error) => resp.errorr(res, error));
 };
