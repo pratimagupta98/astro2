@@ -1,16 +1,16 @@
-const EventList = require("../models/eventList");
+const PoojaList = require("../models/poojaList");
 const resp = require("../helpers/apiResponse");
 
-exports.add_eventList = async (req, res) => {
+exports.add_poojaList = async (req, res) => {
 
     const { event_name } = req.body;
 
-    const newEventList = new EventList({
+    const newPoojaList = new PoojaList({
         event_name: event_name
     });
 
 
-    newEventList
+    newPoojaList
         .save()
         .then((data) => resp.successr(res, data))
         .catch((error) => resp.errorr(res, error));
@@ -18,22 +18,22 @@ exports.add_eventList = async (req, res) => {
 
 
 
-exports.EventListAdmin = async (req, res) => {
-    await EventList.find()
+exports.admin_poojaList = async (req, res) => {
+    await PoojaList.find()
         .sort({ createdAt: -1 })
         .then((data) => resp.successr(res, data))
         .catch((error) => resp.errorr(res, error));
 };
 
-exports.getone_eventList = async (req, res) => {
-    await EventList.findOne({ _id: req.params.id })
+exports.getone_poojaList = async (req, res) => {
+    await PoojaList.findOne({ _id: req.params.id })
         .then((data) => resp.successr(res, data))
         .catch((error) => resp.errorr(res, error));
 };
 
 
-exports.edit_eventlist = async (req, res) => {
-    await EventList.findOneAndUpdate(
+exports.edit_poojalist = async (req, res) => {
+    await PoojaList.findOneAndUpdate(
         {
             _id: req.params.id,
         },
@@ -45,8 +45,8 @@ exports.edit_eventlist = async (req, res) => {
 };
 
 
-exports.dlt_eventList = async (req, res) => {
-    await EventList.deleteOne({ _id: req.params.id })
+exports.dlt_poojaList = async (req, res) => {
+    await PoojaList.deleteOne({ _id: req.params.id })
         .then((data) => resp.deleter(res, data))
         .catch((error) => resp.errorr(res, error));
 };

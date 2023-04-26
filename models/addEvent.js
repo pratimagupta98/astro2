@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const thisSchema = new Schema(
     {
 
-        event_list: { type: mongoose.Schema.Types.ObjectId, ref: "eventList" },
+        pooja_type: { type: mongoose.Schema.Types.ObjectId, ref: "poojalist" },
 
         desc: {
             type: String,
@@ -15,7 +15,12 @@ const thisSchema = new Schema(
         price_offline: {
             type: Number,
         },
-
+        duration: {
+            type: String,
+        },
+        benefits: {
+            type: String,
+        },
     },
     { timestamps: true }
 );

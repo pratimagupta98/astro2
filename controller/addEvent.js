@@ -3,13 +3,15 @@ const resp = require("../helpers/apiResponse");
 
 exports.admin_Addevent = async (req, res) => {
 
-    const { event_list, desc, price_online, price_offline } = req.body;
+    const { pooja_type, duration, desc, price_online, price_offline, benefits } = req.body;
 
     const newAdminEventList = new AdminEventList({
-        event_list: event_list,
+        pooja_type: pooja_type,
+        duration: duration,
         desc: desc,
         price_online: price_online,
-        price_offline: price_offline
+        price_offline: price_offline,
+        benefits: benefits
     });
 
 

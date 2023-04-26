@@ -51,7 +51,7 @@ const match_making = require("./routes/match_making")
 const commision = require("./routes/commision")
 const payout = require("./routes/payout")
 const bookevent = require("./routes/bookevent")
-const eventList = require("./routes/eventList")
+const poojaList = require("./routes/poojaList")
 const addEvent = require("./routes/addEvent")
 const youtubeVideo = require("./routes/youtubeVideo")
 const package = require("./routes/package")
@@ -103,7 +103,7 @@ app.use("/", match_making);
 app.use("/", commision);
 app.use("/", payout);
 app.use("/", bookevent);
-app.use("/", eventList);
+app.use("/", poojaList);
 app.use("/", addEvent);
 app.use("/", youtubeVideo);
 app.use("/", package);

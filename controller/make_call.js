@@ -116,6 +116,112 @@ const User = require("../models/users");
 // }
 
 //chnaginggg
+// exports.make_call = async (req, res) => {
+//   try {
+//     // previous code
+//     var request = require('request');
+//     CircularJSON = require('circular-json')
+
+
+//     key = "d909e2e0120d0bcbd2ef795dd19eb2e97c2f8d78d8ebb6d4"
+//     sid = "sveltosetechnologies2"
+//     token = "856371fe6a97e8be8fed6ab14c95b4832f82d1d3116cb17e"
+//     from = req.body.from
+//     to = req.body.to
+
+//     const formUrlEncoded = x => Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, '')
+//     const axios = require('axios')
+//     url = "https://" + key + ":" + token + "@api.exotel.in/v1/Accounts/" + sid + "/Calls/connect.json"
+//     var requestBody =
+//       axios.post(url,
+//         formUrlEncoded({
+//           "From": req.body.From,   //USER
+//           "To": req.body.To,       //ASTRO
+//           "userid": req.body.userid,
+//           "astroid": req.body.astroid,
+//           "walletId": req.body.walletId,
+//           //  "CallerId": '011-411-68588',
+//           "CallerId": '080-473-59942',
+//           "CallerType": 'promo',
+//         }),
+
+//         {
+//           withCredentials: true,
+//           headers: {
+//             "Accept": "application/x-www-form-urlencoded",
+//             "Content-Type": "application/x-www-form-urlencoded"
+//           },
+//           //  data: JSON.stringify(`statusCode: ${res.statusCode}`)
+//         },
+//       )
+
+
+
+//     // if (getdata.Call?.Status !== "failed") {
+//     // Retrieve user's wallet information
+//     const userWallet = await User.findOne({ _id: req.body.userid });
+//     console.log("userWallet", userWallet)
+
+//     // Check if user has enough funds
+//     const astroWallet = await Astrologer.findOne({ _id: req.body.astroid });
+//     let callPrice = astroWallet?.callCharge
+//     if (userWallet.amount < callPrice) {
+//       res.status(400).json({
+//         status: false,
+//         msg: "Insufficient funds"
+//       })
+//     } else {
+//       // Deduct amount from user's wallet every second until the call ends
+//       if (getdata.Call?.Status !== "failed") {
+//         const response = await requestBody;
+//         console.log(`statusCode: ${res.statusCode}`)
+//         const str = CircularJSON.stringify(response.data);
+//         console.log("str", str)
+//         const getdata = JSON.parse(str)
+//         console.log("getdata", JSON.parse(str))
+//         let timer = setInterval(async () => {
+//           userWallet.amount -= callPrice;
+//           console.log("Remaining amount: ", userWallet.amount)
+//           await userWallet.save();
+//           const call = await make_call.findOne({ Sid: getdata.Call?.Sid });
+//           if (call?.Status === "completed" || call?.Status === "failed") {
+//             clearInterval(timer);
+//           }
+//         }, 1000); // 1000 ms = 1 second
+
+//         // Create call information object
+//         var options = {
+//           From: req.body.From,   //USER
+//           To: req.body.To,       //ASTRO
+//           userid: req.body.userid,
+//           astroid: req.body.astroid,
+//           Sid: getdata.Call?.Sid,
+//           // ...
+//         };
+
+//         // Save call information to database
+//         const callInfo = await make_call.create(options);
+
+//         // Send response to client
+//         res.json({
+//           order: callInfo // assuming the order object is defined by the callInfo returned by make_call.create()
+//         });
+//       } else {
+//         throw new Error("Call failed");
+//       }
+//     }
+//     // } else {
+//     //   throw new Error("Call failed");
+//     // }
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({
+//       error: "Internal server error"
+//     });
+//   }
+// };
+
+//chnagging
 exports.make_call = async (req, res) => {
   try {
 
@@ -250,6 +356,7 @@ exports.make_call = async (req, res) => {
     });
   }
 };
+
 
 //     //   .then((res) => {
 //     //   console.log(`statusCode: ${res.statusCode}`)
@@ -415,12 +522,6 @@ exports.callStatus = async (req, res) => {
   }
   request(options, callback);
 }
-
-
-
-
-
-
 
 exports.call_Status = async (req, res) => {
   await make_call.find().populate("userid").populate("astroid")

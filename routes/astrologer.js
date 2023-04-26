@@ -101,8 +101,4 @@ router.get("/user/rating_low_to_high", rating_low_to_high);
 
 
 
-
-
-
-
 module.exports = router;
