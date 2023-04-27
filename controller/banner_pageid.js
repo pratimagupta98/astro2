@@ -20,10 +20,10 @@ cloudinary.config({
 
 exports.add_bannerPageId = async (req, res) => {
   //console.log(req.body);
-  const { bannrId, path } = req.body;
+  const { bannerId, path } = req.body;
 
   const newBannerPage = new BannerPage({
-    bannrId: bannrId,
+    bannerId: bannerId,
     path: path,
    
   });
@@ -41,7 +41,7 @@ exports.add_bannerPageId = async (req, res) => {
  
 
 exports.get_bannerPageId = async (req, res) => {
-  await BannerPage.find()
+  await BannerPage.find().populate("bannerId")
   .sort({ sortorder: 1 })
   .then((data) => resp.successr(res, data))
   .catch((error) => resp.errorr(res, error));

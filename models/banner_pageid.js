@@ -3,9 +3,9 @@ const Schema = mongoose.Schema;
 
 const thisSchema = new Schema(
   {
-    bannerid: {
-      type: String,
-    },
+    bannerId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "bannerimg",    },
     path: {
       type: String,
      },
