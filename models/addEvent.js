@@ -18,9 +18,15 @@ type:String
        liveStreaming:{
            type:Boolean
        },
-       available_slots:{
-type:String
-       },
+//        available_slots:{
+// type:String
+//        },
+ time_slots: [{
+      type: String,
+    }],
+//   time_slots: {
+//       type: Array
+//   },
         duration: {
             type: String,
         },
