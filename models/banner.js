@@ -18,6 +18,10 @@ const thisSchema = new Schema(
     },
     type:{
       type: String,
+    },
+    root:{
+      type: String,
+
     }
   },
   { timestamps: true }

@@ -50,7 +50,7 @@ exports.get_bannerPageId = async (req, res) => {
  
 
 exports.viewone_bannerPageId = async (req, res) => {
-await BannerPage.findOne({ _id: req.params.id })
+await (await BannerPage.findOne({ _id: req.params.id })).populated("bannerId")
 .then((data) => resp.successr(res, data))
 .catch((error) => resp.errorr(res, error));
 };
