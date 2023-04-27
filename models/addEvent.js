@@ -24,7 +24,16 @@ const thisSchema = new Schema(
         poojaimg: {
             type: Array,
 
-        }
+        },
+        location:{
+            type:String
+        },
+        fullfill_location:{
+            type:String
+
+        },
+        
+
     },
     { timestamps: true }
 );
