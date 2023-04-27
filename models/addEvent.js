@@ -9,12 +9,18 @@ const thisSchema = new Schema(
         desc: {
             type: String,
         },
-        price_online: {
+        pooja_price: {
             type: Number,
         },
-        price_offline: {
-            type: Number,
-        },
+       city:{
+type:String
+       },
+       liveStreaming:{
+           type:Boolean
+       },
+       available_slots:{
+type:String
+       },
         duration: {
             type: String,
         },

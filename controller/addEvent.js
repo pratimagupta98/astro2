@@ -31,17 +31,21 @@ cloudinary.config({
 // }
 
 exports.admin_Addevent = async (req, res) => {
-    const { pooja_type, duration, desc, price_online, price_offline,location,fullfill_location, benefits } = req.body;
+    const { pooja_type, duration, desc, pooja_price,city,liveStreaming,available_slots,location,fullfill_location, benefits } = req.body;
 
     const newAdminEventList = new AdminEventList({
         pooja_type: pooja_type,
         duration: duration,
         desc: desc,
-        price_online: price_online,
-        price_offline: price_offline,
+        pooja_price: pooja_price,
         benefits: benefits,
         location:location,
-        fullfill_location:fullfill_location
+        city:city,
+        liveStreaming:liveStreaming,
+        available_slots:available_slots,
+
+        fullfill_location:fullfill_location,
+
 
     });
 
