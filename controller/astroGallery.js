@@ -22,51 +22,41 @@ function detectMimeType(b64) {
 
 
 exports.upload_astrogallery = async (req, res) => {
-  const { astroId,image,video } = req.body;
+  const { astroId, image, video } = req.body;
 
   const newastroGallery = new astroGallery({
     astroId: astroId,
-    
   });
 
-   
-
-  
-    //   let imgObj = new Object();
-    //   if (getpdfurl) {
-    //     newastroGallery.image = getpdfurl.Location;
-    //     //fs.unlinkSync(`../uploads/${req.files.video_file[i]?.filename}`);
-    //   }
-      const getimgurl = await uploadFile(
-        req.files.image[0]?.path,
-        req.files.image[0]?.filename,
-        "jpg"
-      );
-      if (getimgurl) {
-        newastroGallery.image = getimgurl.Location;
-        //fs.unlinkSync(`../uploads/${req.files.video_image[i]?.filename}`);
-      }
-    
-
-    if(req.files.video){
-      console.log(req.files)
-      if(req.files.video){
-          const geturl = await uploadFile(
-            req.files.video[0]?.path,
-            req.files.video[0]?.filename,
-            "mp4"
-            );
-            if (geturl) {
-                newastroGallery.video = geturl.Location;
-           //  fs.unlinkSync(`../uploads/${req.files.video_file[0]?.filename}`);
-      }
-  }
+  if (req.files.image) { // Check if req.files.image exists
+    const getimgurl = await uploadFile(
+      req.files.image[0]?.path,
+      req.files.image[0]?.filename,
+      "jpg"
+    );
+    if (getimgurl) {
+      newastroGallery.image = getimgurl.Location;
     }
-newastroGallery
+  }
+
+  if (req.files.video) {
+    console.log(req.files);
+    const geturl = await uploadFile(
+      req.files.video[0]?.path,
+      req.files.video[0]?.filename,
+      "mp4"
+    );
+    if (geturl) {
+      newastroGallery.video = geturl.Location;
+    }
+  }
+
+  newastroGallery
     .save()
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
-    }
+};
+
 
 exports.addvideobyadmin = async (req, res) => {
   const { videoTitle, } = req.body;
