@@ -301,7 +301,7 @@ exports.editAstroDetails = async (req, res) => {
     data.thursday = thursday
   }
   if (friday) {
-    data.Friday = Friday
+    data.friday = friday
   }
   if (saturday) {
     data.saturday = saturday
