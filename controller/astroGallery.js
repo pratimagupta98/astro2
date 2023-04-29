@@ -124,8 +124,8 @@ exports.addvideobyadmin = async (req, res) => {
     .catch((error) => resp.errorr(res, error));
 };
 
-exports.getvideo = async (req, res) => {
-  await Video.find()
+exports.get_astroGallery = async (req, res) => {
+  await astroGallery.find({astroId:req.params.id}).populate("astroId")
     .sort({ sortorder: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
