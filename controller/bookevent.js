@@ -1,6 +1,6 @@
 const Bookevent = require("../models/bookevent");
 const resp = require("../helpers/apiResponse");
-//checking
+
 exports.add_event = async (req, res) => {
 
   const {orderId,paymentId,signatureId,event_list, userid, date, country, state, city, mode, address, email, mobile } = req.body;
