@@ -1,9 +1,9 @@
 const Bookevent = require("../models/bookevent");
 const resp = require("../helpers/apiResponse");
-//checking
+
 exports.add_event = async (req, res) => {
 
-  const {orderId,paymentId,signatureId,event_list, userid, date, country, state, city, mode, address, email, mobile } = req.body;
+  const {orderId,paymentId,signatureId,event_list, userid, date, country, state, city, orderNote, time_slot, email, mobile } = req.body;
 
   const newBookevent = new Bookevent({
     orderId:orderId,
@@ -18,7 +18,10 @@ exports.add_event = async (req, res) => {
     mode: mode,
     address: address,
     email: email,
-    mobile: mobile
+    mobile: mobile,
+    time_slot:time_slot,
+    orderNote:orderNote
+
   });
 
 

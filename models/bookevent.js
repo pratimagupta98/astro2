@@ -19,10 +19,10 @@ const thisSchema = new Schema(
     city:{
         type: String,
     },
-    mode:{
+    time_slot:{
         type: String,
     },
-    address:{
+    orderNote:{
         type: String,
     },
     email:{
