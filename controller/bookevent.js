@@ -3,9 +3,12 @@ const resp = require("../helpers/apiResponse");
 
 exports.add_event = async (req, res) => {
 
-  const { event_list, userid, date, country, state, city, mode, address, email, mobile } = req.body;
+  const {orderId,paymentId,signatureId,event_list, userid, date, country, state, city, mode, address, email, mobile } = req.body;
 
   const newBookevent = new Bookevent({
+    orderId:orderId,
+    paymentId:paymentId,
+    signatureId:signatureId,
     event_list: event_list,
     userid: userid,
     date: date,

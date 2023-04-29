@@ -30,6 +30,18 @@ const thisSchema = new Schema(
     },
    mobile:{
     type: Number,
+   },
+   orderId:{
+    type: String,
+
+   },
+   paymentId:{
+    type: String,
+
+   },
+   signatureId:{
+    type: String,
+
    }
    },
   { timestamps: true }

@@ -155,13 +155,13 @@ const thisSchema = new Schema(
     },
     // availability: {
     //   type: Object, default: {
-    monday: { type: String },
-    tuesday: { type: String },
-    wednesday: { type: String },
-    thursday: { type: String },
-    friday: { type: String },
-    saturday: { type: String },
-    sunday: { type: String }
+    monday: { type: Array },
+    tuesday: { type: Array },
+    wednesday: { type: Array },
+    thursday: { type: Array },
+    friday: { type: Array },
+    saturday: { type: Array },
+    sunday: { type: Array }
   },
 
 
