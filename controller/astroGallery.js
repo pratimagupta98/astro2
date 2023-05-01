@@ -32,7 +32,9 @@ exports.upload_astrogallery = async (req, res) => {
     const getimgurl = await uploadFile(
       req.files.image[0]?.path,
       req.files.image[0]?.filename,
-      "jpg"
+      "jpg",
+      req.files.image[0]?.filename,
+      "mp4"
     );
     if (getimgurl) {
       newastroGallery.image = getimgurl.Location;
