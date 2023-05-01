@@ -8,7 +8,7 @@ const {
 
 //Paths
 router.post("/user/add_VideoChannel", add_VideoChannel);
-router.get("/user/channelList", channelList);
+router.get("/user/channelList/:id", channelList);
 router.get("/user/getoneChannl/:id", getoneChannl
 );
 router.get("/user/dltVideoChannl/:id", dltVideoChannl);

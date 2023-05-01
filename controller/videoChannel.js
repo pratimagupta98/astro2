@@ -24,7 +24,7 @@ exports.add_VideoChannel= async (req, res) => {
 
 
 exports.channelList= async (req, res) => {
-    await videoChannel.find()
+    await videoChannel.find({astroid:req.params.id}).populate("astroid")
       .sort({ sortorder: 1 })
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
