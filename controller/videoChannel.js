@@ -31,7 +31,7 @@ exports.channelList= async (req, res) => {
   };
 
   exports.getoneChannl = async (req, res) => {
-    await videoChannel.findOne({ _id: req.params.id })
+    await videoChannel.findOne({ _id: req.params.id }).populate("astroid")
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   };
