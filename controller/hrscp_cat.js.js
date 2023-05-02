@@ -1,4 +1,4 @@
-const Hrsp_cat = require("../models/hrscp_cat.js");
+const Hrsp_cat = require("../models/hrscp_cat");
 const resp = require("../helpers/apiResponse");
 
 exports.addCategory= async (req, res) => {
