@@ -9,10 +9,10 @@ const thisSchema = new Schema(
             type: String,
         },
         other: {
-            type: String
+            type: Boolean
         },
         status:{
-            type: String
+            type: Boolean
         }
     },
 
