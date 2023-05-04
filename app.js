@@ -60,9 +60,7 @@ const banner_pooja = require("./routes/banner_pooja")
 const astroGallery = require("./routes/astroGallery")
 const videoChannel = require("./routes/videoChannel")
 const socialMedia = require("./routes/socialMedia")
-
- 
-
+const otherPages = require("./routes/otherPages")
 
 
 
@@ -117,6 +115,7 @@ app.use("/", banner_pooja);
 app.use("/", astroGallery);
 app.use("/", videoChannel);
 app.use("/", socialMedia);
+app.use("/", otherPages);
 
 
 
