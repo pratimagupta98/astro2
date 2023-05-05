@@ -44,8 +44,33 @@ type:String
             type:String
 
         },
-        
+        mode:{
+            type:String
+        },
+        // product: [
+        //     {
+        //       img :{ type: String},name:{type : String},price:{type : String},description:{type :String},qty:{type : Number}
+        //     },
+        //   ],
 
+          product: [{
+            type: Object,
+           // ref: "language"
+        }],
+// product:{
+//     type :Array
+// },
+// product : [    {"img": "", "name": "puja samgri", "price": 299, "description": "hdfjdf"}]
+
+//     },
+    // product: [
+    //    // {img: String, name: String, price: Number, description: String}
+    //      {img: '', name: 'Product 2', price: 20, description: 'Description 2'},
+    //     // {img: 'img3.jpg', name: 'Product 3', price: 30, description: 'Description 3'}
+    //   ],
+    // product: {
+    //   type: Object,
+    // },
     },
     { timestamps: true }
 );

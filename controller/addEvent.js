@@ -30,8 +30,49 @@ cloudinary.config({
 //         .catch((error) => resp.errorr(res, error));
 // }
 
+// exports.admin_Addevent = async (req, res) => {
+//     const { pooja_type, duration,product, desc, pooja_price,city,liveStreaming,time_slots,location,fullfill_location, benefits } = req.body;
+
+//     const newAdminEventList = new AdminEventList({
+//         pooja_type: pooja_type,
+//         duration: duration,
+//         desc: desc,
+//         pooja_price: pooja_price,
+//         benefits: benefits,
+//         location:location,
+//         city:city,
+//         liveStreaming:liveStreaming,
+//         product:product,
+//        // available_slots:available_slots,
+//         time_slots:time_slots,
+//         fullfill_location:fullfill_location,
+
+
+//     });
+
+
+//     if (req.files) {
+//         if (req.files.poojaimg[0].path) {
+//             alluploads = [];
+//             for (let i = 0; i < req.files.poojaimg.length; i++) {
+//                 const resp = await cloudinary.uploader.upload(
+//                     req.files.poojaimg[i].path,
+//                     { use_filename: true, unique_filename: false }
+//                 );
+//                 fs.unlinkSync(req.files.poojaimg[i].path);
+//                 alluploads.push(resp.secure_url);
+//             }
+//             newAdminEventList.poojaimg = alluploads;
+//         }
+//     }
+//     newAdminEventList.save()
+
+
+//         .then((data) => resp.successr(res, data))
+//         .catch((error) => resp.errorr(res, error));
+// };
 exports.admin_Addevent = async (req, res) => {
-    const { pooja_type, duration, desc, pooja_price,city,liveStreaming,time_slots,location,fullfill_location, benefits } = req.body;
+    const { pooja_type, duration,product, desc, pooja_price,city,liveStreaming,time_slots,location,fullfill_location, benefits,mode } = req.body
 
     const newAdminEventList = new AdminEventList({
         pooja_type: pooja_type,
@@ -42,10 +83,11 @@ exports.admin_Addevent = async (req, res) => {
         location:location,
         city:city,
         liveStreaming:liveStreaming,
+        product:product,
        // available_slots:available_slots,
         time_slots:time_slots,
         fullfill_location:fullfill_location,
-
+        mode:mode
 
     });
 
@@ -65,13 +107,9 @@ exports.admin_Addevent = async (req, res) => {
         }
     }
     newAdminEventList.save()
-
-
-        .then((data) => resp.successr(res, data))
-        .catch((error) => resp.errorr(res, error));
+        .then((data) => res.status(200).json(data))
+        .catch((error) => res.status(500).json({error: error.message}));
 };
-
-
 exports.get_adminevent = async (req, res) => {
     await AdminEventList.find().populate("pooja_type")
         .sort({ createdAt: -1 })
