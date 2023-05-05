@@ -98,6 +98,7 @@ console.log()
         .then((data) => res.status(200).json(data))
         .catch((error) => res.status(500).json({error: error.message}));
 };
+
 exports.get_adminevent = async (req, res) => {
     await AdminEventList.find().populate("pooja_type")
         .sort({ createdAt: -1 })
@@ -128,5 +129,12 @@ exports.admin_edit_event = async (req, res) => {
 exports.admin_dlt_event = async (req, res) => {
     await AdminEventList.deleteOne({ _id: req.params.id })
         .then((data) => resp.deleter(res, data))
+        .catch((error) => resp.errorr(res, error));
+};
+
+exports.productbyPoojatyp = async (req, res) => {
+    await AdminEventList.find({pooja_type:req.params.id}).populate("pooja_type")
+        .sort({ createdAt: -1 })
+        .then((data) => resp.successr(res, data))
         .catch((error) => resp.errorr(res, error));
 };

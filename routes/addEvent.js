@@ -8,7 +8,8 @@ const {
     get_adminevent,
     admin_getone_event,
     admin_edit_event,
-    admin_dlt_event
+    admin_dlt_event,
+    productbyPoojatyp
 
 
 } = require("../controller/addEvent");
@@ -58,6 +59,8 @@ router.get("/admin/get_adminevent", get_adminevent);
 router.get("/admin/admin_getone_event/:id", admin_getone_event);
 router.post("/admin/admin_edit_event/:id", admin_edit_event);
 router.get("/admin/admin_dlt_event/:id", admin_dlt_event);
+router.get("/admin/productbyPoojatyp/:id", productbyPoojatyp);
+
 
 
 
