@@ -71,6 +71,13 @@ type:String
     // product: {
     //   type: Object,
     // },
+    product: [{
+        name: { type: String, default: ''},
+        description: { type: String, default: '', trim: true },
+        price: { type: Number, default: '', trim: true },
+        image: { type: String, default: '', trim: true }
+
+    }]
     },
     { timestamps: true }
 );

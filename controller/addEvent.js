@@ -10,26 +10,8 @@ cloudinary.config({
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-// exports.admin_Addevent = async (req, res) => {
-
-//     const { pooja_type, duration, desc, price_online, price_offline, benefits } = req.body;
-
-//     const newAdminEventList = new AdminEventList({
-//         pooja_type: pooja_type,
-//         duration: duration,
-//         desc: desc,
-//         price_online: price_online,
-//         price_offline: price_offline,
-//         benefits: benefits
-//     });
-
-
-//     newAdminEventList
-//         .save()
-//         .then((data) => resp.successr(res, data))
-//         .catch((error) => resp.errorr(res, error));
-// }
-
+ 
+ 
 // exports.admin_Addevent = async (req, res) => {
 //     const { pooja_type, duration,product, desc, pooja_price,city,liveStreaming,time_slots,location,fullfill_location, benefits } = req.body;
 
@@ -72,26 +54,32 @@ cloudinary.config({
 //         .catch((error) => resp.errorr(res, error));
 // };
 exports.admin_Addevent = async (req, res) => {
-    const { pooja_type, duration,product, desc, pooja_price,city,liveStreaming,time_slots,location,fullfill_location, benefits,mode } = req.body
+    const { pooja_type, duration, product, desc, pooja_price, city, liveStreaming, time_slots, location, fullfill_location, benefits, mode, name, description, price, image } = req.body;
 
     const newAdminEventList = new AdminEventList({
-        pooja_type: pooja_type,
-        duration: duration,
-        desc: desc,
-        pooja_price: pooja_price,
-        benefits: benefits,
-        location:location,
-        city:city,
-        liveStreaming:liveStreaming,
-        product:product,
-       // available_slots:available_slots,
-        time_slots:time_slots,
-        fullfill_location:fullfill_location,
-        mode:mode
-
+      pooja_type: pooja_type,
+      duration: duration,
+      desc: desc,
+      pooja_price: pooja_price,
+      benefits: benefits,
+      location: location,
+      city: city,
+      liveStreaming: liveStreaming,
+      product: product.map((item) => ({ // Convert the stringified JSON objects to actual objects
+        name: item.name,
+        description: item.description,
+        price: item.price,
+        image: item.image
+      })),
+      time_slots: time_slots,
+      fullfill_location: fullfill_location,
+      mode: mode,
+      name: name,
+      description: description,
+      price: price,
+      image: image
     });
-
-
+console.log()
     if (req.files) {
         if (req.files.poojaimg[0].path) {
             alluploads = [];
