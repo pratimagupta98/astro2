@@ -61,6 +61,7 @@ const astroGallery = require("./routes/astroGallery")
 const videoChannel = require("./routes/videoChannel")
 const socialMedia = require("./routes/socialMedia")
 const otherPages = require("./routes/otherPages")
+const checkoutPuja = require("./routes/checkoutPuja")
 
 
 
@@ -116,6 +117,7 @@ app.use("/", astroGallery);
 app.use("/", videoChannel);
 app.use("/", socialMedia);
 app.use("/", otherPages);
+app.use("/", checkoutPuja);
 
 
 

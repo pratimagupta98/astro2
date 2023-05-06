@@ -133,8 +133,12 @@ exports.admin_dlt_event = async (req, res) => {
 };
 
 exports.productbyPoojatyp = async (req, res) => {
-    await AdminEventList.find({pooja_type:req.params.id}).populate("pooja_type")
+ const getdata  = await AdminEventList.find({pooja_type:req.params.id}).populate("pooja_type")
         .sort({ createdAt: -1 })
-        .then((data) => resp.successr(res, data))
-        .catch((error) => resp.errorr(res, error));
+        res.status(200).json({
+            pooja_type:getdata.pooja_type,
+//product:getdata.product
+        })
+        // .then((data) => resp.successr(res, data))
+        // .catch((error) => resp.errorr(res, error));
 };

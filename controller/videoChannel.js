@@ -1,5 +1,6 @@
 const videoChannel = require("../models/videoChannel");
 const resp = require("../helpers/apiResponse");
+const Astrologer = require("../models/astrologer");
 
 exports.add_VideoChannel= async (req, res) => {
   const { astroid ,channelName} = req.body;
@@ -9,14 +10,26 @@ exports.add_VideoChannel= async (req, res) => {
     channelName:channelName,
      
    });
-   const findexist = await videoChannel.findOne({ channelName:channelName}
-  );
+   const findexist = await videoChannel.findOne({  $and:[{astroid: astroid},{channelName: channelName}]})
+    
   if (findexist) {
       resp.alreadyr(res);
-  }{
+  }else{
     newvideoChannel
       .save()
-      .then((data) => resp.successr(res, data))
+      .then((data) => {
+        Astrologer.findOneAndUpdate(
+          {_id:astroid},
+          {channelName: channelName},
+          (err)=>{
+            if(err){
+            resp.errorr(res, err);
+          }else{
+            resp.successr(res, data);
+          }
+        }
+        )
+      })
       .catch((error) => resp.errorr(res, error));
   }
   }

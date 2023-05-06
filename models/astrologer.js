@@ -161,10 +161,13 @@ const thisSchema = new Schema(
     thursday: { type: Array },
     friday: { type: Array },
     saturday: { type: Array },
-    sunday: { type: Array }
+    sunday: { type: Array },
+    channelName :{
+      type: String,
+    },
   },
 
-
+ 
 
 
 
