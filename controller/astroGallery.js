@@ -127,9 +127,14 @@ exports.addvideobyadmin = async (req, res) => {
 };
 
 exports.get_astroGallery = async (req, res) => {
-  await astroGallery.find({astroId:req.params.id}).populate("astroId")
+  const { id } = req.params;
+  await astroGallery.find({ astroId: id })
     .sort({ sortorder: 1 })
-    .then((data) => resp.successr(res, data))
+    .then((data) => {
+      const images = data.map(({ image }) => image);
+      const videos = data.map(({ video }) => video);
+      resp.successr(res, { images, videos });
+    })
     .catch((error) => resp.errorr(res, error));
 };
 

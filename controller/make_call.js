@@ -572,94 +572,128 @@ exports.call_Status = async (req, res) => {
 //router.post('/videoCall', async (req, res) => { // Use POST instead of GET to pass data in the request body
 const agora = require('agora-access-token');
 
+// exports.astroVideoCall = async (req, res) => {
+//   const {
+//     RtcTokenBuilder,
+//     RtcRole,
+//   } = agora;
+
+//   // const getchnlname = await Astrologer.findOne({_id:req.body.astroAccount});
+//   // console.log("astro",getchnlname);
+
+//   const appId = '7d1f07c76f9d46be86bc46a791884023';
+//   const appCertificate = '14cdb5fc04344d0da3270c35d8d75431 ';
+//   // const channelName = getchnlname.channelName;
+//   // console.log("channel name",channelName);
+//   channelName = "pratima"
+//   const uid = 1;
+//  // const { astroAccount, } = req.body; // Get the userId from the request body
+//  //uid ="6352904e3755959407f948a6"
+//   const role = RtcRole.PUBLISHER;
+//   const expirationTimeInSeconds = 3600; // 24 hours
+//   const currentTimestamp = Math.floor(Date.now() / 1000);
+//   const privilegeExpiredTs = currentTimestamp + expirationTimeInSeconds;
+
+//   const tokenA = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelName, uid, role, privilegeExpiredTs);
+//   console.log("Token With Integer Number Uid: " + tokenA);
+//   // const newVideoModel = new VideoModel({
+//   //  // astroAccount:astroAccount,
+//   //   token: astroToken,
+//   //   channelName: channelName,
+//   //   createdAt: Date.now()
+//   // });
+//   // await newVideoModel.save();
+
+//   // res.status(200).json({
+//   //   astroToken: astroToken,
+//   // });
+// }
+
+// exports.userVideoCall = async (req, res) => {
+//   const {
+//     RtcTokenBuilder,
+//     RtcRole,
+// } = agora;
+
+// const generateRtcToken =async  () => {
+//         // Rtc Examples
+//         const getchnlname = await Astrologer.findOne({_id:req.body.astroAccount})
+// console.log("astro",getchnlname)
+//         const appId = '7d1f07c76f9d46be86bc46a791884023';
+//         const appCertificate = '14cdb5fc04344d0da3270c35d8d75431 ';
+//         const channelName = getchnlname.channelName
+//         console.log("channel name",channelName)
+//         const uid = 0;
+//         const { userAccount,astroAccount, } = req.body; // Get the userId from the request body
+
+//         //const userAccount = "632da83471b4d7fd47492f03";
+//         const role = RtcRole.PUBLISHER;
+
+//         const expirationTimeInSeconds = 86400
+
+//         const currentTimestamp = Math.floor(Date.now() / 1000)
+
+//         const privilegeExpiredTs = currentTimestamp + expirationTimeInSeconds
+
+//         // IMPORTANT! Build token with either the uid or with the user account. Comment out the option you do not want to use below.
+
+//         // Build token with uid
+//         const astroToken = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelName, uid, role, privilegeExpiredTs);
+//         console.log("Token With AstroAccount: " + tokenA);
+
+//         // Build token with user account
+//         const tokenB = RtcTokenBuilder.buildTokenWithAccount(appId, appCertificate, channelName, userAccount, role, privilegeExpiredTs);
+//         console.log("Token With UserAccount: " + tokenB);
+
+
+//         // Save call information to database
+//         const newVideoModel = new VideoModel({
+//           userAccount: userAccount,
+//           astroAccount:astroAccount,
+//             token: tokenB, // Save the token with user account
+//             channelName: channelName,
+//             createdAt: Date.now()
+//         });
+//         await newVideoModel.save();
+
+//         res.status(200).json({
+//           astroToken: astroToken,
+//             tokenB: tokenB
+//         });
+//     }
+//     generateRtcToken();
+// }
+
 exports.astroVideoCall = async (req, res) => {
-  const {
-    RtcTokenBuilder,
-    RtcRole,
-  } = agora;
 
-  const getchnlname = await Astrologer.findOne({_id:req.body.astroAccount});
-  console.log("astro",getchnlname);
-  const appId = '7d1f07c76f9d46be86bc46a791884023';
-  const appCertificate = '14cdb5fc04344d0da3270c35d8d75431 ';
-  const channelName = getchnlname.channelName;
-  console.log("channel name",channelName);
-  const uid = 0;
-  const { userAccount,astroAccount, } = req.body; // Get the userId from the request body
-  const role = RtcRole.PUBLISHER;
-  const expirationTimeInSeconds = 86400; // 24 hours
-  const currentTimestamp = Math.floor(Date.now() / 1000);
-  const privilegeExpiredTs = currentTimestamp + expirationTimeInSeconds;
-
-  const astroToken = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelName, astroAccount, role, privilegeExpiredTs);
-  console.log("Token With AstroAccount: " + astroToken);
-
-  const newVideoModel = new VideoModel({
-    astroAccount:astroAccount,
-    token: astroToken,
-    channelName: channelName,
-    createdAt: Date.now()
-  });
-  await newVideoModel.save();
-
-  res.status(200).json({
-    astroToken: astroToken,
-  });
-}
-
-
-
-exports.userVideoCall = async (req, res) => {
-  const {
+   const {
     RtcTokenBuilder,
     RtcRole,
 } = agora;
+const generateRtcToken = () => {
+  // Rtc Examples
+  const appId = '7d1f07c76f9d46be86bc46a791884023';
+  const appCertificate = '14cdb5fc04344d0da3270c35d8d75431';
+  const channelName = 'anujesh';
+  const uid = 0;
+  const userAccount = "a76414c384874a389be2aeebec534b2a";
+  //const role = RtcRole.PUBLISHER;
 
-const generateRtcToken =async  () => {
-        // Rtc Examples
-        const getchnlname = await Astrologer.findOne({_id:req.body.astroAccount})
-console.log("astro",getchnlname)
-        const appId = '7d1f07c76f9d46be86bc46a791884023';
-        const appCertificate = '14cdb5fc04344d0da3270c35d8d75431 ';
-        const channelName = getchnlname.channelName
-        console.log("channel name",channelName)
-        const uid = 0;
-        const { userAccount,astroAccount, } = req.body; // Get the userId from the request body
+  const expirationTimeInSeconds = 3600
 
-        //const userAccount = "632da83471b4d7fd47492f03";
-        const role = RtcRole.PUBLISHER;
+  const currentTimestamp = Math.floor(Date.now() / 1000)
 
-        const expirationTimeInSeconds = 86400
+  const privilegeExpiredTs = currentTimestamp + expirationTimeInSeconds
 
-        const currentTimestamp = Math.floor(Date.now() / 1000)
+  // IMPORTANT! Build token with either the uid or with the user account. Comment out the option you do not want to use below.
 
-        const privilegeExpiredTs = currentTimestamp + expirationTimeInSeconds
+  // Build token with uid
+  const tokenA = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelName, uid, privilegeExpiredTs);
+  console.log("Token With Integer Number Uid: " + tokenA);
 
-        // IMPORTANT! Build token with either the uid or with the user account. Comment out the option you do not want to use below.
-
-        // Build token with uid
-        const astroToken = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelName, astroAccount, role, privilegeExpiredTs);
-        console.log("Token With AstroAccount: " + tokenA);
-
-        // Build token with user account
-        const tokenB = RtcTokenBuilder.buildTokenWithAccount(appId, appCertificate, channelName, userAccount, role, privilegeExpiredTs);
-        console.log("Token With UserAccount: " + tokenB);
-
-
-        // Save call information to database
-        const newVideoModel = new VideoModel({
-          userAccount: userAccount,
-          astroAccount:astroAccount,
-            token: tokenB, // Save the token with user account
-            channelName: channelName,
-            createdAt: Date.now()
-        });
-        await newVideoModel.save();
-
-        res.status(200).json({
-          astroToken: astroToken,
-            tokenB: tokenB
-        });
-    }
-    generateRtcToken();
+  // Build token with user account
+  const tokenB = RtcTokenBuilder.buildTokenWithAccount(appId, appCertificate, channelName, userAccount, privilegeExpiredTs);
+  console.log("Token With UserAccount: " + tokenB);
 }
+generateRtcToken()
+ }

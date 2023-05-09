@@ -389,17 +389,9 @@ var dtt = ([...new Map(dataArr.astroid)]);
 console.log("kkk",dtt)
 console.log("hhhh",result)
 
-
- //console.log("uniqueCharss",uniqueCharss)
- //console.log("uniqueCharss",uniqueCharss)
-//  const arr = [
-//   { key: 'user1', value: 'John' },
-//   { key: 'user2', value: 'Kate' },
-//   { key: 'user3', value: 'Peter' },
-// ];
+ 
 const map = new Map(arrOfObj.map((obj) => [obj.key, obj.value]));
-// Map(3) { 'user1' => 'John', 'user2' => 'Kate', 'user3' => 'Peter' }
-console.log("MAP",map);
+ //console.log("MAP",map);
 
 const arr = [
   { key: 'user1', value: 'John' },
