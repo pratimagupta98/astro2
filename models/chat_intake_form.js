@@ -4,75 +4,80 @@ const Schema = mongoose.Schema;
 const thisSchema = new Schema(
   {
     userid: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "user",
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
       //  required:true
     },
-    astroid:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "astrologer",
+    astroid: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "astrologer",
     },
     gender: {
       type: String,
-      required:true
+      required: true
     },
-   mobile:{
-    type: Number,
-    required:true
-   },
-    firstname:{
-      type: String,
-      required:true
+    mobile: {
+      type: Number,
+      required: true
     },
-    p_firstname:{
+    firstname: {
       type: String,
+      required: true
+    },
+    p_firstname: {
+      type: String,
+      default: ""
     },
 
-    lastname:{
+    lastname: {
       type: String,
-      required:true
+      required: true
     },
-p_lastname:{
-  type: String,
-},
-    dob:{
+    p_lastname: {
       type: String,
-      required:true
+      default: ""
     },
-    p_dob:{
+    dob: {
       type: String,
+      required: true
     },
-    date_of_time:{
+    p_dob: {
       type: String,
-      required:true
+      default: ""
     },
-    p_date_of_time:{
+    date_of_time: {
       type: String,
+      required: true
     },
-    birthPlace:{
+    p_date_of_time: {
       type: String,
-      required:true
+      default: ""
     },
-    p_birthPlace:{
+    birthPlace: {
       type: String,
+      required: true
     },
-    marital_status:{
-        type: String,
-        required:true
+    p_birthPlace: {
+      type: String,
+      default: ""
+    },
+    marital_status: {
+      type: String,
+      required: true
     },
     //Single , Married ,Divorced ,Separated ,Widowed
-    occupation:{
-        type: String,
-        required:true
+    occupation: {
+      type: String,
+      required: true
     },
     // Private Sector ,Govt Sector ,Business/Self Employed ,Civil Services ,Defence  ,Not Working ,Student
-    topic_of_cnsrn:{
-        type: String,
-        required:true
+    topic_of_cnsrn: {
+      type: String,
+      required: true
     },
     // Career and Business ,Marriage ,Love and Relationship ,Wealth and Property ,Education ,Legal Matters ,Child Name Consultation ,Business Name Consultation ,Gem Stone Consultation ,Commodity trading consultation ,Match making ,Birth Time Rectification ,Name Correction Consultation,Travel Abroad Consulation ,Remedy Consultation ,Health Consultation ,Others
-    entertopic_of_cnsrn:{
-        type: String,
+    entertopic_of_cnsrn: {
+      type: String,
       //  required:true
     }
   },
