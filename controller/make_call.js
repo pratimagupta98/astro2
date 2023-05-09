@@ -671,7 +671,7 @@ exports.astroVideoCall = async (req, res) => {
     RtcRole,
   } = agora;
 
-  const getchnlname = await Astrologer.findOne({ _id: req.body.userAccount })
+  const getchnlname = await Astrologer.findOne({ _id: req.body.astroAccount })
   console.log("astro", getchnlname)
   const channelName = getchnlname.channelName
   const generateRtcToken = () => {
@@ -705,7 +705,7 @@ exports.astroVideoCall = async (req, res) => {
 
     res.status(200).json({
       astroAccount: tokenA,
-      tokenB: tokenB
+
     });
 
   }
