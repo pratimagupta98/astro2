@@ -702,6 +702,10 @@ exports.astroVideoCall = async (req, res) => {
     // Build token with user account
     const tokenB = RtcTokenBuilder.buildTokenWithAccount(appId, appCertificate, channelName, astroAccount, privilegeExpiredTs);
     console.log("Token With UserAccount: " + tokenB);
+    res.status(200).json({
+      astroToken: tokenB,
+      //tokenB: tokenB
+    });
   }
   generateRtcToken()
 }
