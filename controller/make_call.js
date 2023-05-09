@@ -666,34 +666,42 @@ const agora = require('agora-access-token');
 
 exports.astroVideoCall = async (req, res) => {
 
-   const {
+  const {
     RtcTokenBuilder,
     RtcRole,
-} = agora;
-const generateRtcToken = () => {
-  // Rtc Examples
-  const appId = '7d1f07c76f9d46be86bc46a791884023';
-  const appCertificate = '14cdb5fc04344d0da3270c35d8d75431';
-  const channelName = 'anujesh';
-  const uid = 0;
-  const userAccount = "a76414c384874a389be2aeebec534b2a";
-  //const role = RtcRole.PUBLISHER;
+  } = agora;
 
-  const expirationTimeInSeconds = 3600
+  const getchnlname = await Astrologer.findOne({ _id: req.body.astroAccount })
+  console.log("astro", getchnlname)
+  const channelName = getchnlname.channelName
+  const generateRtcToken = () => {
+    // Rtc Examples
+    const appId = '7d1f07c76f9d46be86bc46a791884023';
+    const appCertificate = '14cdb5fc04344d0da3270c35d8d75431';
+    // const channelName = 'anujesh';
+    const channelName = getchnlname.channelName
 
-  const currentTimestamp = Math.floor(Date.now() / 1000)
+    const uid = 0;
+    // const userAccount = "a76414c384874a389be2aeebec534b2a";
+    const { astroAccount } = req.body;
 
-  const privilegeExpiredTs = currentTimestamp + expirationTimeInSeconds
+    //const role = RtcRole.PUBLISHER;
 
-  // IMPORTANT! Build token with either the uid or with the user account. Comment out the option you do not want to use below.
+    const expirationTimeInSeconds = 3600
 
-  // Build token with uid
-  const tokenA = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelName, uid, privilegeExpiredTs);
-  console.log("Token With Integer Number Uid: " + tokenA);
+    const currentTimestamp = Math.floor(Date.now() / 1000)
 
-  // Build token with user account
-  const tokenB = RtcTokenBuilder.buildTokenWithAccount(appId, appCertificate, channelName, userAccount, privilegeExpiredTs);
-  console.log("Token With UserAccount: " + tokenB);
+    const privilegeExpiredTs = currentTimestamp + expirationTimeInSeconds
+
+    // IMPORTANT! Build token with either the uid or with the user account. Comment out the option you do not want to use below.
+
+    // Build token with uid
+    const tokenA = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelName, uid, privilegeExpiredTs);
+    console.log("Token With Integer Number Uid: " + tokenA);
+    console.log("tokenA", channelName)
+    // Build token with user account
+    const tokenB = RtcTokenBuilder.buildTokenWithAccount(appId, appCertificate, channelName, astroAccount, privilegeExpiredTs);
+    console.log("Token With UserAccount: " + tokenB);
+  }
+  generateRtcToken()
 }
-generateRtcToken()
- }
