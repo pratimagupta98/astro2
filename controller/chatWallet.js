@@ -515,7 +515,7 @@ exports.addCallWallet = async (req, res) => {
 
 
 exports.addVideoCallWallet = async (req, res) => {
-  const { userid, astroid, recharge_planId, beforeAmt, deductedAmt, finalAmt } = req.body;
+  const { userid, astroid } = req.body;
 
 
 
@@ -525,112 +525,98 @@ exports.addVideoCallWallet = async (req, res) => {
     const getcharge = getoneastro.callCharge
     console.log("CALLCHARGE", getcharge)
 
+    const minute = 5
 
-    const getplanchrge = await Minutecharge.findOne({ _id: req.body.recharge_planId })
-    console.log("MIN PLAN", getplanchrge)
-    if (getplanchrge) {
-      const getplan = getplanchrge.minute
-      console.log("getplan", getplan)
 
-      const getuserdetail = await User.findOne({ _id: req.body.userid })
-      //console.log("GETUSER",getuserdetail)
-      if (getuserdetail) {
-        let totalamt = getcharge * getplan
-        console.log("TOTAL AMT WAS DEDUCTED", totalamt)
-        const getwalletamt = getuserdetail.amount
-        console.log("WALLET AMT", getwalletamt)
-        let newamt = 0
-        if (getwalletamt > totalamt) {
-          console.log("success")
+    const getuserdetail = await User.findOne({ _id: req.body.userid })
+    //console.log("GETUSER",getuserdetail)
+    if (getuserdetail) {
+      let totalamt = getcharge * minute
+      // console.log("TOTAL AMT WAS DEDUCTED", totalamt)
+      const getwalletamt = getuserdetail.amount
+      console.log("WALLET AMT", getwalletamt)
+      let newamt = 0
+      if (getwalletamt > totalamt) {
+        console.log("success")
+        res.status(200).json({
+          status: true,
+          msg: "success"
+        })
 
-          newamt = getwalletamt - totalamt
-          console.log("camt", getwalletamt)
-          console.log("new", newamt)
 
-          const newChatWallet = new ChatWallet({
-            userid: userid,
-            astroid: astroid,
-            recharge_planId: recharge_planId,
-            type: "Video Call",
-            tran_Type: "Debited",
-            conversationId: "#" + Date.now(),
-            beforeAmt: getwalletamt,
-            deductedAmt: totalamt,
-            finalAmt: newamt
+        const newChatWallet = new ChatWallet({
+          userid: userid,
+          astroid: astroid,
+          type: "Video Call",
+          tran_Type: "Debited",
+          conversationId: "#" + Date.now(),
 
-          })
-          const newWalletT = new WalletT({
-            userid: userid,
-            astroid: astroid,
-            recharge_planId: recharge_planId,
-            type: "Video Call",
-            tran_Type: "Debited",
-            conversationId: "#" + Date.now(),
-            beforeAmt: getwalletamt,
-            deductedAmt: totalamt,
-            finalAmt: newamt
-          })
-          newChatWallet.save()
 
-            .then(async (data) => {
-              const createnewtable = await WalletT.create(newWalletT);
-              console.log("MMMMMM", createnewtable)
-              res.status(200).json({
-                status: true,
-                msg: "success",
-                data: data,
-                // callCharge:getoneastro.callCharge,
-                // minute:
-              });
-            })
-            .catch((error) => {
-              res.status(400).json({
-                status: false,
-                msg: "error",
-                error: error,
-              });
+        })
+        const newWalletT = new WalletT({
+          userid: userid,
+          astroid: astroid,
+          recharge_planId: recharge_planId,
+          type: "Video Call",
+          //   tran_Type: "Debited",
+          conversationId: "#" + Date.now(),
+          // beforeAmt: getwalletamt,
+          // deductedAmt: totalamt,
+          // finalAmt: newamt
+        })
+        newChatWallet.save()
+
+          .then(async (data) => {
+            const createnewtable = await WalletT.create(newWalletT);
+            console.log("MMMMMM", createnewtable)
+            res.status(200).json({
+              status: true,
+              msg: "success",
+              data: data,
+              // callCharge:getoneastro.callCharge,
+              // minute:
             });
-          const finduserAndupdate = await User.findOneAndUpdate(
-
-            { _id: req.body.userid },
-
-            { $set: { amount: newamt, deductedAmt: totalamt } },
-
-            //     { amount: currntamt },
-
-            // { $set: {status:"success"} },
-            { new: true },
-          )
-          if (finduserAndupdate) {
-            console.log("UPDATE USER AMOUNT", finduserAndupdate)
-
-          }
-
-
-
-        } else {
-          console.log("INSUFFICIENT BALANCE")
-          res.status(201).json({
-            status: false,
-            msg: "Insufficient belence"
           })
-        }
+          .catch((error) => {
+            res.status(400).json({
+              status: false,
+              msg: "error",
+              error: error,
+            });
+          });
+        // const finduserAndupdate = await User.findOneAndUpdate(
+
+        //   { _id: req.body.userid },
+
+        //   { $set: { amount: newamt, deductedAmt: totalamt } },
+
+        //   //     { amount: currntamt },
+
+        //   // { $set: {status:"success"} },
+        //   { new: true },
+        // )
+        // if (finduserAndupdate) {
+        //   console.log("UPDATE USER AMOUNT", finduserAndupdate)
+
+        // }
+
+
 
       } else {
-        console.log("ERROR")
-        res.status(400).json({
+        console.log("INSUFFICIENT BALANCE")
+        res.status(201).json({
           status: false,
-          msg: "Something Went Wrong"
+          msg: "Insufficient Balance"
         })
       }
+
     } else {
-      console.log("error")
+      console.log("ERROR")
       res.status(400).json({
         status: false,
         msg: "Something Went Wrong"
       })
     }
-
   } else {
     console.log("error")
     res.status(400).json({
@@ -639,8 +625,11 @@ exports.addVideoCallWallet = async (req, res) => {
     })
   }
 
-
 }
+
+
+
+
 
 
 exports.ChatWaiting = async (req, res) => {
