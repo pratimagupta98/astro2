@@ -872,6 +872,8 @@ exports.userVideoCall = async (req, res) => {
 
     res.status(200).json({
       userAccount: tokenA,
+      channelName: channelName
+
 
     });
 
