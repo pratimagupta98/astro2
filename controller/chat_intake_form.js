@@ -8,6 +8,7 @@ const dotenv = require("dotenv");
 const jwt = require("jsonwebtoken");
 const key = "verysecretkey";
 const bcrypt = require("bcrypt");
+const { data } = require("jquery");
 dotenv.config();
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -108,16 +109,98 @@ exports.getone_chatintek = async (req, res) => {
 };
 
 
-exports.edit_CatHroscope = async (req, res) => {
-  await CatHorscope.findOneAndUpdate(
-    {
-      _id: req.params.id,
-    },
-    { $set: req.body },
-    { new: true }
-  )
-    .then((data) => resp.successr(res, data))
-    .catch((error) => resp.errorr(res, error));
+exports.edit_ChatIntake = async (req, res) => {
+  try {
+    const { userid, astroid, gender, mobile, firstname, p_firstname, lastname, p_lastname, dob, p_dob, date_of_time, p_date_of_time, birthPlace, p_birthPlace, marital_status, occupation, topic_of_cnsrn, entertopic_of_cnsrn } = req.body
+
+    let data = {}
+    if (userid) {
+      data.userid = userid
+    }
+    if (astroid) {
+      data.astroid = astroid
+    }
+    if (gender) {
+      data.gender = gender
+    }
+    if (mobile) {
+      data.mobile = mobile
+    }
+    if (firstname) {
+      data.firstname = firstname
+    }
+    if (p_firstname) {
+      data.p_firstname = p_firstname
+    }
+    if (lastname) {
+      data.lastname = lastname
+    }
+    if (p_lastname) {
+      data.p_lastname = p_lastname
+    }
+
+    if (dob) {
+      data.dob = dob
+    }
+    if (p_dob) {
+      data.p_dob = p_dob
+    }
+    if (date_of_time) {
+      data.date_of_time = date_of_time
+    }
+    if (p_date_of_time) {
+      data.p_date_of_time = p_date_of_time
+    }
+    if (birthPlace) {
+      data.birthPlace = birthPlace
+    }
+    if (p_birthPlace) {
+      data.p_birthPlace = p_birthPlace
+    }
+    if (gender) {
+      data.gender = gender
+    }
+    if (marital_status) {
+      data.marital_status = marital_status
+    }
+    if (occupation) {
+      data.occupation = occupation
+    }
+    if (entertopic_of_cnsrn) {
+      data.entertopic_of_cnsrn = entertopic_of_cnsrn
+    }
+
+    if (req.files) {
+      if (req.files.file) {
+        alluploads = [];
+        for (let i = 0; i < req.files.file.length; i++) {
+          // console.log(i);
+          const resp = await cloudinary.uploader.upload(req.files.file[i].path, {
+            use_filename: true,
+            unique_filename: false,
+          });
+          fs.unlinkSync(req.files.file[i].path);
+          alluploads.push(resp.secure_url);
+        }
+        // newStore.storeImg = alluploads;
+        data.file = alluploads;
+      }
+    }
+    const getu = await Intek.findOneAndUpdate(
+      { _id: req.params.id },
+      { $set: data },
+      { new: true }
+    )
+    res.status(200).json({
+      msg: "success",
+      data: getu
+    })
+    // .then((data) => resp.successr(res, data))
+    // .catch((error) => resp.errorr(res, error));
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: "Internal server error" });
+  }
 };
 
 
