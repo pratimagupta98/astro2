@@ -834,13 +834,13 @@ exports.userVideoCall = async (req, res) => {
 
   const getuser = await User.findOne({ _id: req.body.userAccount })
   const getamt = getuser.amount
-  console.log("amt", getamt)
+  // console.log("amt", getamt)
 
   const getchnlname = await Astrologer.findOne({ _id: req.body.astroAccount })
-  console.log("astro", getchnlname)
+  //  console.log("astro", getchnlname)
   const callcrg = getchnlname.callCharge
   const tokend = (getamt / callcrg) * 60
-  console.log("tokend", tokend)
+  // console.log("tokend", tokend)
   const channelName = getchnlname.channelName
   const generateRtcToken = () => {
     // Rtc Examples
@@ -864,8 +864,8 @@ exports.userVideoCall = async (req, res) => {
 
     // Build token with uid
     const tokenA = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelName, uid, privilegeExpiredTs);
-    console.log("Token With Integer Number Uid: " + tokenA);
-    console.log("tokenA", channelName)
+    // console.log("Token With Integer Number Uid: " + tokenA);
+    // console.log("tokenA", channelName)
     // Build token with user account
     // const tokenB = RtcTokenBuilder.buildTokenWithAccount(appId, appCertificate, channelName, userAccount, privilegeExpiredTs);
     // console.log("Token With UserAccount: " + tokenB);
