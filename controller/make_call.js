@@ -713,15 +713,134 @@ exports.astroVideoCall = async (req, res) => {
 }
 
 
+// exports.userVideoCall = async (req, res) => {
+
+//   const {
+//     RtcTokenBuilder,
+//     RtcRole,
+//   } = agora;
+
+//   const getchnlname = await Astrologer.findOne({ _id: req.body.userAccount })
+//   console.log("astro", getchnlname)
+//   const channelName = getchnlname.channelName
+//   const generateRtcToken = () => {
+//     // Rtc Examples
+//     const appId = '7d1f07c76f9d46be86bc46a791884023';
+//     const appCertificate = '14cdb5fc04344d0da3270c35d8d75431';
+//     // const channelName = 'anujesh';
+//     const channelName = getchnlname.channelName
+
+//     const uid = 0;
+//     // const userAccount = "a76414c384874a389be2aeebec534b2a";
+//     const { userAccount } = req.body;
+
+//     //const role = RtcRole.PUBLISHER;
+
+//     const expirationTimeInSeconds = 36000
+
+//     const currentTimestamp = Math.floor(Date.now() / 1000)
+
+//     const privilegeExpiredTs = currentTimestamp + expirationTimeInSeconds
+
+//     // IMPORTANT! Build token with either the uid or with the user account. Comment out the option you do not want to use below.
+
+//     // Build token with uid
+//     const tokenA = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelName, uid, userAccount, privilegeExpiredTs);
+//     console.log("Token With Integer Number Uid: " + tokenA);
+//     console.log("tokenA", channelName)
+//     // Build token with user account
+//     // const tokenB = RtcTokenBuilder.buildTokenWithAccount(appId, appCertificate, channelName, userAccount, privilegeExpiredTs);
+//     // console.log("Token With UserAccount: " + tokenB);
+
+//     res.status(200).json({
+//       astroAccount: tokenA,
+
+//     });
+
+//   }
+//   generateRtcToken()
+// }
+
+
+
+// exports.userVideoCall = async (req, res) => {
+//   const {
+//     RtcTokenBuilder,
+//     RtcRole,
+//   } = agora;
+
+//   const generateRtcToken = async () => {
+//     // Rtc Examples
+//     const getuser = await User.findOne({ _id: req.body.userid })
+//     const getamt = getuser.amount
+//     console.log("amt", getamt)
+
+//     const getchnlname = await Astrologer.findOne({ _id: req.body.astroid })
+//     console.log("astro", getchnlname)
+//     const callcrg = getchnlname.callCharge
+//     const tokend = (getamt / callcrg) * 60
+//     console.log("tokend", tokend)
+//     const appId = '7d1f07c76f9d46be86bc46a791884023';
+//     const appCertificate = '14cdb5fc04344d0da3270c35d8d75431 ';
+//     // const channelName = getchnlname.channelName
+//     // console.log("channel name", channelName)
+//     const channelName = "anujesh"
+
+//     const uid = 0;
+//     const { userid, astroid, } = req.body; // Get the userId from the request body
+
+//     const userAccount = "632da83471b4d7fd47492f03";
+//     // const role = RtcRole.PUBLISHER;
+
+//     const expirationTimeInSeconds = 36000
+
+//     const currentTimestamp = Math.floor(Date.now() / 1000)
+
+//     const privilegeExpiredTs = currentTimestamp + expirationTimeInSeconds
+//     console.log("privilegeExpiredTs", privilegeExpiredTs)
+
+//     // IMPORTANT! Build token with either the uid or with the user account. Comment out the option you do not want to use below.
+
+//     // Build token with uid
+//     const userToken = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelName, uid, privilegeExpiredTs);
+//     console.log("Token With userToken: " + userToken);
+
+//     // Save call information to database
+//     const newVideoModel = new VideoModel({
+//       userid: userid,
+//       astroid: astroid,
+//       channelName: channelName,
+//       userToken: userToken,
+//       createdAt: Date.now()
+//     });
+//     return newVideoModel.save(); // Return the promise from the save() function call
+//   }
+//   const newVideoModel = await generateRtcToken(); // Wait for the promise to resolve
+//   res.status(200).json({
+//     userToken: newVideoModel.userToken
+//   });
+// }
+
+
+
+
 exports.userVideoCall = async (req, res) => {
 
   const {
     RtcTokenBuilder,
     RtcRole,
   } = agora;
+  const { astroAccount, userAccount } = req.body;
 
-  const getchnlname = await Astrologer.findOne({ _id: req.body.userAccount })
+  const getuser = await User.findOne({ _id: req.body.userAccount })
+  const getamt = getuser.amount
+  console.log("amt", getamt)
+
+  const getchnlname = await Astrologer.findOne({ _id: req.body.astroAccount })
   console.log("astro", getchnlname)
+  const callcrg = getchnlname.callCharge
+  const tokend = (getamt / callcrg) * 60
+  console.log("tokend", tokend)
   const channelName = getchnlname.channelName
   const generateRtcToken = () => {
     // Rtc Examples
@@ -732,63 +851,8 @@ exports.userVideoCall = async (req, res) => {
 
     const uid = 0;
     // const userAccount = "a76414c384874a389be2aeebec534b2a";
-    const { userAccount } = req.body;
 
     //const role = RtcRole.PUBLISHER;
-
-    const expirationTimeInSeconds = 36000
-
-    const currentTimestamp = Math.floor(Date.now() / 1000)
-
-    const privilegeExpiredTs = currentTimestamp + expirationTimeInSeconds
-
-    // IMPORTANT! Build token with either the uid or with the user account. Comment out the option you do not want to use below.
-
-    // Build token with uid
-    const tokenA = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelName, uid, userAccount, privilegeExpiredTs);
-    console.log("Token With Integer Number Uid: " + tokenA);
-    console.log("tokenA", channelName)
-    // Build token with user account
-    // const tokenB = RtcTokenBuilder.buildTokenWithAccount(appId, appCertificate, channelName, userAccount, privilegeExpiredTs);
-    // console.log("Token With UserAccount: " + tokenB);
-
-    res.status(200).json({
-      astroAccount: tokenA,
-
-    });
-
-  }
-  generateRtcToken()
-}
-
-
-
-exports.userVideoCall = async (req, res) => {
-  const {
-    RtcTokenBuilder,
-    RtcRole,
-  } = agora;
-
-  const generateRtcToken = async () => {
-    // Rtc Examples
-    const getuser = await User.findOne({ _id: req.body.userid })
-    const getamt = getuser.amount
-    console.log("amt", getamt)
-
-    const getchnlname = await Astrologer.findOne({ _id: req.body.astroid })
-    console.log("astro", getchnlname)
-    const callcrg = getchnlname.callCharge
-    const tokend = (getamt / callcrg) * 60
-    console.log("tokend", tokend)
-    const appId = '7d1f07c76f9d46be86bc46a791884023';
-    const appCertificate = '14cdb5fc04344d0da3270c35d8d75431 ';
-    const channelName = getchnlname.channelName
-    console.log("channel name", channelName)
-    const uid = 0;
-    const { userid, astroid, } = req.body; // Get the userId from the request body
-
-    //const userAccount = "632da83471b4d7fd47492f03";
-    // const role = RtcRole.PUBLISHER;
 
     // const expirationTimeInSeconds = 36000
 
@@ -799,28 +863,18 @@ exports.userVideoCall = async (req, res) => {
     // IMPORTANT! Build token with either the uid or with the user account. Comment out the option you do not want to use below.
 
     // Build token with uid
-    const userToken = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelName, uid, privilegeExpiredTs);
-    console.log("Token With astroAccount: " + userToken);
-
-
-
-
-    // Save call information to database
-    const newVideoModel = new VideoModel({
-      userid: userid,
-      astroid: astroid,
-      channelName: channelName,
-      userToken: userToken,
-      createdAt: Date.now()
-    });
-    await newVideoModel.save();
+    const tokenA = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelName, uid, privilegeExpiredTs);
+    console.log("Token With Integer Number Uid: " + tokenA);
+    console.log("tokenA", channelName)
+    // Build token with user account
+    // const tokenB = RtcTokenBuilder.buildTokenWithAccount(appId, appCertificate, channelName, userAccount, privilegeExpiredTs);
+    // console.log("Token With UserAccount: " + tokenB);
 
     res.status(200).json({
-      astroToken: astroToken,
-      tokenB: tokenB,
-      channelName: channelName
+      userAccount: tokenA,
 
     });
+
   }
-  generateRtcToken();
+  generateRtcToken()
 }
