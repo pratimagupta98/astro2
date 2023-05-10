@@ -1,6 +1,19 @@
 const Intek = require("../models/chat_intake_form");
 const resp = require("../helpers/apiResponse");
 const User = require("../models/users");
+const fs = require("fs");
+const cloudinary = require("cloudinary").v2;
+const dotenv = require("dotenv");
+
+const jwt = require("jsonwebtoken");
+const key = "verysecretkey";
+const bcrypt = require("bcrypt");
+dotenv.config();
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 
 exports.add_chat_intake = async (req, res) => {
@@ -43,6 +56,21 @@ exports.add_chat_intake = async (req, res) => {
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   } else {
+    if (req.files) {
+      if (req.files.file[0].path) {
+        alluploads = [];
+        for (let i = 0; i < req.files.file.length; i++) {
+          const resp = await cloudinary.uploader.upload(
+            req.files.file[i].path,
+            { use_filename: true, unique_filename: false }
+          );
+          fs.unlinkSync(req.files.file[i].path);
+          alluploads.push(resp.secure_url);
+        }
+        newIntek.file = alluploads;
+      }
+    }
+
     newIntek
       .save()
       .then((data) => resp.successr(res, data))
@@ -67,6 +95,13 @@ exports.get_chat_intake = async (req, res) => {
 
 exports.getone_user_chatintek = async (req, res) => {
   await Intek.findOne({ userid: req.params.id }).populate("userid")
+    //.populate("category").populate("rashiId")
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
+exports.getone_chatintek = async (req, res) => {
+  await Intek.findOne({ _id: req.params.id }).populate("userid")
     //.populate("category").populate("rashiId")
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));

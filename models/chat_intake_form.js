@@ -79,6 +79,9 @@ const thisSchema = new Schema(
     entertopic_of_cnsrn: {
       type: String,
       //  required:true
+    },
+    file: {
+      type: Array
     }
   },
   { timestamps: true }
