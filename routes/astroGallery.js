@@ -32,12 +32,12 @@ const {
 
 router.post(
   "/admin/upload_astrogallery",
-  upload.fields([
+  upload.fields(
     {
       name: "file",
     },
 
-  ]),
+  ),
   upload_astrogallery
 );
 

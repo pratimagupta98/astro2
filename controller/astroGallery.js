@@ -113,16 +113,15 @@ exports.addvideobyadmin = async (req, res) => {
 };
 
 exports.get_astroGallery = async (req, res) => {
-  const { id } = req.params;
-  await astroGallery.find({ astroId: id })
-    .sort({ sortorder: 1 })
-    .then((data) => {
-      const images = data.map(({ image }) => image);
-      const videos = data.map(({ video }) => video);
-      resp.successr(res, { images, videos });
-    })
+  const findall = await astroGallery
+    .find({ astroId: req.params.id })
+    .select("file")
+    .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
-};
+}
+
+
+
 
 exports.deletevideo = async (req, res) => {
   await Video.deleteOne({ _id: req.params.id })
