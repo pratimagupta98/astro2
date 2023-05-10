@@ -34,11 +34,9 @@ router.post(
   "/admin/upload_astrogallery",
   upload.fields([
     {
-      name: "image",
+      name: "file",
     },
-    {
-      name: "video",
-    },
+
   ]),
   upload_astrogallery
 );

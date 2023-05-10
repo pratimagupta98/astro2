@@ -837,7 +837,6 @@ exports.userVideoCall = async (req, res) => {
   // console.log("amt", getamt)
 
   const getchnlname = await Astrologer.findOne({ _id: req.body.astroAccount })
-  //  console.log("astro", getchnlname)
   const callcrg = getchnlname.callCharge
   const tokend = (getamt / callcrg) * 60
   // console.log("tokend", tokend)
@@ -852,29 +851,15 @@ exports.userVideoCall = async (req, res) => {
     const uid = 0;
     // const userAccount = "a76414c384874a389be2aeebec534b2a";
 
-    //const role = RtcRole.PUBLISHER;
-
-    // const expirationTimeInSeconds = 36000
-
     const currentTimestamp = Math.floor(Date.now() / 1000)
 
     const privilegeExpiredTs = currentTimestamp + tokend
-
-    // IMPORTANT! Build token with either the uid or with the user account. Comment out the option you do not want to use below.
-
     // Build token with uid
     const tokenA = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelName, uid, privilegeExpiredTs);
-    // console.log("Token With Integer Number Uid: " + tokenA);
-    // console.log("tokenA", channelName)
-    // Build token with user account
-    // const tokenB = RtcTokenBuilder.buildTokenWithAccount(appId, appCertificate, channelName, userAccount, privilegeExpiredTs);
-    // console.log("Token With UserAccount: " + tokenB);
 
     res.status(200).json({
       userAccount: tokenA,
       channelName: channelName
-
-
     });
 
   }

@@ -367,14 +367,15 @@ exports.verifyotp = async (req, res) => {
         {
           _id: getuser._id,
         },
-        { $set: { otpverify: "true" } },
+        { $set: { otpverify: "true", status: "Online" } },
         { new: true }).then((data) => {
           res.header("auth-adtoken", token).status(200).send({
             status: true,
             msg: "otp verified",
             otp: otp,
             _id: getuser._id,
-            mobile: getuser.mobile
+            mobile: getuser.mobile,
+            token: token
           })
         });
     } else {
@@ -654,4 +655,23 @@ exports.rating_low_to_high = async (req, res) => {
     //.sort({ sortorder: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
+};
+
+exports.logout = async (req, res) => {
+  const token = req.headers.authorization.split(" ")[1];
+  console.log("token", token)
+  const decoded = jwt.verify(token, key);
+  console.log("decoded", decoded)
+  const astroId = decoded.astroId;
+  console.log("astroId", astroId)
+  await Astrologer.findOneAndUpdate(
+    {
+      _id: astroId,
+    },
+    { $set: { status: "Offline" } }
+  );
+  res.status(200).json({
+    status: true,
+    msg: "Logged out successfully",
+  });
 };

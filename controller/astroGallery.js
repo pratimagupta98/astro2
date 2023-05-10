@@ -1,7 +1,7 @@
- const astroGallery = require("../models/astroGallery");
+const astroGallery = require("../models/astroGallery");
 const resp = require("../helpers/apiResponse");
 const { uploadFile } = require("../helpers/awsuploader");
- const { uploadBase64ImageFile } = require("../helpers/awsuploader");
+const { uploadBase64ImageFile } = require("../helpers/awsuploader");
 
 var signatures = {
   JVBERi0: "application/pdf",
@@ -22,34 +22,20 @@ function detectMimeType(b64) {
 
 
 exports.upload_astrogallery = async (req, res) => {
-  const { astroId, image, video } = req.body;
+  const { astroId } = req.body;
 
   const newastroGallery = new astroGallery({
     astroId: astroId,
   });
 
-  if (req.files.image) { // Check if req.files.image exists
+  if (req.files.file) {
     const getimgurl = await uploadFile(
-      req.files.image[0]?.path,
-      req.files.image[0]?.filename,
-      "jpg",
-      req.files.image[0]?.filename,
-      "mp4"
+      req.files.file[0]?.path,
+      req.files.file[0]?.filename,
+      req.files.file[0]?.filename.split('.').pop() // get file extension dynamically
     );
     if (getimgurl) {
-      newastroGallery.image = getimgurl.Location;
-    }
-  }
-
-  if (req.files.video) {
-    console.log(req.files);
-    const geturl = await uploadFile(
-      req.files.video[0]?.path,
-      req.files.video[0]?.filename,
-      "mp4"
-    );
-    if (geturl) {
-      newastroGallery.video = geturl.Location;
+      newastroGallery.file = getimgurl.Location;
     }
   }
 
@@ -153,11 +139,11 @@ exports.videobycourse = async (req, res) => {
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
- 
+
 
 exports.viewonevideo = async (req, res) => {
   const findall = await Video.findOne({ _id: req.params.id })
-     
+
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };

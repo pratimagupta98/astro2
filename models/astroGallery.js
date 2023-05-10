@@ -7,13 +7,11 @@ const thisSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "astrologer",
     },
-    image: {
-      type: Array,
-     },
-     video:{
-        type:Array
-     }
-   
+    file: {
+      type: String,
+    },
+
+
   },
   { timestamps: true }
 );
