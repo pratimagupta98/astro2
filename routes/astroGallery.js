@@ -22,8 +22,8 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: storage });
 
+const upload = multer({ storage: storage });
 const {
   upload_astrogallery, get_astroGallery
 } = require("../controller/astroGallery");
@@ -32,12 +32,7 @@ const {
 
 router.post(
   "/admin/upload_astrogallery",
-  upload.fields(
-    {
-      name: "file",
-    },
-
-  ),
+  upload.single("file"),
   upload_astrogallery
 );
 

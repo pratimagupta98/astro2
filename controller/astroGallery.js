@@ -21,6 +21,49 @@ function detectMimeType(b64) {
 
 
 
+// exports.upload_astrogallery = async (req, res) => {
+//   const { astroId, file } = req.body;
+
+//   const newastroGallery = new astroGallery({
+//     astroId: astroId,
+//   });
+
+//   // if (req.file) {
+//   //   const getimgurl = await uploadFile(
+//   //     req.files.file[0]?.path,
+//   //     req.files.file[0]?.filename,
+//   //     req.files.file[0]?.filename.split('.').pop() // get file extension dynamically
+//   //   );
+//   //   if (getimgurl) {
+//   //     newastroGallery.file = getimgurl.Location;
+//   //   }
+//   // }
+//   const allowedFileTypes = ['jpg', 'jpeg', 'png', 'gif'];
+
+//   if (req.file) {
+//     const fileExtension = req.files.file[0]?.filename.split('.').pop();
+
+//     if (!allowedFileTypes.includes(fileExtension)) {
+//       // handle invalid file type error here
+//     } else {
+//       const getimgurl = await uploadFile(
+//         req.files.file[0]?.path,
+//         req.files.file[0]?.filename,
+//         fileExtension // pass file extension directly
+//       );
+
+//       if (getimgurl) {
+//         newastroGallery.file = getimgurl.Location;
+//       }
+//     }
+//   }
+
+
+//   newastroGallery
+//     .save()
+//     .then((data) => resp.successr(res, data))
+//     .catch((error) => resp.errorr(res, error));
+// }
 exports.upload_astrogallery = async (req, res) => {
   const { astroId } = req.body;
 
@@ -28,27 +71,17 @@ exports.upload_astrogallery = async (req, res) => {
     astroId: astroId,
   });
 
-  // if (req.files.file) {
-  //   const getimgurl = await uploadFile(
-  //     req.files.file[0]?.path,
-  //     req.files.file[0]?.filename,
-  //     req.files.file[0]?.filename.split('.').pop() // get file extension dynamically
-  //   );
-  //   if (getimgurl) {
-  //     newastroGallery.file = getimgurl.Location;
-  //   }
-  // }
-  const allowedFileTypes = ['jpg', 'jpeg', 'png', 'gif'];
+  const allowedFileTypes = ['jpg', 'jpeg', 'png', 'mp4'];
 
-  if (req.files.file) {
-    const fileExtension = req.files.file[0]?.filename.split('.').pop();
+  if (req.file) {
+    const fileExtension = req.file.originalname.split('.').pop();
 
     if (!allowedFileTypes.includes(fileExtension)) {
       // handle invalid file type error here
     } else {
       const getimgurl = await uploadFile(
-        req.files.file[0]?.path,
-        req.files.file[0]?.filename,
+        req.file.path,
+        req.file.filename,
         fileExtension // pass file extension directly
       );
 
