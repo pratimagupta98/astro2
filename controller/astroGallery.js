@@ -28,23 +28,42 @@ exports.upload_astrogallery = async (req, res) => {
     astroId: astroId,
   });
 
+  // if (req.files.file) {
+  //   const getimgurl = await uploadFile(
+  //     req.files.file[0]?.path,
+  //     req.files.file[0]?.filename,
+  //     req.files.file[0]?.filename.split('.').pop() // get file extension dynamically
+  //   );
+  //   if (getimgurl) {
+  //     newastroGallery.file = getimgurl.Location;
+  //   }
+  // }
+  const allowedFileTypes = ['jpg', 'jpeg', 'png', 'gif'];
+
   if (req.files.file) {
-    const getimgurl = await uploadFile(
-      req.files.file[0]?.path,
-      req.files.file[0]?.filename,
-      req.files.file[0]?.filename.split('.').pop() // get file extension dynamically
-    );
-    if (getimgurl) {
-      newastroGallery.file = getimgurl.Location;
+    const fileExtension = req.files.file[0]?.filename.split('.').pop();
+
+    if (!allowedFileTypes.includes(fileExtension)) {
+      // handle invalid file type error here
+    } else {
+      const getimgurl = await uploadFile(
+        req.files.file[0]?.path,
+        req.files.file[0]?.filename,
+        fileExtension // pass file extension directly
+      );
+
+      if (getimgurl) {
+        newastroGallery.file = getimgurl.Location;
+      }
     }
   }
+
 
   newastroGallery
     .save()
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
-};
-
+}
 
 exports.addvideobyadmin = async (req, res) => {
   const { videoTitle, } = req.body;
@@ -119,9 +138,6 @@ exports.get_astroGallery = async (req, res) => {
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 }
-
-
-
 
 exports.deletevideo = async (req, res) => {
   await Video.deleteOne({ _id: req.params.id })

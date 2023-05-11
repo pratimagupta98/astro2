@@ -1,4 +1,5 @@
 const Intek = require("../models/chat_intake_form");
+const intakeNotification = require("../models/intakeNotification");
 const resp = require("../helpers/apiResponse");
 const User = require("../models/users");
 const fs = require("fs");
@@ -29,7 +30,6 @@ exports.add_chat_intake = async (req, res) => {
     lastname: lastname,
     p_lastname: p_lastname,
     dob: dob,
-
     p_dob: p_dob,
     date_of_time: date_of_time,
     p_date_of_time: p_date_of_time,
@@ -233,6 +233,29 @@ exports.intekListforCall = async (req, res) => {
 
 exports.intekListforVideo = async (req, res) => {
   await Intek.find({ userid: req.params.id }).populate("userid")
+    .sort({ createdAt: -1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
+
+
+exports.selectIntakeForm = async (req, res) => {
+  const { chatIntekId, userId, astroId } = req.body;
+
+  const newintakeNotification = new intakeNotification({
+    chatIntekId: chatIntekId,
+    userId: userId,
+    astroId: astroId
+  });
+
+  newintakeNotification
+    .save()
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+}
+exports.intetakeNotification = async (req, res) => {
+  await intakeNotification.find().populate("userId").populate("chatIntekId").populate("astroId")
     .sort({ createdAt: -1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));

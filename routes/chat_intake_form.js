@@ -12,7 +12,9 @@ const {
     dlt_ChatIntek,
     intekListByUser,
     getone_chatintek,
-    edit_ChatIntake
+    edit_ChatIntake,
+    selectIntakeForm,
+    intetakeNotification
 } = require("../controller/chat_intake_form");
 
 const storage = multer.diskStorage({
@@ -64,7 +66,8 @@ router.get("/admin/getone_user_chatintek/:id", getone_user_chatintek)
 router.get("/admin/dlt_ChatIntek/:id", dlt_ChatIntek)
 router.get("/admin/getone_chatintek/:id", getone_chatintek)
 router.post("/user/edit_ChatIntake/:id", multipleUpload, edit_ChatIntake);
-
+router.post("/user/selectIntakeForm", selectIntakeForm);
+router.get("/user/intetakeNotification", intetakeNotification);
 
 module.exports = router;
 
