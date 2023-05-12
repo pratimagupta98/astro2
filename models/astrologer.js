@@ -162,12 +162,23 @@ const thisSchema = new Schema(
     friday: { type: Array },
     saturday: { type: Array },
     sunday: { type: Array },
-    channelName :{
+    channelName: {
       type: String,
     },
+    // sunday: [
+    //   {
+    //     start: "10AM",
+    //     end: "12PM"
+    //   },
+    //   {
+    //     start: "12AM",
+    //     end: "2PM"
+    //   }
+    // ]
+
   },
 
- 
+
 
 
 

@@ -321,7 +321,7 @@ exports.editAstroDetails = async (req, res) => {
     data.callCharge = parseInt(req.body.callCharge) + parseInt(data.callCharge)
 
   }
-  console.log("callCharge", data.callCharge)
+  // console.log("callCharge", data.callCharge)
 
   if (req.files) {
     if (req.files.img) {
