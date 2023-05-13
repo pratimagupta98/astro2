@@ -173,8 +173,8 @@ exports.get_astroGallery = async (req, res) => {
     .catch((error) => resp.errorr(res, error));
 }
 
-exports.deletevideo = async (req, res) => {
-  await Video.deleteOne({ _id: req.params.id })
+exports.delGalleryvideo = async (req, res) => {
+  await astroGallery.deleteOne({ _id: req.params.id })
     .then((data) => resp.deleter(res, data))
     .catch((error) => resp.errorr(res, error));
 };

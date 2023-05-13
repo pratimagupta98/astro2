@@ -229,8 +229,6 @@ exports.make_call = async (req, res) => {
 
     var request = require('request');
     CircularJSON = require('circular-json')
-
-
     key = "d909e2e0120d0bcbd2ef795dd19eb2e97c2f8d78d8ebb6d4"
     sid = "sveltosetechnologies2"
     token = "856371fe6a97e8be8fed6ab14c95b4832f82d1d3116cb17e"
