@@ -325,8 +325,26 @@ exports.make_call = async (req, res) => {
       }
 
       // Deduct amount from user's wallet
-      userWallet.amount -= callPrice;
-      await userWallet.save();
+      const startTime = Date.now();
+      const durationInterval = setInterval(() => {
+        const duration = Math.ceil((Date.now() - startTime) / 60000); // duration in minutes
+        console.log(`Call duration: ${duration} minute(s)`);
+      })
+      // Deduct the call price from the user's wallet
+      //   const callPrice = getdata.Call?.Price || 0;
+      //   userWallet.amount -= callPrice;
+      //   await userWallet.save();
+
+      //   // Update the call information in the database
+      //   const callInfo = await make_call.findOneAndUpdate(
+      //     { Sid: getdata.Call?.Sid },
+      //     { Duration: duration },
+      //     { new: true }
+      //   );
+      // }, 60000); // run every minute
+
+      // userWallet.amount -= callPrice;
+      // await userWallet.save();
 
       // Create call information object
       var options = {

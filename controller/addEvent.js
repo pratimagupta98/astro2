@@ -10,8 +10,8 @@ cloudinary.config({
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
- 
- 
+
+
 // exports.admin_Addevent = async (req, res) => {
 //     const { pooja_type, duration,product, desc, pooja_price,city,liveStreaming,time_slots,location,fullfill_location, benefits } = req.body;
 
@@ -57,29 +57,30 @@ exports.admin_Addevent = async (req, res) => {
     const { pooja_type, duration, product, desc, pooja_price, city, liveStreaming, time_slots, location, fullfill_location, benefits, mode, name, description, price, image } = req.body;
 
     const newAdminEventList = new AdminEventList({
-      pooja_type: pooja_type,
-      duration: duration,
-      desc: desc,
-      pooja_price: pooja_price,
-      benefits: benefits,
-      location: location,
-      city: city,
-      liveStreaming: liveStreaming,
-      product: product.map((item) => ({ // Convert the stringified JSON objects to actual objects
-        name: item.name,
-        description: item.description,
-        price: item.price,
-        image: item.image
-      })),
-      time_slots: time_slots,
-      fullfill_location: fullfill_location,
-      mode: mode,
-      name: name,
-      description: description,
-      price: price,
-      image: image
+        pooja_type: pooja_type,
+        duration: duration,
+        desc: desc,
+        pooja_price: pooja_price,
+        benefits: benefits,
+        location: location,
+        city: city,
+        liveStreaming: liveStreaming,
+        //   product: product.map((item) => ({ // Convert the stringified JSON objects to actual objects
+        //     name: item.name,
+        //     description: item.description,
+        //     price: item.price,
+        //     image: item.image
+        //   })),
+        product: product,
+        time_slots: time_slots,
+        fullfill_location: fullfill_location,
+        mode: mode,
+        name: name,
+        description: description,
+        price: price,
+        image: image
     });
-console.log()
+    console.log()
     if (req.files) {
         if (req.files.poojaimg[0].path) {
             alluploads = [];
@@ -96,7 +97,7 @@ console.log()
     }
     newAdminEventList.save()
         .then((data) => res.status(200).json(data))
-        .catch((error) => res.status(500).json({error: error.message}));
+        .catch((error) => res.status(500).json({ error: error.message }));
 };
 
 exports.get_adminevent = async (req, res) => {
@@ -133,12 +134,12 @@ exports.admin_dlt_event = async (req, res) => {
 };
 
 exports.productbyPoojatyp = async (req, res) => {
- const getdata  = await AdminEventList.find({pooja_type:req.params.id}).populate("pooja_type")
+    const getdata = await AdminEventList.find({ pooja_type: req.params.id }).populate("pooja_type")
         .sort({ createdAt: -1 })
-        res.status(200).json({
-            pooja_type:getdata.pooja_type,
-//product:getdata.product
-        })
-        // .then((data) => resp.successr(res, data))
-        // .catch((error) => resp.errorr(res, error));
+    res.status(200).json({
+        pooja_type: getdata.pooja_type,
+        //product:getdata.product
+    })
+    // .then((data) => resp.successr(res, data))
+    // .catch((error) => resp.errorr(res, error));
 };
