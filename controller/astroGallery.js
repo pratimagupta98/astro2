@@ -65,10 +65,11 @@ function detectMimeType(b64) {
 //     .catch((error) => resp.errorr(res, error));
 // }
 exports.upload_astrogallery = async (req, res) => {
-  const { astroId } = req.body;
+  const { astroId, file } = req.body;
 
   const newastroGallery = new astroGallery({
     astroId: astroId,
+    file: file
   });
 
   const allowedFileTypes = ['jpg', 'jpeg', 'png', 'mp4'];

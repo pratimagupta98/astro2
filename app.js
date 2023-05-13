@@ -62,6 +62,7 @@ const videoChannel = require("./routes/videoChannel")
 const socialMedia = require("./routes/socialMedia")
 const otherPages = require("./routes/otherPages")
 const checkoutPuja = require("./routes/checkoutPuja")
+const callDuration = require("./routes/callDuration")
 
 
 
@@ -118,7 +119,7 @@ app.use("/", videoChannel);
 app.use("/", socialMedia);
 app.use("/", otherPages);
 app.use("/", checkoutPuja);
-
+app.use("/", callDuration);
 
 
 
