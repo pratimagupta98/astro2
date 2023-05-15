@@ -262,11 +262,11 @@ exports.make_call = async (req, res) => {
       )
 
     const response = await requestBody;
-    // console.log(`statusCode: ${res.statusCode}`)
+    console.log(`statusCode: ${res.statusCode}`)
     const str = CircularJSON.stringify(response.data);
-    //console.log("str", str)
+    console.log("str", str)
     const getdata = JSON.parse(str)
-    // console.log("getdata", JSON.parse(str))
+    console.log("getdata", JSON.parse(str))
 
     //   if (getdata.Call?.Status !== "failed") {
     //     var options = {
@@ -329,7 +329,7 @@ exports.make_call = async (req, res) => {
       // const durationInterval = setInterval(() => {
       //   const duration = Math.ceil((Date.now() - startTime) / 60000); // duration in minutes
       //console.log(`Call duration: ${duration} minute(s)`);
-      //   })
+      //  })
       // Deduct the call price from the user's wallet
       //   const callPrice = getdata.Call?.Price || 0;
       //   userWallet.amount -= callPrice;
@@ -368,7 +368,7 @@ exports.make_call = async (req, res) => {
       throw new Error("Call failed");
     }
   } catch (err) {
-    /////////////////////////////////////////////////////////////////////////////////////////////////// console.error(err);
+    // console.error(err);
     res.status(500).json({
       error: "Internal server error"
     });
@@ -688,7 +688,7 @@ exports.astroVideoCall = async (req, res) => {
   } = agora;
 
   const getchnlname = await Astrologer.findOne({ _id: req.body.astroAccount })
-  console.log("astro", getchnlname)
+  //console.log("astro", getchnlname)
   const channelName = getchnlname.channelName
   const generateRtcToken = () => {
     // Rtc Examples
@@ -713,8 +713,8 @@ exports.astroVideoCall = async (req, res) => {
 
     // Build token with uid
     const tokenA = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelName, uid, astroAccount, privilegeExpiredTs);
-    console.log("Token With Integer Number Uid: " + tokenA);
-    console.log("tokenA", channelName)
+    //  console.log("Token With Integer Number Uid: " + tokenA);
+    //  console.log("tokenA", channelName)
     // Build token with user account
     // const tokenB = RtcTokenBuilder.buildTokenWithAccount(appId, appCertificate, channelName, userAccount, privilegeExpiredTs);
     // console.log("Token With UserAccount: " + tokenB);

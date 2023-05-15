@@ -16,6 +16,8 @@ router.get("/user/callStatus", callStatus);
 router.get("/user/call_Status", call_Status);
 router.post("/user/astroVideoCall", astroVideoCall);
 router.post("/user/userVideoCall", userVideoCall);
+router.post("/user/userVideoCall", userVideoCall);
+
 
 
 
