@@ -68,17 +68,16 @@ exports.astroLiveStreaming = async (req, res) => {
         channelName: channelName
 
     })
-    // const findexist = await AsLive.findOne({ astroAccount: astroAccount });
-    // if (findexist) {
-    // resp.alreadyr(res);
-    //  console.log("BODY", newAsLive)
-    //   }
-    // else {
-    newAsLive
-        .save()
-        .then((data) => resp.successr(res, data))
-        .catch((error) => resp.errorr(res, error));
-    // }
+    const findexist = await AsLive.findOne({ astroAccount: astroAccount });
+    if (findexist) {
+        resp.alreadyr(res);
+        //  console.log("BODY", newAsLive)
+    } else {
+        newAsLive
+            .save()
+            .then((data) => resp.successr(res, data))
+            .catch((error) => resp.errorr(res, error));
+    }
     // res.status(200).json({
     //   astroAccount: tokenA,
 
