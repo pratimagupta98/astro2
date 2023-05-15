@@ -198,7 +198,7 @@ exports.edit_ChatIntake = async (req, res) => {
     // .then((data) => resp.successr(res, data))
     // .catch((error) => resp.errorr(res, error));
   } catch (error) {
-    console.error(error);
+    //  console.error(error);
     res.status(500).json({ msg: "Internal server error" });
   }
 };

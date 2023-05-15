@@ -31,7 +31,7 @@ exports.signup = async (req, res) => {
   let findexist = await Astrologer.findOne({ mobile: mobile })
   if (findexist) {
     if (findexist.mobile == null) {
-      console.log("error")
+      //  console.log("error")
       var resData = {
         status: false,
         message: "Validation error",
@@ -44,7 +44,7 @@ exports.signup = async (req, res) => {
     }
 
     else if (findexist.mobile) {
-      console.log("success")
+      // console.log("success")
       res.json({
         status: "success",
         msg: "Welcome Back Otp send successfully",
@@ -87,7 +87,7 @@ exports.loginsendotp = async (req, res) => {
   let defaultotp = "123456";
   const getuser = await Astrologer.findOne({ mobile: req.body.mobile });
   if (getuser?.approvedstatus == "true") {
-    console.log("STRING", getuser)
+    // console.log("STRING", getuser)
     res.status(200).send({
       status: true,
       msg: "otp Send Successfully",
@@ -434,7 +434,7 @@ exports.astrologin = async (req, res) => {
 
   if (user) {
     const validPass = await bcrypt.compare(password, user.password)
-    console.log("paaa", validPass)
+    // console.log("paaa", validPass)
     if (validPass) {
       const token = jwt.sign(
         {
@@ -659,11 +659,11 @@ exports.rating_low_to_high = async (req, res) => {
 
 exports.logout = async (req, res) => {
   const token = req.headers.authorization.split(" ")[1];
-  console.log("token", token)
+  //  console.log("token", token)
   const decoded = jwt.verify(token, key);
-  console.log("decoded", decoded)
+  //  console.log("decoded", decoded)
   const astroId = decoded.astroId;
-  console.log("astroId", astroId)
+  //  console.log("astroId", astroId)
   await Astrologer.findOneAndUpdate(
     {
       _id: astroId,

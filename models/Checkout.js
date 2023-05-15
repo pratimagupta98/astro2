@@ -8,12 +8,12 @@ const CartSchema = new mongoose.Schema(
     // },
     shipping_address: { type: mongoose.Schema.Types.ObjectId, ref: "shipping_address" },
     // customer: { type: String },
-     
+
     astroId: { type: mongoose.Schema.Types.ObjectId, ref: "astrologer" },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 
 
-    
+
     productid: { type: mongoose.Schema.Types.ObjectId, ref: "consultant" },
     gst: {
       type: Number,
@@ -28,12 +28,12 @@ const CartSchema = new mongoose.Schema(
     //   type: Number,
     //  // default:0  
     // },
-    total_amt:{
+    total_amt: {
       type: Number,
-     // default:0
+      // default:0
     },
-    status:{
-      type:String
+    status: {
+      type: String
     }
   },
   { timestamps: true }

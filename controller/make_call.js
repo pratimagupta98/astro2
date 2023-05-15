@@ -262,11 +262,11 @@ exports.make_call = async (req, res) => {
       )
 
     const response = await requestBody;
-    console.log(`statusCode: ${res.statusCode}`)
+    // console.log(`statusCode: ${res.statusCode}`)
     const str = CircularJSON.stringify(response.data);
-    console.log("str", str)
+    //console.log("str", str)
     const getdata = JSON.parse(str)
-    console.log("getdata", JSON.parse(str))
+    // console.log("getdata", JSON.parse(str))
 
     //   if (getdata.Call?.Status !== "failed") {
     //     var options = {
@@ -368,7 +368,7 @@ exports.make_call = async (req, res) => {
       throw new Error("Call failed");
     }
   } catch (err) {
-    console.error(err);
+    /////////////////////////////////////////////////////////////////////////////////////////////////// console.error(err);
     res.status(500).json({
       error: "Internal server error"
     });

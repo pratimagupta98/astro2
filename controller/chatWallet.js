@@ -224,7 +224,7 @@ exports.addCallWallet = async (req, res) => {
   //console.log("ASTRO",getoneastro)
   if (getoneastro) {
     const getcharge = getoneastro.callCharge
-    console.log("CALLCHARGE", getcharge)
+    // console.log("CALLCHARGE", getcharge)
 
     //  const getplanchrge = await Minutecharge.findOne({_id:req.body.recharge_planId})
     //  console.log("MIN PLAN",getplanchrge)
@@ -238,9 +238,9 @@ exports.addCallWallet = async (req, res) => {
     //console.log("GETUSER",getuserdetail)
     if (getuserdetail) {
       let totalamt = getcharge * minute
-      console.log("TOTAL AMT WAS DEDUCTED", totalamt)
+      //  console.log("TOTAL AMT WAS DEDUCTED", totalamt)
       const getwalletamt = getuserdetail.amount
-      console.log("WALLET AMT", getwalletamt)
+      //  console.log("WALLET AMT", getwalletamt)
       let newamt = 0
       if (getwalletamt > totalamt) {
         console.log("success")
@@ -348,14 +348,14 @@ exports.addCallWallet = async (req, res) => {
       }
 
     } else {
-      console.log("ERROR")
+      // console.log("ERROR")
       res.status(400).json({
         status: false,
         msg: "Something Went Wrong"
       })
     }
   } else {
-    console.log("error")
+    // console.log("error")
     res.status(400).json({
       status: false,
       msg: "Something Went Wrong"
@@ -680,14 +680,14 @@ exports.cartbycustomer = async (req, res) => {
   // .populate("customer")
   if (findone) {
     const findall = await Product.find({ product: req.params.id })
-    console.log(findall)
+    //console.log(findall)
     const value = findall.value
-    console.log(findall)
+    // console.log(findall)
     if (findall) {
       const getgst = await Gstrate.findOne({ gstrate: findall.gstrate });
       let value = getgst.value
-      console.log(getgst)
-      console.log(value)
+      // console.log(getgst)
+      // console.log(value)
 
       let sum = 0;
       //const value = 0
@@ -776,34 +776,34 @@ exports.acceptChat = async (req, res) => {
   let userid = getdata.userid
 
   if (getdata.status == "Completed") {
-    console.log("Completed")
+    // console.log("Completed")
     const getoneastro = await Astrologer.findOne({ _id: astroid })
 
-    console.log("ASTRO", getoneastro)
+    // console.log("ASTRO", getoneastro)
     if (getoneastro) {
       const getcharge = getoneastro.callCharge
-      console.log("CALLCHARGE", getcharge)
+      // console.log("CALLCHARGE", getcharge)
 
       const getplanchrge = await Minutecharge.findOne({ _id: planid })
-      console.log("MIN PLAN", getplanchrge)
+      // console.log("MIN PLAN", getplanchrge)
       if (getplanchrge) {
         const getplan = getplanchrge.minute
-        console.log("getplan", getplan)
+        //  console.log("getplan", getplan)
 
         const getuserdetail = await User.findOne({ _id: userid })
         //console.log("GETUSER",getuserdetail)
         if (getuserdetail) {
           let totalamt = getcharge * getplan
-          console.log("TOTAL AMT WAS DEDUCTED", totalamt)
+          //  console.log("TOTAL AMT WAS DEDUCTED", totalamt)
           const getwalletamt = getuserdetail.amount
-          console.log("WALLET AMT", getwalletamt)
+          // console.log("WALLET AMT", getwalletamt)
           let newamt = 0
           if (getwalletamt > totalamt) {
-            console.log("success")
+            //  console.log("success")
 
             newamt = getwalletamt - totalamt
-            console.log("Before", getwalletamt)
-            console.log("new", newamt)
+            // console.log("Before", getwalletamt)
+            //console.log("new", newamt)
 
             const newWalletT = new WalletT({
               userid: userid,
@@ -848,7 +848,7 @@ exports.acceptChat = async (req, res) => {
               { new: true },
             )
             if (finduserAndupdate) {
-              console.log("UPDATE USER AMOUNT", finduserAndupdate)
+              //  console.log("UPDATE USER AMOUNT", finduserAndupdate)
 
             }
 
@@ -856,7 +856,7 @@ exports.acceptChat = async (req, res) => {
         }
       }
     } else {
-      console.log("error")
+      // console.log("error")
       res.status(400).json({
         status: false,
         msg: "Something Went Wrong"
@@ -864,19 +864,19 @@ exports.acceptChat = async (req, res) => {
     }
 
   } else if (getdata.status == "Accepted") {
-    console.log("Accepted")
+    // console.log("Accepted")
     const getplanchrge = await Minutecharge.findOne({ _id: planid })
-    console.log("MIN PLAN", getplanchrge)
+    // console.log("MIN PLAN", getplanchrge)
     if (getplanchrge) {
 
 
       var getplan = getplanchrge.minute
-      console.log("getplan", getplan)
+      //  console.log("getplan", getplan)
       let milliseconds = getplan * 60000
-      console.log("milliseconds", milliseconds)
+      // console.log("milliseconds", milliseconds)
       var f = new Date()
       var dtime = new Date(f.getTime()).toLocaleTimeString()
-      console.log("dtime", dtime)
+      //console.log("dtime", dtime)
       var minutesToAdd = getplan;
       // var currentDate = new Date();
       // var delay30min = new Date(currentDate.getTime() + minutesToAdd*60000).toLocaleTimeString()
@@ -894,11 +894,11 @@ exports.acceptChat = async (req, res) => {
 
       function myFunction() {
         timeout = setTimeout(alertFunc, `${getplan}` * 60 * 1000);
-        console.log("success")
+        //console.log("success")
       }
 
       async function alertFunc() {
-        console.log("Hello!");
+        //  console.log("Hello!");
         const getdata = await ChatWallet.findOneAndUpdate(
           {
             _id: req.params.id,
@@ -915,7 +915,7 @@ exports.acceptChat = async (req, res) => {
           { new: true }
         )
       }
-      console.log("DATA", getdata)
+      //console.log("DATA", getdata)
       myFunction()
 
       res.status(200).json({
@@ -944,7 +944,7 @@ exports.acceptChat = async (req, res) => {
     }
 
   } else if (getdata.status == "Rejected") {
-    console.log("Rejected")
+    //  console.log("Rejected")
     res.status(200).json({
       status: true,
       msg: "Your Request is Rejected"
@@ -971,34 +971,34 @@ exports.acceptVoiceCall = async (req, res) => {
   let userid = getdata.userid
 
   if (getdata.status == "Completed") {
-    console.log("Completed")
+    // console.log("Completed")
     const getoneastro = await Astrologer.findOne({ _id: astroid })
 
-    console.log("ASTRO", getoneastro)
+    // console.log("ASTRO", getoneastro)
     if (getoneastro) {
       const getcharge = getoneastro.callCharge
-      console.log("CALLCHARGE", getcharge)
+      //  console.log("CALLCHARGE", getcharge)
 
       const getplanchrge = await Minutecharge.findOne({ _id: planid })
-      console.log("MIN PLAN", getplanchrge)
+      //  console.log("MIN PLAN", getplanchrge)
       if (getplanchrge) {
         const getplan = getplanchrge.minute
-        console.log("getplan", getplan)
+        //  console.log("getplan", getplan)
 
         const getuserdetail = await User.findOne({ _id: userid })
         //console.log("GETUSER",getuserdetail)
         if (getuserdetail) {
           let totalamt = getcharge * getplan
-          console.log("TOTAL AMT WAS DEDUCTED", totalamt)
+          //  console.log("TOTAL AMT WAS DEDUCTED", totalamt)
           const getwalletamt = getuserdetail.amount
-          console.log("WALLET AMT", getwalletamt)
+          //  console.log("WALLET AMT", getwalletamt)
           let newamt = 0
           if (getwalletamt > totalamt) {
-            console.log("success")
+            //  console.log("success")
 
             newamt = getwalletamt - totalamt
-            console.log("Before", getwalletamt)
-            console.log("new", newamt)
+            // console.log("Before", getwalletamt)
+            // console.log("new", newamt)
 
             const newWalletT = new WalletT({
               userid: userid,
@@ -1043,7 +1043,7 @@ exports.acceptVoiceCall = async (req, res) => {
               { new: true },
             )
             if (finduserAndupdate) {
-              console.log("UPDATE USER AMOUNT", finduserAndupdate)
+              // console.log("UPDATE USER AMOUNT", finduserAndupdate)
 
             }
 
@@ -1051,7 +1051,7 @@ exports.acceptVoiceCall = async (req, res) => {
         }
       }
     } else {
-      console.log("error")
+      // console.log("error")
       res.status(400).json({
         status: false,
         msg: "Something Went Wrong"
@@ -1059,9 +1059,9 @@ exports.acceptVoiceCall = async (req, res) => {
     }
 
   } else if (getdata.status == "Accepted") {
-    console.log("Accepted")
+    // console.log("Accepted")
   } else if (getdata.status == "Rejected") {
-    console.log("Rejected")
+    // console.log("Rejected")
 
   }
 
@@ -1084,34 +1084,34 @@ exports.acceptVideoChat = async (req, res) => {
   let userid = getdata.userid
 
   if (getdata.status == "Completed") {
-    console.log("Completed")
+    // console.log("Completed")
     const getoneastro = await Astrologer.findOne({ _id: astroid })
 
-    console.log("ASTRO", getoneastro)
+    // console.log("ASTRO", getoneastro)
     if (getoneastro) {
       const getcharge = getoneastro.callCharge
-      console.log("CALLCHARGE", getcharge)
+      //  console.log("CALLCHARGE", getcharge)
 
       const getplanchrge = await Minutecharge.findOne({ _id: planid })
-      console.log("MIN PLAN", getplanchrge)
+      //  console.log("MIN PLAN", getplanchrge)
       if (getplanchrge) {
         const getplan = getplanchrge.minute
-        console.log("getplan", getplan)
+        //  console.log("getplan", getplan)
 
         const getuserdetail = await User.findOne({ _id: userid })
         //console.log("GETUSER",getuserdetail)
         if (getuserdetail) {
           let totalamt = getcharge * getplan
-          console.log("TOTAL AMT WAS DEDUCTED", totalamt)
+          // console.log("TOTAL AMT WAS DEDUCTED", totalamt)
           const getwalletamt = getuserdetail.amount
-          console.log("WALLET AMT", getwalletamt)
+          //  console.log("WALLET AMT", getwalletamt)
           let newamt = 0
           if (getwalletamt > totalamt) {
-            console.log("success")
+            //  console.log("success")
 
             newamt = getwalletamt - totalamt
-            console.log("Before", getwalletamt)
-            console.log("new", newamt)
+            // console.log("Before", getwalletamt)
+            // console.log("new", newamt)
 
             const newWalletT = new WalletT({
               userid: userid,
@@ -1156,7 +1156,7 @@ exports.acceptVideoChat = async (req, res) => {
               { new: true },
             )
             if (finduserAndupdate) {
-              console.log("UPDATE USER AMOUNT", finduserAndupdate)
+              // console.log("UPDATE USER AMOUNT", finduserAndupdate)
 
             }
 
@@ -1164,7 +1164,7 @@ exports.acceptVideoChat = async (req, res) => {
         }
       }
     } else {
-      console.log("error")
+      // console.log("error")
       res.status(400).json({
         status: false,
         msg: "Something Went Wrong"
@@ -1172,9 +1172,9 @@ exports.acceptVideoChat = async (req, res) => {
     }
 
   } else if (getdata.status == "Accepted") {
-    console.log("Accepted")
+    //  console.log("Accepted")
   } else if (getdata.status == "Rejected") {
-    console.log("Rejected")
+    //console.log("Rejected")
 
   }
 
@@ -1207,7 +1207,7 @@ exports.addChatWallet = async (req, res) => {
   //console.log("ASTRO",getoneastro)
   if (getoneastro) {
     const getcharge = getoneastro.callCharge
-    console.log("CALLCHARGE", getcharge)
+    //console.log("CALLCHARGE", getcharge)
 
 
     const minute = 5
@@ -1217,13 +1217,13 @@ exports.addChatWallet = async (req, res) => {
     //console.log("GETUSER",getuserdetail)
     if (getuserdetail) {
       let totalamt = getcharge * minute
-      console.log("TOTAL AMT WAS DEDUCTED", totalamt)
+      //  console.log("TOTAL AMT WAS DEDUCTED", totalamt)
 
       const getwalletamt = getuserdetail.amount
-      console.log("WALLET AMT", getwalletamt)
+      // console.log("WALLET AMT", getwalletamt)
       let newamt = 0
       if (getwalletamt > totalamt) {
-        console.log("success")
+        // console.log("success")
 
         // newamt =getwalletamt - totalamt
         // console.log("camt",getwalletamt)
@@ -1298,7 +1298,7 @@ exports.addChatWallet = async (req, res) => {
 
 
       } else {
-        console.log("INSUFFICIENT BALANCE")
+        // console.log("INSUFFICIENT BALANCE")
         res.status(201).json({
           status: false,
           msg: "Insufficient belence"
@@ -1306,14 +1306,14 @@ exports.addChatWallet = async (req, res) => {
       }
 
     } else {
-      console.log("ERROR")
+      // console.log("ERROR")
       res.status(400).json({
         status: false,
         msg: "Something Went Wrong"
       })
     }
   } else {
-    console.log("error")
+    // console.log("error")
     res.status(400).json({
       status: false,
       msg: "Something Went Wrong"

@@ -549,7 +549,7 @@ exports.lalkitab_horoscope = async (req, res) => {
       data: resp
     })
   }, function (err) {
-    console.log(err);
+    //  console.log(err);
     res.status(405).json({
       err
     })
@@ -1101,7 +1101,7 @@ exports.pdf_report = async (req, res) => {
       data: response.data
     });
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     res.status(500).json({
       status: false,
       msg: "An error occurred",

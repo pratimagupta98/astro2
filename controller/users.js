@@ -149,10 +149,10 @@ exports.loginWithPassword = async (req, res) => {
   const user = await User.findOne({
     mobile: mobile
   });
-  console.log("Strrr", user)
+  //console.log("Strrr", user)
   if (user) {
     const validPass = await bcrypt.compare(req.body.password, user.password)
-    console.log("paaa", validPass)
+    // console.log("paaa", validPass)
     if (validPass) {
       const token = jwt.sign(
         {
@@ -336,7 +336,7 @@ exports.resetPassword = async (req, res) => {
     const passwordMatch = await bcrypt.compare(oldpassword, userData.password)
     if (passwordMatch) {
 
-      console.log("matched")
+      //console.log("matched")
       if (password === cnfrmPassword) {
         const salt = await bcrypt.genSalt(10);
         const hashPassword = await bcrypt.hash(password, salt);
@@ -379,7 +379,7 @@ exports.forget_sendotp = async (req, res) => {
   let defaultotp = "123456";
   const getuser = await User.findOne({ mobile: req.body.mobile });
   if (getuser) {
-    console.log("STRING", getuser)
+    //console.log("STRING", getuser)
     res.status(200).send({
       status: true,
       msg: "otp Send Successfully",
