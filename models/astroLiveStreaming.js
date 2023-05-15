@@ -13,6 +13,10 @@ const thisSchema = new Schema(
         },
         token: {
             type: String
+        },
+
+        channelName: {
+            type: String
         }
 
 

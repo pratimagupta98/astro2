@@ -15,7 +15,7 @@ const Astrologer = require("../models/astrologer");
 //         .catch((error) => resp.errorr(res, error));
 // }
 exports.listLiveStreamAstro = async (req, res) => {
-    await AsLive.find().populate("astroId")
+    await AsLive.find({ status: true }).populate("astroAccount")
         .sort({ createdAt: -1 })
         .then((data) => resp.successr(res, data))
         .catch((error) => resp.errorr(res, error));
@@ -53,25 +53,31 @@ exports.astroLiveStreaming = async (req, res) => {
         const currentTimestamp = Math.floor(Date.now() / 1000);
         const privilegeExpiredTs = currentTimestamp + expirationTimeInSeconds;
         const tokenA = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelName, uid, astroAccount, privilegeExpiredTs);
-        console.log("Token With Integer Number Uid: " + tokenA);
-        console.log("tokenA", channelName);
+        //  console.log("Token With Integer Number Uid: " + tokenA);
+        //  console.log("tokenA", channelName);
         return tokenA;
     }
 
     const tokenA = await generateRtcToken();
-    console.log("tokenA", tokenA)
+    // console.log("tokenA", tokenA)
     const { astroAccount, status, token } = req.body
     const newAsLive = new AsLive({
         astroAccount: astroAccount,
         status: status,
-        token: tokenA
+        token: tokenA,
+        channelName: channelName
 
     })
-    console.log("BODY", newAsLive)
-    newAsLive
-        .save()
-        .then((data) => resp.successr(res, data))
-        .catch((error) => resp.errorr(res, error));
+    const findexist = await AsLive.findOne({ astroAccount: astroAccount });
+    if (findexist) {
+        resp.alreadyr(res);
+        //  console.log("BODY", newAsLive)
+    } else {
+        newAsLive
+            .save()
+            .then((data) => resp.successr(res, data))
+            .catch((error) => resp.errorr(res, error));
+    }
     // res.status(200).json({
     //   astroAccount: tokenA,
 
