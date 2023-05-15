@@ -64,6 +64,8 @@ const otherPages = require("./routes/otherPages")
 const checkoutPuja = require("./routes/checkoutPuja")
 const callDuration = require("./routes/callDuration")
 const astroLiveStreaming = require("./routes/astroLiveStreaming")
+const yog_liveStream = require("./routes/yog_liveStream")
+
 
 
 
@@ -122,6 +124,7 @@ app.use("/", otherPages);
 app.use("/", checkoutPuja);
 app.use("/", callDuration);
 app.use("/", astroLiveStreaming);
+app.use("/", yog_liveStream);
 
 
 
