@@ -68,7 +68,7 @@ exports.astro_pooja_list = async (req, res) => {
 
         .catch((error) => resp.errorr(res, error));
     let getproduct = await Astroproduct.findOne({ product: req.params.id }).sort({ "price": 1 }).limit(1)
-    console.log("product", getproduct)
+    // console.log("product", getproduct)
     let minPrice = getproduct.price
     let get1product = getproduct.product
     //console.log("getdata",getdata)
