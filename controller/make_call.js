@@ -325,11 +325,11 @@ exports.make_call = async (req, res) => {
       }
 
       // Deduct amount from user's wallet
-      const startTime = Date.now();
-      const durationInterval = setInterval(() => {
-        const duration = Math.ceil((Date.now() - startTime) / 60000); // duration in minutes
-        console.log(`Call duration: ${duration} minute(s)`);
-      })
+      // const startTime = Date.now();
+      // const durationInterval = setInterval(() => {
+      //   const duration = Math.ceil((Date.now() - startTime) / 60000); // duration in minutes
+      //console.log(`Call duration: ${duration} minute(s)`);
+      //   })
       // Deduct the call price from the user's wallet
       //   const callPrice = getdata.Call?.Price || 0;
       //   userWallet.amount -= callPrice;

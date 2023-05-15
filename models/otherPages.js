@@ -11,7 +11,7 @@ const thisSchema = new Schema(
         other: {
             type: Boolean
         },
-        status:{
+        status: {
             type: Boolean
         }
     },
