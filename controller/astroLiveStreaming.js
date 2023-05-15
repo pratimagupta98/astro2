@@ -70,7 +70,11 @@ exports.astroLiveStreaming = async (req, res) => {
     })
     const findexist = await AsLive.findOne({ astroAccount: astroAccount });
     if (findexist) {
-        resp.alreadyr(res);
+        res.status(201).json({
+            status: true,
+            msg: "already exists",
+            _id: findexist._id
+        })
         //  console.log("BODY", newAsLive)
     } else {
         newAsLive
