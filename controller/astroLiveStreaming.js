@@ -70,7 +70,7 @@ exports.astroLiveStreaming = async (req, res) => {
     })
     // const findexist = await AsLive.findOne({ astroAccount: astroAccount });
     // if (findexist) {
-    resp.alreadyr(res);
+    // resp.alreadyr(res);
     //  console.log("BODY", newAsLive)
     //   }
     // else {
