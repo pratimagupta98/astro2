@@ -42,7 +42,7 @@ exports.astroLiveStreaming = async (req, res) => {
     } = agora;
 
     const getchnlname = await Astrologer.findOne({ _id: req.body.astroAccount })
-    console.log("astro", getchnlname)
+    //   console.log("astro", getchnlname)
     const channelName = getchnlname.channelName
     const generateRtcToken = () => {
         const appId = '7d1f07c76f9d46be86bc46a791884023';

@@ -4,7 +4,7 @@ var _ = require('lodash');
 const resp = require("../helpers/apiResponse");
 
 exports.addChatReview = async (req, res) => {
-  const { userid, astroid, rating, comment, reply } = req.body
+  const { userid, astroid, rating, comment, reply, type } = req.body
   const newReview = new Review({
     userid: userid,
     astroid: astroid,
