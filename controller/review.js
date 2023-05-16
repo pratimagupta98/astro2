@@ -10,7 +10,7 @@ exports.addChatReview = async (req, res) => {
     astroid: astroid,
     rating: rating,
     comment: comment,
-    type: "Chat"
+    type: type
 
   })
   //const getastro = await Astrologer.findOneAndUpdate({_id:req.body.astroid})

@@ -79,7 +79,8 @@ exports.LiveAstrologer = async (req, res) => {
                 astroId: detail.astroId._id,
                 status: detail.status,
                 name: detail.astroId.fullname,
-                liveId: detail.liveId
+                liveId: detail.liveId,
+                img: detail.astroId.img
             }));
 
             res.status(200).json({
