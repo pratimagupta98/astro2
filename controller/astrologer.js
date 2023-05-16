@@ -93,10 +93,7 @@ exports.loginsendotp = async (req, res) => {
       msg: "otp Send Successfully",
       //otp: otp,
       _id: getuser._id,
-      mobile: getuser.mobile,
-      email: getuser.email,
-      fullname: getuser?.fullname
-
+      mobile: getuser.mobile
     })
   } else if (getuser?.approvedstatus == "false") {
     res.status(200).json({
@@ -412,6 +409,8 @@ exports.loginVerify = async (req, res) => {
         otp: otp,
         _id: getuser._id,
         mobile: getuser.mobile,
+        email: getuser.email,
+        fullname: getuser.fullname,
         token: token
       })
       // });

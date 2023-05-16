@@ -72,25 +72,21 @@ exports.goLiveStreaming = async (req, res) => {
 
 exports.LiveAstrologer = async (req, res) => {
     try {
-        const getdetail = await AsLive.find({ status: true }).populate("astroId")
-            .sort({ createdAt: -1 })
-        const astroId = getdetail.astroId
-        console.log("astroId", astroId)
+        const getdetail = await AsLive.find({ status: true }).populate("astroId").sort({ createdAt: -1 });
 
-        // const getname = astroId.fullname
-        // console.log("name", getname)
-        if (getdetail) {
+        if (getdetail.length > 0) {
             const astrologers = getdetail.map(detail => ({
-                astroId: detail.astroId,
+                astroId: detail.astroId._id,
                 status: detail.status,
-                name: detail.fullname,
+                name: detail.astroId.fullname,
                 liveId: detail.liveId
             }));
+
             res.status(200).json({
                 status: true,
                 msg: "success",
                 astrologers: astrologers
-            })
+            });
         } else {
             res.status(404).json({
                 status: false,
@@ -106,6 +102,7 @@ exports.LiveAstrologer = async (req, res) => {
         });
     }
 };
+
 
 
 exports.discloseLiveStream = async (req, res) => {
