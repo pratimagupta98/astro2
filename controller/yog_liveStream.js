@@ -71,11 +71,42 @@ exports.goLiveStreaming = async (req, res) => {
 };
 
 exports.LiveAstrologer = async (req, res) => {
-    await AsLive.find({ status: true }).populate("astroId")
-        .sort({ createdAt: -1 })
-        .then((data) => resp.successr(res, data))
-        .catch((error) => resp.errorr(res, error));
+    try {
+        const getdetail = await AsLive.find({ status: true }).populate("astroId")
+            .sort({ createdAt: -1 })
+        const astroId = getdetail.astroId
+        console.log("astroId", astroId)
+
+        // const getname = astroId.fullname
+        // console.log("name", getname)
+        if (getdetail) {
+            const astrologers = getdetail.map(detail => ({
+                astroId: detail.astroId,
+                status: detail.status,
+                name: detail.fullname,
+                liveId: detail.liveId
+            }));
+            res.status(200).json({
+                status: true,
+                msg: "success",
+                astrologers: astrologers
+            })
+        } else {
+            res.status(404).json({
+                status: false,
+                message: "No live astrologer found"
+            });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            status: false,
+            message: "An error occurred",
+            error: error
+        });
+    }
 };
+
 
 exports.discloseLiveStream = async (req, res) => {
     await AsLive.findOneAndUpdate(
