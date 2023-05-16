@@ -1,85 +1,69 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+// models/Event.js
+const mongoose = require('mongoose');
 
-const thisSchema = new Schema(
-    {
-
-        pooja_type: { type: mongoose.Schema.Types.ObjectId, ref: "poojaList" },
-
-        desc: {
-            type: String,
-        },
-        pooja_price: {
-            type: Number,
-        },
-       city:{
-type:String
-       },
-       liveStreaming:{
-           type:Boolean
-       },
-//        available_slots:{
-// type:String
-//        },
- time_slots: [{
-      type: String,
-    }],
-//   time_slots: {
-//       type: Array
-//   },
-        duration: {
-            type: String,
-        },
-        benefits: {
-            type: String,
-        },
-        poojaimg: {
-            type: Array,
-
-        },
-        location:{
-            type:String
-        },
-        fullfill_location:{
-            type:String
-
-        },
-        mode:{
-            type:String
-        },
-        // product: [
-        //     {
-        //       img :{ type: String},name:{type : String},price:{type : String},description:{type :String},qty:{type : Number}
-        //     },
-        //   ],
-
-          product: [{
-            type: Object,
-           // ref: "language"
-        }],
-// product:{
-//     type :Array
-// },
-// product : [    {"img": "", "name": "puja samgri", "price": 299, "description": "hdfjdf"}]
-
-//     },
-    // product: [
-    //    // {img: String, name: String, price: Number, description: String}
-    //      {img: '', name: 'Product 2', price: 20, description: 'Description 2'},
-    //     // {img: 'img3.jpg', name: 'Product 3', price: 30, description: 'Description 3'}
-    //   ],
-    // product: {
-    //   type: Object,
-    // },
-    product: [{
-        name: { type: String, default: ''},
-        description: { type: String, default: '', trim: true },
-        price: { type: Number, default: '', trim: true },
-        image: { type: String, default: '', trim: true }
-
-    }]
+const eventSchema = new mongoose.Schema({
+    pooja_type: {
+        type: String,
+        required: true
     },
-    { timestamps: true }
-);
+    duration: {
+        type: String,
+        required: true
+    },
+    desc: {
+        type: String,
+        required: true
+    },
+    pooja_price: {
+        type: Number,
+        //  required: true
+    },
+    city: {
+        type: String,
+        // required: true
+    },
+    liveStreaming: {
+        type: Boolean,
+        //  default: true
+    },
+    time_slots: {
+        type: Array,
+        // required: true
+    },
+    location: {
+        type: String,
+        //  required: true
+    },
+    fullfill_location: {
+        type: String,
+        // required: true
+    },
+    benefits: {
+        type: Array,
+        //  required: true
+    },
+    mode: {
+        type: String,
+        //required: true
+    },
+    product: [{
+        name: {
+            type: String,
+            //  required: true
+        },
+        description: {
+            type: String,
+            // required: true
+        },
+        price: {
+            type: Number,
+            // required: true
+        },
+        image: {
+            type: String,
+            // required: true
+        }
+    }]
+});
 
-module.exports = mongoose.model("adminAddEvent", thisSchema);
+module.exports = mongoose.model('adminAddEvent', eventSchema);

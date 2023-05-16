@@ -65,13 +65,14 @@ exports.admin_Addevent = async (req, res) => {
         location: location,
         city: city,
         liveStreaming: liveStreaming,
-        //   product: product.map((item) => ({ // Convert the stringified JSON objects to actual objects
-        //     name: item.name,
-        //     description: item.description,
-        //     price: item.price,
-        //     image: item.image
-        //   })),
-        product: product,
+        product: product.map((item) => ({ // Convert the stringified JSON objects to actual objects
+            name: item.name,
+            description: item.description,
+            price: item.price,
+            image: item.image
+        })),
+        // name: req.body.name,
+        // product: product,
         time_slots: time_slots,
         fullfill_location: fullfill_location,
         mode: mode,

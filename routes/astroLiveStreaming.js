@@ -6,7 +6,8 @@ const {
     astroLiveStreaming,
     listLiveStreamAstro,
     updateLiveStream,
-    disConnectLiveStream
+    disConnectLiveStream,
+    UerLiveStreamingToken
 
 
 } = require("../controller/astroLiveStreaming");
@@ -15,7 +16,7 @@ const {
 
 router.post("/user/astroLiveStreaming", astroLiveStreaming);
 router.get("/user/listLiveStreamAstro", listLiveStreamAstro);
-// router.get("/admin/getone_event/:id", getone_event);
+router.post("/user/UerLiveStreamingToken", UerLiveStreamingToken);
 router.post("/user/updateLiveStream/:id", updateLiveStream);
 router.get("/user/disConnectLiveStream/:id", disConnectLiveStream);
 

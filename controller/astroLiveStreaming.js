@@ -179,16 +179,17 @@ exports.UerLiveStreamingToken = async (req, res) => {
                 msg: "already exists",
                 _id: findexist._id,
                 token: oldToken,
+                userAccount: userAccount,
                 channelName: findexist.channelName,
                 status: findexist.status,
                 astroAccount: findexist.astroAccount,
-                astroAccount: findexist.userAccount
+                // astroAccount: findexist.userAccount
             })
         }
     } else {
         const newAsLive = new AsLive({
             astroAccount: astroAccount,
-            status: status,
+            userAccount: userAccount,
             token: await generateRtcToken(),
             channelName: channelName,
             expiredAt: Math.floor(Date.now() / 1000) + (3600 * 24) // 24 hours from now
