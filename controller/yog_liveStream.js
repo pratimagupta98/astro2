@@ -8,58 +8,31 @@ exports.goLiveStreaming = async (req, res) => {
         const { astroId, status, liveId } = req.body;
         const findexist = await AsLive.findOne({ astroId: astroId });
         //  console.log(req.body)
-        if (findexist) {
-            // if the document already exists, update its status field
-            const getdata = await AsLive.findOneAndUpdate(
-                { astroId: astroId },
-                { $set: { status: req.body.status } },
-                { new: true }
-            )
-            if (getdata) {
-                console.log("getdata", getdata)
-                res.status(201).json({
+
+        // if the document does not exist, create a new one
+        const getastro = await Astrologer.findOne({ _id: req.body.astroId });
+        console.log("getastro", getastro)
+
+        const newAsLive = new AsLive({
+            astroId: astroId,
+            status: status,
+            liveId: liveId,
+            name: getastro.fullname
+        });
+
+        newAsLive
+            .save()
+            .then((data) => {
+                res.status(200).json({
                     status: true,
-                    msg: "already exist",
-                    astroId: getdata.astroId,
-                    status: getdata.status,
-                    name: getdata.fullname,
-                    liveId: getdata.liveId
-                });
-                //  console.log("getdata", getdata)
-            } else {
-                res.status(400).json({
-                    status: false,
-                    msg: "error",
-                    error: "error",
-                });
-            }
-        } else {
-            // if the document does not exist, create a new one
-            const getastro = await Astrologer.findOne({ _id: req.body.astroId });
-            console.log("getastro", getastro)
-
-            const newAsLive = new AsLive({
-                astroId: astroId,
-                status: status,
-                liveId: liveId,
-                name: getastro.fullname
-            });
-
-            newAsLive
-                .save()
-                .then((data) => {
-                    res.status(200).json({
-                        status: true,
-                        msg: "success",
-                        astroId: astroId,
-                        status: status,
-                        name: getastro?.fullname,
-                        liveId: liveId
-                    })
+                    msg: "success",
+                    astroId: astroId,
+                    status: status,
+                    name: getastro?.fullname,
+                    liveId: liveId
                 })
+            })
 
-
-        }
     } catch (error) {
         console.error(error);
         res.status(500).json({
@@ -68,7 +41,8 @@ exports.goLiveStreaming = async (req, res) => {
             error: error
         });
     }
-};
+}
+
 
 exports.LiveAstrologer = async (req, res) => {
     try {
@@ -107,15 +81,21 @@ exports.LiveAstrologer = async (req, res) => {
 
 
 exports.discloseLiveStream = async (req, res) => {
-    await AsLive.findOneAndUpdate(
-        {
-            _id: req.params.id,
-        },
-        { $set: req.body },
-        { new: true }
-    )
-        .then((data) => resp.successr(res, data))
-        .catch((error) => resp.errorr(res, error));
+    const getId = await AsLive.deleteOne({ liveId: req.params.id })
+    if (getId) {
+        res.status(200).json({
+            status: true,
+            msg: "Disconnect Streaming",
+
+        })
+    } else {
+        res.status(500).json({
+            status: false,
+            message: "error",
+            error: error
+        });
+    }
+
 };
 
 
