@@ -17,6 +17,9 @@ const thisSchema = new Schema(
 
         channelName: {
             type: String
+        },
+        expiredAt: {
+            type: String
         }
 
 
