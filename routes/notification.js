@@ -10,13 +10,12 @@ const {
     dlt_notification
 } = require("../controller/notification");
 
- 
-  
- 
- 
- router.post("/admin/add_notification", add_notification);
-router.get("/admin/get_notification", get_notification);
+
+
+
+
+router.post("/admin/add_notification", add_notification);
+router.get("/admin/get_notification/:id", get_notification);
 router.get("/admin/dlt_notification/:id", dlt_notification);
 
 module.exports = router;
- 
