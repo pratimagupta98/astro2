@@ -19,13 +19,14 @@ cloudinary.config({
 
 exports.add_astro_product = async (req, res) => {
   //console.log(req.body);
-  const { astroid, product, category, price } = req.body;
+  const { astroid, product, category, desc, price } = req.body;
 
   const newAstroproduct = new Astroproduct({
     astroid: astroid,
     product: product,
     category: category,
     price: price,
+    desc: desc
 
   });
 

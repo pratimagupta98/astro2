@@ -24,45 +24,47 @@ const thisSchema = new Schema(
     birth_tym: {
       type: String,
     },
-    dob:{type: String},
-         otp: { type: String },
-         alt_mobile :{
-          type: String,
-         },
-         bithplace:{
-          type: String,
-         },
-         address:{
-          type: String,
-         },
-         city:{
-          type: String,
-         },
-         state:{
-          type: String,
-         },
-         country:{ type: String,
-        },
-        pincode:{
-          type: String,
-        },
-        
-        walletId: {
-          type: String
-        },
-        amount: {
-          type: Number,
-          default: 0,
-        },
-        oldpassword:{
-          type:String
-        },
-        deductedAmt:{
-          type:Number
-        },
-        gender:{
-          type:String
-        }
+    dob: { type: String },
+    otp: { type: String },
+    alt_mobile: {
+      type: String,
+    },
+    bithplace: {
+      type: String,
+      default: ""
+    },
+    address: {
+      type: String,
+    },
+    city: {
+      type: String,
+    },
+    state: {
+      type: String,
+    },
+    country: {
+      type: String,
+    },
+    pincode: {
+      type: String,
+    },
+
+    walletId: {
+      type: String
+    },
+    amount: {
+      type: Number,
+      default: 0,
+    },
+    oldpassword: {
+      type: String
+    },
+    deductedAmt: {
+      type: Number
+    },
+    gender: {
+      type: String
+    }
 
   },
 
