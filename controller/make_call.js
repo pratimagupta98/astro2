@@ -721,6 +721,8 @@ exports.astroVideoCall = async (req, res) => {
 
     res.status(200).json({
       astroAccount: tokenA,
+      channelName: channelName,
+      astroId: astroAccount
 
     });
 
