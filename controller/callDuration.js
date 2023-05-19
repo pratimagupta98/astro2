@@ -9,10 +9,12 @@ exports.addCallDuration = async (req, res) => {
 
     try {
         const astro = await Astrologer.findOne({ _id: astroId });
-        const astroCallCharge = astro.callCharge;
-
+        console.log("call charge", astro.callCharge)
+        const astroCallCharge = astro.callCharge * 5;
+        console.log("astroCallCharge", astroCallCharge)
         const user = await User.findOne({ _id: userId });
         const userAmount = user.amount;
+        console.log("userAmount", userAmount)
 
         const amountToDeduct = astroCallCharge;
 
