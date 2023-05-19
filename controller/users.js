@@ -36,8 +36,6 @@ exports.usersignup = async (req, res) => {
     bithplace: bithplace,
     city: city,
     gender: gender,
-    // tym_of_birth:tym_of_birth
-    //walletId:walletId,
     otp: defaultotp
   });
 
@@ -47,22 +45,19 @@ exports.usersignup = async (req, res) => {
   if (findexist) {
     resp.alreadyr(res);
   } else {
-    if (req.files) {
-      if (req.files.userimg) {
-        alluploads = [];
-        for (let i = 0; i < req.files.userimg.length; i++) {
-          const resp = await cloudinary.uploader.upload(
-            req.files.userimg[i].path,
-            { use_filename: true, unique_filename: false }
-          );
-          fs.unlinkSync(req.files.userimg[i].path);
-          alluploads.push(resp.secure_url);
-        }
-        newUser.userimg = alluploads;
+    if (req.files && req.files.userimg && req.files.userimg.length > 0) {
+      alluploads = [];
+      for (let i = 0; i < req.files.userimg.length; i++) {
+        const resp = await cloudinary.uploader.upload(
+          req.files.userimg[i].path,
+          { use_filename: true, unique_filename: false }
+        );
+        fs.unlinkSync(req.files.userimg[i].path);
+        alluploads.push(resp.secure_url);
       }
+      newUser.userimg = alluploads;
     }
 
-    // newUser.walletId =walletId
     newUser.save()
       .then((data) => {
         res.status(200).json({
@@ -71,15 +66,12 @@ exports.usersignup = async (req, res) => {
           data: data.mobile,
           otp: data.otp,
           _id: data?._id,
-          // walletId:data._id
-
-        })
+        });
       })
       .catch((error) => resp.errorr(res, error));
-
-
   }
 }
+
 exports.userVryfyotp = async (req, res) => {
   const { mobile, otp } = req.body;
   const getuser = await User.findOne({ mobile: mobile })

@@ -1,4 +1,5 @@
 // models/Event.js
+const { ObjectID, ObjectId } = require('bson');
 const mongoose = require('mongoose');
 
 const eventSchema = new mongoose.Schema({
@@ -70,6 +71,10 @@ const eventSchema = new mongoose.Schema({
         },
 
     ]
+
+    // product: [
+    //     { type: Object }
+    // ]
 });
 
 module.exports = mongoose.model('adminAddEvent', eventSchema);
