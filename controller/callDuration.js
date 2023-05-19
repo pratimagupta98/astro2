@@ -15,11 +15,11 @@ exports.addCallDuration = async (req, res) => {
         const user = await User.findOne({ _id: userId });
         const userAmount = user.amount;
         console.log("userAmount", userAmount)
-
+        const onemincharge = astro.callCharge
         const amountToDeduct = astroCallCharge;
 
         if (amountToDeduct <= userAmount) {
-            const updatedAmount = userAmount - amountToDeduct;
+            const updatedAmount = userAmount - onemincharge;
             user.amount = updatedAmount;
 
             const newCallDuration = new callDuration({
