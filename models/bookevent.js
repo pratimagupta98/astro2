@@ -7,43 +7,45 @@ const thisSchema = new Schema(
       type: String,
     },
     userid: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+    // pujaId: { type: mongoose.Schema.Types.ObjectId, ref: "adminAddEvent" },
+    // productId: { type: mongoose.Schema.Types.ObjectId, ref: "adminAddEvent" },
     date: {
       type: String,
     },
-    country:{
-        type: String,
+    country: {
+      type: String,
     },
-    state:{
-        type: String,
+    state: {
+      type: String,
     },
-    city:{
-        type: String,
+    city: {
+      type: String,
     },
-    time_slot:{
-        type: String,
+    time_slot: {
+      type: String,
     },
-    orderNote:{
-        type: String,
+    orderNote: {
+      type: String,
     },
-    email:{
-        type: String,
+    email: {
+      type: String,
     },
-   mobile:{
-    type: Number,
-   },
-   orderId:{
-    type: String,
+    mobile: {
+      type: Number,
+    },
+    orderId: {
+      type: String,
 
-   },
-   paymentId:{
-    type: String,
+    },
+    paymentId: {
+      type: String,
 
-   },
-   signatureId:{
-    type: String,
+    },
+    signatureId: {
+      type: String,
 
-   }
-   },
+    }
+  },
   { timestamps: true }
 );
 

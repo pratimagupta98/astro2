@@ -22,7 +22,7 @@ exports.addAdmin = async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   const hashPassword = await bcrypt.hash(password, salt);
 
-  
+
   const newAdmin = new Admin({
     name: name,
     password: hashPassword,
@@ -59,7 +59,6 @@ exports.addAdmin = async (req, res) => {
       .catch((error) => resp.errorr(res, error));
   };
 }
-
 
 exports.adminlogin = async (req, res) => {
   const { mobile, email, password } = req.body;
@@ -101,62 +100,61 @@ exports.adminlogin = async (req, res) => {
 };
 
 exports.viewoneadmin = async (req, res) => {
-    await Admin.findOne({ _id: req.params.id })
-      .then((data) => resp.successr(res, data))
-      .catch((error) => resp.errorr(res, error));
-  };
+  await Admin.findOne({ _id: req.params.id })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
 
-  exports.editprofile = async(req,res)=>{
-    const{name,adminimg,email,mobile,password,cnfmPassword} = req.body
-    
-    data ={}
-    if(name) {
-        data.name = name
-    }
-    if(adminimg){
-        data.adminimg = adminimg
-    }
-    if(email){
-        data.email = email
-    }
-    if(mobile){
-        data.mobile = mobile
-    }
-    if (password) {
-      const salt = await bcrypt.genSalt(10);
-      let hashPassword = await bcrypt.hash(password, salt);
-      data.password = hashPassword;
-    }
-    if (cnfmPassword) {
-      const salt = await bcrypt.genSalt(10);
-      let hashPassword = await bcrypt.hash(password, salt);
-      data.cnfmPassword = hashPassword;
-    }
+exports.editprofile = async (req, res) => {
+  const { name, adminimg, email, mobile, password, cnfmPassword } = req.body
 
-    if (req.files) {
-        if (req.files.adminimg) {
-          alluploads = [];
-          for (let i = 0; i < req.files.adminimg.length; i++) {
-            // console.log(i);
-            const resp = await cloudinary.uploader.upload(req.files.adminimg[i].path, {
-              use_filename: true,
-              unique_filename: false,
-            });
-            fs.unlinkSync(req.files.adminimg[i].path);
-            alluploads.push(resp.secure_url);
-          }
-          // newStore.storeImg = alluploads;
-          data.adminimg = alluploads;
-        }
-     }
-     await Admin.findOneAndUpdate(
-        { _id: req.params.id},
-        { $set: data },
-        { new: true }
-      )
-        .then((data) => resp.successr(res, data))
-        .catch((error) => resp.errorr(res, error));
-    };
-    
+  data = {}
+  if (name) {
+    data.name = name
+  }
+  if (adminimg) {
+    data.adminimg = adminimg
+  }
+  if (email) {
+    data.email = email
+  }
+  if (mobile) {
+    data.mobile = mobile
+  }
+  if (password) {
+    const salt = await bcrypt.genSalt(10);
+    let hashPassword = await bcrypt.hash(password, salt);
+    data.password = hashPassword;
+  }
+  if (cnfmPassword) {
+    const salt = await bcrypt.genSalt(10);
+    let hashPassword = await bcrypt.hash(password, salt);
+    data.cnfmPassword = hashPassword;
+  }
 
-  
+  if (req.files) {
+    if (req.files.adminimg) {
+      alluploads = [];
+      for (let i = 0; i < req.files.adminimg.length; i++) {
+        // console.log(i);
+        const resp = await cloudinary.uploader.upload(req.files.adminimg[i].path, {
+          use_filename: true,
+          unique_filename: false,
+        });
+        fs.unlinkSync(req.files.adminimg[i].path);
+        alluploads.push(resp.secure_url);
+      }
+      // newStore.storeImg = alluploads;
+      data.adminimg = alluploads;
+    }
+  }
+  await Admin.findOneAndUpdate(
+    { _id: req.params.id },
+    { $set: data },
+    { new: true }
+  )
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
+

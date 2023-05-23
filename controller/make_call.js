@@ -224,8 +224,161 @@ const User = require("../models/users");
 // };
 
 //chnagging
+// exports.make_call = async (req, res) => {
+//   try {
+
+//     var request = require('request');
+//     CircularJSON = require('circular-json')
+//     key = "d909e2e0120d0bcbd2ef795dd19eb2e97c2f8d78d8ebb6d4"
+//     sid = "sveltosetechnologies2"
+//     token = "856371fe6a97e8be8fed6ab14c95b4832f82d1d3116cb17e"
+//     from = req.body.from
+//     to = req.body.to
+
+//     const formUrlEncoded = x => Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, '')
+//     const axios = require('axios')
+//     url = "https://" + key + ":" + token + "@api.exotel.in/v1/Accounts/" + sid + "/Calls/connect.json"
+//     var requestBody =
+//       axios.post(url,
+//         formUrlEncoded({
+//           "From": req.body.From,   //USER
+//           "To": req.body.To,       //ASTRO
+//           "userid": req.body.userid,
+//           "astroid": req.body.astroid,
+//           "walletId": req.body.walletId,
+//           //  "CallerId": '011-411-68588',
+//           "CallerId": '080-473-59942',
+//           "CallerType": 'promo',
+//         }),
+
+//         {
+//           withCredentials: true,
+//           headers: {
+//             "Accept": "application/x-www-form-urlencoded",
+//             "Content-Type": "application/x-www-form-urlencoded"
+//           },
+//           data: JSON.stringify(`statusCode: ${res.statusCode}`)
+//         },
+//       )
+
+//     const response = await requestBody;
+//     console.log(`statusCode: ${res.statusCode}`)
+//     const str = CircularJSON.stringify(response.data);
+//     console.log("str", str)
+//     const getdata = JSON.parse(str)
+//     console.log("getdata", JSON.parse(str))
+
+//     //   if (getdata.Call?.Status !== "failed") {
+//     //     var options = {
+//     //       From: req.body.From,   //USER
+//     //       To: req.body.To,       //ASTRO
+//     //       userid: req.body.userid,
+//     //       astroid: req.body.astroid,
+//     //       Sid: getdata.Call?.Sid,
+//     //       ParentCallSid: getdata.Call?.ParentCallSid,
+//     //       DateCreated: getdata.Call?.DateCreated,
+//     //       DateUpdated: getdata.Call?.DateUpdated,
+//     //       AccountSid: getdata.Call?.AccountSid,
+//     //       PhoneNumberSid: getdata.Call?.PhoneNumberSid,
+//     //       Status: getdata.Call?.Status,
+//     //       StartTime: getdata.Call?.StartTime,
+//     //       EndTime: getdata.Call?.EndTime,
+//     //       Duration: getdata.Call?.Duration,
+//     //       Price: getdata.Call?.Price,
+//     //       Direction: getdata.Call?.Direction,
+//     //       AnsweredBy: getdata.Call?.AnsweredBy,
+//     //       ForwardedFrom: getdata.Call?.ForwardedFrom,
+//     //       CallerName: getdata.Call?.CallerName,
+//     //       Uri: getdata.Call?.Uri,
+//     //       RecordingUrl: getdata.Call?.RecordingUrl
+//     //     }
+
+//     //     // Save call information to database
+//     //     const callInfo = await (await make_call.create(options))
+//     //     const getuserdetail = await User.findOne({ _id: req.body.userid })
+//     //     console.log("getuser", getuserdetail.amount)
+//     //     // Send response to client
+//     //     res.json({
+//     //       order: callInfo // assuming the order object is defined by the callInfo returned by make_call.create()
+//     //     });
+//     //   } else {
+//     //     throw new Error("Call failed");
+//     //   }
+//     // } catch (err) {
+//     //   console.error(err);
+//     //   res.status(500).json({
+//     //     error: "Internal server error"
+//     //   });
+//     // }
+//     if (getdata.Call?.Status !== "failed") {
+//       // Retrieve user's wallet information
+//       const userWallet = await User.findOne({ _id: req.body.userid });
+//       // const getoneastro = await Astrologer.findOne({ _id: req.body.astroid })
+//       // console.log("astro", getoneastro)
+//       // const getminamt = getoneastro.min_amount
+//       // console.log("CALLCHARGE", getminamt)
+
+//       // Check if user has enough funds
+//       const callPrice = getdata.Call?.Price || 0;
+//       if (userWallet.amount < callPrice) {
+//         throw new Error("Insufficient funds");
+//       }
+
+//       // Deduct amount from user's wallet
+//       // const startTime = Date.now();
+//       // const durationInterval = setInterval(() => {
+//       //   const duration = Math.ceil((Date.now() - startTime) / 60000); // duration in minutes
+//       //console.log(`Call duration: ${duration} minute(s)`);
+//       //  })
+//       // Deduct the call price from the user's wallet
+//       //   const callPrice = getdata.Call?.Price || 0;
+//       //   userWallet.amount -= callPrice;
+//       //   await userWallet.save();
+
+//       //   // Update the call information in the database
+//       //   const callInfo = await make_call.findOneAndUpdate(
+//       //     { Sid: getdata.Call?.Sid },
+//       //     { Duration: duration },
+//       //     { new: true }
+//       //   );
+//       // }, 60000); // run every minute
+
+//       // userWallet.amount -= callPrice;
+//       // await userWallet.save();
+
+//       // Create call information object
+//       var options = {
+//         From: req.body.From,   //USER
+//         To: req.body.To,       //ASTRO
+//         userid: req.body.userid,
+//         astroid: req.body.astroid,
+//         Sid: getdata.Call?.Sid,
+//         // ...
+//       };
+
+//       // Save call information to database
+//       const callInfo = await (await make_call.create(options));
+
+//       // Send response to client
+//       res.json({
+//         order: callInfo // assuming the order object is defined by the callInfo returned by make_call.create()
+
+//       });
+//     } else {
+//       throw new Error("Call failed");
+//     }
+//   } catch (err) {
+//     // console.error(err);
+//     res.status(500).json({
+//       error: "Internal server error"
+//     });
+//   }
+// };
+
+
 exports.make_call = async (req, res) => {
   try {
+    // ... existing code ...
 
     var request = require('request');
     CircularJSON = require('circular-json')
@@ -238,85 +391,39 @@ exports.make_call = async (req, res) => {
     const formUrlEncoded = x => Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, '')
     const axios = require('axios')
     url = "https://" + key + ":" + token + "@api.exotel.in/v1/Accounts/" + sid + "/Calls/connect.json"
-    var requestBody =
-      axios.post(url,
-        formUrlEncoded({
-          "From": req.body.From,   //USER
-          "To": req.body.To,       //ASTRO
-          "userid": req.body.userid,
-          "astroid": req.body.astroid,
-          "walletId": req.body.walletId,
-          //  "CallerId": '011-411-68588',
-          "CallerId": '080-473-59942',
-          "CallerType": 'promo',
-        }),
 
-        {
-          withCredentials: true,
-          headers: {
-            "Accept": "application/x-www-form-urlencoded",
-            "Content-Type": "application/x-www-form-urlencoded"
-          },
-          data: JSON.stringify(`statusCode: ${res.statusCode}`)
+    // Make the API request to initiate the call
+    const requestBody = axios.post(
+      url,
+      formUrlEncoded({
+        "From": req.body.From,   //USER
+        "To": req.body.To,       //ASTRO
+        "userid": req.body.userid,
+        "astroid": req.body.astroid,
+        "walletId": req.body.walletId,
+        "CallerId": '080-473-59942',
+        "CallerType": 'promo',
+      }),
+      {
+        withCredentials: true,
+        headers: {
+          "Accept": "application/x-www-form-urlencoded",
+          "Content-Type": "application/x-www-form-urlencoded"
         },
-      )
+        data: JSON.stringify(`statusCode: ${res.statusCode}`)
+      }
+    );
 
     const response = await requestBody;
-    console.log(`statusCode: ${res.statusCode}`)
     const str = CircularJSON.stringify(response.data);
-    console.log("str", str)
-    const getdata = JSON.parse(str)
-    console.log("getdata", JSON.parse(str))
+    const getdata = JSON.parse(str);
 
-    //   if (getdata.Call?.Status !== "failed") {
-    //     var options = {
-    //       From: req.body.From,   //USER
-    //       To: req.body.To,       //ASTRO
-    //       userid: req.body.userid,
-    //       astroid: req.body.astroid,
-    //       Sid: getdata.Call?.Sid,
-    //       ParentCallSid: getdata.Call?.ParentCallSid,
-    //       DateCreated: getdata.Call?.DateCreated,
-    //       DateUpdated: getdata.Call?.DateUpdated,
-    //       AccountSid: getdata.Call?.AccountSid,
-    //       PhoneNumberSid: getdata.Call?.PhoneNumberSid,
-    //       Status: getdata.Call?.Status,
-    //       StartTime: getdata.Call?.StartTime,
-    //       EndTime: getdata.Call?.EndTime,
-    //       Duration: getdata.Call?.Duration,
-    //       Price: getdata.Call?.Price,
-    //       Direction: getdata.Call?.Direction,
-    //       AnsweredBy: getdata.Call?.AnsweredBy,
-    //       ForwardedFrom: getdata.Call?.ForwardedFrom,
-    //       CallerName: getdata.Call?.CallerName,
-    //       Uri: getdata.Call?.Uri,
-    //       RecordingUrl: getdata.Call?.RecordingUrl
-    //     }
 
-    //     // Save call information to database
-    //     const callInfo = await (await make_call.create(options))
-    //     const getuserdetail = await User.findOne({ _id: req.body.userid })
-    //     console.log("getuser", getuserdetail.amount)
-    //     // Send response to client
-    //     res.json({
-    //       order: callInfo // assuming the order object is defined by the callInfo returned by make_call.create()
-    //     });
-    //   } else {
-    //     throw new Error("Call failed");
-    //   }
-    // } catch (err) {
-    //   console.error(err);
-    //   res.status(500).json({
-    //     error: "Internal server error"
-    //   });
-    // }
+
+
     if (getdata.Call?.Status !== "failed") {
       // Retrieve user's wallet information
       const userWallet = await User.findOne({ _id: req.body.userid });
-      // const getoneastro = await Astrologer.findOne({ _id: req.body.astroid })
-      // console.log("astro", getoneastro)
-      // const getminamt = getoneastro.min_amount
-      // console.log("CALLCHARGE", getminamt)
 
       // Check if user has enough funds
       const callPrice = getdata.Call?.Price || 0;
@@ -324,56 +431,72 @@ exports.make_call = async (req, res) => {
         throw new Error("Insufficient funds");
       }
 
-      // Deduct amount from user's wallet
-      // const startTime = Date.now();
-      // const durationInterval = setInterval(() => {
-      //   const duration = Math.ceil((Date.now() - startTime) / 60000); // duration in minutes
-      //console.log(`Call duration: ${duration} minute(s)`);
-      //  })
-      // Deduct the call price from the user's wallet
-      //   const callPrice = getdata.Call?.Price || 0;
-      //   userWallet.amount -= callPrice;
-      //   await userWallet.save();
-
-      //   // Update the call information in the database
-      //   const callInfo = await make_call.findOneAndUpdate(
-      //     { Sid: getdata.Call?.Sid },
-      //     { Duration: duration },
-      //     { new: true }
-      //   );
-      // }, 60000); // run every minute
-
-      // userWallet.amount -= callPrice;
-      // await userWallet.save();
+      // Deduct the initial call price from the user's wallet
+      userWallet.amount -= callPrice;
+      await userWallet.save();
 
       // Create call information object
       var options = {
-        From: req.body.From,   //USER
-        To: req.body.To,       //ASTRO
+        From: req.body.From,   // USER
+        To: req.body.To,       // ASTRO
         userid: req.body.userid,
         astroid: req.body.astroid,
         Sid: getdata.Call?.Sid,
         // ...
       };
 
-      // Save call information to database
-      const callInfo = await (await make_call.create(options));
+      // Save call information to the database
+      const callInfo = await make_call.create(options);
 
-      // Send response to client
+      // Set up call duration interval
+      const startTime = Date.now();
+
+      // Calculate the call duration every minute
+      const durationInterval = setInterval(async () => {
+        const currentTime = Date.now();
+        const callDuration = Math.ceil((currentTime - startTime) / 60000); // Duration in minutes
+        console.log(`Call duration: ${callDuration} minute(s)`) // duration in minutes
+
+        // Deduct the call price per minute from the user's wallet
+        const minuteDeduction = callPrice / callDuration; // Assuming callPrice is total price and callDuration is in minutes
+        userWallet.amount -= minuteDeduction;
+        await userWallet.save();
+
+        // Update the user's account with the new balance
+        await User.updateOne({ _id: req.body.userid }, { amount: userWallet.amount });
+
+        // ... you can perform additional actions during the call duration ...
+
+      }, 60000); // run every minute
+
+      // End the call duration interval after the desired call duration
+
+      // ... existing code ...
+      const desiredCallDuration = 10;
+      // End the call duration interval after the desired call duration
+      setTimeout(() => {
+        clearInterval(durationInterval);
+      }, desiredCallDuration * 60000);
+
+      // ... remaining code ...
+
+
+      // Send response to the client
       res.json({
         order: callInfo // assuming the order object is defined by the callInfo returned by make_call.create()
-
       });
     } else {
       throw new Error("Call failed");
     }
   } catch (err) {
-    // console.error(err);
+    console.error(err); // Log the error for debugging purposes
     res.status(500).json({
       error: "Internal server error"
     });
   }
-};
+}
+
+
 
 
 //     //   .then((res) => {
