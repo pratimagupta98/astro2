@@ -1006,3 +1006,22 @@ exports.userVideoCall = async (req, res) => {
   }
   generateRtcToken()
 }
+
+exports.Calling = async (req, res) => {
+  var request = require('request');
+
+  var dataString = 'From=7489651191&To=8103988072&CallerId=011-411-68588';
+
+  var options = {
+    url: 'https://90c1bddcdace6f704819ebc54d740ebbbdf37f2ad30a4e8f:04d432d9144e8521e1e31f8297e3d199d3c73b8676c49df8@api.exotel.in/v1/Accounts/astrologically3 /Calls/connect',
+    method: 'POST',
+    body: dataString
+  };
+  function callback(error, response, body) {
+    if (!error && response.statusCode == 200) {
+      console.log(body);
+    }
+  }
+  console.log("options", options)
+  request(options, callback);
+}
