@@ -665,8 +665,8 @@ exports.basicPanchang = async (req, res) => {
     day: req.body.day,
     month: req.body.month,
     year: req.body.year,
-    hour: 12,
-    min: 00,
+    hour: req.body.hour,
+    min: req.body.min,
     lat: req.body.lat,
     lon: req.body.lon,
     tzone: 5.5,
@@ -1108,3 +1108,40 @@ exports.pdf_report = async (req, res) => {
   }
 
 }
+
+
+// var api = 'birth_details';
+// var userId = '<Your User Id>';
+// var apiKey = '<Your Api Key>';
+// var data = {
+//   day: 6,
+//   month: 1,
+//   year: 2000,
+//   hour: 7,
+//   min: 45,
+//   lat: 19.132,
+//   lon: 72.342,
+//   tzone: 5.5,
+// };
+
+// var auth = "Basic " + new Buffer(userId + ":" + apiKey).toString("base64");
+
+// var request = $.ajax({
+// url: "https://json.astrologyapi.com/v1/"+api,
+// method: "POST",
+// dataType:'json',
+// headers: {
+//     "authorization": auth,
+//     "Content-Type":'application/json'
+// },
+//     data:JSON.stringify(data)
+// });
+
+// request.then( function(resp){
+// }, function(err){
+//     console.log(err);
+// });
+
+
+
+
