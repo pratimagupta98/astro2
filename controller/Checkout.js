@@ -218,7 +218,17 @@ exports.cartbycustomer = async (req, res) => {
 
 
 exports.all_transaction_list = async (req, res) => {
-  await Cart.find()
+  await Cart.find().populate("shipping_address").populate({
+    path: "productid",
+    populate: {
+      path: "product",
+    },
+  }).populate({
+    path: "shipping_address",
+    populate: {
+      path: "userid",
+    },
+  }).populate("astroId")
     .sort({ createdAt: -1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
