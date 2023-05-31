@@ -12,7 +12,7 @@ const {
 
 
 router.post("/user/make_call", make_call);
-router.get("/user/callStatus", callStatus);
+router.get("/user/callStatus/:sid", callStatus);
 router.get("/user/call_Status", call_Status);
 router.post("/user/astroVideoCall", astroVideoCall);
 router.post("/user/userVideoCall", userVideoCall);

@@ -757,10 +757,6 @@ exports.pending_order = async (req, res, next) => {
 };
 
 
-
-
-
-
 exports.acceptChat = async (req, res) => {
   const getdata = await ChatWallet.findOneAndUpdate(
     {

@@ -376,125 +376,125 @@ const User = require("../models/users");
 // };
 
 
-exports.make_call = async (req, res) => {
-  try {
-    // ... existing code ...
+// exports.make_call = async (req, res) => {
+//   try {
+//     // ... existing code ...
 
-    var request = require('request');
-    CircularJSON = require('circular-json')
-    key = "d909e2e0120d0bcbd2ef795dd19eb2e97c2f8d78d8ebb6d4"
-    sid = "sveltosetechnologies2"
-    token = "856371fe6a97e8be8fed6ab14c95b4832f82d1d3116cb17e"
-    from = req.body.from
-    to = req.body.to
+//     var request = require('request');
+//     CircularJSON = require('circular-json')
+//     key = "d909e2e0120d0bcbd2ef795dd19eb2e97c2f8d78d8ebb6d4"
+//     sid = "sveltosetechnologies2"
+//     token = "856371fe6a97e8be8fed6ab14c95b4832f82d1d3116cb17e"
+//     from = req.body.from
+//     to = req.body.to
 
-    const formUrlEncoded = x => Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, '')
-    const axios = require('axios')
-    url = "https://" + key + ":" + token + "@api.exotel.in/v1/Accounts/" + sid + "/Calls/connect.json"
+//     const formUrlEncoded = x => Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, '')
+//     const axios = require('axios')
+//     url = "https://" + key + ":" + token + "@api.exotel.in/v1/Accounts/" + sid + "/Calls/connect.json"
 
-    // Make the API request to initiate the call
-    const requestBody = axios.post(
-      url,
-      formUrlEncoded({
-        "From": req.body.From,   //USER
-        "To": req.body.To,       //ASTRO
-        "userid": req.body.userid,
-        "astroid": req.body.astroid,
-        "walletId": req.body.walletId,
-        "CallerId": '080-473-59942',
-        "CallerType": 'promo',
-      }),
-      {
-        withCredentials: true,
-        headers: {
-          "Accept": "application/x-www-form-urlencoded",
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        data: JSON.stringify(`statusCode: ${res.statusCode}`)
-      }
-    );
+//     // Make the API request to initiate the call
+//     const requestBody = axios.post(
+//       url,
+//       formUrlEncoded({
+//         "From": req.body.From,   //USER
+//         "To": req.body.To,       //ASTRO
+//         "userid": req.body.userid,
+//         "astroid": req.body.astroid,
+//         "walletId": req.body.walletId,
+//         "CallerId": '080-473-59942',
+//         "CallerType": 'promo',
+//       }),
+//       {
+//         withCredentials: true,
+//         headers: {
+//           "Accept": "application/x-www-form-urlencoded",
+//           "Content-Type": "application/x-www-form-urlencoded"
+//         },
+//         data: JSON.stringify(`statusCode: ${res.statusCode}`)
+//       }
+//     );
 
-    const response = await requestBody;
-    const str = CircularJSON.stringify(response.data);
-    const getdata = JSON.parse(str);
-
-
+//     const response = await requestBody;
+//     const str = CircularJSON.stringify(response.data);
+//     const getdata = JSON.parse(str);
 
 
-    if (getdata.Call?.Status !== "failed") {
-      // Retrieve user's wallet information
-      const userWallet = await User.findOne({ _id: req.body.userid });
-
-      // Check if user has enough funds
-      const callPrice = getdata.Call?.Price || 0;
-      if (userWallet.amount < callPrice) {
-        throw new Error("Insufficient funds");
-      }
-
-      // Deduct the initial call price from the user's wallet
-      userWallet.amount -= callPrice;
-      await userWallet.save();
-
-      // Create call information object
-      var options = {
-        From: req.body.From,   // USER
-        To: req.body.To,       // ASTRO
-        userid: req.body.userid,
-        astroid: req.body.astroid,
-        Sid: getdata.Call?.Sid,
-        // ...
-      };
-
-      // Save call information to the database
-      const callInfo = await make_call.create(options);
-
-      // Set up call duration interval
-      const startTime = Date.now();
-
-      // Calculate the call duration every minute
-      const durationInterval = setInterval(async () => {
-        const currentTime = Date.now();
-        const callDuration = Math.ceil((currentTime - startTime) / 60000); // Duration in minutes
-        console.log(`Call duration: ${callDuration} minute(s)`) // duration in minutes
-
-        // Deduct the call price per minute from the user's wallet
-        const minuteDeduction = callPrice / callDuration; // Assuming callPrice is total price and callDuration is in minutes
-        userWallet.amount -= minuteDeduction;
-        await userWallet.save();
-
-        // Update the user's account with the new balance
-        await User.updateOne({ _id: req.body.userid }, { amount: userWallet.amount });
-
-        // ... you can perform additional actions during the call duration ...
-
-      }, 60000); // run every minute
-
-      // End the call duration interval after the desired call duration
-
-      // ... existing code ...
-      const desiredCallDuration = 10;
-      // End the call duration interval after the desired call duration
-      setTimeout(() => {
-        clearInterval(durationInterval);
-      }, desiredCallDuration * 60000);
-
-      // ... remaining code ...
 
 
-      // Send response to the client
-      res.json({
-        order: callInfo // assuming the order object is defined by the callInfo returned by make_call.create()
-      });
-    } else {
-      throw new Error("Call failed");
-    }
-  } catch (err) {
-    console.error(err); // Log the error for debugging purposes
-    res.status(500).json({
-      error: "Internal server error"
-    });
-  }
-}
+//     if (getdata.Call?.Status !== "failed") {
+//       // Retrieve user's wallet information
+//       const userWallet = await User.findOne({ _id: req.body.userid });
+
+//       // Check if user has enough funds
+//       const callPrice = getdata.Call?.Price || 0;
+//       if (userWallet.amount < callPrice) {
+//         throw new Error("Insufficient funds");
+//       }
+
+//       // Deduct the initial call price from the user's wallet
+//       userWallet.amount -= callPrice;
+//       await userWallet.save();
+
+//       // Create call information object
+//       var options = {
+//         From: req.body.From,   // USER
+//         To: req.body.To,       // ASTRO
+//         userid: req.body.userid,
+//         astroid: req.body.astroid,
+//         Sid: getdata.Call?.Sid,
+//         // ...
+//       };
+
+//       // Save call information to the database
+//       const callInfo = await make_call.create(options);
+
+//       // Set up call duration interval
+//       const startTime = Date.now();
+
+//       // Calculate the call duration every minute
+//       const durationInterval = setInterval(async () => {
+//         const currentTime = Date.now();
+//         const callDuration = Math.ceil((currentTime - startTime) / 60000); // Duration in minutes
+//         console.log(`Call duration: ${callDuration} minute(s)`) // duration in minutes
+
+//         // Deduct the call price per minute from the user's wallet
+//         const minuteDeduction = callPrice / callDuration; // Assuming callPrice is total price and callDuration is in minutes
+//         userWallet.amount -= minuteDeduction;
+//         await userWallet.save();
+
+//         // Update the user's account with the new balance
+//         await User.updateOne({ _id: req.body.userid }, { amount: userWallet.amount });
+
+//         // ... you can perform additional actions during the call duration ...
+
+//       }, 60000); // run every minute
+
+//       // End the call duration interval after the desired call duration
+
+//       // ... existing code ...
+//       const desiredCallDuration = 10;
+//       // End the call duration interval after the desired call duration
+//       setTimeout(() => {
+//         clearInterval(durationInterval);
+//       }, desiredCallDuration * 60000);
+
+//       // ... remaining code ...
+
+
+//       // Send response to the client
+//       res.json({
+//         order: callInfo // assuming the order object is defined by the callInfo returned by make_call.create()
+//       });
+//     } else {
+//       throw new Error("Call failed");
+//     }
+//   } catch (err) {
+//     console.error(err); // Log the error for debugging purposes
+//     res.status(500).json({
+//       error: "Internal server error"
+//     });
+//   }
+// }
 
 
 
@@ -639,30 +639,239 @@ exports.make_call = async (req, res) => {
 // -H 'Authorization: Basic ZDkwOWUyZTAxMjBkMGJjYmQyZWY3OTVkZDE5ZWIyZTk3YzJmOGQ3OGQ4ZWJiNmQ0Ojg1NjM3MWZlNmE5N2U4YmU4ZmVkNmFiMTRjOTViNDgzMmY4MmQxZDMxMTZjYjE3ZQ=='
 // -H 'accept: application/json'
 
-
-exports.callStatus = async (req, res) => {
+exports.make_call = async (req, res) => {
   var request = require('request');
+  CircularJSON = require('circular-json')
 
   key = "d909e2e0120d0bcbd2ef795dd19eb2e97c2f8d78d8ebb6d4"
   sid = "sveltosetechnologies2"
   token = "856371fe6a97e8be8fed6ab14c95b4832f82d1d3116cb17e"
+  from = req.body.from
+  to = req.body.to
+
+  const formUrlEncoded = x => Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, '')
+  const axios = require('axios')
+  url = "https://" + key + ":" + token + "@api.exotel.in/v1/Accounts/" + sid + "/Calls/connect.json"
+  var requestBody =
+    axios.post(url,
+      formUrlEncoded({
+        "From": req.body.From,   //USER
+        "To": req.body.To,       //ASTRO
+        "userid": req.body.userid,
+        "astroid": req.body.astroid,
+        "walletId": req.body.walletId,
+        //  "CallerId": '011-411-68588',
+        "CallerId": '080-473-59942',
 
 
-  var options = {
-    url: 'https://d909e2e0120d0bcbd2ef795dd19eb2e97c2f8d78d8ebb6d4:856371fe6a97e8be8fed6ab14c95b4832f82d1d3116cb17e@api.exotel.in/v1/Accounts/sveltosetechnologies2/Calls/9daef6e7629eed377ed91f2b732b174k.json'
-  }
-  //console.log("options",options)
-  function callback(error, response, body) {
-    if (response) {
-      var toparse = response.body;
-      res.status(200).send(toparse);
-    }
-    if (error) {
-      res.status(200).send(error);
-    }
-  }
-  request(options, callback);
+        "CallerType": 'promo',
+        // "Status" :"Status",2
+        // "StartTime":"StartTime",
+        // "EndTime" :"EndTime",
+        // "Duration" :"Duration",
+        // "Price" :"Price",
+        // "RecordingUrl":"RecordingUrl"
+
+      }),
+
+      {
+        withCredentials: true,
+        headers: {
+          "Accept": "application/x-www-form-urlencoded",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        data: JSON.stringify(`statusCode: ${res.statusCode}`)
+      },
+    )
+
+
+      //       .then(async(response)=>{
+      //console.log(data)
+      // res.status(200).json({
+      //   data :JSON.stringify(response)
+      // })
+      //      })
+      //  res.status(200).json({
+      //  statusCode: `${res.statusCode}`,
+      //     From: req.body.From,   //USER
+      //    To: req.body.To,       //ASTRO
+      //    userid:req.body.userid,
+      //    astroid :req.body.astroid,
+      // });
+      // axios.then( function(resp){
+      //   console.log(resp);
+      //   res.status(200).json({
+      //     status:true,
+      //     msg:"success",
+      //     data :resp
+      //   })
+
+      //pratima
+      //   }, function(err){
+      //   console.log(err);
+
+      // }
+
+      //pratima
+      // request(options, function (error, response, body) {
+      //   if (response) {
+      //     var toparse = response.body;
+      //     res.status(200).send(toparse);
+      //   }
+      //   if (error) {
+      //     res.status(400).send(error);
+      //   }
+      // });
+
+
+      .then(async (response) => {
+        console.log(`statusCode: ${res.statusCode}`)
+        //   console.log("RES",response)
+        const str = CircularJSON.stringify(response.data);
+        console.log("str", str)
+        const getdata = JSON.parse(str)
+        console.log("getdata", JSON.parse(str))
+        //  res.send(JSON.parse(str))
+        var options = {
+          From: req.body.From,   //USER
+          To: req.body.To,       //ASTRO
+          userid: req.body.userid,
+          astroid: req.body.astroid,
+          Sid: getdata.Call?.Sid,
+          ParentCallSid: getdata.Call?.ParentCallSid,
+          DateCreated: getdata.Call?.DateCreated,
+          DateUpdated: getdata.Call?.DateUpdated,
+          AccountSid: getdata.Call?.AccountSid,
+          PhoneNumberSid: getdata.Call?.PhoneNumberSid,
+          Status: getdata.Call?.Status,
+          StartTime: getdata.Call?.StartTime,
+          EndTime: getdata.Call?.EndTime,
+          Duration: getdata.Call?.Duration,
+          Price: getdata.Call?.Price,
+          Direction: getdata.Call?.Direction,
+          AnsweredBy: getdata.Call?.AnsweredBy,
+          ForwardedFrom: getdata.Call?.ForwardedFrom,
+          CallerName: getdata.Call?.CallerName,
+          Uri: getdata.Call?.Uri,
+          RecordingUrl: getdata.Call?.RecordingUrl
+
+          //data :JSON.parse(str)
+
+
+        }
+
+
+
+        //      // res.json({data:response.data})
+        //  //    res.send(JSON.stringify(response.data));
+
+        //  res.json({
+        //   status:"success",
+        //   data:response.data,
+        //   userid:req.body.userid,
+        //   astroid :req.body.astroid,
+
+        //  })
+        //       // var serverRes = response.body
+        //       // return serverRes
+
+        await make_call.create(options, function (err, response) {
+          console.log("RES", options);
+          const str = CircularJSON.stringify(response.data);
+
+          //res.send(str)
+
+          res.json({
+            order: options,
+          });
+          if (err) {
+            res.json({
+              err: err,
+            });
+          }
+        }
+        )
+      })
+  // res.send(JSON.parse(str))
+  //    let result = await make_call.create(requestBody)
+  //    console.log("CREATED DATA",result)
+
+  //   })
+  //   .catch((error) => {
+  //   console.error(error)
+  //   res.send(error)
+  //  })
 }
+//newwwwwwwwwww
+// exports.callStatus = async (req, res) => {
+//   var request = require('request');
+
+//   key = "d909e2e0120d0bcbd2ef795dd19eb2e97c2f8d78d8ebb6d4"
+//   sid = "sveltosetechnologies2"
+//   token = "856371fe6a97e8be8fed6ab14c95b4832f82d1d3116cb17e"
+//   const Sid = req.params.sid;
+
+//   var options = {
+//     // url: 'https://d909e2e0120d0bcbd2ef795dd19eb2e97c2f8d78d8ebb6d4:856371fe6a97e8be8fed6ab14c95b4832f82d1d3116cb17e@api.exotel.in/v1/Accounts/sveltosetechnologies2/Calls/${Sid}.json'
+//     url: `https://${key}:${token}@api.exotel.in/v1/Accounts/${sid}/Calls/${Sid}.json`
+//   }
+//   //console.log("options",options)
+//   function callback(error, response, body) {
+//     if (response) {
+//       var toparse = response.body;
+//       res.status(200).send(toparse);
+//     }
+//     if (error) {
+//       res.status(200).send(error);
+//     }
+//   }
+//   request(options, callback);
+// }
+//newwwwwwwwwwwwwww
+
+const axios = require('axios');
+const cron = require('node-cron');
+//const database = require('./database'); // Import your database module or ORM
+
+
+
+exports.callStatus = async () => {
+  const key = "d909e2e0120d0bcbd2ef795dd19eb2e97c2f8d78d8ebb6d4";
+  const sid = "sveltosetechnologies2";
+  const token = "856371fe6a97e8be8fed6ab14c95b4832f82d1d3116cb17e";
+  const Sid = req.params.sid;
+
+  const url = `https://${key}:${token}@api.exotel.in/v1/Accounts/${sid}/Calls/${Sid}.json`;
+
+  try {
+    const response = await axios.get(url);
+    const { status, data } = response;
+
+    if (status === 200) {
+      const callStatus = data.call_status;
+      if (callStatus === "pending") {
+        console.log("Call is still pending");
+        // Handle pending status logic
+      } else if (callStatus === "completed") {
+        console.log("Call has been completed");
+        // Handle completed status logic
+      } else {
+        console.log("Unknown call status:", callStatus);
+      }
+    } else {
+      console.log("API request failed with status:", status);
+    }
+  } catch (error) {
+    console.log("Error occurred:", error.message);
+  }
+};
+
+// Schedule the cron job to run every minute
+cron.schedule('* * * * *', async () => {
+  await exports.callStatus();
+  console.log("chechking 1 minute")
+});
+
 
 exports.call_Status = async (req, res) => {
   await make_call.find().populate("userid").populate("astroid")
