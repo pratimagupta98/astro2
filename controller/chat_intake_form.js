@@ -19,7 +19,7 @@ cloudinary.config({
 
 
 exports.add_chat_intake = async (req, res) => {
-  const { userid, astroid, gender, mobile, firstname, p_firstname, lastname, p_lastname, dob, p_dob, date_of_time, p_date_of_time, birthPlace, p_birthPlace, marital_status, occupation, topic_of_cnsrn, entertopic_of_cnsrn } = req.body;
+  const { userid, astroid, gender, mobile, firstname, p_firstname, lastname, p_lastname, dob, p_dob, date_of_time, p_date_of_time, birthPlace, p_birthPlace, marital_status, occupation, topic_of_cnsrn, entertopic_of_cnsrn, lat, lon } = req.body;
 
   const newIntek = new Intek({
     userid: userid,
@@ -39,8 +39,9 @@ exports.add_chat_intake = async (req, res) => {
     marital_status: marital_status,
     occupation: occupation,
     topic_of_cnsrn: topic_of_cnsrn,
-    entertopic_of_cnsrn: entertopic_of_cnsrn
-
+    entertopic_of_cnsrn: entertopic_of_cnsrn,
+    lat: lat,
+    lon: lon
   });
   const findone = await Intek.findOne({ userid: userid })
   if (findone) {

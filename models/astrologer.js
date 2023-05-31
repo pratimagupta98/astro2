@@ -143,6 +143,10 @@ const thisSchema = new Schema(
       type: Number,
       default: 0
     },
+    waiting_tym: {
+      type: Number,
+      default: 0
+    },
     // availability: [{
     //   type: String,
     // }],

@@ -82,6 +82,12 @@ const thisSchema = new Schema(
     },
     file: {
       type: Array
+    },
+    lat: {
+      type: Number,
+    },
+    lon: {
+      type: Number,
     }
   },
   { timestamps: true }
