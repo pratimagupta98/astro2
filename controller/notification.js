@@ -38,7 +38,12 @@ exports.get_notification = async (req, res) => {
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
-
+exports.admin_notification = async (req, res) => {
+  await Notification.find().populate("userid")
+    .sort({ sortorder: 1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
 exports.getone_notification = async (req, res) => {
   await Notification.findOne({ _id: req.params.id })
     .then((data) => resp.successr(res, data))
