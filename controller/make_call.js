@@ -1236,8 +1236,8 @@ exports.Calling = async (req, res) => {
 }
 
 
-exports.callHistory = async (req, res) => {
-  await make_call.find()
+exports.astroCallHistory = async (req, res) => {
+  await make_call.find({ astroid: req.params.id }).populate("userid").populate("astroid")
     .sort({ createdAt: -1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
