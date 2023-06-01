@@ -1234,3 +1234,11 @@ exports.Calling = async (req, res) => {
   console.log("options", options)
   request(options, callback);
 }
+
+
+exports.callHistory = async (req, res) => {
+  await make_call.find()
+    .sort({ createdAt: -1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};

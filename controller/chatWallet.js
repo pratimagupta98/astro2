@@ -627,11 +627,6 @@ exports.addVideoCallWallet = async (req, res) => {
 
 }
 
-
-
-
-
-
 exports.ChatWaiting = async (req, res) => {
   const getone = await ChatWallet.findOne({ _id: req.params.id })
     //.populate("astroid")
@@ -669,7 +664,6 @@ exports.ChatWaiting = async (req, res) => {
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 }
-
 
 // gsttotal = (price*product_qty) +(product_price*product_qty)
 // .then((data) => resp.successr(res, data))
@@ -718,8 +712,6 @@ exports.cartbycustomer = async (req, res) => {
     }
   }
 }
-
-
 exports.getOne_Conversation_Wallet = async (req, res) => {
   await ChatWallet.find({ userid: req.params.id }).populate("userid").populate("astroid").populate("recharge_planId")
     .sort({ createdAt: -1 })
