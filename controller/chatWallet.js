@@ -244,7 +244,15 @@ exports.addCallWallet = async (req, res) => {
       let newamt = 0
       if (getwalletamt > totalamt) {
         console.log("success")
+        const chatWalletData = {
+          userid: req.body.userid,
+          astroid: req.body.astroid,
 
+          type: "Voice Call"
+        };
+
+        const chatWallet = new ChatWallet(chatWalletData);
+        await chatWallet.save();
         // newamt =getwalletamt - totalamt
         // console.log("camt",getwalletamt)
         // console.log("new",newamt)

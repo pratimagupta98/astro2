@@ -31,7 +31,7 @@ exports.comisionList = async (req, res) => {
     populate: {
       path: "category",
     },
-  })
+  }).populate("category")
     .sort({ sortorder: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
