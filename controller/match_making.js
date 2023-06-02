@@ -215,6 +215,7 @@ exports.ChineseHoroscope = async (req, res) => {
     },
     body: JSON.stringify(data)
   })
+
     .then(response => response.json())
     .then(data => console.log(data))
     .catch(error => console.error(error));
@@ -1080,54 +1081,58 @@ exports.panchang_festival = async (req, res) => {
 //   });
 // }
 
-exports.pdf_report = async (req, res) => {
+exports.basic_horoscope_pdf = async (req, res) => {
+  const birthDetails = {
+    name: "siya",
+    gender: "femaile",
+    day: '12',
+    month: '2',
+    year: '1997',
+    hour: '12',
+    min: '12',
+    language: 'en',
+    place: 'Mumbai',
+    chart_style: 'SOUTH_INDIAN',
+    footer_link: 'astrologyapi.com',
+    logo_url: 'https://images-platform.99static.com//QngTEa7qJ0gTC2jjFdtWg0xumN8=/593x540:1298x1244/fit-in/500x500/99designs-contests-attachments/117/117201/attachment_117201056',
+    company_name: 'Vedic Rishi Astro Solutions Pvt. Ltd',
+    company_info: 'Your Company Info',
+    domain_url: 'https://www.astrologyapi.com',
+    company_email: 'pratimadevelopersveltosest@gmail.com',
+    company_landline: '+91- 221232 22',
+    company_mobile: '+91 1212 1212 12',
+    date: '1990-01-01',
+    time: '12:00:00',
+    lat: '25.2056',
+    lon: '0.1278',
+    tzone: 5.5,
+    name: 'John Doe'
+  };
+
+  var auth = "Basic " + Buffer.from(process.env.USERID + ":" + process.env.APIKEY).toString('base64');
 
   try {
-    const birthDetails = {
-      date: '1990-01-01',
-      time: '12:00:00',
-      latitude: '51.5074',
-      longitude: '0.1278',
-      timezone: 'Europe/London',
-      name: 'John Doe'
-    };
-    const options = {
-      borderStyle: 'dashed',
-      footerLinks: ['https://example.com', 'https://example.net'],
-      lordGaneshaStyle: 'circle'
-    };
-    // Check if variables are defined
-    if (!birthDetails || !options) {
-      throw new Error('Birth details and options are required');
-    }
-
-    // Make API request
-    const response = await axios.post('https://pdf.astrologyapi.com/v1/basic_horoscope_pdf', {
-      birth_details: birthDetails,
-      options: options
-    }, {
+    const response = await fetch("https://pdf.astrologyapi.com/v1/basic_horoscope_pdf", {
+      method: "POST",
       headers: {
-        'Authorization': 'Bearer ByVOIaODH57QRVi6CqswHXGlcpDvj7tZBRoorY',
-        'Content-Type': 'application/json'
-      }
+        "Authorization": auth,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(birthDetails)
     });
-
-    // Return response
+    const result = await response.json();
     res.status(200).json({
       status: true,
       msg: "success",
-      data: response.data
+      data: result
     });
   } catch (error) {
-    // console.error(error);
-    res.status(500).json({
-      status: false,
-      msg: "An error occurred",
-      error: error.message
+    res.status(405).json({
+      error
     });
   }
-
 }
+
 
 
 // var api = 'birth_details';
