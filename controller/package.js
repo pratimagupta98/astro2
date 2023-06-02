@@ -114,10 +114,10 @@ exports.editPackage = async (req, res) => {
         .catch((error) => resp.errorr(res, error));
 };
 
-exports.productbycategory = async (req, res) => {
-    await Product.find({ category: req.params.id }).populate("category")
-        .sort({ sortorder: 1 }).populate("category")
+// exports.productbycategory = async (req, res) => {
+//     await Product.find({ category: req.params.id }).populate("category")
+//         .sort({ sortorder: 1 }).populate("category")
 
-        .then((data) => resp.successr(res, data))
-        .catch((error) => resp.errorr(res, error));
-};
+//         .then((data) => resp.successr(res, data))
+//         .catch((error) => resp.errorr(res, error));
+// };
