@@ -1,4 +1,5 @@
 const AsLive = require("../models/astroLiveStreaming");
+const LiveChat = require("../models/liveChat");
 const resp = require("../helpers/apiResponse");
 const agora = require('agora-access-token');
 const Astrologer = require("../models/astrologer");
@@ -217,4 +218,30 @@ exports.disConnectLiveStream = async (req, res) => {
         });
     }
 
+};
+
+
+
+exports.astro_liveChat = async (req, res) => {
+
+    const { astroid, userid, msg } = req.body;
+
+    const newLiveChat = new LiveChat({
+        astroid: astroid,
+        userid: userid,
+        msg: msg
+
+    });
+
+
+    newLiveChat
+        .save()
+        .then((data) => resp.successr(res, data))
+        .catch((error) => resp.errorr(res, error));
+}
+exports.liveChat_msgbyastro = async (req, res) => {
+    await LiveChat.find({ astroid: req.params.id }).populate("userid").populate("astroid")
+        .sort({ sortorder: 1 })
+        .then((data) => resp.successr(res, data))
+        .catch((error) => resp.errorr(res, error));
 };

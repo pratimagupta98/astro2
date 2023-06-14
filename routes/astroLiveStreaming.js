@@ -7,7 +7,9 @@ const {
     listLiveStreamAstro,
     updateLiveStream,
     disConnectLiveStream,
-    UerLiveStreamingToken
+    UerLiveStreamingToken,
+    astro_liveChat,
+    liveChat_msgbyastro
 
 
 } = require("../controller/astroLiveStreaming");
@@ -19,6 +21,8 @@ router.get("/user/listLiveStreamAstro", listLiveStreamAstro);
 router.post("/user/UerLiveStreamingToken", UerLiveStreamingToken);
 router.post("/user/updateLiveStream/:id", updateLiveStream);
 router.get("/user/disConnectLiveStream/:id", disConnectLiveStream);
+router.post("/user/astro_liveChat", astro_liveChat);
+router.get("/user/liveChat_msgbyastro/:id", liveChat_msgbyastro);
 
 module.exports = router;
 
