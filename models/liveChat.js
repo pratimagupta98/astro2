@@ -14,6 +14,10 @@ const thisSchema = new Schema(
         },
         msg: {
             type: String
+        },
+        status: {
+            type: String,
+            default: "true"
         }
     },
 

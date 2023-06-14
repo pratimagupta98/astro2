@@ -245,3 +245,9 @@ exports.liveChat_msgbyastro = async (req, res) => {
         .then((data) => resp.successr(res, data))
         .catch((error) => resp.errorr(res, error));
 };
+
+exports.dltliveChat = async (req, res) => {
+    await LiveChat.deleteMany({ astroid: req.params.id })
+        .then((data) => resp.deleter(res, data))
+        .catch((error) => resp.errorr(res, error));
+};
