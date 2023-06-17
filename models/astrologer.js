@@ -122,6 +122,10 @@ const thisSchema = new Schema(
       type: String,
       default: "Offline"
     },
+    callingStatus: {
+      type: String,
+      default: "Available"
+    },
     callCharge: {
       type: Number
     },

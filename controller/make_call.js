@@ -15,10 +15,21 @@ const User = require("../models/users");
 // const useramt = userdetail.amount
 // const astpmc = useramt / getchrge
 
+let callDetails = { sid: "", userId: "" };
 
 exports.make_call = async (req, res) => {
   const crntym = new Date
 
+  callDetails.astroid = req.body?.astroid;
+  callDetails.userId = req.body.userid;
+
+  let user = await User.find({ _id: callDetails.userId });
+  let astrologer = await Astrologer.find({ _id: callDetails.astroid })
+  user = user[0];
+  astrologer = astrologer[0];
+
+  // Check minimum balance of user
+  // if (user.amount > astrologer.min_amount) {
   const axios = require('axios');
   const CircularJSON = require('circular-json');
 
@@ -40,6 +51,7 @@ exports.make_call = async (req, res) => {
       "walletId": req.body.walletId,
       "CallerId": '080-473-59942',
       "CallerType": 'promo',
+      "TimeLimit": (parseInt(user.amount / astrologer.callCharge) * 60)
     }), {
       withCredentials: true,
       headers: {
@@ -47,15 +59,17 @@ exports.make_call = async (req, res) => {
         "Content-Type": "application/x-www-form-urlencoded"
       },
     });
-
     const str = CircularJSON.stringify(response.data);
     const getdata = JSON.parse(str);
 
+    console.log(getdata)
+    callDetails.sid = getdata.Call?.Sid;
+
     const options = {
-      From: req.body.From,   //USER
+      From: req.body.From,   //USER\  
       To: req.body.To,       //ASTRO
       userid: req.body.userid,
-      astroid: getdata.Call?.astroid,
+      astroid: req.body?.astroid,
       Sid: getdata.Call?.Sid,
       ParentCallSid: getdata.Call?.ParentCallSid,
       DateCreated: getdata.Call?.DateCreated,
@@ -74,12 +88,15 @@ exports.make_call = async (req, res) => {
       Uri: getdata.Call?.Uri,
       RecordingUrl: getdata.Call?.RecordingUrl
     };
-
-    make_call.create(options, function (err, response) {
+    make_call.create(options, async function (err, response) {
       if (err) {
         res.status(500).json({ error: err });
       } else {
+        options.maxTime = parseInt(user.amount / astrologer.callCharge);
+        const astroStatus = await Astrologer.updateOne({ _id: callDetails.astroid }, { callingStatus: 'Busy' })
+        console.log(astroStatus)
         res.status(200).json({ order: options });
+        checkCallStatus()
       }
     });
   } catch (err) {
@@ -98,16 +115,20 @@ const cron = require('node-cron');
 
 
 exports.callStatus = async () => {
+  console.log("I am called")
+
   const key = "d909e2e0120d0bcbd2ef795dd19eb2e97c2f8d78d8ebb6d4";
   const sid = "sveltosetechnologies2";
   const token = "856371fe6a97e8be8fed6ab14c95b4832f82d1d3116cb17e";
-  const Sid = req.params.sid;
+  // const Sid = req.params.sid;
 
-  const url = `https://${key}:${token}@api.exotel.in/v1/Accounts/${sid}/Calls/${Sid}.json`;
+  const url = `https://${key}:${token}@api.exotel.in/v1/Accounts/${sid}/Calls/${callDetails.sid}.json`;
 
   try {
     const response = await axios.get(url);
     const { status, data } = response;
+    console.log(status)
+    console.log(data)
 
     if (status === 200) {
       const callStatus = data.call_status;
@@ -117,6 +138,8 @@ exports.callStatus = async () => {
       } else if (callStatus === "completed") {
         console.log("Call has been completed");
         // Handle completed status logic
+        console.log(status)
+        console.log(data)
       } else {
         console.log("Unknown call status:", callStatus);
       }
@@ -128,11 +151,69 @@ exports.callStatus = async () => {
   }
 };
 
+const checkCallStatus = async () => {
+  const cron_job = cron.schedule('* * * * *', async () => {
+    const key = "d909e2e0120d0bcbd2ef795dd19eb2e97c2f8d78d8ebb6d4";
+    const sid = "sveltosetechnologies2";
+    const token = "856371fe6a97e8be8fed6ab14c95b4832f82d1d3116cb17e";
+    // const Sid = req.params.sid;
+
+    const url = `https://${key}:${token}@api.exotel.in/v1/Accounts/${sid}/Calls/${callDetails.sid}.json`;
+
+    try {
+      const response = await axios.get(url);
+      const { status, data } = response;
+      let duration = 0;
+      if (status === 200) {
+        const callStatus = data.Call.Status;
+        console.log(data)
+        let user = await User.find({ _id: callDetails.userId });
+        let astrologer = await Astrologer.find({ _id: callDetails.astroid })
+        user = user[0];
+        astrologer = astrologer[0]
+        // if (callStatus === "pending") {
+        //   console.log("Call is still pending");
+        //   // Handle pending status logic
+        // }
+        if (callStatus === "completed") {
+          console.log("Call has been completed");
+          // Handle completed status logic
+
+          if (data.Call?.Duration) {
+            response = await Astrologer.updateOne({ _id: callDetails.astroid }, { callingStatus: 'Available' })
+            console.log(response)
+            cron_job.stop()
+          }
+
+        } else if (callStatus === "in-progress") {
+          duration++;
+
+          const amountDeduct = user.amount - parseInt(duration * astrologer.callCharge);
+          console.log("Amount to be deducted is ", amountDeduct)
+
+          let response = await User.updateOne({ _id: callDetails.userId }, { amount: amountDeduct });
+          console.log(response)
+
+          console.log("Call ongoing Balance left is ", amountDeduct, "max time is ", parseInt(amountDeduct / astrologer.callCharge));
+
+        } else {
+          console.log("Unknown call status:", callStatus);
+        }
+      } else {
+        console.log("API request failed with status:", status);
+      }
+    } catch (error) {
+      console.log("Error occurred:", error.message);
+    }
+  })
+};
+
+
 // Schedule the cron job to run every minute
-cron.schedule('* * * * *', async () => {
-  await exports.callStatus();
-  console.log("chechking 1 minute")
-});
+// const cron_job = cron.schedule('* * * * * *', async () => {
+//   console.log("checking 1 second")
+//   await checkCallStatus()
+// });
 
 
 exports.call_Status = async (req, res) => {
@@ -181,6 +262,7 @@ exports.call_Status = async (req, res) => {
 
 //router.post('/videoCall', async (req, res) => { // Use POST instead of GET to pass data in the request body
 const agora = require('agora-access-token');
+const { ConnectionPoolClearedEvent } = require("mongodb");
 
 
 
