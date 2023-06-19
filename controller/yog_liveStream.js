@@ -73,7 +73,6 @@ exports.tokenGenLveStreaming = async (req, res) => {
     const { astroAccount, status, token } = req.body
     res.status(200).json({
         astroAccount: astroAccount,
-        status: status,
         token: tokenA,
         channelName: channelName
     })
@@ -83,27 +82,27 @@ exports.tokenGenLveStreaming = async (req, res) => {
 exports.LiveAstrologer = async (req, res) => {
     try {
         const getdetail = await AsLive.find({ status: true }).populate("astroId").sort({ createdAt: -1 });
+        // console.log("getdetail", getdetail)
+        // if (getdetail.length > 0) {
+        //     const astrologers = getdetail.map(detail => ({
+        //         //  astroId: detail.astroId._id,
+        //         // status: detail.status,
+        //         // name: detail.astroId.fullname,
+        //         // img: detail.astroId.img
+        //         getdetail: getdetail
+        //     }));
 
-        if (getdetail.length > 0) {
-            const astrologers = getdetail.map(detail => ({
-                astroId: detail.astroId._id,
-                status: detail.status,
-                name: detail.astroId.fullname,
-                liveId: detail.liveId,
-                img: detail.astroId.img
-            }));
-
-            res.status(200).json({
-                status: true,
-                msg: "success",
-                astrologers: astrologers
-            });
-        } else {
-            res.status(404).json({
-                status: false,
-                message: "No live astrologer found"
-            });
-        }
+        res.status(200).json({
+            status: true,
+            msg: "success",
+            data: getdetail
+        });
+        // } else {
+        //     res.status(404).json({
+        //         status: false,
+        //         message: "No live astrologer found"
+        //     });
+        // }
     } catch (error) {
         console.error(error);
         res.status(500).json({
@@ -114,10 +113,8 @@ exports.LiveAstrologer = async (req, res) => {
     }
 };
 
-
-
 exports.discloseLiveStream = async (req, res) => {
-    const getId = await AsLive.deleteOne({ liveId: req.params.id })
+    const getId = await AsLive.deleteOne({ token: req.params.id })
     if (getId) {
         res.status(200).json({
             status: true,

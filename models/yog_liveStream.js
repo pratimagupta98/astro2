@@ -9,9 +9,7 @@ const thisSchema = new Schema(
         status: {
             type: Boolean
         },
-        liveId: {
-            type: String
-        },
+
         name: {
             type: String
         },

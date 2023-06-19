@@ -1082,6 +1082,7 @@ exports.panchang_festival = async (req, res) => {
 // }
 
 exports.basic_horoscope_pdf = async (req, res) => {
+  
   const birthDetails = {
     name: "siya",
     gender: "femaile",
