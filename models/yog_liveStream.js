@@ -14,8 +14,13 @@ const thisSchema = new Schema(
         },
         name: {
             type: String
-        }
-
+        },
+        channelName: {
+            type: String
+        },
+        token: {
+            type: String
+        },
 
 
 

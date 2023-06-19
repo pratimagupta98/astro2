@@ -5,7 +5,7 @@ const Astrologer = require("../models/astrologer");
 
 exports.goLiveStreaming = async (req, res) => {
     try {
-        const { astroId, status, liveId } = req.body;
+        const { astroId, status, channelName, token } = req.body;
         const findexist = await AsLive.findOne({ astroId: astroId });
         //  console.log(req.body)
 
@@ -16,8 +16,9 @@ exports.goLiveStreaming = async (req, res) => {
         const newAsLive = new AsLive({
             astroId: astroId,
             status: status,
-            liveId: liveId,
-            name: getastro.fullname
+            channelName: channelName,
+            name: getastro.fullname,
+            token: token
         });
 
         newAsLive
@@ -43,7 +44,42 @@ exports.goLiveStreaming = async (req, res) => {
     }
 }
 
+exports.tokenGenLveStreaming = async (req, res) => {
 
+    const {
+        RtcTokenBuilder,
+        RtcRole,
+    } = agora;
+
+    // const getchnlname = await Astrologer.findOne({ _id: req.body.astroAccount })
+    //   console.log("astro", getchnlname)
+    const channelName = req.body.channelName
+    const generateRtcToken = () => {
+        const appId = '7d1f07c76f9d46be86bc46a791884023';
+        const appCertificate = '14cdb5fc04344d0da3270c35d8d75431';
+        const uid = 0;
+        const { astroAccount } = req.body;
+        const expirationTimeInSeconds = 36000;
+        const currentTimestamp = Math.floor(Date.now() / 1000);
+        const privilegeExpiredTs = currentTimestamp + expirationTimeInSeconds;
+        const tokenA = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelName, uid, astroAccount, privilegeExpiredTs);
+        //  console.log("Token With Integer Number Uid: " + tokenA);
+        //  console.log("tokenA", channelName);
+        return tokenA;
+    }
+
+    const tokenA = await generateRtcToken();
+    // console.log("tokenA", tokenA)
+    const { astroAccount, status, token } = req.body
+    res.status(200).json({
+        astroAccount: astroAccount,
+        status: status,
+        token: tokenA,
+        channelName: channelName
+    })
+
+
+}
 exports.LiveAstrologer = async (req, res) => {
     try {
         const getdetail = await AsLive.find({ status: true }).populate("astroId").sort({ createdAt: -1 });
