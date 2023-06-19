@@ -17,7 +17,7 @@ exports.goLiveStreaming = async (req, res) => {
             astroId: astroId,
             status: status,
             channelName: channelName,
-            name: getastro.fullname,
+            // name: getastro.fullname,
             token: token
         });
 
@@ -27,10 +27,11 @@ exports.goLiveStreaming = async (req, res) => {
                 res.status(200).json({
                     status: true,
                     msg: "success",
-                    astroId: astroId,
-                    status: status,
-                    name: getastro?.fullname,
-                    liveId: liveId
+                    data: newAsLive
+                    // astroId: astroId,
+                    // status: status,
+                    // token:token
+
                 })
             })
 
