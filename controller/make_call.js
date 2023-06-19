@@ -196,6 +196,7 @@ const checkCallStatus = async () => {
 
           console.log("Call ongoing Balance left is ", amountDeduct, "max time is ", parseInt(amountDeduct / astrologer.callCharge));
 
+
         } else {
           console.log("Unknown call status:", callStatus);
         }

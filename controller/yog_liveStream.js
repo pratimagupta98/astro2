@@ -115,7 +115,7 @@ exports.LiveAstrologer = async (req, res) => {
 };
 
 exports.discloseLiveStream = async (req, res) => {
-    const getId = await AsLive.deleteOne({ token: req.params.id })
+    const getId = await AsLive.deleteOne({ token: req.params.token })
     if (getId) {
         res.status(200).json({
             status: true,
