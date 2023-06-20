@@ -3,12 +3,12 @@ const resp = require("../helpers/apiResponse");
 
 exports.addAstroFollowers = async (req, res) => {
 
-  const {astroid,userid,follow} = req.body;
+  const { astroid, userid, follow } = req.body;
 
   const newAstroFollowers = new AstroFollowers({
-    astroid:astroid,
-    userid:userid,
-    follow:"true"
+    astroid: astroid,
+    userid: userid,
+    follow: "true"
 
   });
 
@@ -21,7 +21,7 @@ exports.addAstroFollowers = async (req, res) => {
 
 exports.getone_followers = async (req, res) => {
   await AstroFollowers.findOne({ $and: [{ userid: req.params.userid }, { astroid: req.params.astroid }] })
-    .populate("userid").populate("astroid")
+
 
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
@@ -55,7 +55,7 @@ exports.edit_AstroFollowers = async (req, res) => {
 };
 
 
-exports.dlt_AstroFollowers= async (req, res) => {
+exports.dlt_AstroFollowers = async (req, res) => {
   await AstroFollowers.deleteOne({ _id: req.params.id })
     .then((data) => resp.deleter(res, data))
     .catch((error) => resp.errorr(res, error));
