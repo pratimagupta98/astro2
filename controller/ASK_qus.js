@@ -8,8 +8,8 @@ exports.user_ask_qus = async (req, res) => {
     astroid: astroid,
     userid: userid,
     question: question,
-    answer: answer
-
+    answer: answer,
+    bundleOffer:bundleOffer
   });
 
   newAskqustion

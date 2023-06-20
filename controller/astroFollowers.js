@@ -19,6 +19,13 @@ exports.addAstroFollowers = async (req, res) => {
     .catch((error) => resp.errorr(res, error));
 }
 
+exports.getone_followers = async (req, res) => {
+  await AstroFollowers.findOne({ $and: [{ userid: req.params.userid }, { astroid: req.params.astroid }] })
+    .populate("userid").populate("astroid")
+
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
 
 
 exports.getAstroFollowers = async (req, res) => {
@@ -52,4 +59,26 @@ exports.dlt_AstroFollowers= async (req, res) => {
   await AstroFollowers.deleteOne({ _id: req.params.id })
     .then((data) => resp.deleter(res, data))
     .catch((error) => resp.errorr(res, error));
+};
+
+exports.unfollow_astrologer = async (req, res) => {
+  const astroid = req.params.astroid;
+  const userid = req.params.userid;
+
+  try {
+    const astrologer = await AstroFollowers.findOneAndUpdate(
+      { astroid, userid: astroid, userid: userid },
+      { $set: { status: false } },
+      { new: true }
+    );
+
+    if (astrologer) {
+      const deletedAstrologer = await AstroFollowers.findOneAndDelete({ astroid: astroid, userid: userid, status: false });
+      return res.status(200).json({ message: "Unfollowed successfully." });
+    } else {
+      return res.status(404).json({ message: "Astrologer not found." });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: "An error occurred.", error: error });
+  }
 };
