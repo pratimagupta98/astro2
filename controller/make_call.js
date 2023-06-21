@@ -254,9 +254,9 @@ const checkCallStatus = async () => {
 
 exports.on_make_another_call = async (req, res) => {
   const { userId } = req.body;
-  let id = req.params;
+  let { id } = req.params;
 
-  Astrologer.updateOne({ _id: id }, { $push: { waitQueue: userId } })
+  await Astrologer.updateOne({ _id: id }, { $push: { waitQueue: userId } })
     .then((res) => {
       console.log(res);
     })
@@ -281,42 +281,7 @@ exports.call_Status = async (req, res) => {
     .catch((error) => resp.errorr(res, error));
 };
 
-//     const generateRtcToken = () => {
-//         // Rtc Examples
-//         const appId = '7d1f07c76f9d46be86bc46a791884023';
-//         const appCertificate = '14cdb5fc04344d0da3270c35d8d75431 ';
-//         const channelName = 'demo';
-//         const uid = 0;
-//         const userAccount = "632da83471b4d7fd47492f03";
-//         const role = RtcRole.PUBLISHER;
 
-//         const expirationTimeInSeconds = 3600
-
-//         const currentTimestamp = Math.floor(Date.now() / 1000)
-
-//         const privilegeExpiredTs = currentTimestamp + expirationTimeInSeconds
-
-//         // IMPORTANT! Build token with either the uid or with the user account. Comment out the option you do not want to use below.
-
-//         // Build token with uid
-//         const tokenA = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelName, uid, role, privilegeExpiredTs);
-//         console.log("Token With Integer Number Uid: " + tokenA);
-
-//         // Build token with user account
-//         const tokenB = RtcTokenBuilder.buildTokenWithAccount(appId, appCertificate, channelName, userAccount, role, privilegeExpiredTs);
-//         console.log("Token With UserAccount: " + tokenB);
-
-//         res.status(200).json({
-//             tokenA: tokenA,
-//             tokenB: tokenB
-//         });
-//     }
-//     generateRtcToken()
-// })
-
-//const UserCall = require('../models/UserCall'); // Import the UserCall model
-
-//router.post('/videoCall', async (req, res) => { // Use POST instead of GET to pass data in the request body
 const agora = require("agora-access-token");
 const { ConnectionPoolClearedEvent } = require("mongodb");
 
@@ -356,11 +321,7 @@ exports.astroVideoCall = async (req, res) => {
       astroAccount,
       privilegeExpiredTs
     );
-    //  console.log("Token With Integer Number Uid: " + tokenA);
-    //  console.log("tokenA", channelName)
-    // Build token with user account
-    // const tokenB = RtcTokenBuilder.buildTokenWithAccount(appId, appCertificate, channelName, userAccount, privilegeExpiredTs);
-    // console.log("Token With UserAccount: " + tokenB);
+
 
     res.status(200).json({
       astroAccount: tokenA,
