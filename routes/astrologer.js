@@ -28,10 +28,10 @@ const {
   rating_low_to_high,
   logout,
   getAstrologers,
-  // astroCount,
-  // onlineAstroCount,
-  // offlineAstroCount,
-  // busyAstroCount
+  astroCount,
+  onlineAstroCount,
+  offlineAstroCount,
+  busyAstroCount
 } = require("../controller/astrologer");
 
 const storage = multer.diskStorage({
@@ -101,10 +101,10 @@ router.get("/user/price_low_to_high", price_low_to_high);
 router.get("/user/rating_high_to_low", rating_high_to_low);
 router.get("/user/rating_low_to_high", rating_low_to_high);
 router.get("/user/logout", logout);
-// router.get("/user/astroCount", astroCount);
-// router.get("/user/onlineAstroCount", onlineAstroCount);
-// router.get("/user/offlineAstroCount", offlineAstroCount);
-// router.get("/user/busyAstroCount", busyAstroCount);
+router.get("/user/astroCount", astroCount);
+router.get("/user/onlineAstroCount", onlineAstroCount);
+router.get("/user/offlineAstroCount", offlineAstroCount);
+router.get("/user/busyAstroCount", busyAstroCount);
 
 
 

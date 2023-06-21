@@ -22,7 +22,9 @@ const {
   forget_sendotp,
   forget_verify,
   fogetpassword,
-  userCount
+  userCount,
+  activeUserCount,
+  inActiveUserCount
 
 
 } = require("../controller/users");
@@ -91,6 +93,8 @@ router.post("/user/forget_sendotp", forget_sendotp);
 router.post("/user/forget_verify", forget_verify);
 router.post("/user/fogetpassword/:id", fogetpassword);
 router.get("/user/userCount", userCount);
+router.get("/user/activeUserCount", activeUserCount);
+router.get("/user/inActiveUserCount", inActiveUserCount);
 
 
 
