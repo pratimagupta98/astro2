@@ -4,7 +4,6 @@ const multer = require("multer");
 const fs = require("fs");
 const { tokenverify } = require("../functions/tokenverify");
 
-
 const {
   signup,
   astrosignup,
@@ -27,10 +26,9 @@ const {
   price_low_to_high,
   rating_high_to_low,
   rating_low_to_high,
-  logout
-
+  logout,
+  getAstrologers,
 } = require("../controller/astrologer");
-
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -70,7 +68,7 @@ let multipleUpload = uploads.fields([
   //   { name: "address_proof_img", maxCount: 5 },
 ]);
 
-signup
+signup;
 router.post("/user/signup", signup);
 router.post("/user/verifyotp", verifyotp);
 
@@ -84,6 +82,7 @@ router.post("/user/editAstroDetails/:id", multipleUpload, editAstroDetails);
 router.get("/admin/allAstro", allAstro);
 router.get("/admin/admin_astrop_list", admin_astrop_list);
 
+router.get("/user/getAstroFilter", getAstrologers);
 
 router.get("/admin/dltAstro/:id", dltAstro);
 router.post("/user/loginsendotp", loginsendotp);
@@ -98,9 +97,5 @@ router.get("/user/price_low_to_high", price_low_to_high);
 router.get("/user/rating_high_to_low", rating_high_to_low);
 router.get("/user/rating_low_to_high", rating_low_to_high);
 router.get("/user/logout", logout);
-
-
-
-
 
 module.exports = router;

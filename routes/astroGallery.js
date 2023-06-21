@@ -5,9 +5,9 @@ const multer = require("multer");
 
 if (!fs.existsSync("./uploads")) {
   fs.mkdirSync("./uploads");
-  var base64Data = req.rawBody.replace(/^data:image\/png;base64,/, "");
-
-  require("fs").writeFile("out.png", base64Data, 'base64', function (err) {
+  // var base64Data = req.rawBody.replace(/^data:image\/png;base64,/, "");
+  var base64Data;
+  require("fs").writeFile("out.png", base64Data, "base64", function (err) {
     console.log(err);
   });
 }
@@ -22,10 +22,11 @@ const storage = multer.diskStorage({
   },
 });
 
-
 const upload = multer({ storage: storage });
 const {
-  upload_astrogallery, get_astroGallery, delGalleryvideo
+  upload_astrogallery,
+  get_astroGallery,
+  delGalleryvideo,
 } = require("../controller/astroGallery");
 
 //PATHS
@@ -54,8 +55,6 @@ router.post(
 router.get("/admin/get_astroGallery/:id", get_astroGallery);
 router.get("/user/delGalleryvideo/:id", delGalleryvideo);
 
-
 module.exports = router;
-
 
 //

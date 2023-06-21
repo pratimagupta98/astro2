@@ -1,9 +1,8 @@
 const mongoose = require("mongoose");
-const Joi = require('joi');
+const Joi = require("joi");
 const Schema = mongoose.Schema;
 const thisSchema = new Schema(
   {
-
     //   fullname: Joi.string()
     // //  .alphanum()
     //   .min(3)
@@ -15,8 +14,7 @@ const thisSchema = new Schema(
     },
     mobile: {
       type: Number,
-      required: true
-
+      required: true,
     },
     email: {
       type: String,
@@ -33,9 +31,9 @@ const thisSchema = new Schema(
     },
     img: {
       type: Array,
-      default: "https://res.cloudinary.com/dc7hzwpbm/image/upload/v1665055219/pngtree.jpg"
+      default:
+        "https://res.cloudinary.com/dc7hzwpbm/image/upload/v1665055219/pngtree.jpg",
     },
-
 
     otp: { type: String },
     gender: {
@@ -120,14 +118,14 @@ const thisSchema = new Schema(
     },
     status: {
       type: String,
-      default: "Offline"
+      default: "Offline",
     },
     callingStatus: {
       type: String,
-      default: "Available"
+      default: "Available",
     },
     callCharge: {
-      type: Number
+      type: Number,
     },
     otpverify: {
       type: String,
@@ -141,25 +139,25 @@ const thisSchema = new Schema(
     },
     avg_rating: {
       type: Number,
-      default: 0
+      default: 0,
     },
     waiting_queue: {
       type: Number,
-      default: 0
+      default: 0,
     },
+    waitQueue: Array,
     waiting_tym: {
       type: Number,
-      default: 0
+      default: 0,
     },
     // availability: [{
     //   type: String,
     // }],
     min_amount: {
-      type: Number
+      type: Number,
     },
     max_amount: {
-      type: Number
-
+      type: Number,
     },
     // availability: {
     //   type: Object, default: {
@@ -183,17 +181,9 @@ const thisSchema = new Schema(
     //     end: "2PM"
     //   }
     // ]
-
   },
-
-
-
-
-
-
 
   { timestamps: true }
 );
-
 
 module.exports = mongoose.model("astrologer", thisSchema);

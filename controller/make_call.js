@@ -18,20 +18,20 @@ const User = require("../models/users");
 let callDetails = { sid: "", userId: "" };
 
 exports.make_call = async (req, res) => {
-  const crntym = new Date
+  const crntym = new Date();
 
   callDetails.astroid = req.body?.astroid;
   callDetails.userId = req.body.userid;
 
   let user = await User.find({ _id: callDetails.userId });
-  let astrologer = await Astrologer.find({ _id: callDetails.astroid })
+  let astrologer = await Astrologer.find({ _id: callDetails.astroid });
   user = user[0];
   astrologer = astrologer[0];
 
   // Check minimum balance of user
   // if (user.amount > astrologer.min_amount) {
-  const axios = require('axios');
-  const CircularJSON = require('circular-json');
+  const axios = require("axios");
+  const CircularJSON = require("circular-json");
 
   const key = "d909e2e0120d0bcbd2ef795dd19eb2e97c2f8d78d8ebb6d4";
   const sid = "sveltosetechnologies2";
@@ -39,35 +39,43 @@ exports.make_call = async (req, res) => {
   const from = req.body.from;
   const to = req.body.to;
 
-  const formUrlEncoded = x => Object.keys(x).reduce((p, c) => p + `&${c}=${encodeURIComponent(x[c])}`, '');
+  const formUrlEncoded = (x) =>
+    Object.keys(x).reduce(
+      (p, c) => p + `&${c}=${encodeURIComponent(x[c])}`,
+      ""
+    );
   const url = `https://${key}:${token}@api.exotel.in/v1/Accounts/${sid}/Calls/connect.json`;
 
   try {
-    const response = await axios.post(url, formUrlEncoded({
-      "From": req.body.From,   //USER
-      "To": req.body.To,       //ASTRO
-      "userid": req.body.userid,
-      "astroid": req.body.astroid.trim(), // Remove extra whitespace using trim()
-      "walletId": req.body.walletId,
-      "CallerId": '080-473-59942',
-      "CallerType": 'promo',
-      "TimeLimit": (parseInt(user.amount / astrologer.callCharge) * 60)
-    }), {
-      withCredentials: true,
-      headers: {
-        "Accept": "application/x-www-form-urlencoded",
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-    });
+    const response = await axios.post(
+      url,
+      formUrlEncoded({
+        From: req.body.From, //USER
+        To: req.body.To, //ASTRO
+        userid: req.body.userid,
+        astroid: req.body.astroid.trim(), // Remove extra whitespace using trim()
+        walletId: req.body.walletId,
+        CallerId: "080-473-59942",
+        CallerType: "promo",
+        TimeLimit: parseInt(user.amount / astrologer.callCharge) * 60,
+      }),
+      {
+        withCredentials: true,
+        headers: {
+          Accept: "application/x-www-form-urlencoded",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    );
     const str = CircularJSON.stringify(response.data);
     const getdata = JSON.parse(str);
 
-    console.log(getdata)
+    console.log(getdata);
     callDetails.sid = getdata.Call?.Sid;
 
     let options = {
-      From: req.body.From,   //USER\  
-      To: req.body.To,       //ASTRO
+      From: req.body.From, //USER\
+      To: req.body.To, //ASTRO
       userid: req.body.userid,
       astroid: req.body?.astroid,
       Sid: getdata.Call?.Sid,
@@ -86,36 +94,45 @@ exports.make_call = async (req, res) => {
       ForwardedFrom: getdata.Call?.ForwardedFrom,
       CallerName: getdata.Call?.CallerName,
       Uri: getdata.Call?.Uri,
-      RecordingUrl: getdata.Call?.RecordingUrl
+      RecordingUrl: getdata.Call?.RecordingUrl,
     };
     make_call.create(options, async function (err, response) {
       if (err) {
         res.status(500).json({ error: err });
       } else {
         options.maxTime = parseInt(user.amount / astrologer.callCharge);
-        const astroStatus = await Astrologer.updateOne({ _id: callDetails.astroid }, { callingStatus: 'Busy' })
-        console.log("User balance is ", user.amount, " and astrologer charge is ", astrologer.callCharge)
+        const astroStatus = await Astrologer.updateOne(
+          { _id: callDetails.astroid },
+          { callingStatus: "Busy" }
+        );
+        await Astrologer.updateOne(
+          { _id: callDetails.astroId },
+          { $pull: { waitQueue: callDetails.userId } }
+        );
+        console.log(
+          "User balance is ",
+          user.amount,
+          " and astrologer charge is ",
+          astrologer.callCharge
+        );
         res.status(200).json({ order: options });
-        checkCallStatus()
+        checkCallStatus();
       }
     });
   } catch (err) {
     console.error(err);
     res.status(500).json({
-      error: "Internal server error"
+      error: "Internal server error",
     });
   }
-}
+};
 
-
-const axios = require('axios');
-const cron = require('node-cron');
+const axios = require("axios");
+const cron = require("node-cron");
 //const database = require('./database'); // Import your database module or ORM
 
-
-
 exports.callStatus = async () => {
-  console.log("I am called")
+  console.log("I am called");
 
   const key = "d909e2e0120d0bcbd2ef795dd19eb2e97c2f8d78d8ebb6d4";
   const sid = "sveltosetechnologies2";
@@ -127,8 +144,8 @@ exports.callStatus = async () => {
   try {
     const response = await axios.get(url);
     const { status, data } = response;
-    console.log(status)
-    console.log(data)
+    console.log(status);
+    console.log(data);
 
     if (status === 200) {
       const callStatus = data.call_status;
@@ -138,8 +155,8 @@ exports.callStatus = async () => {
       } else if (callStatus === "completed") {
         console.log("Call has been completed");
         // Handle completed status logic
-        console.log(status)
-        console.log(data)
+        console.log(status);
+        console.log(data);
       } else {
         console.log("Unknown call status:", callStatus);
       }
@@ -152,7 +169,7 @@ exports.callStatus = async () => {
 };
 
 const checkCallStatus = async () => {
-  const cron_job = cron.schedule('* * * * *', async () => {
+  const cron_job = cron.schedule("* * * * *", async () => {
     const key = "d909e2e0120d0bcbd2ef795dd19eb2e97c2f8d78d8ebb6d4";
     const sid = "sveltosetechnologies2";
     const token = "856371fe6a97e8be8fed6ab14c95b4832f82d1d3116cb17e";
@@ -166,11 +183,11 @@ const checkCallStatus = async () => {
       let duration = 0;
       if (status === 200) {
         const callStatus = data.Call.Status;
-        console.log(data)
+        console.log(data);
         let user = await User.find({ _id: callDetails.userId });
-        let astrologer = await Astrologer.find({ _id: callDetails.astroid })
+        let astrologer = await Astrologer.find({ _id: callDetails.astroid });
         user = user[0];
-        astrologer = astrologer[0]
+        astrologer = astrologer[0];
         // if (callStatus === "pending") {
         //   console.log("Call is still pending");
         //   // Handle pending status logic
@@ -180,24 +197,43 @@ const checkCallStatus = async () => {
           // Handle completed status logic
 
           if (data.Call?.Duration) {
-            response = await Astrologer.updateOne({ _id: callDetails.astroid }, { callingStatus: 'Available' })
-            console.log(response)
-            cron_job.stop()
+            response = await Astrologer.updateOne(
+              { _id: callDetails.astroid },
+              { callingStatus: "Available" }
+            );
+            console.log(response);
+            cron_job.stop();
           }
-
         } else if (callStatus === "in-progress") {
           duration++;
 
-          const amountDeduct = user.amount - parseInt(duration * astrologer.callCharge);
-          console.log("Current amount is ", user.amount, "Amount after deduction will be ", amountDeduct, "total call duration is ", duration)
+          const amountDeduct =
+            user.amount - parseInt(duration * astrologer.callCharge);
+          console.log(
+            "Current amount is ",
+            user.amount,
+            "Amount after deduction will be ",
+            amountDeduct,
+            "total call duration is ",
+            duration
+          );
 
-          let response = await User.updateOne({ _id: callDetails.userId }, { amount: amountDeduct });
-          console.log(response)
+          let response = await User.updateOne(
+            { _id: callDetails.userId },
+            { amount: amountDeduct }
+          );
+          console.log(response);
 
-          console.log("Call ongoing Balance left is ", amountDeduct, "max time is ", parseInt(amountDeduct / astrologer.callCharge));
-          updatetym = await Astrologer.updateOne({ _id: callDetails.astroid }, { waiting_queue: parseInt(amountDeduct / astrologer.callCharge) })
-
-
+          console.log(
+            "Call ongoing Balance left is ",
+            amountDeduct,
+            "max time is ",
+            parseInt(amountDeduct / astrologer.callCharge)
+          );
+          updatetym = await Astrologer.updateOne(
+            { _id: callDetails.astroid },
+            { waiting_queue: parseInt(amountDeduct / astrologer.callCharge) }
+          );
         } else {
           console.log("Unknown call status:", callStatus);
         }
@@ -207,9 +243,21 @@ const checkCallStatus = async () => {
     } catch (error) {
       console.log("Error occurred:", error.message);
     }
-  })
+  });
 };
 
+exports.on_make_another_call = async (req, res) => {
+  const { userId } = req.body;
+  let id = req.params;
+
+  Astrologer.updateOne({ _id: id }, { $push: { waitQueue: userId } })
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 
 // Schedule the cron job to run every minute
 // const cron_job = cron.schedule('* * * * * *', async () => {
@@ -217,15 +265,15 @@ const checkCallStatus = async () => {
 //   await checkCallStatus()
 // });
 
-
 exports.call_Status = async (req, res) => {
-  await make_call.find().populate("userid").populate("astroid")
+  await make_call
+    .find()
+    .populate("userid")
+    .populate("astroid")
     .sort({ sortorder: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
-
-
 
 //     const generateRtcToken = () => {
 //         // Rtc Examples
@@ -263,27 +311,21 @@ exports.call_Status = async (req, res) => {
 //const UserCall = require('../models/UserCall'); // Import the UserCall model
 
 //router.post('/videoCall', async (req, res) => { // Use POST instead of GET to pass data in the request body
-const agora = require('agora-access-token');
+const agora = require("agora-access-token");
 const { ConnectionPoolClearedEvent } = require("mongodb");
 
-
-
 exports.astroVideoCall = async (req, res) => {
+  const { RtcTokenBuilder, RtcRole } = agora;
 
-  const {
-    RtcTokenBuilder,
-    RtcRole,
-  } = agora;
-
-  const getchnlname = await Astrologer.findOne({ _id: req.body.astroAccount })
+  const getchnlname = await Astrologer.findOne({ _id: req.body.astroAccount });
   //console.log("astro", getchnlname)
-  const channelName = getchnlname.channelName
+  const channelName = getchnlname.channelName;
   const generateRtcToken = () => {
     // Rtc Examples
-    const appId = '7d1f07c76f9d46be86bc46a791884023';
-    const appCertificate = '14cdb5fc04344d0da3270c35d8d75431';
+    const appId = "7d1f07c76f9d46be86bc46a791884023";
+    const appCertificate = "14cdb5fc04344d0da3270c35d8d75431";
     // const channelName = 'anujesh';
-    const channelName = getchnlname.channelName
+    const channelName = getchnlname.channelName;
 
     const uid = 0;
     // const userAccount = "a76414c384874a389be2aeebec534b2a";
@@ -291,16 +333,23 @@ exports.astroVideoCall = async (req, res) => {
 
     //const role = RtcRole.PUBLISHER;
 
-    const expirationTimeInSeconds = 36000
+    const expirationTimeInSeconds = 36000;
 
-    const currentTimestamp = Math.floor(Date.now() / 1000)
+    const currentTimestamp = Math.floor(Date.now() / 1000);
 
-    const privilegeExpiredTs = currentTimestamp + expirationTimeInSeconds
+    const privilegeExpiredTs = currentTimestamp + expirationTimeInSeconds;
 
     // IMPORTANT! Build token with either the uid or with the user account. Comment out the option you do not want to use below.
 
     // Build token with uid
-    const tokenA = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelName, uid, astroAccount, privilegeExpiredTs);
+    const tokenA = RtcTokenBuilder.buildTokenWithUid(
+      appId,
+      appCertificate,
+      channelName,
+      uid,
+      astroAccount,
+      privilegeExpiredTs
+    );
     //  console.log("Token With Integer Number Uid: " + tokenA);
     //  console.log("tokenA", channelName)
     // Build token with user account
@@ -310,90 +359,89 @@ exports.astroVideoCall = async (req, res) => {
     res.status(200).json({
       astroAccount: tokenA,
       channelName: channelName,
-      astroId: astroAccount
-
+      astroId: astroAccount,
     });
-
-  }
-  generateRtcToken()
-}
-
-
-
-
-
+  };
+  generateRtcToken();
+};
 
 exports.userVideoCall = async (req, res) => {
-
-  const {
-    RtcTokenBuilder,
-    RtcRole,
-  } = agora;
+  const { RtcTokenBuilder, RtcRole } = agora;
   const { astroAccount, userAccount } = req.body;
 
-  const getuser = await User.findOne({ _id: req.body.userAccount })
-  const getamt = getuser.amount
+  const getuser = await User.findOne({ _id: req.body.userAccount });
+  const getamt = getuser.amount;
   // console.log("amt", getamt)
 
-  const getchnlname = await Astrologer.findOne({ _id: req.body.astroAccount })
-  const callcrg = getchnlname.callCharge
-  const tokend = (getamt / callcrg) * 60
+  const getchnlname = await Astrologer.findOne({ _id: req.body.astroAccount });
+  const callcrg = getchnlname.callCharge;
+  const tokend = (getamt / callcrg) * 60;
   // console.log("tokend", tokend)
-  const channelName = getchnlname.channelName
+  const channelName = getchnlname.channelName;
   const generateRtcToken = () => {
     // Rtc Examples
-    const appId = '7d1f07c76f9d46be86bc46a791884023';
-    const appCertificate = '14cdb5fc04344d0da3270c35d8d75431';
+    const appId = "7d1f07c76f9d46be86bc46a791884023";
+    const appCertificate = "14cdb5fc04344d0da3270c35d8d75431";
     // const channelName = 'anujesh';
-    const channelName = getchnlname.channelName
+    const channelName = getchnlname.channelName;
 
     const uid = 0;
     // const userAccount = "a76414c384874a389be2aeebec534b2a";
 
-    const currentTimestamp = Math.floor(Date.now() / 1000)
+    const currentTimestamp = Math.floor(Date.now() / 1000);
 
-    const privilegeExpiredTs = currentTimestamp + tokend
+    const privilegeExpiredTs = currentTimestamp + tokend;
     // Build token with uid
-    const tokenA = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelName, uid, privilegeExpiredTs);
+    const tokenA = RtcTokenBuilder.buildTokenWithUid(
+      appId,
+      appCertificate,
+      channelName,
+      uid,
+      privilegeExpiredTs
+    );
 
     res.status(200).json({
       userAccount: tokenA,
-      channelName: channelName
+      channelName: channelName,
     });
-
-  }
-  generateRtcToken()
-}
+  };
+  generateRtcToken();
+};
 
 exports.Calling = async (req, res) => {
-  var request = require('request');
+  var request = require("request");
 
-  var dataString = 'From=7489651191&To=8103988072&CallerId=011-411-68588';
+  var dataString = "From=7489651191&To=8103988072&CallerId=011-411-68588";
 
   var options = {
-    url: 'https://90c1bddcdace6f704819ebc54d740ebbbdf37f2ad30a4e8f:04d432d9144e8521e1e31f8297e3d199d3c73b8676c49df8@api.exotel.in/v1/Accounts/astrologically3 /Calls/connect',
-    method: 'POST',
-    body: dataString
+    url: "https://90c1bddcdace6f704819ebc54d740ebbbdf37f2ad30a4e8f:04d432d9144e8521e1e31f8297e3d199d3c73b8676c49df8@api.exotel.in/v1/Accounts/astrologically3 /Calls/connect",
+    method: "POST",
+    body: dataString,
   };
   function callback(error, response, body) {
     if (!error && response.statusCode == 200) {
       console.log(body);
     }
   }
-  console.log("options", options)
+  console.log("options", options);
   request(options, callback);
-}
-
+};
 
 exports.astroCallHistory = async (req, res) => {
-  await make_call.find({ astroid: req.params.id }).populate("userid").populate("astroid")
+  await make_call
+    .find({ astroid: req.params.id })
+    .populate("userid")
+    .populate("astroid")
     .sort({ createdAt: -1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
 
 exports.userCallHistory = async (req, res) => {
-  await make_call.find({ userid: req.params.id }).populate("userid").populate("astroid")
+  await make_call
+    .find({ userid: req.params.id })
+    .populate("userid")
+    .populate("astroid")
     .sort({ createdAt: -1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
