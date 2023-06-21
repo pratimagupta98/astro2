@@ -21,7 +21,8 @@ const {
   loginWithPassword,
   forget_sendotp,
   forget_verify,
-  fogetpassword
+  fogetpassword,
+  userCount
 
 
 } = require("../controller/users");
@@ -89,10 +90,7 @@ router.post("/user/resetPassword/:id", resetPassword);
 router.post("/user/forget_sendotp", forget_sendotp);
 router.post("/user/forget_verify", forget_verify);
 router.post("/user/fogetpassword/:id", fogetpassword);
-
-
-
-
+router.get("/user/userCount", userCount);
 
 
 

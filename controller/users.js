@@ -470,3 +470,14 @@ exports.fogetpassword = async (req, res) => {
     })
   }
 };
+
+
+ 
+exports.userCount = async (req, res) => {
+  try {
+    const count = await User.countDocuments();
+    res.json({ success: true, count });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};

@@ -784,3 +784,46 @@ exports.logout = async (req, res) => {
     msg: "Logged out successfully",
   });
 };
+
+
+exports.astroCount = async (req, res) => {
+  try {
+    const count = await Astrologer.countDocuments();
+    res.json({ success: true, count });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+exports.onlineAstroCount = async (req, res) => {
+  try {
+    const count = await Astrologer.countDocuments({ status: "Online" });
+    res.json({ success: true, count });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+exports.onlineAstroCount = async (req, res) => {
+  try {
+    const count = await Astrologer.countDocuments({ status: "Online" });
+    res.json({ success: true, count });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+exports.offlineAstroCount = async (req, res) => {
+  try {
+    const count = await Astrologer.countDocuments({ status: "Offline" });
+    res.json({ success: true, count });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+exports.busyAstroCount = async (req, res) => {
+  try {
+    const count = await Astrologer.countDocuments({ callingStatus: "Busy" });
+    res.json({ success: true, count });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
