@@ -199,7 +199,7 @@ const checkCallStatus = async () => {
           if (data.Call?.Duration) {
             response = await Astrologer.updateOne(
               { _id: callDetails.astroid },
-              { callingStatus: "Available" }
+              { callingStatus: "Available", waiting_queue: 0 }
             );
             console.log(response);
             cron_job.stop();
@@ -237,7 +237,7 @@ const checkCallStatus = async () => {
         } else {
           response = await Astrologer.updateOne(
             { _id: callDetails.astroid },
-            { callingStatus: "Available" }
+            { callingStatus: "Available", waiting_queue: 0 }
           );
           console.log(response);
           cron_job.stop();
