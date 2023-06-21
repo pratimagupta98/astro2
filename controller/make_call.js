@@ -256,14 +256,19 @@ exports.on_make_another_call = async (req, res) => {
   const { userId } = req.body;
   let { id } = req.params;
 
-  await Astrologer.updateOne({ _id: id }, { $push: { waitQueue: userId } })
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
+  try {
+    await Astrologer.updateOne({ _id: id }, { $push: { waitQueue: userId } });
+    console.log("Data updated successfully");
+    res.status(200).json({ message: "Added in waitQueue list" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to update data" });
+  }
+}
+
+
+
+
 
 // Schedule the cron job to run every minute
 // const cron_job = cron.schedule('* * * * * *', async () => {
