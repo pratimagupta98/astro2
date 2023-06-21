@@ -235,6 +235,12 @@ const checkCallStatus = async () => {
             { waiting_queue: parseInt(amountDeduct / astrologer.callCharge) }
           );
         } else {
+          response = await Astrologer.updateOne(
+            { _id: callDetails.astroid },
+            { callingStatus: "Available" }
+          );
+          console.log(response);
+          cron_job.stop();
           console.log("Unknown call status:", callStatus);
         }
       } else {
