@@ -171,6 +171,9 @@ const thisSchema = new Schema(
     channelName: {
       type: String,
     },
+    specification: {
+      type: String
+    },
     // sunday: [
     //   {
     //     start: "10AM",

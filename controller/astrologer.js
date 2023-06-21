@@ -103,45 +103,51 @@ exports.loginsendotp = async (req, res) => {
 
 exports.getAstrologers = async (req, res) => {
   const specification = req.query.specification || "";
-  let skills = req.query.skills || "All";
-  let languages = req.query.languages || "All";
+  // let skills = req.query.skills || "All";
+  // let languages = req.query.languages || "All";
   let status = req.query.status || "";
 
-  let all_skills;
-  let all_languages;
-  const astro = await Astrologer.find();
-  astro.map((e) => {
-    all_skills = [...e.all_skills, all_skills];
-    all_languages = [...e.language, all_languages];
-  });
+  // let all_skills;
+  // let all_languages;
+  // const astro = await Astrologer.find();
+  // astro.map((e) => {
+  //   if (e.all_skills && e.language) {
+  //     console.log(e.all_skills)
+  //     console.log(e.all_skills)
+  //     let skill = e?.all_skills?.split(",");
+  //     let language = e?.language?.split(",");
+  //     all_skills = [...skill, all_skills];
+  //     all_languages = [...language, all_languages];
+  //   }
+  // });
 
-  skills === "All"
-    ? (skills = [...all_skills])
-    : (skills = req.query.skills.split(","));
+  // skills === "All"
+  //   ? (skills = [...all_skills])
+  //   : (skills = req.query.skills.split(","));
 
-  languages === "All"
-    ? (languages = [...all_language])
-    : (languages = req.query.languages.split(","));
+  // languages === "All"
+  //   ? (languages = [...all_languages])
+  //   : (languages = req.query.languages.split(","));
 
   const astrologers = await Astrologer.find({
     specification: { $regex: specification, $options: "i" },
     status: { $regex: status, $options: "i" },
   })
-    .where("all_skills")
-    .in([...skills])
-    .where("language")
-    .in([...languages]);
+  // .where("all_skills")
+  // .in([...skills])
+  // .where("language")
+  // .in([...languages]);
 
   const total = await Astrologer.countDocuments({
-    all_skills: { $in: [...skills] },
-    language: { $in: [...languages] },
+    // all_skills: { $in: [...skills] },
+    // language: { $in: [...languages] },
   });
 
   const response = {
     error: false,
     total,
-    skills: all_skills,
-    languages: all_languages,
+    // skills: all_skills,
+    // languages: all_languages,
     astrologers,
   };
 
@@ -783,47 +789,4 @@ exports.logout = async (req, res) => {
     status: true,
     msg: "Logged out successfully",
   });
-};
-
-
-exports.astroCount = async (req, res) => {
-  try {
-    const count = await Astrologer.countDocuments();
-    res.json({ success: true, count });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-};
-exports.onlineAstroCount = async (req, res) => {
-  try {
-    const count = await Astrologer.countDocuments({ status: "Online" });
-    res.json({ success: true, count });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-};
-exports.onlineAstroCount = async (req, res) => {
-  try {
-    const count = await Astrologer.countDocuments({ status: "Online" });
-    res.json({ success: true, count });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-};
-
-exports.offlineAstroCount = async (req, res) => {
-  try {
-    const count = await Astrologer.countDocuments({ status: "Offline" });
-    res.json({ success: true, count });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-};
-exports.busyAstroCount = async (req, res) => {
-  try {
-    const count = await Astrologer.countDocuments({ callingStatus: "Busy" });
-    res.json({ success: true, count });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
 };
