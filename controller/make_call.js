@@ -65,7 +65,7 @@ exports.make_call = async (req, res) => {
     console.log(getdata)
     callDetails.sid = getdata.Call?.Sid;
 
-    const options = {
+    let options = {
       From: req.body.From,   //USER\  
       To: req.body.To,       //ASTRO
       userid: req.body.userid,
@@ -94,7 +94,7 @@ exports.make_call = async (req, res) => {
       } else {
         options.maxTime = parseInt(user.amount / astrologer.callCharge);
         const astroStatus = await Astrologer.updateOne({ _id: callDetails.astroid }, { callingStatus: 'Busy' })
-        console.log(astroStatus)
+        console.log("User balance is ", user.amount, " and astrologer charge is ", astrologer.callCharge)
         res.status(200).json({ order: options });
         checkCallStatus()
       }
@@ -189,12 +189,13 @@ const checkCallStatus = async () => {
           duration++;
 
           const amountDeduct = user.amount - parseInt(duration * astrologer.callCharge);
-          console.log("Amount to be deducted is ", amountDeduct)
+          console.log("Current amount is ", user.amount, "Amount after deduction will be ", amountDeduct, "total call duration is ", duration)
 
           let response = await User.updateOne({ _id: callDetails.userId }, { amount: amountDeduct });
           console.log(response)
 
           console.log("Call ongoing Balance left is ", amountDeduct, "max time is ", parseInt(amountDeduct / astrologer.callCharge));
+          updatetym = await Astrologer.updateOne({ _id: callDetails.astroid }, { waiting_queue: parseInt(amountDeduct / astrologer.callCharge) })
 
 
         } else {
