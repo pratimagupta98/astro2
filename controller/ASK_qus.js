@@ -36,7 +36,7 @@ exports.user_ask_qus = async (req, res) => {
 }
 
 exports.user_ask_qus_list = async (req, res) => {
-  await Askqustion.find({})
+  await Askqustion.find({ userid: req.params.id })
     .sort({ createdAt: -1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
