@@ -25,7 +25,11 @@ const thisSchema = new Schema(
     },
     bundleOffer: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "astromall",
+      ref: "consultant",
+    },
+    view_button: {
+      type: String,
+      default: "true"
     }
 
   },

@@ -1,19 +1,24 @@
 const Askqustion = require("../models/ASK_qus");
 const resp = require("../helpers/apiResponse");
 const Product = require("../models/product");
+const Astroproduct = require("../models/astroproduct");
 
 exports.user_ask_qus = async (req, res) => {
   const { astroid, userid, question, answer, bundleOffer } = req.body;
 
-  const questions = await Askqustion.findOne({ userid: userid });
-  console.log("string", question.length)
-  const product = await Product.findOne({ _id: bundleOffer })
-  console.log("product", product)
-  if (question.length >= product.qsCount) {
+  const questions = await Askqustion.find({ userid: userid });
+  const product = await Astroproduct.findOne({ _id: bundleOffer }).populate("product")
+
+  if (questions.length > product.product.qsCount - 1) {
     console.log("your question limit over")
     res.status(200).json({
       msg: "Your Question limit is Over"
     })
+
+    await Askqustion.updateMany(
+      { userid: userid },
+      { $set: { view_button: "false" } },
+      { new: true })
   } else {
     const newAskqustion = new Askqustion({
       astroid: astroid,
