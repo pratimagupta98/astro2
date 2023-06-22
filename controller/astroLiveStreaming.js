@@ -215,6 +215,7 @@ exports.disConnectLiveStream = async (req, res) => {
             status: false,
             message: "error",
             error: error
+
         });
     }
 

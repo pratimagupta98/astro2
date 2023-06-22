@@ -12,13 +12,16 @@ exports.user_ask_qus = async (req, res) => {
   if (questions.length > product.product.qsCount - 1) {
     console.log("your question limit over")
     res.status(200).json({
-      msg: "Your Question limit is Over"
+      msg: "Your Question limit is Over",
+      limit: product.product.qsCount
     })
 
-    await Askqustion.updateMany(
-      { userid: userid },
-      { $set: { view_button: "false" } },
-      { new: true })
+    const lastQuestion = questions[questions.length - 1];
+    await Askqustion.findOneAndUpdate(
+      { _id: lastQuestion._id },
+      { $set: { view_button: false } },
+      { new: true }
+    );
   } else {
     const newAskqustion = new Askqustion({
       astroid: astroid,
@@ -36,7 +39,12 @@ exports.user_ask_qus = async (req, res) => {
 }
 
 exports.user_ask_qus_list = async (req, res) => {
-  await Askqustion.find({ userid: req.params.id })
+  await Askqustion.find({ userid: req.params.id }).populate({
+    path: "bundleOffer",
+    populate: {
+      path: "product",
+    },
+  })
     .sort({ createdAt: -1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));

@@ -2,76 +2,76 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const thisSchema = new Schema(
     {
-     
-      
-        userid:{  type: mongoose.Schema.Types.ObjectId, ref: "user"},
-       
-        astroid:{
+
+
+        userid: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+
+        astroid: {
             type: mongoose.Schema.Types.ObjectId, ref: "astrologer"
         },
-        From:{
-            type :Number
+        From: {
+            type: Number
         },
-        To:{
-            type :Number
+        To: {
+            type: Number
         },
-        Sid:{
-            type :String   
+        Sid: {
+            type: String
         },
-        ParentCallSid:{
-            type :String 
+        ParentCallSid: {
+            type: String
         },
-        DateCreated:{
-            type :String   
+        DateCreated: {
+            type: String
         },
-        DateUpdated:{
-            type :String    
+        DateUpdated: {
+            type: String
         },
-        AccountSid:{
-            type :String    
+        AccountSid: {
+            type: String
         },
-        PhoneNumberSid:{
-            type :String    
+        PhoneNumberSid: {
+            type: String
         },
-        Status:{
-            type :String    
+        Status: {
+            type: String
         },
-        StartTime:{
-            type :String    
+        StartTime: {
+            type: String
         },
-        EndTime:{
-            type :String    
+        EndTime: {
+            type: String
         },
-        Duration:{
-            type :Number    
+        Duration: {
+            type: Number
         },
-        Price:{
-            type :Number    
+        Price: {
+            type: Number
         },
-        Direction:{
-            type :String    
+        Direction: {
+            type: String
         },
-        AnsweredBy:{
-            type :String    
+        AnsweredBy: {
+            type: String
         },
-        ForwardedFrom:{
-            type :String    
+        ForwardedFrom: {
+            type: String
         },
-        CallerName:{
-            type :String    
+        CallerName: {
+            type: String
         },
-        Uri:{
-            type :String    
+        Uri: {
+            type: String
         },
-        RecordingUrl:{
-            type :String    
+        RecordingUrl: {
+            type: String
         },
-      },
-     
-    { timestamps: true }
-  );
-  
+    },
 
-  module.exports = mongoose.model("call", thisSchema);
+    { timestamps: true }
+);
+
+
+module.exports = mongoose.model("call", thisSchema);
 
 //alltrade notification
