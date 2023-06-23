@@ -8,7 +8,7 @@ exports.add_PayOut = async (req, res) => {
     astroId: astroId,
     payout_amt: payout_amt,
     transactionId: transactionId,
-    status: status
+    status: "Pending"
   });
   //    const findexist = await Plans.findOne({ amount: amount });
   //    if (findexist) {
@@ -30,7 +30,7 @@ exports.PayoutList = async (req, res) => {
 };
 
 exports.getonePayout = async (req, res) => {
-  await Payout.findOne({ _id: req.params.id })
+  await Payout.findOne({ _id: req.params.id }).populate("astroId")
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };

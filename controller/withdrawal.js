@@ -2,13 +2,13 @@ const Withdrawal = require("../models/withdrawal");
 const resp = require("../helpers/apiResponse");
 
 exports.pay_withdrawal = async (req, res) => {
-    const { astroId,status,amount,payoutlist } = req.body;
+    const { astroId, status, amount, payoutlist } = req.body;
 
     const newWithdrawal = new Withdrawal({
         astroId: astroId,
-        status:status,
-        amount:amount,
-        payoutlist:payoutlist
+        status: status,
+        amount: amount,
+        payoutlist: payoutlist
     });
 
     newWithdrawal
@@ -20,7 +20,7 @@ exports.pay_withdrawal = async (req, res) => {
 
 
 exports.withdrawal_list = async (req, res) => {
-    await Withdrawal.find()
+    await Withdrawal.find().populate("payoutlist").populate("astroId")
         .sort({ sortorder: 1 })
         .then((data) => resp.successr(res, data))
         .catch((error) => resp.errorr(res, error));

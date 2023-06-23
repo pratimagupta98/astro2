@@ -9,8 +9,6 @@ const {
 
 
 router.post("/user/pay_withdrawal", pay_withdrawal);
-
-
 router.get("/user/withdrawal_list", withdrawal_list);
 
 router.get("/user/getone_withdrawal", getone_withdrawal);
