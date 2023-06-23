@@ -6,110 +6,84 @@ const { listenerCount } = require("../models/recharge_plan");
 
 
 exports.addtoCart = async (req, res) => {
-  const { astroId, userId, productid, shipping_address, status } = req.body;
+  try {
+    const { astroId, userId, productid, shipping_address, status } = req.body;
 
+    const findexist = await Cart.findOne({ userId: userId });
+    if (findexist) {
+      const getastroproduct = await Astroproduct.findOne({ _id: req.body.productid });
 
-  const findexist = await Cart.findOne({ userId: userId });
-  if (findexist) {
-    const getastroproduct = await Astroproduct.findOne({ _id: req.body.productid });
+      if (getastroproduct) {
+        const price = getastroproduct.price;
+        let totalgst = price * 18 / 100;
+        let total_amt = price + totalgst;
 
-    //   console.log("getastroproduct",getastroproduct)
-    if (getastroproduct) {
-      const price = getastroproduct.price
-      // console.log(price)
-      // totalgst =0
-
-      let totalgst = price * 18 / 100
-      console.log("gstotal", totalgst)
-      let total_amt = price + totalgst
-      await Cart.findOneAndUpdate(
-        {
-
-          userId: userId,
-
-        },
-        { $set: { astroId: astroId, productid: productid, shipping_address: shipping_address, total_amt: total_amt, gst: totalgst } },
-
-        { new: true }
-      )
-        .then((data) => {
-          res.status(200).json({
-            status: true,
-            msg: "Order Detail ",
-            data: data,
-            gstotal: totalgst,
-            total_amt: total_amt
-
+        await Cart.findOneAndUpdate(
+          { userId: userId },
+          { $set: { astroId: astroId, productid: productid, shipping_address: shipping_address, total_amt: total_amt, gst: totalgst } },
+          { new: true }
+        )
+          .then((data) => {
+            res.status(200).json({
+              status: true,
+              msg: "Order Detail ",
+              data: data,
+              gstotal: totalgst,
+              total_amt: total_amt
+            });
+          })
+          .catch((error) => {
+            throw error; // Throw the error to be caught by the catch block
           });
-        })
-
-        .catch((error) => {
-          res.status(200).json({
-            status: false,
-            msg: "error",
-            error: error,
-          });
+      } else {
+        res.status(400).json({
+          status: false,
+          error: "Product not found"
         });
+      }
     } else {
-      res.status(400).json({
-        status: false,
-        error: "error"
-      })
-    }
+      const getastroproduct = await Astroproduct.findOne({ _id: req.body.productid });
 
-  } else {
+      if (getastroproduct) {
+        const price = getastroproduct.price;
+        let totalgst = price * 18 / 100;
+        let total_amt = price + totalgst;
+        const cus_orderId = "AL" + Date.now();
 
-
-    const getastroproduct = await Astroproduct.findOne({ _id: req.body.productid });
-
-    // console.log("getastroproduct",getastroproduct)
-    if (getastroproduct) {
-      const price = getastroproduct.price
-      // console.log(price)
-      // totalgst =0
-
-      let totalgst = price * 18 / 100
-      //  console.log("gstotal",totalgst)
-      let total_amt = price + totalgst
-      // gsttotal = (price*product_qty) +(product_price*product_qty)
-      const cus_orderId = "AL" + Date.now();
-      // console.log("cus_orderId",cus_orderId)
-
-      const newaddCart = new Cart({
-        astroId: astroId,
-        userId: userId,
-        productid: productid,
-        shipping_address: shipping_address,
-        orderId: cus_orderId,
-        gst: totalgst,
-        total_amt: total_amt,
-        status: status
-      })
-
-      newaddCart.save()
-
-        .then((data) => {
-          res.status(200).json({
-            status: true,
-            msg: "Order Detail ",
-            data: data,
-            gstotal: totalgst,
-            total_amt: total_amt
-
-          });
-        })
-
-        .catch((error) => {
-          res.status(200).json({
-            status: false,
-            msg: "error",
-            error: error,
-          });
+        const newaddCart = new Cart({
+          astroId: astroId,
+          userId: userId,
+          productid: productid,
+          shipping_address: shipping_address,
+          orderId: cus_orderId,
+          gst: totalgst,
+          total_amt: total_amt,
+          status: status
         });
-    }
-  }
 
-}
+        newaddCart.save()
+          .then((data) => {
+            res.status(200).json({
+              status: true,
+              msg: "Order Detail ",
+              data: data,
+              gstotal: totalgst,
+              total_amt: total_amt
+            });
+          })
+          .catch((error) => {
+            throw error; // Throw the error to be caught by the catch block
+          });
+      }
+    }
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      error: "Internal server error"
+    });
+  }
+};
+
 
 exports.getoneCart = async (req, res) => {
   const getone = await Cart.findOne({ _id: req.params.id })

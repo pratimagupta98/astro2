@@ -36,6 +36,7 @@ exports.user_ask_qus = async (req, res) => {
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   }
+
 }
 
 exports.user_ask_qus_list = async (req, res) => {

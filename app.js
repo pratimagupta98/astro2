@@ -67,6 +67,8 @@ const astroLiveStreaming = require("./routes/astroLiveStreaming")
 const yog_liveStream = require("./routes/yog_liveStream")
 const astroVideo_token = require("./routes/astroVideo_token")
 const calling = require("./routes/calling")
+const withdrawal = require("./routes/withdrawal")
+
 const astroFollowers = require("./routes/astroFollowers")
 
 
@@ -131,6 +133,8 @@ app.use("/", yog_liveStream);
 app.use("/", astroVideo_token);
 app.use("/", calling);
 app.use("/", astroFollowers);
+app.use("/", withdrawal);
+
 
 
 
