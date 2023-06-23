@@ -171,6 +171,9 @@ const thisSchema = new Schema(
     channelName: {
       type: String,
     },
+    ownamount:{
+type:Number
+    },
     specification: {
       type: String
     },
