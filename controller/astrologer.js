@@ -416,8 +416,10 @@ exports.editAstroDetails = async (req, res) => {
     data.max_amount = max_amount;
   }
   if (callCharge) {
-    data.callCharge = (parseInt(callCharge) * 25) / 100;
-    data.callCharge = parseInt(req.body.callCharge) + parseInt(data.callCharge);
+    data.callCharge = callCharge
+    // data.callCharge = (parseInt(callCharge) * 25) / 100;
+    // data.callCharge = parseInt(req.body.callCharge) + parseInt(data.callCharge);
+
   }
   // console.log("callCharge", data.callCharge)
 
@@ -580,6 +582,7 @@ exports.getoneAstro = async (req, res) => {
 };
 
 exports.allAstro = async (req, res) => {
+  //  const get commison = 
   await Astrologer.find({ approvedstatus: "true" })
     .sort({ createdAt: -1 })
     .sort({ sortorder: 1 })

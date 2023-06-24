@@ -9,6 +9,7 @@ const dotenv = require("dotenv");
 const jwt = require("jsonwebtoken");
 const key = "verysecretkey";
 const bcrypt = require("bcrypt");
+const { findOneAndUpdate } = require("../models/admin");
 dotenv.config();
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -18,7 +19,6 @@ cloudinary.config({
 
 
 exports.add_astro_product = async (req, res) => {
-  //console.log(req.body);
   const { astroid, product, category, desc, price } = req.body;
 
   const newAstroproduct = new Astroproduct({
@@ -27,14 +27,30 @@ exports.add_astro_product = async (req, res) => {
     category: category,
     price: price,
     desc: desc
-
   });
 
-
   newAstroproduct.save()
-
-
-    .then((data) => resp.successr(res, data))
+    .then((data) => {
+      resp.successr(res, data);
+      Astroproduct.findOne({ product: product }).populate("product")
+        .then((getpp) => {
+          let qqcntt = getpp.qsCount;
+          Astroproduct.findOneAndUpdate(
+            { _id: data._id },
+            { $set: { qsCount: qqcntt } },
+            { new: true }
+          )
+          .then((hhy) => {
+            console.log("hhy", hhy);
+          })
+          .catch((error) => {
+            console.error("Error updating Astroproduct:", error);
+          });
+        })
+        .catch((error) => {
+          console.error("Error finding Astroproduct:", error);
+        });
+    })
     .catch((error) => resp.errorr(res, error));
 };
 
