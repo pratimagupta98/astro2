@@ -13,13 +13,16 @@ const {
     // active_plans
     admin_product_Orderslist,
     dltOrder,
-   completed_order
+   completed_order,
+   myQusbundle
 } = require("../controller/order");
 
 
  
  router.post("/user/AddOrder", AddOrder);
  router.get("/user/myOrders/:id", myOrders);
+ router.get("/user/myQusbundle/:id", myQusbundle);
+
 // router.get("/user/active_plans", active_plans);
 
 router.get("/user/getoneOrder/:id", getoneOrder);
@@ -28,7 +31,7 @@ router.get("/user/getoneOrder/:id", getoneOrder);
  router.get("/admin/dltOrder/:id", dltOrder);
  router.get("/user/completed_order/:id", completed_order);
 
-
+ 
 
 // router.get("/admin/dltplan/:id", dltplan);
 

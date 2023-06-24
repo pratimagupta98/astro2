@@ -1,4 +1,7 @@
 const Admin = require("../models/admin");
+const AdminComision = require("../models/admin");
+const Astrologer = require("../models/astrologer");
+
 const resp = require("../helpers/apiResponse");
 //const bcrypt = require("bcryptjs");
 const cloudinary = require("cloudinary").v2;
@@ -156,5 +159,45 @@ exports.editprofile = async (req, res) => {
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
+
+
+exports.astologerCommision = async (req, res) => {
+  const { admincomision } = req.body;
+
+  const newAdminComision = new AdminComision({
+    admincomision: admincomision,
+  });
+
+  newAdminComision
+    .save()
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+
+};
+
+
+exports.updateComision = async (req, res) => {
+  await AdminComision.findOneAndUpdate(
+    {_id:req.params.id},
+    { $set: req.body },
+    { new: true }
+  )
+
+
+  let ascom = (100 + req.body.admincomision) / 100;
+  console.log("ascom", ascom);
+
+
+  const getastrolist = await Astrologer.find();
+
+  await Astrologer.updateMany(
+    {},
+    { $inc: { callCharge: ascom } },
+    { new: true }
+  )
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
 
 

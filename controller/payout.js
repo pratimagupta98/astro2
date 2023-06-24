@@ -22,7 +22,27 @@ exports.add_PayOut = async (req, res) => {
 
 
 exports.PayoutList = async (req, res) => {
-  await Payout.find().populate("astroId")
+  await Payout.find({status:"Pending"}).populate("astroId")
+    .sort({ createdAt: -1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
+exports.approvedPayoutList = async (req, res) => {
+  await Payout.find({status:"Approved"}).populate("astroId")
+    .sort({ createdAt: -1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+exports.astroApprovedPayouT = async (req, res) => {
+  const astroId = req.params.astroId
+  await Payout.find({astroId:astroId,status:"Approved"}).populate("astroId")
+    .sort({ createdAt: -1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+exports.astroPendingPayouT = async (req, res) => {
+  await Payout.find({status:"Pending"}).populate("astroId")
     .sort({ createdAt: -1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));

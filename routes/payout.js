@@ -9,15 +9,19 @@ const {
     PayoutList,
     getonePayout,
     pay_withdrawal,
-    dltPayoutlist
+    dltPayoutlist,
+    approvedPayoutList,
+    astroApprovedPayouT,
+    astroPendingPayouT
 } = require("../controller/payout");
 
 
 
 router.post("/user/add_PayOut", add_PayOut);
 router.get("/user/PayoutList", PayoutList);
-// router.get("/user/active_plans", active_plans);
-
+router.get("/admin/approvedPayoutList", approvedPayoutList);
+router.get("/admin/astroApprovedPayouT/:astroId", astroApprovedPayouT);
+router.get("/admin/astroPendingPayouT/:astroId", astroPendingPayouT);
 router.get("/user/getonePayout/:id", getonePayout);
 router.post("/admin/pay_withdrawal/:id", pay_withdrawal);
 

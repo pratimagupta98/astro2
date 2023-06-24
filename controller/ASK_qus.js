@@ -1,7 +1,9 @@
 const Askqustion = require("../models/ASK_qus");
 const resp = require("../helpers/apiResponse");
 const Product = require("../models/product");
+const Order = require("../models/order");
 const Astroproduct = require("../models/astroproduct");
+
 
 exports.user_ask_qus = async (req, res) => {
   const { astroid, userid, question, answer, bundleOffer } = req.body;
@@ -11,7 +13,7 @@ exports.user_ask_qus = async (req, res) => {
 
   if (questions.length > product.product.qsCount - 1) {
     console.log("your question limit over")
-    res.status(200).json({
+    res.status(403).json({
       msg: "Your Question limit is Over",
       limit: product.product.qsCount
     })

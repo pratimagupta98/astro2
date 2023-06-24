@@ -8,7 +8,8 @@ const {
     addAdmin,
     adminlogin,
     editprofile,
-    viewoneadmin
+    viewoneadmin,
+    astologerCommision
 //   deletecreditcustomer,
 //   updatcreditcustomer,
 //   namefindcreditcustomer
@@ -59,6 +60,7 @@ router.post("/admin/adminlogin", adminlogin);
 
  router.get("/admin/viewoneadmin/:id", viewoneadmin);
 router.post("/admin/editprofile/:id",multipleUpload, editprofile);
+router.post("/admin/astologerCommision" ,astologerCommision);
 
 
  module.exports = router;

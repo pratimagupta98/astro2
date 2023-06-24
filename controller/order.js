@@ -86,14 +86,39 @@ exports.myOrders = async (req, res) => {
     })
     .populate("astroid")
 
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
 
+exports.myQusbundle = async (req, res) => {
+ const gtt = await Order.find({ $and: [{ status: "COMPLETED" }, { userid: req.params.id }], }).populate({
+    path: "product",
+    populate: {
+      path: "product",
+    },
+  })
+    .populate("cartId")
+    .populate("userid")
+    .populate({
+      path: "cartId",
+      populate: {
+        path: "shipping_address",
+      },
+    })
+    .populate({
+      path: "cartId",
+      populate: {
+        path: "productid",
+      },
 
-
-
+    })
+    .populate("astroid")
+//console.log("gtt",gtt)
 
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
+
 
 
 exports.editOrder = async (req, res) => {

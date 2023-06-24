@@ -22,6 +22,9 @@ const thisSchema = new Schema(
     cnfmPassword: {
       type: String,
     },
+    admincomision:{
+      type:Number
+    }
    
  
   },
