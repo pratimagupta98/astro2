@@ -8,6 +8,8 @@ const jwt = require("jsonwebtoken");
 const key = "verysecretkey";
 const bcrypt = require("bcrypt");
 const { data } = require("jquery");
+const AdminComision = require("../models/admin");
+
 dotenv.config();
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -582,13 +584,13 @@ exports.getoneAstro = async (req, res) => {
 };
 
 exports.allAstro = async (req, res) => {
-  //  const get commison = 
-  await Astrologer.find({ approvedstatus: "true" })
-    .sort({ createdAt: -1 })
+  await Astrologer.find({ "approvedstatus": "true" }).sort({ createdAt: -1 })
     .sort({ sortorder: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
+
+
 exports.admin_astrop_list = async (req, res) => {
   await Astrologer.find()
     .sort({ createdAt: -1 })

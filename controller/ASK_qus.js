@@ -28,7 +28,7 @@ exports.user_ask_qus = async (req, res) => {
   for (const order of getdata) {
     totalQsCount += order.product.qsCount;
   }
-  console.log("totalQsCount", totalQsCount)
+ // console.log("totalQsCount", totalQsCount)
   const questions = await Askqustion.find({ userid: userid });
 
 
