@@ -155,6 +155,7 @@ exports.callStatus = async () => {
       } else if (callStatus === "completed") {
         console.log("Call has been completed");
         // Handle completed status logic
+
         console.log(status);
         console.log(data);
       } else {
@@ -195,7 +196,10 @@ const checkCallStatus = async () => {
         if (callStatus === "completed") {
           console.log("Call has been completed");
           // Handle completed status logic
-
+          response = await make_call.updateOne(
+            { _id: callDetails.astroid },
+            { Status: "completed" }
+          );
           if (data.Call?.Duration) {
             response = await Astrologer.updateOne(
               { _id: callDetails.astroid },
