@@ -762,7 +762,7 @@ exports.logout = async (req, res) => {
   const decoded = jwt.verify(token, key);
   //  console.log("decoded", decoded)
   const astroId = decoded.astroId;
-  //  console.log("astroId", astroId)
+  //console.log("astroId", astroId)
   await Astrologer.findOneAndUpdate(
     {
       _id: astroId,

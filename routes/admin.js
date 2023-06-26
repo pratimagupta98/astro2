@@ -5,14 +5,15 @@ const fs = require("fs");
 
 
 const {
-    addAdmin,
-    adminlogin,
-    editprofile,
-    viewoneadmin,
-    astologerCommision
-//   deletecreditcustomer,
-//   updatcreditcustomer,
-//   namefindcreditcustomer
+  addAdmin,
+  adminlogin,
+  editprofile,
+  viewoneadmin,
+  astologerCommision,
+  updateComision
+  //   deletecreditcustomer,
+  //   updatcreditcustomer,
+  //   namefindcreditcustomer
 } = require("../controller/admin");
 
 const storage = multer.diskStorage({
@@ -34,7 +35,7 @@ const fileFilter = (req, file, cb) => {
     file.mimetype.includes("jpeg") ||
     file.mimetype.includes("png") ||
     file.mimetype.includes("jpg") ||
-     file.mimetype.includes("pdf")
+    file.mimetype.includes("pdf")
   ) {
     cb(null, true);
   } else {
@@ -46,7 +47,7 @@ let uploads = multer({ storage: storage });
 
 let multipleUpload = uploads.fields([
   { name: "adminimg", maxCount: 1 },
- 
+
   //   { name: "storepan_img", maxCount: 5 },
   //   { name: "tradelicence_img", maxCount: 5 },
   //   { name: "companypan_img", maxCount: 5 },
@@ -58,10 +59,10 @@ let multipleUpload = uploads.fields([
 router.post("/admin/addAdmin", multipleUpload, addAdmin);
 router.post("/admin/adminlogin", adminlogin);
 
- router.get("/admin/viewoneadmin/:id", viewoneadmin);
-router.post("/admin/editprofile/:id",multipleUpload, editprofile);
-router.post("/admin/astologerCommision" ,astologerCommision);
+router.get("/admin/viewoneadmin/:id", viewoneadmin);
+router.post("/admin/editprofile/:id", multipleUpload, editprofile);
+router.post("/admin/astologerCommision", astologerCommision);
+router.post("/admin/updateComision/:id", updateComision);
 
 
- module.exports = router;
- 
+module.exports = router;
