@@ -282,6 +282,18 @@ exports.on_make_another_call = async (req, res) => {
   }
 };
 
+exports.getEarnings = async (req, res) => {
+  const { id } = req.params;
+  const astro = await Astrologer.findById(id);
+  const report = {};
+  console.log(astro);
+  astro.totalEarning.map((e) => {
+    if (e.date == new Date(Date.now())) {
+      report.today = e.amount;
+    }
+  });
+};
+
 // Schedule the cron job to run every minute
 // const cron_job = cron.schedule('* * * * * *', async () => {
 //   console.log("checking 1 second")

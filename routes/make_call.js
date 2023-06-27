@@ -14,9 +14,11 @@ const {
   astroCallHistory,
   userCallHistory,
   on_make_another_call,
+  getEarnings,
 } = require("../controller/make_call");
 
 router.post("/user/make_call", make_call);
+router.post("/user/getAstroEarnings/:id", getEarnings);
 router.get("/user/callStatus/:sid", callStatus);
 router.get("/user/call_Status", call_Status);
 router.post("/user/astroVideoCall", astroVideoCall);
