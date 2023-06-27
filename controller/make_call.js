@@ -105,7 +105,7 @@ exports.make_call = async (req, res) => {
         console.log("RESULT", response);
 
         callDetails.callId = response._id;
-        callDetails.callduration = response.Duration
+        callDetails.callduration = response.Duration;
         options.maxTime = parseInt(user.amount / astrologer.callCharge);
         const astroStatus = await Astrologer.updateOne(
           { _id: callDetails.astroid },
@@ -198,7 +198,7 @@ const checkCallStatus = async () => {
         //   console.log("Call is still pending");
         //   // Handle pending status logic
         // }
-        console.log(callStatus)
+        console.log(callStatus);
         if (callStatus === "completed") {
           console.log("Call has been completed");
           // Handle completed status logic
@@ -210,9 +210,14 @@ const checkCallStatus = async () => {
           if (data.Call?.Duration) {
             let updatestst = await make_call.updateOne(
               { _id: callDetails.callId },
-              { Status: "completed", userdeductedAmt: totalDeductedAmount, userAmt: useramt, Duration: data.Call?.Duration }
+              {
+                Status: "completed",
+                userdeductedAmt: totalDeductedAmount,
+                userAmt: useramt,
+                Duration: data.Call?.Duration,
+              }
             );
-            console.log(totalDeductedAmount)
+            console.log(totalDeductedAmount);
             updatestst = await Astrologer.updateOne(
               { _id: callDetails.astroid },
               {
@@ -289,14 +294,27 @@ exports.on_make_another_call = async (req, res) => {
 exports.getEarnings = async (req, res) => {
   const { id } = req.params;
   const astro = await Astrologer.findById(id);
-  const report = { today: 0, week: 0, month: 0 };
+  const report = { today: 0, week: 0, month: 0, total: 0 };
 
   astro.totalEarning.map((e) => {
     if (e.date.toString().slice(0, 16) == new Date().toString().slice(0, 16)) {
       report.today += e.amount;
     }
+    if (
+      e.date.toString().slice(0, 16) >=
+      new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toString().slice(0, 16)
+    ) {
+      report.week += e.amount;
+    }
+    if (
+      e.date.toString().slice(0, 16) >=
+      new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toString().slice(0, 16)
+    ) {
+      report.month += e.amount;
+    }
+    report.total += e.amount;
   });
-  console.log(report)
+  console.log(report);
 };
 
 // Schedule the cron job to run every minute
@@ -447,15 +465,16 @@ exports.userCallHistory = async (req, res) => {
     .catch((error) => resp.errorr(res, error));
 };
 
-
 exports.astroCompleteCall = async (req, res) => {
-  await make_call.find({ astroid: req.params.id, Status: "completed" })
+  await make_call
+    .find({ astroid: req.params.id, Status: "completed" })
     .sort({ sortorder: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
 exports.dlCallHistory = async (req, res) => {
-  await make_call.deleteOne({ _id: req.params.id })
+  await make_call
+    .deleteOne({ _id: req.params.id })
     .then((data) => resp.deleter(res, data))
     .catch((error) => resp.errorr(res, error));
 };
