@@ -171,8 +171,12 @@ const thisSchema = new Schema(
     channelName: {
       type: String,
     },
-    ownamount:{
-type:Number
+    totalEarning: {
+      type: Number,
+      default: 0
+    },
+    ownamount: {
+      type: Number
     },
     specification: {
       type: String

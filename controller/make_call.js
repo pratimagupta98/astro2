@@ -28,6 +28,8 @@ exports.make_call = async (req, res) => {
   user = user[0];
   astrologer = astrologer[0];
 
+  callDetails.previousUserBalance = user.amount
+
   // Check minimum balance of user
   // if (user.amount > astrologer.min_amount) {
   const axios = require("axios");
@@ -100,6 +102,9 @@ exports.make_call = async (req, res) => {
       if (err) {
         res.status(500).json({ error: err });
       } else {
+        console.log("RESULT", response)
+
+        callDetails.callId = response._id
         options.maxTime = parseInt(user.amount / astrologer.callCharge);
         const astroStatus = await Astrologer.updateOne(
           { _id: callDetails.astroid },
@@ -184,7 +189,6 @@ const checkCallStatus = async () => {
       let duration = 0;
       if (status === 200) {
         const callStatus = data.Call.Status;
-        console.log(data);
         let user = await User.find({ _id: callDetails.userId });
         let astrologer = await Astrologer.find({ _id: callDetails.astroid });
         user = user[0];
@@ -196,16 +200,21 @@ const checkCallStatus = async () => {
         if (callStatus === "completed") {
           console.log("Call has been completed");
           // Handle completed status logic
-          response = await make_call.updateOne(
-            { _id: callDetails.astroid },
+          let updatestst = await make_call.updateOne(
+            { _id: callDetails.callId },
             { Status: "completed" }
           );
+          console.log("response", updatestst)
           if (data.Call?.Duration) {
-            response = await Astrologer.updateOne(
+            let totalDeductedAmount = callDetails.previousUserBalance - user.amount;
+            console.log("Total deduction", totalDeductedAmount)
+            console.log(astrologer.totalEarning)
+
+            updatestst = await Astrologer.updateOne(
               { _id: callDetails.astroid },
-              { callingStatus: "Available", waiting_tym: 0 }
+              { callingStatus: "Available", waiting_tym: 0, totalEarning: totalDeductedAmount + astrologer.totalEarning }
             );
-            console.log(response);
+            console.log(updatestst);
             cron_job.stop();
           }
         } else if (callStatus === "in-progress") {
@@ -293,6 +302,7 @@ exports.call_Status = async (req, res) => {
 
 const agora = require("agora-access-token");
 const { ConnectionPoolClearedEvent } = require("mongodb");
+const { CloudWatchLogs } = require("aws-sdk");
 
 exports.astroVideoCall = async (req, res) => {
   const { RtcTokenBuilder, RtcRole } = agora;
@@ -419,6 +429,14 @@ exports.userCallHistory = async (req, res) => {
     .populate("userid")
     .populate("astroid")
     .sort({ createdAt: -1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
+
+exports.CompleteCall = async (req, res) => {
+  await make_call.find({ Status: "completed" })
+    .sort({ sortorder: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
