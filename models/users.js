@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const thisSchema = new Schema(
   {
-
     fullname: {
       type: String,
     },
@@ -10,7 +9,7 @@ const thisSchema = new Schema(
       type: String,
     },
     mobile: {
-      type: Number
+      type: Number,
     },
     password: {
       type: String,
@@ -31,7 +30,7 @@ const thisSchema = new Schema(
     },
     bithplace: {
       type: String,
-      default: ""
+      default: "",
     },
     address: {
       type: String,
@@ -50,33 +49,28 @@ const thisSchema = new Schema(
     },
 
     walletId: {
-      type: String
+      type: String,
     },
     amount: {
       type: Number,
       default: 0,
     },
     oldpassword: {
-      type: String
+      type: String,
     },
     deductedAmt: {
-      type: Number
+      type: Number,
     },
     gender: {
-      type: String
+      type: String,
     },
     status: {
       type: String,
-      default: "Active"
-    }
-
+      default: "Active",
+    },
   },
-
-
-
 
   { timestamps: true }
 );
-
 
 module.exports = mongoose.model("user", thisSchema);

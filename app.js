@@ -12,70 +12,64 @@ app.use(cors());
 
 //require
 
-const users = require("./routes/users")
-const astrologer = require("./routes/astrologer")
-const admin = require("./routes/admin")
-const aboutus = require("./routes/aboutus")
-const terms_condition = require("./routes/terms_condition")
-const contact_us = require("./routes/contact_us")
-const banner = require("./routes/banner")
-const faq = require("./routes/faq")
-const blogs = require("./routes/blogs")
-const privacy_policy = require("./routes/privacy_policy")
-const notification = require("./routes/notification")
-const category = require("./routes/category")
-const rashi = require("./routes/rashi")
-const rashihoroscope = require("./routes/rashihoroscope")
-const review = require("./routes/review")
+const users = require("./routes/users");
+const astrologer = require("./routes/astrologer");
+const admin = require("./routes/admin");
+const aboutus = require("./routes/aboutus");
+const terms_condition = require("./routes/terms_condition");
+const contact_us = require("./routes/contact_us");
+const banner = require("./routes/banner");
+const faq = require("./routes/faq");
+const blogs = require("./routes/blogs");
+const privacy_policy = require("./routes/privacy_policy");
+const notification = require("./routes/notification");
+const category = require("./routes/category");
+const rashi = require("./routes/rashi");
+const rashihoroscope = require("./routes/rashihoroscope");
+const review = require("./routes/review");
 //const Horoscope = require("./routes/Horoscope")
-const product = require("./routes/product")
-const productcategory = require("./routes/productcategory")
-const rashiImg = require("./routes/rashiImg")
-const astroproduct = require("./routes/astroproduct")
-const Checkout = require("./routes/Checkout")
-const shipping_adrss = require("./routes/shipping_adrss")
-const chat_intake_form = require("./routes/chat_intake_form")
-const plan = require("./routes/plan")
-const recharge_plan = require("./routes/recharge_plan")
-const blog_category = require("./routes/blog_category")
-const make_call = require("./routes/make_call")
+const product = require("./routes/product");
+const productcategory = require("./routes/productcategory");
+const rashiImg = require("./routes/rashiImg");
+const astroproduct = require("./routes/astroproduct");
+const Checkout = require("./routes/Checkout");
+const shipping_adrss = require("./routes/shipping_adrss");
+const chat_intake_form = require("./routes/chat_intake_form");
+const plan = require("./routes/plan");
+const recharge_plan = require("./routes/recharge_plan");
+const blog_category = require("./routes/blog_category");
+const make_call = require("./routes/make_call");
 
-const ASK_qus = require("./routes/ASK_qus")
-const chat = require("./routes/chat")
-const min_charges = require("./routes/min_charges")
-const order = require("./routes/order")
-const chatWallet = require("./routes/chatWallet")
-const createTicket = require("./routes/createTicket")
-const match_making = require("./routes/match_making")
+const ASK_qus = require("./routes/ASK_qus");
+const chat = require("./routes/chat");
+const min_charges = require("./routes/min_charges");
+const order = require("./routes/order");
+const chatWallet = require("./routes/chatWallet");
+const createTicket = require("./routes/createTicket");
+const match_making = require("./routes/match_making");
 
-const commision = require("./routes/commision")
-const payout = require("./routes/payout")
-const bookevent = require("./routes/bookevent")
-const poojaList = require("./routes/poojaList")
-const addEvent = require("./routes/addEvent")
-const youtubeVideo = require("./routes/youtubeVideo")
-const package = require("./routes/package")
-const astro_addPoojaevent = require("./routes/astro_addPoojaevent")
-const banner_pooja = require("./routes/banner_pooja")
-const astroGallery = require("./routes/astroGallery")
-const videoChannel = require("./routes/videoChannel")
-const socialMedia = require("./routes/socialMedia")
-const otherPages = require("./routes/otherPages")
-const checkoutPuja = require("./routes/checkoutPuja")
-const callDuration = require("./routes/callDuration")
-const astroLiveStreaming = require("./routes/astroLiveStreaming")
-const yog_liveStream = require("./routes/yog_liveStream")
-const astroVideo_token = require("./routes/astroVideo_token")
-const calling = require("./routes/calling")
-const withdrawal = require("./routes/withdrawal")
+const commision = require("./routes/commision");
+const payout = require("./routes/payout");
+const bookevent = require("./routes/bookevent");
+const poojaList = require("./routes/poojaList");
+const addEvent = require("./routes/addEvent");
+const youtubeVideo = require("./routes/youtubeVideo");
+const package = require("./routes/package");
+const astro_addPoojaevent = require("./routes/astro_addPoojaevent");
+const banner_pooja = require("./routes/banner_pooja");
+const astroGallery = require("./routes/astroGallery");
+const videoChannel = require("./routes/videoChannel");
+const socialMedia = require("./routes/socialMedia");
+const otherPages = require("./routes/otherPages");
+const checkoutPuja = require("./routes/checkoutPuja");
+const callDuration = require("./routes/callDuration");
+const astroLiveStreaming = require("./routes/astroLiveStreaming");
+const yog_liveStream = require("./routes/yog_liveStream");
+const astroVideo_token = require("./routes/astroVideo_token");
+const calling = require("./routes/calling");
+const withdrawal = require("./routes/withdrawal");
 
-const astroFollowers = require("./routes/astroFollowers")
-
-
-
-
-
-
+const astroFollowers = require("./routes/astroFollowers");
 
 //use
 app.use("/", users);
@@ -135,11 +129,6 @@ app.use("/", calling);
 app.use("/", astroFollowers);
 app.use("/", withdrawal);
 
-
-
-
-
-
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
@@ -159,7 +148,6 @@ mongoose
   .catch((error) => {
     console.log(error);
   });
-
 
 app.listen(process.env.PORT || 8000, () => {
   console.log("Example app listening on port 8000");
