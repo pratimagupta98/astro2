@@ -65,6 +65,14 @@ const thisSchema = new Schema(
     RecordingUrl: {
       type: String,
     },
+    userdeductedAmt:{
+      type:Number,
+      default:0
+    },
+    userAmt:{
+      type:Number,
+      default:0  
+    }
   },
 
   { timestamps: true }
