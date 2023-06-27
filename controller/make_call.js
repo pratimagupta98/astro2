@@ -28,7 +28,7 @@ exports.make_call = async (req, res) => {
   user = user[0];
   astrologer = astrologer[0];
 
-  callDetails.previousUserBalance = user.amount
+  callDetails.previousUserBalance = user.amount;
 
   // Check minimum balance of user
   // if (user.amount > astrologer.min_amount) {
@@ -102,9 +102,9 @@ exports.make_call = async (req, res) => {
       if (err) {
         res.status(500).json({ error: err });
       } else {
-        console.log("RESULT", response)
+        console.log("RESULT", response);
 
-        callDetails.callId = response._id
+        callDetails.callId = response._id;
         options.maxTime = parseInt(user.amount / astrologer.callCharge);
         const astroStatus = await Astrologer.updateOne(
           { _id: callDetails.astroid },
@@ -204,15 +204,18 @@ const checkCallStatus = async () => {
             { _id: callDetails.callId },
             { Status: "completed" }
           );
-          console.log("response", updatestst)
+          console.log("response", updatestst);
           if (data.Call?.Duration) {
-            let totalDeductedAmount = callDetails.previousUserBalance - user.amount;
-            console.log("Total deduction", totalDeductedAmount)
-            console.log(astrologer.totalEarning)
+            let totalDeductedAmount =
+              callDetails.previousUserBalance - user.amount;
 
             updatestst = await Astrologer.updateOne(
               { _id: callDetails.astroid },
-              { callingStatus: "Available", waiting_tym: 0, totalEarning: totalDeductedAmount + astrologer.totalEarning }
+              {
+                callingStatus: "Available",
+                waiting_tym: 0,
+                $push: { totalEarning: { amount: totalDeductedAmount } },
+              }
             );
             console.log(updatestst);
             cron_job.stop();
@@ -277,11 +280,7 @@ exports.on_make_another_call = async (req, res) => {
     console.error(err);
     res.status(500).json({ error: "Failed to update data" });
   }
-}
-
-
-
-
+};
 
 // Schedule the cron job to run every minute
 // const cron_job = cron.schedule('* * * * * *', async () => {
@@ -298,7 +297,6 @@ exports.call_Status = async (req, res) => {
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
-
 
 const agora = require("agora-access-token");
 const { ConnectionPoolClearedEvent } = require("mongodb");
@@ -340,7 +338,6 @@ exports.astroVideoCall = async (req, res) => {
       astroAccount,
       privilegeExpiredTs
     );
-
 
     res.status(200).json({
       astroAccount: tokenA,
@@ -433,9 +430,9 @@ exports.userCallHistory = async (req, res) => {
     .catch((error) => resp.errorr(res, error));
 };
 
-
 exports.CompleteCall = async (req, res) => {
-  await make_call.find({ Status: "completed" })
+  await make_call
+    .find({ Status: "completed" })
     .sort({ sortorder: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));

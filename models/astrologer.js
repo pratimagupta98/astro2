@@ -171,15 +171,23 @@ const thisSchema = new Schema(
     channelName: {
       type: String,
     },
-    totalEarning: {
-      type: Number,
-      default: 0
-    },
+    totalEarning: [
+      {
+        amount: {
+          type: Number,
+          default: 0,
+        },
+        date: {
+          type: Date,
+          default: new Date(),
+        },
+      },
+    ],
     ownamount: {
-      type: Number
+      type: Number,
     },
     specification: {
-      type: String
+      type: String,
     },
     // sunday: [
     //   {
