@@ -31,7 +31,8 @@ const {
   astroCount,
   onlineAstroCount,
   offlineAstroCount,
-  busyAstroCount
+  busyAstroCount,
+  getWaitQueueList
 } = require("../controller/astrologer");
 
 const storage = multer.diskStorage({
@@ -105,6 +106,7 @@ router.get("/user/astroCount", astroCount);
 router.get("/user/onlineAstroCount", onlineAstroCount);
 router.get("/user/offlineAstroCount", offlineAstroCount);
 router.get("/user/busyAstroCount", busyAstroCount);
+router.get("/user/getWaitQueueList/:id", getWaitQueueList);
 
 
 

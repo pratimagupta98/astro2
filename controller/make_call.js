@@ -27,6 +27,9 @@ exports.make_call = async (req, res) => {
   let astrologer = await Astrologer.find({ _id: callDetails.astroid });
   user = user[0];
   astrologer = astrologer[0];
+  console.log("astrologer", astrologer)
+  console.log("astrologer", astrologer.callCharge)
+
 
   callDetails.previousUserBalance = user.amount;
 
@@ -227,16 +230,6 @@ const checkCallStatus = async () => {
             // console.log(updatestst);
             cron_job.stop();
           }
-        } else if (callStatus === "failed") {
-          console.log("Call has been failed");
-          // Handle rejected status logic
-          let updatestst = await make_call.updateOne(
-            { _id: callDetails.callId },
-            { Status: "failed" }
-          );
-          console.log(updatestst);
-          cron_job.stop();
-
         }
         else if (callStatus === "no-answer") {
           console.log("Call has been rejected");
@@ -244,6 +237,16 @@ const checkCallStatus = async () => {
           let updatestst = await make_call.updateOne(
             { _id: callDetails.callId },
             { Status: "rejected" }
+          );
+          console.log(updatestst);
+          cron_job.stop();
+
+        } else if (callStatus === "failed") {
+          console.log("Call has been failed");
+          // Handle rejected status logic
+          let updatestst = await make_call.updateOne(
+            { _id: callDetails.callId },
+            { Status: "failed" }
           );
           console.log(updatestst);
           cron_job.stop();

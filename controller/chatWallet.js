@@ -673,9 +673,7 @@ exports.ChatWaiting = async (req, res) => {
     .catch((error) => resp.errorr(res, error));
 }
 
-// gsttotal = (price*product_qty) +(product_price*product_qty)
-// .then((data) => resp.successr(res, data))
-// .catch((error) => resp.errorr(res, error));
+
 exports.cartbycustomer = async (req, res) => {
   //await Cart.remove()
   const findone = await Cart.find({ userid: req.userId })
