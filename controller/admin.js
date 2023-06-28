@@ -192,7 +192,7 @@ exports.updateComision = async (req, res) => {
   await Astrologer.updateMany(
     {},
     { $mul: { callCharge: ascom } } // Use $mul to multiply the field
-  ).toFixed(callCharge)
+  )
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
