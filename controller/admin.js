@@ -198,4 +198,8 @@ exports.updateComision = async (req, res) => {
 };
 
 
-
+exports.viewoneCommision = async (req, res) => {
+  await AdminComision.findOne({ _id: "64967ef62cf27fc5dd12416d" })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+}

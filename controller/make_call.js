@@ -106,6 +106,7 @@ exports.make_call = async (req, res) => {
 
         callDetails.callId = response._id;
         callDetails.callduration = response.Duration
+
         options.maxTime = parseInt(user.amount / astrologer.callCharge);
         const astroStatus = await Astrologer.updateOne(
           { _id: callDetails.astroid },
@@ -190,6 +191,8 @@ const checkCallStatus = async () => {
       let duration = 0;
       if (status === 200) {
         const callStatus = data.Call.Status;
+        const calldur = data.Call.Duration;
+        console.log("callduration", calldur)
         let user = await User.find({ _id: callDetails.userId });
         let astrologer = await Astrologer.find({ _id: callDetails.astroid });
         user = user[0];
@@ -206,11 +209,11 @@ const checkCallStatus = async () => {
             callDetails.previousUserBalance - user.amount;
           const useramt =
             user.amount - parseInt(duration * astrologer.callCharge);
-          console.log("response", updatestst);
+
           if (data.Call?.Duration) {
             let updatestst = await make_call.updateOne(
               { _id: callDetails.callId },
-              { Status: "completed", userdeductedAmt: totalDeductedAmount, userAmt: useramt, Duration: data.Call?.Duration }
+              { Status: "completed", userdeductedAmt: totalDeductedAmount, userAmt: useramt, Duration: calldur }
             );
             console.log(totalDeductedAmount)
             updatestst = await Astrologer.updateOne(
@@ -221,7 +224,7 @@ const checkCallStatus = async () => {
                 $push: { totalEarning: { amount: totalDeductedAmount } },
               }
             );
-            console.log(updatestst);
+            // console.log(updatestst);
             cron_job.stop();
           }
         } else if (callStatus === "in-progress") {

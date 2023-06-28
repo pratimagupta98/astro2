@@ -43,6 +43,7 @@ const thisSchema = new Schema(
     },
     Duration: {
       type: Number,
+      default: 0
     },
     Price: {
       type: Number,
@@ -65,13 +66,13 @@ const thisSchema = new Schema(
     RecordingUrl: {
       type: String,
     },
-    userdeductedAmt:{
-      type:Number,
-      default:0
+    userdeductedAmt: {
+      type: Number,
+      default: 0
     },
-    userAmt:{
-      type:Number,
-      default:0  
+    userAmt: {
+      type: Number,
+      default: 0
     }
   },
 
