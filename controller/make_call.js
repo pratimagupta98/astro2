@@ -227,7 +227,30 @@ const checkCallStatus = async () => {
             // console.log(updatestst);
             cron_job.stop();
           }
-        } else if (callStatus === "in-progress") {
+        } else if (callStatus === "failed") {
+          console.log("Call has been failed");
+          // Handle rejected status logic
+          let updatestst = await make_call.updateOne(
+            { _id: callDetails.callId },
+            { Status: "failed" }
+          );
+          console.log(updatestst);
+          cron_job.stop();
+
+        }
+        else if (callStatus === "no-answer") {
+          console.log("Call has been rejected");
+          // Handle rejected status logic
+          let updatestst = await make_call.updateOne(
+            { _id: callDetails.callId },
+            { Status: "rejected" }
+          );
+          console.log(updatestst);
+          cron_job.stop();
+
+        }
+
+        else if (callStatus === "in-progress") {
           duration++;
 
           const amountDeduct =
@@ -262,7 +285,7 @@ const checkCallStatus = async () => {
             { _id: callDetails.astroid },
             { callingStatus: "Available", waiting_tym: 0 }
           );
-        
+
 
           console.log(response);
           cron_job.stop();
@@ -313,8 +336,15 @@ exports.getEarnings = async (req, res) => {
       report.month += e.amount;
     }
     report.total += e.amount;
-  });
-  console.log(report);
+  })
+  // console.log(report)
+  res.status(200).json({
+    status: true,
+    message: "success",
+    data: report
+  })
+  // .then((data) => resp.successr(res, data))
+  //   .catch((error) => resp.errorr(res, error));
 };
 
 // Schedule the cron job to run every minute
