@@ -83,28 +83,3 @@ exports.deductBalance = async (req, res) => {
   );
 };
 
-// const axios = require('axios');
-// const cron = require('node-cron');
-// const database = require('./database'); // Import your database module or ORM
-
-// exports.updateWaitTym = async () => {
-//     try {
-//         const astrologers = await database.getAllAstrologers();
-
-//         for (const astro of astrologers) {
-//             const currentWaitTym = astro.waitTym;
-//             if (currentWaitTym > 0) {
-//                 const updatedWaitTym = currentWaitTym - 1;
-//                 await database.updateAstrologerWaitTym(astro.id, updatedWaitTym);
-//                 console.log(`Wait time for astrologer ${astro.id} updated: ${updatedWaitTym} minutes`);
-//             }
-//         }
-//     } catch (error) {
-//         console.log("Error occurred:", error.message);
-//     }
-// };
-
-// Schedule the cron job to run every minute
-// cron.schedule('* * * * *', async () => {
-//     await exports.updateWaitTym();
-// });

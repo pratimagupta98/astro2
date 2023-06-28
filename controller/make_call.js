@@ -262,6 +262,8 @@ const checkCallStatus = async () => {
             { _id: callDetails.astroid },
             { callingStatus: "Available", waiting_tym: 0 }
           );
+        
+
           console.log(response);
           cron_job.stop();
           console.log("Unknown call status:", callStatus);
@@ -474,5 +476,17 @@ exports.dlCallHistory = async (req, res) => {
   await make_call
     .deleteOne({ _id: req.params.id })
     .then((data) => resp.deleter(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
+
+
+exports.adminCallHistory = async (req, res) => {
+  await make_call
+    .find().populate("userid").populate("astroid")
+    .populate("userid")
+    .populate("astroid")
+    .sort({ createdAt: -1 })
+    .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
