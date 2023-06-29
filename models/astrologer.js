@@ -189,6 +189,9 @@ const thisSchema = new Schema(
     specification: {
       type: String,
     },
+    callType:{
+      type: String,
+    }
     // sunday: [
     //   {
     //     start: "10AM",
