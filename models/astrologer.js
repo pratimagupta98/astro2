@@ -189,9 +189,7 @@ const thisSchema = new Schema(
     specification: {
       type: String,
     },
-    callType: {
-      type: Array,
-    }
+  
 
   },
 

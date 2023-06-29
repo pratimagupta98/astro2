@@ -211,3 +211,40 @@ exports.viewoneCommision = async (req, res) => {
 
 
 
+exports.getAdminEarnings = async (req, res) => {
+  const { id } = "64967ef62cf27fc5dd12416d"
+  const admin = await AdminComision.findById("64967ef62cf27fc5dd12416d");
+  //console.log("admin", admin)
+  const report = { today: 0, week: 0, month: 0, total: 0 };
+
+  admin.totalEarning.map((e) => {
+    if (e.date.toString().slice(0, 16) == new Date().toString().slice(0, 16)) {
+      report.today += e.amount;
+    }
+    if (
+      e.date.toString().slice(0, 16) >=
+      new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toString().slice(0, 16)
+    ) {
+      report.week += e.amount;
+    }
+    if (
+      e.date.toString().slice(0, 16) >=
+      new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toString().slice(0, 16)
+    ) {
+      report.month += e.amount;
+    }
+    report.total += e.amount;
+  })
+
+  report.today = parseFloat(report.today.toFixed(2));
+  report.week = parseFloat(report.week.toFixed(2));
+  report.month = parseFloat(report.month.toFixed(2));
+  report.total = parseFloat(report.total.toFixed(2));
+  // console.log(report)
+  res.status(200).json({
+    status: true,
+    message: "success",
+    data: report
+  })
+
+};

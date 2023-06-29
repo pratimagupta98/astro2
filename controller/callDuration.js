@@ -83,16 +83,20 @@ exports.intetakeNotification = async (req, res) => {
 //   );
 // };
 
+
+
+
 exports.changeToAvailable = async (req, res) => {
   await Astrologer.updateOne({ _id: req.body.id }, { status: "Available" })
-    .then((res) => {
-      console.log(res);
-      res.staus(200).send("Status updated successfully");
+    .then((result) => {
+      console.log(result);
+      res.status(200).send("Status updated successfully");
     })
     .catch((err) => {
       console.log(err);
     });
 };
+
 
 exports.deductBalance = async (req, res) => {
   const { userId, astroId } = req.body;

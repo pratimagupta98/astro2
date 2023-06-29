@@ -11,7 +11,8 @@ const {
   viewoneadmin,
   astologerCommision,
   updateComision,
-  viewoneCommision
+  viewoneCommision,
+  getAdminEarnings
   //   deletecreditcustomer,
   //   updatcreditcustomer,
   //   namefindcreditcustomer
@@ -65,6 +66,7 @@ router.post("/admin/editprofile/:id", multipleUpload, editprofile);
 router.post("/admin/astologerCommision", astologerCommision);
 router.post("/admin/updateComision/:id", updateComision);
 router.get("/admin/viewoneCommision", viewoneCommision);
+router.get("/admin/getAdminEarnings", getAdminEarnings);
 
 
 module.exports = router;

@@ -1,5 +1,6 @@
 const make_call = require("../models/make_call.js");
 const VideoModel = require("../models/videomodel.js");
+const AdminComision = require("../models/admin");
 
 const Astrologer = require("../models/astrologer");
 
@@ -126,7 +127,6 @@ exports.make_call = async (req, res) => {
           astrologer.callCharge
         );
 
-        console.log((astrologer.callCharge) - astrologer.callCharge * 100 / (100 + 20))
         res.status(200).json({ order: options });
         checkCallStatus();
       }
@@ -220,13 +220,31 @@ const checkCallStatus = async () => {
               { _id: callDetails.callId },
               { Status: "completed", userdeductedAmt: totalDeductedAmount, userAmt: useramt, Duration: calldur }
             );
+
+
+            const getcom = await AdminComision.findOne({
+              _id: "64967ef62cf27fc5dd12416d"
+            })
+            console.log("getcom", getcom.admincomision)
+            const getadmincommision = (astrologer.callCharge) - astrologer.callCharge * 100 / (100 + parseInt(getcom.admincomision))
+            const adminCommission = parseFloat(getadmincommision.toFixed(2));
+            console.log("getadmincommision", adminCommission)
+
+            let admincom = await AdminComision.updateOne(
+              { _id: "64967ef62cf27fc5dd12416d" },
+              {
+
+                $push: { totalEarning: { amount: adminCommission } },
+              }
+            );
             console.log(totalDeductedAmount);
+            console.log("ASTROLOGERCOMMISION", totalDeductedAmount - adminCommission)
             updatestst = await Astrologer.updateOne(
               { _id: callDetails.astroid },
               {
                 callingStatus: "Available",
                 waiting_tym: 0,
-                $push: { totalEarning: { amount: totalDeductedAmount } },
+                $push: { totalEarning: { amount: totalDeductedAmount - adminCommission } },
               }
             );
             // console.log(updatestst);
@@ -345,21 +363,21 @@ exports.getEarnings = async (req, res) => {
     }
     report.total += e.amount;
   })
+
+  report.today = parseFloat(report.today.toFixed(2));
+  report.week = parseFloat(report.week.toFixed(2));
+  report.month = parseFloat(report.month.toFixed(2));
+  report.total = parseFloat(report.total.toFixed(2));
   // console.log(report)
   res.status(200).json({
     status: true,
     message: "success",
     data: report
   })
-  // .then((data) => resp.successr(res, data))
-  //   .catch((error) => resp.errorr(res, error));
+
 };
 
-// Schedule the cron job to run every minute
-// const cron_job = cron.schedule('* * * * * *', async () => {
-//   console.log("checking 1 second")
-//   await checkCallStatus()
-// });
+
 
 exports.call_Status = async (req, res) => {
   await make_call
