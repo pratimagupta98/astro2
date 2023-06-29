@@ -83,6 +83,17 @@ exports.intetakeNotification = async (req, res) => {
 //   );
 // };
 
+exports.changeToAvailable = async (req, res) => {
+  await Astrologer.updateOne({ _id: req.body.id }, { status: "Available" })
+    .then((res) => {
+      console.log(res);
+      res.staus(200).send("Status updated successfully");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 exports.deductBalance = async (req, res) => {
   const { userId, astroId } = req.body;
 
@@ -91,20 +102,43 @@ exports.deductBalance = async (req, res) => {
 
   if (user.amount <= astro.callCharge * 5) {
     const deductedBalance = user.amount - astro.callCharge;
-    await User.updateOne({ _id: userId }, { amount: deductedBalance }).then(() => {
-      res.status(203).send("Balance is low");
-    }).catch((error) => {
-      res.status(500).send("An error occurred while updating the user's balance");
-    });
+    await User.updateOne({ _id: userId }, { amount: deductedBalance })
+      .then(async () => {
+        const resp = await Astrologer.updateOne(
+          { _id: astroId },
+          { callingStatus: "Busy" }
+        );
+        console.log(resp);
+        res.status(203).send("Balance is low");
+      })
+      .catch((error) => {
+        res
+          .status(500)
+          .send("An error occurred while updating the user's balance");
+      });
   } else if (user.amount < astro.callCharge) {
+    const resp = await Astrologer.updateOne(
+      { _id: astroId },
+      { callingStatus: "Available" }
+    );
+    console.log(resp);
     res.status(404).send("Your balance is not enough to chat");
   } else {
     const deductedBalance = user.amount - astro.callCharge;
     //  console.log(deductedBalance)
-    await User.updateOne({ _id: userId }, { amount: deductedBalance }).then(() => {
-      res.status(200).send("Balance Deducted successfully");
-    }).catch((error) => {
-      res.status(500).send("An error occurred while updating the user's balance");
-    });
+    await User.updateOne({ _id: userId }, { amount: deductedBalance })
+      .then(async () => {
+        const resp = await Astrologer.updateOne(
+          { _id: astroId },
+          { callingStatus: "Busy" }
+        );
+        console.log(resp);
+        res.status(200).send("Balance Deducted successfully");
+      })
+      .catch((error) => {
+        res
+          .status(500)
+          .send("An error occurred while updating the user's balance");
+      });
   }
 };
