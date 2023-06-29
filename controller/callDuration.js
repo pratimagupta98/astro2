@@ -58,28 +58,53 @@ exports.intetakeNotification = async (req, res) => {
     .catch((error) => resp.errorr(res, error));
 };
 
+// exports.deductBalance = async (req, res) => {
+//   const { userId, astroId } = req.body;
+
+//   const user = await User.findById(userId);
+//   const astro = await Astrologer.findById(astroId);
+
+//   if (user.amount <= astro.callCharge * 5) {
+//     const deductedBalance = user.amount - astro.callCharge;
+//     await User.updateOne({ _id: userId }, { amount: deductedBalance }).then(
+//       (res) => {
+//         res.status(203).send("Balance is low");
+//       }
+//     );
+//   } else if (user.amount < astro.callCharge) {
+//     res.status(404).send("Your balance is not enough to chat");
+//   }
+
+//   const deductedBalance = user.amount - astro.callCharge;
+//   await User.updateOne({ _id: userId }, { amount: deductedBalance }).then(
+//     (res) => {
+//       res.status(200).send("Balance Deducted successfully");
+//     }
+//   );
+// };
+
 exports.deductBalance = async (req, res) => {
   const { userId, astroId } = req.body;
 
   const user = await User.findById(userId);
   const astro = await Astrologer.findById(astroId);
-
+console.log(astro.callCharge)
   if (user.amount <= astro.callCharge * 5) {
     const deductedBalance = user.amount - astro.callCharge;
-    await User.updateOne({ _id: userId }, { amount: deductedBalance }).then(
-      (res) => {
-        res.status(203).send("Balance is low");
-      }
-    );
+    await User.updateOne({ _id: userId }, { amount: deductedBalance }).then(() => {
+      res.status(203).send("Balance is low");
+    }).catch((error) => {
+      res.status(500).send("An error occurred while updating the user's balance");
+    });
   } else if (user.amount < astro.callCharge) {
     res.status(404).send("Your balance is not enough to chat");
-  }
-
-  const deductedBalance = user.amount - astro.callCharge;
-  await User.updateOne({ _id: userId }, { amount: deductedBalance }).then(
-    (res) => {
+  } else {
+    const deductedBalance = user.amount - astro.callCharge;
+    console.log(deductedBalance)
+    await User.updateOne({ _id: userId }, { amount: deductedBalance }).then(() => {
       res.status(200).send("Balance Deducted successfully");
-    }
-  );
+    }).catch((error) => {
+      res.status(500).send("An error occurred while updating the user's balance");
+    });
+  }
 };
-
