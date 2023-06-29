@@ -87,7 +87,7 @@ exports.intetakeNotification = async (req, res) => {
 
 
 exports.changeToAvailable = async (req, res) => {
-  await Astrologer.updateOne({ _id: req.body.id }, { status: "Available" })
+  await Astrologer.updateOne({ _id: req.body.id }, { callingStatus: "Available" })
     .then((result) => {
       console.log(result);
       res.status(200).send("Status updated successfully");
