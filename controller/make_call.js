@@ -304,11 +304,14 @@ const checkCallStatus = async () => {
 };
 
 exports.on_make_another_call = async (req, res) => {
-  const { userId } = req.body;
+  const { userId, callType } = req.body;
   let { id } = req.params;
 
   try {
-    await Astrologer.updateOne({ _id: id }, { $push: { waitQueue: userId } });
+    await Astrologer.updateOne(
+      { _id: id },
+      { $push: { waitQueue: { userId, callType } } }
+    );
     console.log("Data updated successfully");
     res.status(200).json({ message: "Added in waitQueue list" });
   } catch (err) {

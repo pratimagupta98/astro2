@@ -88,7 +88,7 @@ exports.deductBalance = async (req, res) => {
 
   const user = await User.findById(userId);
   const astro = await Astrologer.findById(astroId);
-console.log(astro.callCharge)
+
   if (user.amount <= astro.callCharge * 5) {
     const deductedBalance = user.amount - astro.callCharge;
     await User.updateOne({ _id: userId }, { amount: deductedBalance }).then(() => {
@@ -100,7 +100,7 @@ console.log(astro.callCharge)
     res.status(404).send("Your balance is not enough to chat");
   } else {
     const deductedBalance = user.amount - astro.callCharge;
-    console.log(deductedBalance)
+    //  console.log(deductedBalance)
     await User.updateOne({ _id: userId }, { amount: deductedBalance }).then(() => {
       res.status(200).send("Balance Deducted successfully");
     }).catch((error) => {

@@ -814,11 +814,41 @@ exports.busyAstroCount = async (req, res) => {
 
 
 
+// exports.getWaitQueueList = async (req, res) => {
+//   const { id } = req.params;
+
+//   try {
+//     const astrologer = await Astrologer.findById(id).populate("waitQueue", "name email");
+
+//     if (!astrologer) {
+//       return res.status(404).json({ error: "Astrologer not found" });
+//     }
+
+//     const waitQueueList = astrologer.waitQueue;
+//     const userList = [];
+
+//     for (const userId of waitQueueList) {
+//       const user = await User.findById(userId);
+//       if (user) {
+//         userList.push(user);
+//       }
+//     }
+
+//     res.status(200).json({ waitQueueList: userList });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Failed to fetch waitQueue list" });
+//   }
+// };
+
 exports.getWaitQueueList = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const astrologer = await Astrologer.findById(id).populate("waitQueue", "name email");
+    const astrologer = await Astrologer.findById(id).populate({
+      path: "waitQueue.userId",
+      select: "name email"
+    });
 
     if (!astrologer) {
       return res.status(404).json({ error: "Astrologer not found" });
@@ -827,10 +857,10 @@ exports.getWaitQueueList = async (req, res) => {
     const waitQueueList = astrologer.waitQueue;
     const userList = [];
 
-    for (const userId of waitQueueList) {
+    for (const { userId, callType } of waitQueueList) {
       const user = await User.findById(userId);
       if (user) {
-        userList.push(user);
+        userList.push({ value: { userId, callType }, user });
       }
     }
 
@@ -840,4 +870,3 @@ exports.getWaitQueueList = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch waitQueue list" });
   }
 };
-
