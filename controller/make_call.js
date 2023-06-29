@@ -125,6 +125,8 @@ exports.make_call = async (req, res) => {
           " and astrologer charge is ",
           astrologer.callCharge
         );
+
+        console.log((astrologer.callCharge) - astrologer.callCharge * 100 / (100 + 20))
         res.status(200).json({ order: options });
         checkCallStatus();
       }
@@ -308,12 +310,12 @@ exports.on_make_another_call = async (req, res) => {
   let { id } = req.params;
 
   try {
-    await Astrologer.updateOne(
+    const senddata = await Astrologer.updateOne(
       { _id: id },
       { $push: { waitQueue: { userId, callType } } }
     );
     console.log("Data updated successfully");
-    res.status(200).json({ message: "Added in waitQueue list" });
+    res.status(200).json({ message: "Added in waitQueue list", data: req.body });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Failed to update data" });

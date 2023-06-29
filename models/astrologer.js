@@ -192,16 +192,7 @@ const thisSchema = new Schema(
     callType: {
       type: Array,
     }
-    // sunday: [
-    //   {
-    //     start: "10AM",
-    //     end: "12PM"
-    //   },
-    //   {
-    //     start: "12AM",
-    //     end: "2PM"
-    //   }
-    // ]
+
   },
 
   { timestamps: true }

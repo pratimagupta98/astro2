@@ -208,34 +208,6 @@ exports.viewoneCommision = async (req, res) => {
 
 
 
-// exports.getEarnings = async (req, res) => {
-//   const { id } = req.params;
-//   const astro = await Astrologer.findById(id);
-//   const report = { today: 0, week: 0, month: 0, total: 0 };
 
-//   astro.totalEarning.map((e) => {
-//     if (e.date.toString().slice(0, 16) == new Date().toString().slice(0, 16)) {
-//       report.today += e.amount;
-//     }
-//     if (
-//       e.date.toString().slice(0, 16) >=
-//       new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toString().slice(0, 16)
-//     ) {
-//       report.week += e.amount;
-//     }
-//     if (
-//       e.date.toString().slice(0, 16) >=
-//       new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toString().slice(0, 16)
-//     ) {
-//       report.month += e.amount;
-//     }
-//     report.total += e.amount;
-//   })
-//   // console.log(report)
-//   res.status(200).json({
-//     status: true,
-//     message: "success",
-//     data: report
-//   })
- 
-// };
+
+
