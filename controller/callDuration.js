@@ -86,15 +86,40 @@ exports.intetakeNotification = async (req, res) => {
 
 
 
+// exports.changeToAvailable = async (req, res) => {
+//   // await Astrologer.updateOne({ _id: req.body.id }, { callingStatus: "Available" },{new:true})
+
+//   await Astrologer.findOneAndUpdate(
+//     {
+//       _id: req.body.id,
+//     },
+//     { $set: { callingStatus: "Available" } },
+//     { new: true }
+//   )
+//     .then((result) => {
+//       console.log(result);
+//       res.status(200).send("Status updated successfully");
+//     })
+
+
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// };
 exports.changeToAvailable = async (req, res) => {
-  await Astrologer.updateOne({ _id: req.body.id }, { callingStatus: "Available" })
-    .then((result) => {
-      console.log(result);
-      res.status(200).send("Status updated successfully");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  try {
+    const updatedAstrologer = await Astrologer.findOneAndUpdate(
+      { _id: req.body.id },
+      { $set: { callingStatus: "Available" } },
+      { new: true }
+    );
+
+    // console.log(updatedAstrologer);
+    res.status(200).send("Status updated successfully");
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to update status" });
+  }
 };
 
 
