@@ -248,7 +248,7 @@ exports.addCallWallet = async (req, res) => {
           userid: req.body.userid,
           astroid: req.body.astroid,
 
-          type: "Voice Call"
+          type: "Chat"
         };
 
         const chatWallet = new ChatWallet(chatWalletData);
