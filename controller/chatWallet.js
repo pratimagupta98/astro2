@@ -7,7 +7,7 @@ const moment = require('moment');
 var cron = require('node-cron');
 const WalletT = require("../models/walletTransaction");
 
- 
+
 
 exports.addCallWallet = async (req, res) => {
   const { userid, astroid, recharge_planId, beforeAmt, deductedAmt, finalAmt } = req.body;
@@ -52,7 +52,7 @@ exports.addCallWallet = async (req, res) => {
         res.status(200).json({
           status: true,
           msg: "success",
-     //     type: "Chat"
+          //     type: "Chat"
         })
 
       } else {
@@ -435,7 +435,7 @@ exports.getOne_Conversation_Wallet = async (req, res) => {
 
 
 exports.dltNotificattion = async (req, res) => {
-  await ChatWallet.deleteMany()
+  await ChatWallet.deleteOne()
     .then((data) => resp.deleter(res, data))
     .catch((error) => resp.errorr(res, error));
 };
