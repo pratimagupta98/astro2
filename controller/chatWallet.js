@@ -434,7 +434,7 @@ exports.getOne_Conversation_Wallet = async (req, res) => {
 };
 
 
-exports.dltMany = async (req, res) => {
+exports.dltNotificattion = async (req, res) => {
   await ChatWallet.deleteMany()
     .then((data) => resp.deleter(res, data))
     .catch((error) => resp.errorr(res, error));
