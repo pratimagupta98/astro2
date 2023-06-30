@@ -323,6 +323,7 @@ const checkCallStatus = async () => {
   });
 };
 
+ 
 exports.on_make_another_call = async (req, res) => {
   const { userId, callType } = req.body;
   let { id } = req.params;
@@ -330,7 +331,15 @@ exports.on_make_another_call = async (req, res) => {
   try {
     const senddata = await Astrologer.updateOne(
       { _id: id },
-      { $push: { waitQueue: { userId, callType } } }
+      {
+        $push: {
+          waitQueue: {
+            userId,
+            callType,
+            createdAt: new Date() // Add the createdAt parameter with the current date and time
+          }
+        }
+      }
     );
     console.log("Data updated successfully");
     res.status(200).json({ message: "Added in waitQueue list", data: req.body });
@@ -339,6 +348,9 @@ exports.on_make_another_call = async (req, res) => {
     res.status(500).json({ error: "Failed to update data" });
   }
 };
+
+
+
 
 exports.getEarnings = async (req, res) => {
   const { id } = req.params;
