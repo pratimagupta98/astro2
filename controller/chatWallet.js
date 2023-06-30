@@ -7,214 +7,7 @@ const moment = require('moment');
 var cron = require('node-cron');
 const WalletT = require("../models/walletTransaction");
 
-// exports.addChatWallet = async (req, res) => {
-//     const {userid,astroid,recharge_planId,finalAmt,beforeAmt,deductedAmt} = req.body;
-
-
-
-
-// const getoneastro = await Astrologer.findOne({_id:req.body.astroid})
-// //console.log("ASTRO",getoneastro)
-// if(getoneastro){
-// const getcharge = getoneastro.callCharge
-// console.log("CALLCHARGE",getcharge)
-
-//  const getplanchrge = await Minutecharge.findOne({_id:req.body.recharge_planId})
-//  console.log("MIN PLAN",getplanchrge)
-//  if(getplanchrge){
-//  const getplan = getplanchrge.minute
-//  console.log("getplan",getplan)
-
-//  const getuserdetail = await User.findOne({_id:req.body.userid})
-//  //console.log("GETUSER",getuserdetail)
-//  if(getuserdetail){
-//     let totalamt = getcharge*getplan
-//     console.log("TOTAL AMT WAS DEDUCTED",totalamt)
-//  const getwalletamt = getuserdetail.amount
-//  console.log("WALLET AMT",getwalletamt)
-//  let  newamt=0
-//  if (getwalletamt>totalamt){
-// console.log("success")
-
-// newamt =getwalletamt - totalamt
-// console.log("Before",getwalletamt)
-// console.log("new",newamt)
-// const newChatWallet = new ChatWallet({
-//   userid:userid,
-//   astroid:astroid,
-//   recharge_planId:recharge_planId,
-//   type :"Chat",
-//   tran_Type:"Debited",
-//   conversationId:"#"+ Date.now(),
-//   beforeAmt:getwalletamt,
-//   deductedAmt:totalamt,
-//   finalAmt:newamt
-// })
-// const newWalletT = new WalletT({
-// userid:userid,
-// astroid:astroid,
-// recharge_planId:recharge_planId,
-// type :"Chat",
-// tran_Type:"Debited",
-// conversationId:"#"+ Date.now(),
-// beforeAmt:getwalletamt,
-// deductedAmt:totalamt,
-// finalAmt:newamt
-// })
-// newChatWallet.save()
-//         .then(async (data) => {
-//            const createnewtable = await WalletT.create(newWalletT);
-//           console.log("MMMMMM",createnewtable)
-//           res.status(200).json({
-//             status: true,
-//             msg: "success",
-//             data: data,
-//             beforeAmt:getwalletamt,
-//             deductedAmt:totalamt,
-//             finalAmt:newamt
-
-//             // callCharge:getoneastro.callCharge,
-//             // minute:
-//           });
-//         }) 
-//         .catch((error) => {
-//           res.status(400).json({
-//             status: false,
-//             msg: "error",
-//             error: error,
-//           });
-//         });
-//         const finduserAndupdate = await User.findOneAndUpdate(
-
-//             { _id: req.body.userid },
-
-//             { $set: {amount:newamt,deductedAmt:totalamt } },
-//           { new: true },
-//           )
-//           if(finduserAndupdate){
-// console.log("UPDATE USER AMOUNT",finduserAndupdate)
-
-//           }
-
-
-//  }else{
-//     console.log("INSUFFICIENT BALANCE")
-//     res.status(201).json({
-//         status:false,
-//         msg:"Insufficient belence"
-//     })
-//  }
-
-//  }else{
-//     console.log("ERROR")
-//     res.status(400).json({
-//         status:false,
-//         msg :"Something Went Wrong"
-//     })
-//  }
-//  }else{
-// console.log("error")
-// res.status(400).json({
-//     status:false,
-//     msg :"Something Went Wrong"
-// })
-//  }
-
-// }else{
-//     console.log("error")
-//     res.status(400).json({
-//         status:false,
-//         msg :"Something Went Wrong"
-//     })
-// }
-
-
-//   } 
-
-
-// exports.addChatWallet = async (req, res) => {
-//   const {userid,astroid,recharge_planId} = req.body;
-
-//    const getoneastro = await Astrologer.findOne({_id:req.body.astroid})
-//    if(getoneastro){
-//     const getcharge = getoneastro.callCharge
-
-//     const getplanchrge = await Minutecharge.findOne({_id:req.body.recharge_planId})
-//  console.log("MIN PLAN",getplanchrge)
-//  if(getplanchrge){
-//  const getplan = getplanchrge.minute
-//  console.log("getplan",getplan)
-//  const getuserdetail = await User.findOne({_id:req.body.userid})
-//  //console.log("GETUSER",getuserdetail)
-//  if(getuserdetail){
-//   let totalamt = getcharge*getplan
-//   console.log("TOTAL AMT WAS DEDUCTED",totalamt)
-// const getwalletamt = getuserdetail.amount
-// console.log("WALLET AMT",getwalletamt)
-// let  newamt=0
-// if (getwalletamt>totalamt){
-// console.log("success")
-
-// const newChatWallet = new ChatWallet({
-// userid:userid,
-// astroid:astroid,
-// recharge_planId:recharge_planId,
-// type :"Chat",
-// //tran_Type:"Debited",
-// conversationId:"#"+ Date.now(),
-// status:"Requested"
-// // beforeAmt:getwalletamt,
-// // deductedAmt:totalamt,
-// // finalAmt:newamt
-// })
-
-// newChatWallet.save()
-//       .then(async (data) => {
-//        //  const createnewtable = await WalletT.create(newWalletT);
-//      //   console.log("MMMMMM",createnewtable)
-//         res.status(200).json({
-//           status: true,
-//           msg: "success",
-//           data: data,
-//           // beforeAmt:getwalletamt,
-//           // deductedAmt:totalamt,
-//           // finalAmt:newamt
-
-//           // callCharge:getoneastro.callCharge,
-//           // minute:
-//         });
-//       }) 
-//     }else{
-//       console.log("INSUFFICIENT BALANCE")
-//       res.status(201).json({
-//           status:false,
-//           msg:"Insufficient belence"
-//       })
-
-//     }
-//   }
-//  }
-//     }else{
-//       console.log("ERROR")
-//     res.status(400).json({
-//         status:false,
-//         msg :"Something Went Wrong"
-//     })
-//     }
-
-
-//       // .catch((error) => {
-//       //   res.status(400).json({
-//       //     status: false,
-//       //     msg: "error",
-//       //     error: error,
-//       //   });
-//       // });
-
-
-
-// } 
-
+ 
 
 exports.addCallWallet = async (req, res) => {
   const { userid, astroid, recharge_planId, beforeAmt, deductedAmt, finalAmt } = req.body;
@@ -248,18 +41,18 @@ exports.addCallWallet = async (req, res) => {
           userid: req.body.userid,
           astroid: req.body.astroid,
 
-          type: "Chat"
+          type: req.body.type
         };
 
         const chatWallet = new ChatWallet(chatWalletData);
         await chatWallet.save();
-        
-       
-       
+
+
+
         res.status(200).json({
           status: true,
           msg: "success",
-          type: "Chat"
+     //     type: "Chat"
         })
 
       } else {
@@ -642,7 +435,7 @@ exports.getOne_Conversation_Wallet = async (req, res) => {
 
 
 exports.dltMany = async (req, res) => {
-  await Cart.deleteMany()
+  await ChatWallet.deleteMany()
     .then((data) => resp.deleter(res, data))
     .catch((error) => resp.errorr(res, error));
 };
@@ -1092,7 +885,7 @@ exports.acceptVideoChat = async (req, res) => {
 }
 
 
- 
+
 
 exports.wait_queue_list = async (req, res) => {
   const today = new Date();

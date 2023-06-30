@@ -10,6 +10,7 @@ const {
     ChatWaiting,
     wait_queue_list,
     accepted_notification,
+    dltMany
     //   addCallWallet_new
 
 } = require("../controller/chatWallet");
@@ -24,7 +25,7 @@ router.get("/user/ChatWaiting/:id", ChatWaiting);
 router.get("/user/wait_queue_list/:id", wait_queue_list);
 router.get("/user/accepted_notification/:id", accepted_notification);
 
-//router.post("/user/addCallWallet_new", addCallWallet_new);
+router.get("/admin/dltMany", dltMany);
 
 
 
