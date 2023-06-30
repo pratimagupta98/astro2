@@ -814,34 +814,8 @@ exports.busyAstroCount = async (req, res) => {
 
 
 
-exports.getWaitQueueList = async (req, res) => {
-  const { id } = req.params;
 
-  try {
-    const astrologer = await Astrologer.findById(id).populate("waitQueue", "name email");
 
-    if (!astrologer) {
-      return res.status(404).json({ error: "Astrologer not found" });
-    }
-
-    const waitQueueList = astrologer.waitQueue;
-    const userList = [];
-
-    for (const userId of waitQueueList) {
-      const user = await User.findById(userId);
-      if (user) {
-        userList.push(user);
-      }
-    }
-
-    res.status(200).json({ waitQueueList: userList });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Failed to fetch waitQueue list" });
-  }
-};
-
- 
 exports.getWaitQueueList = async (req, res) => {
   const { id } = req.params;
 
@@ -872,7 +846,7 @@ exports.getWaitQueueList = async (req, res) => {
         new Date(createdAt).setHours(0, 0, 0, 0) === today.getTime()
     );
 
-  //  console.log(filteredList);
+    //  console.log(filteredList);
 
     res.status(200).json({ waitQueueList: filteredList });
   } catch (error) {
