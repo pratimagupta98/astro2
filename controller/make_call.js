@@ -215,20 +215,23 @@ const checkCallStatus = async () => {
           const useramt =
             user.amount - parseInt(duration * astrologer.callCharge);
 
+          const getcom = await AdminComision.findOne({
+            _id: "64967ef62cf27fc5dd12416d"
+          })
+          console.log("getcom", getcom.admincomision)
+          const getadmincommision = (astrologer.callCharge) - astrologer.callCharge * 100 / (100 + parseInt(getcom.admincomision))
+          const adminCommission = parseFloat(getadmincommision.toFixed(2));
+          console.log("getadmincommision", adminCommission)
+
+
           if (data.Call?.Duration) {
             let updatestst = await make_call.updateOne(
               { _id: callDetails.callId },
-              { Status: "completed", userdeductedAmt: totalDeductedAmount, userAmt: useramt, Duration: calldur }
+              { Status: "completed", userdeductedAmt: totalDeductedAmount, userAmt: useramt, Duration: calldur, astroCredited: totalDeductedAmount - adminCommission, adminCredited: adminCommission, totalCredited: totalDeductedAmount }
             );
 
 
-            const getcom = await AdminComision.findOne({
-              _id: "64967ef62cf27fc5dd12416d"
-            })
-            console.log("getcom", getcom.admincomision)
-            const getadmincommision = (astrologer.callCharge) - astrologer.callCharge * 100 / (100 + parseInt(getcom.admincomision))
-            const adminCommission = parseFloat(getadmincommision.toFixed(2));
-            console.log("getadmincommision", adminCommission)
+
 
             let admincom = await AdminComision.updateOne(
               { _id: "64967ef62cf27fc5dd12416d" },
