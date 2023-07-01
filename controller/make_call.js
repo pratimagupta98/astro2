@@ -323,7 +323,7 @@ const checkCallStatus = async () => {
   });
 };
 
- 
+
 exports.on_make_another_call = async (req, res) => {
   const { userId, callType } = req.body;
   let { id } = req.params;
@@ -515,7 +515,8 @@ exports.Calling = async (req, res) => {
 
 exports.astroCallHistory = async (req, res) => {
   await make_call
-    .find({ astroid: req.params.id })
+    .find({ $and: [{ astroid: req.params.id }, { Status: "completed" }] })
+
     .populate("userid")
     .populate("astroid")
     .sort({ createdAt: -1 })
