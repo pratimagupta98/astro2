@@ -905,7 +905,7 @@ exports.wait_queue_list = async (req, res) => {
     .populate("astroid")
     .populate("userid")
     .populate("recharge_planId")
-    .sort({ createdAt: -1 })
+    .sort({ createdAt: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
