@@ -198,6 +198,8 @@ const checkCallStatus = async () => {
         const callStatus = data.Call.Status;
         const calldur = data.Call.Duration;
         console.log("callduration", calldur)
+        let ttlminute = calldur / 60
+        console.log("ttlminute", ttlminute)
         let user = await User.find({ _id: callDetails.userId });
         let astrologer = await Astrologer.find({ _id: callDetails.astroid });
         user = user[0];
@@ -214,13 +216,13 @@ const checkCallStatus = async () => {
             callDetails.previousUserBalance - user.amount;
           const useramt =
             user.amount - parseInt(duration * astrologer.callCharge);
-
+          console.log("totalDeductedAmount", totalDeductedAmount)
           const getcom = await AdminComision.findOne({
             _id: "64967ef62cf27fc5dd12416d"
           })
           console.log("getcom", getcom.admincomision)
           const getadmincommision = (astrologer.callCharge) - astrologer.callCharge * 100 / (100 + parseInt(getcom.admincomision))
-          const adminCommission = parseFloat(getadmincommision.toFixed(2));
+          const adminCommission = ttlminute * getadmincommision
           console.log("getadmincommision", adminCommission)
 
 
@@ -242,12 +244,15 @@ const checkCallStatus = async () => {
             );
             console.log(totalDeductedAmount);
             console.log("ASTROLOGERCOMMISION", totalDeductedAmount - adminCommission)
+            let astroCommision = totalDeductedAmount - adminCommission
+            let ttlastroCommision = astroCommision * ttlminute
+            console.log("ttlastroCommision", ttlastroCommision)
             updatestst = await Astrologer.updateOne(
               { _id: callDetails.astroid },
               {
                 callingStatus: "Available",
                 waiting_tym: 0,
-                $push: { totalEarning: { amount: totalDeductedAmount - adminCommission } },
+                $push: { totalEarning: { amount: ttlastroCommision } },
               }
             );
             // console.log(updatestst);
