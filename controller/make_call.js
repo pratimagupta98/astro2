@@ -529,7 +529,7 @@ exports.astroCallHistory = async (req, res) => {
 
 exports.userCallHistory = async (req, res) => {
   await make_call
-    .find({ userid: req.params.id })
+    .find({ $and: [{ userid: req.params.id }, { Status: "completed" }] })
     .populate("userid")
     .populate("astroid")
     .sort({ createdAt: -1 })
