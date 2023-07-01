@@ -555,7 +555,7 @@ exports.dlCallHistory = async (req, res) => {
 
 exports.adminCallHistory = async (req, res) => {
   await make_call
-    .find().populate("userid").populate("astroid")
+    .find({ Status: "completed" }).populate("userid").populate("astroid")
     .populate("userid")
     .populate("astroid")
     .sort({ createdAt: -1 })
