@@ -1,9 +1,12 @@
 const callDuration = require("../models/callDuration");
+const ChatHistory = require("../models/callDuration");
+
+
 const resp = require("../helpers/apiResponse");
 const { findOne } = require("../models/addEvent");
 const Astrologer = require("../models/astrologer");
 const User = require("../models/users");
-
+const cron = require("node-cron")
 exports.addCallDuration = async (req, res) => {
   const { userId, astroId, status } = req.body;
 
@@ -106,14 +109,83 @@ exports.intetakeNotification = async (req, res) => {
 //       console.log(err);
 //     });
 // };
+
+let duration;
+let cron_job;
+exports.deductBalance = async (req, res) => {
+  const { userId, astroId, type } = req.body;
+
+  const user = await User.findById(userId);
+  const astro = await Astrologer.findById(astroId);
+  console.log("Me call hua hu")
+  cron_job = cron.schedule("* * * * *", async () => {
+    duration++;
+    console.log("cron is running")
+    if (user.amount < astro.callCharge) {
+      const resp = await Astrologer.updateOne(
+        { _id: astroId },
+        { callingStatus: "Available" }
+      );
+
+      console.log(resp);
+      cron_job.stop()
+      // res.status(404).send("Your balance is not enough to chat");
+    } else if (user.amount <= astro.callCharge * 5) {
+      const deductedBalance = user.amount - astro.callCharge;
+      console.log("deductedBalance", deductedBalance)
+      console.log("user amt", user.amount)
+      await User.updateOne({ _id: userId }, { amount: deductedBalance })
+        .then(async () => {
+          const resp = await Astrologer.updateOne(
+            { _id: astroId },
+            { callingStatus: "Busy" }
+          );
+          console.log(resp);
+          // res.status(203).send("Balance is low");
+        })
+        .catch((error) => {
+          console.log(error)
+        });
+    } else {
+      const deductedBalance = user.amount - astro.callCharge;
+      console.log("astro Charge", astro.callCharge)
+      console.log("Deducted Balance", deductedBalance)
+      console.log("USER", user.amount)
+      await User.updateOne({ _id: userId }, { amount: deductedBalance })
+        .then(async () => {
+
+          const newChatHistory = new ChatHistory({
+            userId: userId,
+            astroId: astroId,
+            type: type
+
+          })
+
+          const resp = await Astrologer.updateOne(
+            { _id: astroId },
+            { callingStatus: "Busy" }
+          );
+          newChatHistory.save()
+          console.log(resp);
+
+          res.status(200).send("Balance Deducted successfully");
+        })
+        .catch((error) => {
+          console.log(error)
+        });
+    }
+  })
+};
+
 exports.changeToAvailable = async (req, res) => {
   try {
+
     const updatedAstrologer = await Astrologer.findOneAndUpdate(
       { _id: req.body.id },
       { $set: { callingStatus: "Available" } },
       { new: true }
     );
-
+    cron_job.stop()
     // console.log(updatedAstrologer);
     res.status(200).send("Status updated successfully");
   } catch (error) {
@@ -122,56 +194,17 @@ exports.changeToAvailable = async (req, res) => {
   }
 };
 
-
-exports.deductBalance = async (req, res) => {
-  const { userId, astroId } = req.body;
-
-  const user = await User.findById(userId);
-  const astro = await Astrologer.findById(astroId);
-
-  if (user.amount <= astro.callCharge * 5) {
-    const deductedBalance = user.amount - astro.callCharge;
-    console.log("deductedBalance",deductedBalance)
-    console.log("user amt",user.amount)
-    await User.updateOne({ _id: userId }, { amount: deductedBalance })
-      .then(async () => {
-        const resp = await Astrologer.updateOne(
-          { _id: astroId },
-          { callingStatus: "Busy" }
-        );
-        console.log(resp);
-        res.status(203).send("Balance is low");
-      })
-      .catch((error) => {
-        res
-          .status(500)
-          .send("An error occurred while updating the user's balance");
-      });
-  } else if (user.amount < astro.callCharge) {
-    const resp = await Astrologer.updateOne(
-      { _id: astroId },
-      { callingStatus: "Available" }
-    );
-    console.log(resp);
-    res.status(404).send("Your balance is not enough to chat");
-  } else {
-    const deductedBalance = user.amount - astro.callCharge;
-    console.log("astro Charge",astro.callCharge)
-    console.log("Deducted Balance",deductedBalance)
-    console.log("USER",user.amount)
-    await User.updateOne({ _id: userId }, { amount: deductedBalance })
-      .then(async () => {
-        const resp = await Astrologer.updateOne(
-          { _id: astroId },
-          { callingStatus: "Busy" }
-        );
-        console.log(resp);
-        res.status(200).send("Balance Deducted successfully");
-      })
-      .catch((error) => {
-        res
-          .status(500)
-          .send("An error occurred while updating the user's balance");
-      });
-  }
+exports.userChathistory = async (req, res) => {
+  await ChatHistory.find({$and: [{ astroid: req.params.id }, { type: "Chat" }]  })
+    .sort({ createdAt: 1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
 };
+
+exports.astroChathistory = async (req, res) => {
+  await ChatHistory.find({$and: [{ astroid: req.params.id }, { type: "Chat" }] })
+    .sort({ createdAt: 1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+

@@ -13,14 +13,15 @@ var cron = require('node-cron');
 
 exports.addchat = async (req, res) => {
   const uniqueroom = uuidv4();
-  const { userid, astroid, msg } = req.body;
+  const { userid, astroid, msg, status } = req.body;
 
   const newChat = new Chat({
     userid: req.params.id,
     astroid: astroid,
     msg: msg,
     roomid: uniqueroom,
-    type: "user"
+    type: "user",
+    status: "Requested"
 
   });
 
@@ -79,6 +80,7 @@ exports.addchat = async (req, res) => {
 
 
 
+
 exports.add_chatroom = async (req, res) => {
   const uniqueroom = uuidv4();
   const { reciver, sender, astroid, msg, msg_reply } = req.body;
@@ -88,52 +90,8 @@ exports.add_chatroom = async (req, res) => {
     sender: req.params.id,
     msg: msg,
     type: "astrologer"
-    //   roomid: uniqueroom,
 
   });
-
-  // const newChatroom = new Chatroom({
-  //   userid: req.params.id,
-  //   astroid:astroid,
-  //   last_msg: msg,
-  //   new_unread_msg: 1,
-  // });
-  // const findchatroom = await Chatroom.findOne( { $and: [{ userid: req.params.id }, { astroid:astroid }]} );
-  // console.log("FINDDATA",findchatroom)
-  // if (findchatroom) {
-  //   newChat.roomid = findchatroom._id;
-  //   let data = {
-  //     new_unread_msg: parseInt(findchatroom.new_unread_msg) + 1,
-  //   };
-  //   if (!msgbysupport) {
-  //     data.last_msg = msg;
-  //   }
-  //   console.log("DATA",data);
-  // const updatechat = await Chatroom.findOneAndUpdate(
-  //     {
-  //         $or: [
-  //           { $and: [{ userid: req.params.id }, { astroid: req.body.id }] },
-  //           { $and: [{ astroid: req.body.id }, { userid: req.params.id }] },
-  //         ],
-  //       },
-  //   {
-  //     $set: req.body,
-  //   },
-  //   { new: true }
-  // );
-  // newChat
-  //   .save()
-  //   .then((data) => resp.successr(res, data))
-  //   .catch((error) => resp.errorr(res, error));
-  // } else {
-  //   const savechat = await newChatroom.save();
-  //   if (savechat) {
-  //     newChat.roomid = savechat._id;
-  //     newChat
-  //       .save()
-  //       .then((data) => resp.successr(res, data))
-  //       .catch((error) => resp.errorr(res, error));
-  //   }
 
   const findchatroom = await Chatroom.findOne({ $and: [{ userid: reciver }, { astroid: req.params.id }] });
   // console.log("FINDDATA", findchatroom)
@@ -160,7 +118,8 @@ exports.add_chatroom = async (req, res) => {
     );
     newChat
       .save()
-      .then((data) => resp.successr(res, data))
+      .then((data) => { resp.successr(res, data); checkCallStatus(); })
+
       .catch((error) => resp.errorr(res, error));
   } else {
     res.status(400).json({
@@ -493,3 +452,16 @@ exports.astrogetRoomid = async (req, res) => {
     //  details:arrOfObj
   })
 };
+
+
+exports.acceptChat = async (req, res) => {
+  const getdata = await Chat.findOneAndUpdate(
+    {
+      _id: req.params.id,
+    },
+    { $set: { status: req.body.status } },
+    { new: true }
+  )
+
+
+}

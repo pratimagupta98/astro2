@@ -3,7 +3,9 @@ const resp = require("../helpers/apiResponse");
 
 exports.pay_withdrawal = async (req, res) => {
     const { astroId, status, amount, payoutlist } = req.body;
+    const getastro = await 
 
+    console.log("getastro", getastro)
     const newWithdrawal = new Withdrawal({
         astroId: astroId,
         status: status,

@@ -134,7 +134,7 @@ exports.make_call = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({
-      error: "Internal server error",
+      error: err,
     });
   }
 };
@@ -231,10 +231,6 @@ const checkCallStatus = async () => {
               { _id: callDetails.callId },
               { Status: "completed", userdeductedAmt: totalDeductedAmount, userAmt: useramt, Duration: calldur, astroCredited: totalDeductedAmount - adminCommission, adminCredited: adminCommission, totalCredited: totalDeductedAmount }
             );
-
-
-
-
             let admincom = await AdminComision.updateOne(
               { _id: "64967ef62cf27fc5dd12416d" },
               {
@@ -252,7 +248,7 @@ const checkCallStatus = async () => {
               {
                 callingStatus: "Available",
                 waiting_tym: 0,
-                $push: { totalEarning: { amount: ttlastroCommision } },
+                $push: { totalEarning: { amount: totalDeductedAmount - adminCommission } },
               }
             );
             // console.log(updatestst);
