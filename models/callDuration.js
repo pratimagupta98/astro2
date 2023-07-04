@@ -12,8 +12,13 @@ const thisSchema = new Schema(
         status: {
             type: String
         },
+        vc_status:{
+            type: Number,
+            default: 0
+        },
         duration: {
-            type: String
+            type: Number,
+            default: 0
         },
         type: {
             type: String

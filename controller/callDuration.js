@@ -134,27 +134,61 @@ exports.deductBalance = async (req, res) => {
       console.log("USER", user.amount)
       await User.updateOne({ _id: userId }, { amount: deductedBalance })
         .then(async () => {
+          const findexist = await ChatHistory.findOne({
+            $and: [
+              { userId: req.body },
+              { astroId: astroId },
+              { vc_status: 1 }
+            ]
+          });
+          if (findexist) {
+            console.log("findexist")
+            await ChatHistory.findOneAndUpdate(
+              {
+                $and: [{ userId: userId }, { astroId: astroId }],
+              },
+              { $set: { duration: totalDuration, vc_status:1} },
+              { new: true }
+            )
+          } else {
+            const newChatHistory = new ChatHistory({
+              userId: userId,
+              astroId: astroId,
+              type: type,
+              vc_status: 0
 
-          const newChatHistory = new ChatHistory({
-            userId: userId,
-            astroId: astroId,
-            type: type
+            })
 
-          })
+            // newChatHistory.save()
+            const savedChatHistory = await newChatHistory.save();
+            //   console.log("savedChatHistory", savedChatHistory)
+            const getid = savedChatHistory._id
+            const resp = await ChatHistory.updateOne(
+              { _id: getid },
+              { vc_status: 1 }
+            );
+            return res.status(200).send("Balance Deducted successfully");
 
+          }
+
+          console.log(resp);
           const resp = await Astrologer.updateOne(
             { _id: astroId },
             { callingStatus: "Busy" }
           );
-          newChatHistory.save()
-          console.log(resp);
 
-          return res.status(200).send("Balance Deducted successfully");
+
+
         })
 
+
+
     }
+
   })
+
 };
+
 
 exports.stop_cron = async (req, res) => {
   // Stop the cron job
