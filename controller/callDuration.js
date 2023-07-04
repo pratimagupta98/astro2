@@ -86,30 +86,6 @@ exports.intetakeNotification = async (req, res) => {
 //   );
 // };
 
-
-
-
-// exports.changeToAvailable = async (req, res) => {
-//   // await Astrologer.updateOne({ _id: req.body.id }, { callingStatus: "Available" },{new:true})
-
-//   await Astrologer.findOneAndUpdate(
-//     {
-//       _id: req.body.id,
-//     },
-//     { $set: { callingStatus: "Available" } },
-//     { new: true }
-//   )
-//     .then((result) => {
-//       console.log(result);
-//       res.status(200).send("Status updated successfully");
-//     })
-
-
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// };
-
 let duration;
 let cron_job;
 exports.deductBalance = async (req, res) => {
@@ -198,43 +174,26 @@ exports.changeToAvailable = async (req, res) => {
 };
 
 
-// exports.changeToAvailable = async (req, res) => {
-//   try {
-
-//     const updatedAstrologer = await Astrologer.findOneAndUpdate(
-//       { _id: req.body.id },
-//       { $set: { callingStatus: "Available" } },
-//       { new: true }
-//     );
-
-//     if (cron_job) {
-//       cron_job.stop(); // Stop the cron job if it exists
-//     }
-
-//     // cron_job.stop()
-//     // console.log(updatedAstrologer);
-//     res.status(200).send("Status updated successfully");
-
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Failed to update status" });
-//   }
-// };
-
 exports.userChathistory = async (req, res) => {
-  await ChatHistory.find({ $and: [{ astroid: req.params.id }, { type: "Chat" }] })
+  await ChatHistory.find({ userId: req.params.id })
     .sort({ createdAt: 1 }).populate("userId").populate("astroId")
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
 
 exports.astroChathistory = async (req, res) => {
-  await ChatHistory.find({ $and: [{ astroid: req.params.id }, { type: "Chat" }] }).populate("userId").populate("astroId")
+  await ChatHistory.find({ astroid: req.params.id }).populate("userId").populate("astroId")
     .sort({ createdAt: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
 
+exports.adminVedioChathistory = async (req, res) => {
+  await ChatHistory.find().populate("userId").populate("astroId")
+    .sort({ createdAt: 1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
 
 exports.dltallChat = async (req, res) => {
   await callDuration.deleteMany()

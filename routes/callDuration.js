@@ -7,7 +7,8 @@ const {
   changeToAvailable,
   userChathistory,
   astroChathistory,
-  dltallChat
+  dltallChat,
+  adminVedioChathistory
 } = require("../controller/callDuration");
 
 router.post("/user/addCallDuration", addCallDuration);
@@ -15,7 +16,7 @@ router.post("/user/deductChatBalance", deductBalance);
 router.post("/user/changeStatus", changeToAvailable);
 router.get("/user/userChathistory/:id", userChathistory);
 router.get("/user/astroChathistory/:id", astroChathistory);
- router.get("/admin/dltallChat", dltallChat);
-// router.get("/admin/dlt_event/:id", dlt_event);
+router.get("/admin/dltallChat", dltallChat);
+router.get("/admin/adminVedioChathistory", adminVedioChathistory);
 
 module.exports = router;
