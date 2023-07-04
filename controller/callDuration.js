@@ -1,7 +1,5 @@
 const callDuration = require("../models/callDuration");
 const ChatHistory = require("../models/callDuration");
-
-
 const resp = require("../helpers/apiResponse");
 const { findOne } = require("../models/addEvent");
 const Astrologer = require("../models/astrologer");
@@ -86,7 +84,11 @@ exports.intetakeNotification = async (req, res) => {
 //   );
 // };
 
-let duration;
+//let duration;
+
+
+let isChatHistorySaved = false;
+let totalDuration = 0;
 let cron_job;
 exports.deductBalance = async (req, res) => {
   const { userId, astroId, type } = req.body;
@@ -94,12 +96,14 @@ exports.deductBalance = async (req, res) => {
   const user = await User.findById(userId);
   const astro = await Astrologer.findById(astroId);
   console.log("Me call hua hu")
+  let duration = 0
+
   cron_job = cron.schedule("* * * * *", async () => {
     duration++;
+    totalDuration++;
     console.log("duration++", duration++)
+    console.log("Total duration:", totalDuration)
     console.log("cron is running")
-
-
     if (user.amount < astro.callCharge) {
       const resp = await Astrologer.updateOne(
         { _id: astroId },
@@ -151,6 +155,18 @@ exports.deductBalance = async (req, res) => {
     }
   })
 };
+
+exports.stop_cron = async (req, res) => {
+  // Stop the cron job
+  if (cron_job) {
+    cron_job.stop();
+    cron_job = null; // Reset the cron job variable
+    res.status(200).send("Cron job stopped successfully");
+  } else {
+    res.status(404).send("No active cron job found");
+  }
+}
+
 exports.changeToAvailable = async (req, res) => {
   try {
     const updatedAstrologer = await Astrologer.findOneAndUpdate(
