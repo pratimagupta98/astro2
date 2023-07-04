@@ -117,10 +117,13 @@ exports.deductBalance = async (req, res) => {
 
   const user = await User.findById(userId);
   const astro = await Astrologer.findById(astroId);
-  console.log("Me call hua hu")
-  cron_job = cron.schedule("* * * * *", async () => {
+  console.log("Me call hua hu");
+  let duration = 0;
+
+  const cron_job = cron.schedule("* * * * *", async () => {
     duration++;
-    console.log("cron is running")
+    console.log("cron is running");
+
     if (user.amount < astro.callCharge) {
       const resp = await Astrologer.updateOne(
         { _id: astroId },
@@ -128,54 +131,50 @@ exports.deductBalance = async (req, res) => {
       );
 
       console.log(resp);
-      cron_job.stop()
-      // res.status(404).send("Your balance is not enough to chat");
+      cron_job.stop();
+      return res.status(404).send("Your balance is not enough to chat");
     } else if (user.amount <= astro.callCharge * 5) {
       const deductedBalance = user.amount - astro.callCharge;
-      console.log("deductedBalance", deductedBalance)
-      console.log("user amt", user.amount)
-      await User.updateOne({ _id: userId }, { amount: deductedBalance })
-        .then(async () => {
-          const resp = await Astrologer.updateOne(
-            { _id: astroId },
-            { callingStatus: "Busy" }
-          );
-          console.log(resp);
-          // res.status(203).send("Balance is low");
-        })
-        .catch((error) => {
-          console.log(error)
-        });
+      console.log("deductedBalance", deductedBalance);
+      console.log("user amt", user.amount);
+
+      await User.updateOne({ _id: userId }, { amount: deductedBalance });
+
+      const resp = await Astrologer.updateOne(
+        { _id: astroId },
+        { callingStatus: "Busy" }
+      );
+
+      console.log(resp);
+      return res.status(203).send("Balance is low");
     } else {
       const deductedBalance = user.amount - astro.callCharge;
-      console.log("astro Charge", astro.callCharge)
-      console.log("Deducted Balance", deductedBalance)
-      console.log("USER", user.amount)
-      await User.updateOne({ _id: userId }, { amount: deductedBalance })
-        .then(async () => {
+      console.log("astro Charge", astro.callCharge);
+      console.log("Deducted Balance", deductedBalance);
+      console.log("USER", user.amount);
 
-          const newChatHistory = new ChatHistory({
-            userId: userId,
-            astroId: astroId,
-            type: type
+      await User.updateOne({ _id: userId }, { amount: deductedBalance });
 
-          })
+      const newChatHistory = new ChatHistory({
+        userId: userId,
+        astroId: astroId,
+        type: type
+      });
 
-          const resp = await Astrologer.updateOne(
-            { _id: astroId },
-            { callingStatus: "Busy" }
-          );
-          newChatHistory.save()
-          console.log(resp);
+      await newChatHistory.save();
 
-          res.status(200).send("Balance Deducted successfully");
-        })
-        .catch((error) => {
-          console.log(error)
-        });
+      const resp = await Astrologer.updateOne(
+        { _id: astroId },
+        { callingStatus: "Busy" }
+      );
+
+      console.log(resp);
+
+      return res.status(200).send("Balance Deducted successfully");
     }
-  })
+  });
 };
+
 
 exports.changeToAvailable = async (req, res) => {
   try {
@@ -195,14 +194,14 @@ exports.changeToAvailable = async (req, res) => {
 };
 
 exports.userChathistory = async (req, res) => {
-  await ChatHistory.find({$and: [{ astroid: req.params.id }, { type: "Chat" }]  })
+  await ChatHistory.find({ $and: [{ astroid: req.params.id }, { type: "Chat" }] })
     .sort({ createdAt: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
 
 exports.astroChathistory = async (req, res) => {
-  await ChatHistory.find({$and: [{ astroid: req.params.id }, { type: "Chat" }] })
+  await ChatHistory.find({ $and: [{ astroid: req.params.id }, { type: "Chat" }] })
     .sort({ createdAt: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
