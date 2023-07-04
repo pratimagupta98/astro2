@@ -122,6 +122,8 @@ exports.deductBalance = async (req, res) => {
     duration++;
     console.log("duration++", duration++)
     console.log("cron is running")
+
+
     if (user.amount < astro.callCharge) {
       const resp = await Astrologer.updateOne(
         { _id: astroId },
@@ -175,20 +177,26 @@ exports.deductBalance = async (req, res) => {
 };
 exports.changeToAvailable = async (req, res) => {
   try {
-
     const updatedAstrologer = await Astrologer.findOneAndUpdate(
       { _id: req.body.id },
       { $set: { callingStatus: "Available" } },
       { new: true }
     );
-    cron_job.stop()
-     console.log("Status updated successfully");
+
+    // Check if cron_job is defined and stop it
+    if (cron_job) {
+      cron_job.stop();
+      cron_job = null; // Set cron_job to null after stopping to avoid reusing the old job
+    }
+
+    console.log("Status updated successfully");
     res.status(200).send("Status updated successfully");
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to update status" });
   }
 };
+
 
 // exports.changeToAvailable = async (req, res) => {
 //   try {
@@ -215,15 +223,21 @@ exports.changeToAvailable = async (req, res) => {
 
 exports.userChathistory = async (req, res) => {
   await ChatHistory.find({ $and: [{ astroid: req.params.id }, { type: "Chat" }] })
-    .sort({ createdAt: 1 })
+    .sort({ createdAt: 1 }).populate("userId").populate("astroId")
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
 
 exports.astroChathistory = async (req, res) => {
-  await ChatHistory.find({ $and: [{ astroid: req.params.id }, { type: "Chat" }] })
+  await ChatHistory.find({ $and: [{ astroid: req.params.id }, { type: "Chat" }] }).populate("userId").populate("astroId")
     .sort({ createdAt: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
 
+
+exports.dltallChat = async (req, res) => {
+  await callDuration.deleteMany()
+    .then((data) => resp.deleter(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
