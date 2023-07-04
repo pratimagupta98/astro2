@@ -120,6 +120,7 @@ exports.deductBalance = async (req, res) => {
   console.log("Me call hua hu")
   cron_job = cron.schedule("* * * * *", async () => {
     duration++;
+    console.log("duration++", duration++)
     console.log("cron is running")
     if (user.amount < astro.callCharge) {
       const resp = await Astrologer.updateOne(
@@ -143,9 +144,7 @@ exports.deductBalance = async (req, res) => {
           console.log(resp);
           // res.status(203).send("Balance is low");
         })
-        .catch((error) => {
-          console.log(error)
-        });
+
     } else {
       const deductedBalance = user.amount - astro.callCharge;
       console.log("astro Charge", astro.callCharge)
@@ -170,9 +169,7 @@ exports.deductBalance = async (req, res) => {
 
           return res.status(200).send("Balance Deducted successfully");
         })
-        .catch((error) => {
-          console.log(error)
-        });
+
     }
   })
 };
@@ -185,7 +182,7 @@ exports.changeToAvailable = async (req, res) => {
       { new: true }
     );
     cron_job.stop()
-    // console.log(updatedAstrologer);
+     console.log("Status updated successfully");
     res.status(200).send("Status updated successfully");
   } catch (error) {
     console.error(error);
