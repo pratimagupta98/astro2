@@ -91,6 +91,7 @@ let isChatHistorySaved = false;
 let totalDuration = 0;
 let cron_job;
 exports.deductBalance = async (req, res) => {
+
   const { userId, astroId, type } = req.body;
 
   const user = await User.findById(userId);
@@ -134,20 +135,29 @@ exports.deductBalance = async (req, res) => {
       console.log("USER", user.amount)
       await User.updateOne({ _id: userId }, { amount: deductedBalance })
         .then(async () => {
-          const findexist = await ChatHistory.findOne({
-            $and: [
-              { userId: req.body },
-              { astroId: astroId },
-              { vc_status: 1 }
-            ]
-          });
+          const findexist = await ChatHistory.findOne
+            ({
+              $and: [
+
+                { $and: [{ userId: req.body.userId }, { astroId: req.body.astroId }] }, { $and: [{ vc_status: 1 }] }
+              ]
+            }).sort({ createdAt: -1 })
+          //    console.log(findexist)
+          // ({
+          //   $and: [
+          //     { userId: userId },
+          //     { astroId: astroId },
+          //     { vc_status: 1 }
+          //   ]
+          // }).sort({ createdAt: -1 })
+
           if (findexist) {
             console.log("findexist")
             await ChatHistory.findOneAndUpdate(
               {
                 $and: [{ userId: userId }, { astroId: astroId }],
               },
-              { $set: { duration: totalDuration, vc_status:1} },
+              { $set: { duration: totalDuration, vc_status: 1 } },
               { new: true }
             )
           } else {
@@ -161,7 +171,7 @@ exports.deductBalance = async (req, res) => {
 
             // newChatHistory.save()
             const savedChatHistory = await newChatHistory.save();
-            //   console.log("savedChatHistory", savedChatHistory)
+            console.log("savedChatHistory", savedChatHistory)
             const getid = savedChatHistory._id
             const resp = await ChatHistory.updateOne(
               { _id: getid },
@@ -171,7 +181,7 @@ exports.deductBalance = async (req, res) => {
 
           }
 
-          console.log(resp);
+          // console.log(resp);
           const resp = await Astrologer.updateOne(
             { _id: astroId },
             { callingStatus: "Busy" }
@@ -180,14 +190,15 @@ exports.deductBalance = async (req, res) => {
 
 
         })
-
-
-
     }
-
   })
 
-};
+}
+
+
+
+
+
 
 
 exports.stop_cron = async (req, res) => {
@@ -200,14 +211,18 @@ exports.stop_cron = async (req, res) => {
     res.status(404).send("No active cron job found");
   }
 }
-
 exports.changeToAvailable = async (req, res) => {
   try {
-    const updatedAstrologer = await Astrologer.findOneAndUpdate(
-      { _id: req.body.id },
-      { $set: { callingStatus: "Available" } },
+
+    const lastChatHistory = await ChatHistory.findOneAndUpdate(
+      { userId: req.body.userId, astroId: req.body.astroId },
+      { $set: { vc_status: 0 } },
       { new: true }
-    );
+    )
+      .sort({ createdAt: -1 })
+      .exec();
+
+
 
     // Check if cron_job is defined and stop it
     if (cron_job) {
@@ -216,12 +231,46 @@ exports.changeToAvailable = async (req, res) => {
     }
 
     console.log("Status updated successfully");
+    console.log("Last Chat History:", lastChatHistory);
+    let astroid = lastChatHistory.astroId
+    console.log("astroid", astroid)
+
+    const updatedAstrologer = await Astrologer.findOneAndUpdate(
+      { _id: astroid },
+      { $set: { callingStatus: "Available" } },
+      { new: true }
+    );
+    // console.log("Chat History with IDs:", chatHistoryWithIds);
     res.status(200).send("Status updated successfully");
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to update status" });
   }
 };
+
+
+
+// exports.changeToAvailable = async (req, res) => {
+//   try {
+//     const updatedAstrologer = await Astrologer.findOneAndUpdate(
+//       { _id: req.body.id },
+//       { $set: { callingStatus: "Available" } },
+//       { new: true }
+//     );
+
+//     // Check if cron_job is defined and stop it
+//     if (cron_job) {
+//       cron_job.stop();
+//       cron_job = null; // Set cron_job to null after stopping to avoid reusing the old job
+//     }
+
+//     console.log("Status updated successfully");
+//     res.status(200).send("Status updated successfully");
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Failed to update status" });
+//   }
+// };
 
 
 exports.userChathistory = async (req, res) => {
