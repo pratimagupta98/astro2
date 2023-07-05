@@ -5,6 +5,8 @@ const { findOne } = require("../models/addEvent");
 const Astrologer = require("../models/astrologer");
 const User = require("../models/users");
 const cron = require("node-cron")
+const AdminComision = require("../models/admin");
+
 exports.addCallDuration = async (req, res) => {
   const { userId, astroId, status } = req.body;
 
@@ -91,113 +93,92 @@ let isChatHistorySaved = false;
 let totalDuration = 0;
 let cron_job;
 exports.deductBalance = async (req, res) => {
-
   const { userId, astroId, type } = req.body;
-
   const user = await User.findById(userId);
   const astro = await Astrologer.findById(astroId);
-  console.log("Me call hua hu")
-  let duration = 0
+  console.log("Me call hua hu");
+  let duration = 0;
 
   cron_job = cron.schedule("* * * * *", async () => {
     duration++;
     totalDuration++;
-    console.log("duration++", duration++)
-    console.log("Total duration:", totalDuration)
-    console.log("cron is running")
+    console.log("duration++", duration++);
+    console.log("Total duration:", totalDuration);
+    console.log("cron is running");
+
     if (user.amount < astro.callCharge) {
       const resp = await Astrologer.updateOne(
         { _id: astroId },
         { callingStatus: "Available" }
       );
-
-      console.log(resp);
-      cron_job.stop()
+      console.log("resp", resp);
+      cron_job.stop();
       // res.status(404).send("Your balance is not enough to chat");
     } else if (user.amount <= astro.callCharge * 5) {
       const deductedBalance = user.amount - astro.callCharge;
-      console.log("deductedBalance", deductedBalance)
-      console.log("user amt", user.amount)
-      await User.updateOne({ _id: userId }, { amount: deductedBalance })
-        .then(async () => {
-          const resp = await Astrologer.updateOne(
-            { _id: astroId },
-            { callingStatus: "Busy" }
-          );
-          console.log(resp);
-          // res.status(203).send("Balance is low");
-        })
+      console.log("deductedBalance", deductedBalance);
+      console.log("user amt", user.amount);
+      await User.updateOne({ _id: userId }, { amount: deductedBalance });
 
+      const resp = await Astrologer.updateOne(
+        { _id: astroId },
+        { callingStatus: "Busy" }
+      );
+
+      console.log(resp);
+      // res.status(203).send("Balance is low");
     } else {
       const deductedBalance = user.amount - astro.callCharge;
-      console.log("astro Charge", astro.callCharge)
-      console.log("Deducted Balance", deductedBalance)
-      console.log("USER", user.amount)
-      await User.updateOne({ _id: userId }, { amount: deductedBalance })
-        .then(async () => {
-          const findexist = await ChatHistory.findOne
-            ({
-              $and: [
+      console.log("astro Charge", astro.callCharge);
+      let astrocharge = astro.callCharge;
+      console.log("Deducted Balance", deductedBalance);
+      let useramt = user.amount;
+      console.log("USER", user.amount);
 
-                { $and: [{ userId: req.body.userId }, { astroId: req.body.astroId }] }, { $and: [{ vc_status: 1 }] }
-              ]
-            }).sort({ createdAt: -1 })
-          //    console.log(findexist)
-          // ({
-          //   $and: [
-          //     { userId: userId },
-          //     { astroId: astroId },
-          //     { vc_status: 1 }
-          //   ]
-          // }).sort({ createdAt: -1 })
+      await User.updateOne({ _id: userId }, { amount: deductedBalance });
 
-          if (findexist) {
-            console.log("findexist")
-            await ChatHistory.findOneAndUpdate(
-              {
-                $and: [{ userId: userId }, { astroId: astroId }],
-              },
-              { $set: { duration: totalDuration, vc_status: 1 } },
-              { new: true }
-            )
-          } else {
-            const newChatHistory = new ChatHistory({
-              userId: userId,
-              astroId: astroId,
-              type: type,
-              vc_status: 0
+      const findexist = await ChatHistory.findOne({
+        userId: userId,
+        astroId: astroId,
+        vc_status: 1
+      });
+      console.log("findexist", findexist)
+      if (findexist) {
+        console.log("findexist");
+        await ChatHistory.findOneAndUpdate(
+          {
+            userId: userId,
+            astroId: astroId
+          },
+          { $set: { duration: totalDuration, vc_status: 1 } },
+          { new: true }
+        );
+      } else {
+        const newChatHistory = new ChatHistory({
+          userId: userId,
+          astroId: astroId,
+          type: type,
+          vc_status: 0
+        });
 
-            })
+        const savedChatHistory = await newChatHistory.save();
+        console.log("savedChatHistory", savedChatHistory);
+        const getid = savedChatHistory._id;
+        const resp = await ChatHistory.updateOne(
+          { _id: getid },
+          { vc_status: 1 }
+        );
+        return res.status(200).send("Balance Deducted successfully");
+      }
 
-            // newChatHistory.save()
-            const savedChatHistory = await newChatHistory.save();
-            console.log("savedChatHistory", savedChatHistory)
-            const getid = savedChatHistory._id
-            const resp = await ChatHistory.updateOne(
-              { _id: getid },
-              { vc_status: 1 }
-            );
-            return res.status(200).send("Balance Deducted successfully");
-
-          }
-
-          // console.log(resp);
-          const resp = await Astrologer.updateOne(
-            { _id: astroId },
-            { callingStatus: "Busy" }
-          );
-
-
-
-        })
+      const resp = await Astrologer.updateOne(
+        { _id: astroId },
+        { callingStatus: "Busy" }
+      );
+      console.log(resp);
     }
-  })
-
-}
-
-
-
-
+  });
+};
 
 
 
@@ -213,14 +194,28 @@ exports.stop_cron = async (req, res) => {
 }
 exports.changeToAvailable = async (req, res) => {
   try {
-
-    const lastChatHistory = await ChatHistory.findOneAndUpdate(
-      { userId: req.body.userId, astroId: req.body.astroId },
+    const lastDocument = await ChatHistory.findOne()
+      .sort({ createdAt: -1 }) // Assuming `createdAt` is the field by which you want to sort
+      .limit(1);
+    console.log("lastDocument", lastDocument)
+    const updatedChat = await ChatHistory.findOneAndUpdate(
+      { _id: lastDocument._id },
       { $set: { vc_status: 0 } },
       { new: true }
-    )
-      .sort({ createdAt: -1 })
-      .exec();
+    );
+    // const lastChatHistory = await ChatHistory.find
+    //   ({ $and: [{ userId: req.body.userId }, { astroId: req.body.astroId }] })
+
+
+
+    //   .sort({ createdAt: -1 })
+    // (
+    //   { userId: req.body.userId, astroId: req.body.astroId },
+    //   { $set: { vc_status: 0 } },
+    //   { new: true }
+    // )
+    //   .sort({ createdAt: 1 })
+    //   .exec();
 
 
 
@@ -231,8 +226,8 @@ exports.changeToAvailable = async (req, res) => {
     }
 
     console.log("Status updated successfully");
-    console.log("Last Chat History:", lastChatHistory);
-    let astroid = lastChatHistory.astroId
+    console.log("Last Chat History:", lastDocument);
+    let astroid = lastDocument.astroId
     console.log("astroid", astroid)
 
     const updatedAstrologer = await Astrologer.findOneAndUpdate(
@@ -252,9 +247,9 @@ exports.changeToAvailable = async (req, res) => {
 
 // exports.changeToAvailable = async (req, res) => {
 //   try {
-//     const updatedAstrologer = await Astrologer.findOneAndUpdate(
+//     const updatechat = await ChatHistory.findOneAndUpdate(
 //       { _id: req.body.id },
-//       { $set: { callingStatus: "Available" } },
+//       { $set: { vc_status: 0 } },
 //       { new: true }
 //     );
 
@@ -264,8 +259,14 @@ exports.changeToAvailable = async (req, res) => {
 //       cron_job = null; // Set cron_job to null after stopping to avoid reusing the old job
 //     }
 
-//     console.log("Status updated successfully");
+//     console.log("Status updated successfully", updatechat);
 //     res.status(200).send("Status updated successfully");
+//     let astroid = updatechat.astroId
+//     const updatedAstrologer = await Astrologer.findOneAndUpdate(
+//       { _id: astroid },
+//       { $set: { callingStatus: "Available" } },
+//       { new: true }
+//     );
 //   } catch (error) {
 //     console.error(error);
 //     res.status(500).json({ error: "Failed to update status" });
