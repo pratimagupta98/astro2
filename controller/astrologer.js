@@ -768,7 +768,7 @@ exports.logout = async (req, res) => {
     {
       _id: astroId,
     },
-    { $set: { status: "Offline" } }
+    { $set: { status: "Offline", callingStatus: "Not available" } }
   );
   res.status(200).json({
     status: true,
