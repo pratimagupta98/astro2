@@ -4,13 +4,14 @@ const ProductDetail = require("../models/bookevent");
 
 exports.add_event = async (req, res) => {
 
-  const { orderId, paymentId, signatureId, event_list, userid, date, country, state, city, orderNote, time_slot, email, mobile } = req.body;
+  const { orderId, paymentId, signatureId, pujaId, event_list, userid, date, country, state, city, orderNote, time_slot, email, mobile, mode, address } = req.body;
 
 
   const newBookevent = new Bookevent({
     orderId: orderId,
     paymentId: paymentId,
     signatureId: signatureId,
+    pujaId: pujaId,
     event_list: event_list,
     userid: userid,
     date: date,
@@ -36,7 +37,7 @@ exports.add_event = async (req, res) => {
 
 
 exports.eventlist = async (req, res) => {
-  await Bookevent.find().populate("userid")
+  await Bookevent.find().populate("userid").populate("pujaId")
     .sort({ createdAt: -1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));

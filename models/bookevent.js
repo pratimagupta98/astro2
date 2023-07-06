@@ -7,7 +7,7 @@ const thisSchema = new Schema(
       type: String,
     },
     userid: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
-    // pujaId: { type: mongoose.Schema.Types.ObjectId, ref: "adminAddEvent" },
+    pujaId: { type: mongoose.Schema.Types.ObjectId, ref: "adminAddEvent" },
     // productId: { type: mongoose.Schema.Types.ObjectId, ref: "adminAddEvent" },
     date: {
       type: String,
@@ -41,6 +41,7 @@ const thisSchema = new Schema(
       type: String,
 
     },
+
     signatureId: {
       type: String,
 
