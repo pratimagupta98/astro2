@@ -28,10 +28,16 @@ exports.user_ask_qus = async (req, res) => {
   for (const order of getdata) {
     totalQsCount += order.product.qsCount;
   }
- // console.log("totalQsCount", totalQsCount)
   const questions = await Askqustion.find({ userid: userid });
-
-
+  console.log("totalQsCount", totalQsCount - questions.length)
+  let remainqus = totalQsCount - questions.length
+  const getete = await Askqustion.findOneAndUpdate(
+    { astroid: astroid, userid: userid },
+    { $set: { remaining_qus: totalQsCount - questions.length } },
+    { new: true }
+  );
+  console.log("getete", getete)
+  console.log("remainqus", remainqus)
   if (questions.length > totalQsCount - 1) {
     console.log("your question limit is over");
     res.status(403).json({
@@ -40,9 +46,10 @@ exports.user_ask_qus = async (req, res) => {
     });
 
     const lastQuestion = questions[questions.length - 1];
+
     await Askqustion.findOneAndUpdate(
       { _id: lastQuestion._id },
-      { $set: { view_button: false } },
+      { $set: { view_button: false, remaining_qus: remainqus } },
       { new: true }
     );
   } else {
@@ -51,7 +58,9 @@ exports.user_ask_qus = async (req, res) => {
       userid: userid,
       question: question,
       answer: answer,
-      bundleOffer: bundleOffer
+      bundleOffer: bundleOffer,
+      remaining_qus: remainqus,
+      totalQus: totalQsCount
     });
 
     newAskqustion
