@@ -32,7 +32,8 @@ const {
   onlineAstroCount,
   offlineAstroCount,
   busyAstroCount,
-  getWaitQueueList
+  getWaitQueueList,
+  deleteWaitQueueItem
 } = require("../controller/astrologer");
 
 const storage = multer.diskStorage({
@@ -76,6 +77,8 @@ let multipleUpload = uploads.fields([
 signup;
 router.post("/user/signup", signup);
 router.post("/user/verifyotp", verifyotp);
+router.get('/user/deleteWaitQueueItem/:astrologerId/:userId', deleteWaitQueueItem);
+
 
 router.post("/user/astrosignup", multipleUpload, astrosignup);
 router.post("/user/astrologin", astrologin);

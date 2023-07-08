@@ -856,41 +856,34 @@ exports.getWaitQueueList = async (req, res) => {
 };
 
 
-// exports.getWaitQueueList = async (req, res) => {
-//   const { id } = req.params;
+exports.deleteWaitQueueItem = async (req, res) => {
+  const { astrologerId, userId } = req.params;
 
-//   try {
-//     const astrologer = await Astrologer.findById(id).populate({
-//       path: "waitQueue.userId",
-//       select: "name email"
-//     });
+  try {
+    const astrologer = await Astrologer.findById(astrologerId);
+    
+    if (!astrologer) {
+      return res.status(404).json({ error: "Astrologer not found" });
+    }
 
-//     if (!astrologer) {
-//       return res.status(404).json({ error: "Astrologer not found" });
-//     }
+    const waitQueueList = astrologer.waitQueue;
 
-//     const waitQueueList = astrologer.waitQueue;
-//     const userList = [];
-//     const today = new Date();
-//     today.setHours(0, 0, 0, 0);
+    // Find the index of the waitQueue item based on the userId
+    const indexToDelete = waitQueueList.findIndex(item => item.userId.toString() === userId);
+    
+    if (indexToDelete === -1) {
+      return res.status(404).json({ error: "WaitQueue item not found" });
+    }
+    
+    // Remove the waitQueue item from the array
+    waitQueueList.splice(indexToDelete, 1);
 
-//     for (const { userId, callType, createdAt } of waitQueueList) {
-//       const user = await User.findById(userId);
-//       if (user) {
-//         userList.push({ value: { userId, callType, createdAt }, user });
-//       }
-//     }
+    // Save the updated astrologer document
+    await astrologer.save();
 
-//     const filteredList = userList.filter(
-//       ({ value: { createdAt } }) =>
-//         new Date(createdAt).setHours(0, 0, 0, 0) === today.getTime()
-//     );
-
-//     //  console.log(filteredList);
-
-//     res.status(200).json({ waitQueueList: filteredList });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Failed to fetch waitQueue list" });
-//   }
-// };
+    res.status(200).json({ success: true, message: "WaitQueue item deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to delete WaitQueue item" });
+  }
+};
