@@ -856,3 +856,41 @@ exports.getWaitQueueList = async (req, res) => {
 };
 
 
+// exports.getWaitQueueList = async (req, res) => {
+//   const { id } = req.params;
+
+//   try {
+//     const astrologer = await Astrologer.findById(id).populate({
+//       path: "waitQueue.userId",
+//       select: "name email"
+//     });
+
+//     if (!astrologer) {
+//       return res.status(404).json({ error: "Astrologer not found" });
+//     }
+
+//     const waitQueueList = astrologer.waitQueue;
+//     const userList = [];
+//     const today = new Date();
+//     today.setHours(0, 0, 0, 0);
+
+//     for (const { userId, callType, createdAt } of waitQueueList) {
+//       const user = await User.findById(userId);
+//       if (user) {
+//         userList.push({ value: { userId, callType, createdAt }, user });
+//       }
+//     }
+
+//     const filteredList = userList.filter(
+//       ({ value: { createdAt } }) =>
+//         new Date(createdAt).setHours(0, 0, 0, 0) === today.getTime()
+//     );
+
+//     //  console.log(filteredList);
+
+//     res.status(200).json({ waitQueueList: filteredList });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Failed to fetch waitQueue list" });
+//   }
+// };
