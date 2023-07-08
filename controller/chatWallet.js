@@ -910,7 +910,11 @@ exports.wait_queue_list = async (req, res) => {
     .catch((error) => resp.errorr(res, error));
 };
 
-
+exports.dlt_wait_queue = async (req, res) => {
+  await ChatWallet.deleteOne({ _id: req.params.id })
+    .then((data) => resp.deleter(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
 
 
 exports.accepted_notification = async (req, res) => {

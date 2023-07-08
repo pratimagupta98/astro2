@@ -208,7 +208,7 @@ exports.all_transaction_list = async (req, res) => {
     .catch((error) => resp.errorr(res, error));
 };
 
-//   exports.completed_order = async (req, res) => {
+//   exports.user_completed_order = async (req, res) => {
 
 //     // const findone =  await Cart.find({
 //     //   $and: [{ userId: req.params.userId}, { status: "Completed" }],
