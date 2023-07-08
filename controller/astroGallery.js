@@ -64,40 +64,40 @@ function detectMimeType(b64) {
 //     .then((data) => resp.successr(res, data))
 //     .catch((error) => resp.errorr(res, error));
 // }
-exports.upload_astrogallery = async (req, res) => {
-  const { astroId, file } = req.body;
+// exports.upload_astrogallery = async (req, res) => {
+//   const { astroId, file } = req.body;
 
-  const newastroGallery = new astroGallery({
-    astroId: astroId,
-    file: file
-  });
+//   const newastroGallery = new astroGallery({
+//     astroId: astroId,
+//     file: file
+//   });
 
-  const allowedFileTypes = ['jpg', 'jpeg', 'png', 'mp4'];
+//   const allowedFileTypes = ['jpg', 'jpeg', 'png', 'mp4'];
 
-  if (req.file) {
-    const fileExtension = req.file.originalname.split('.').pop();
+//   if (req.file) {
+//     const fileExtension = req.file.originalname.split('.').pop();
 
-    if (!allowedFileTypes.includes(fileExtension)) {
-      // handle invalid file type error here
-    } else {
-      const getimgurl = await uploadFile(
-        req.file.path,
-        req.file.filename,
-        fileExtension // pass file extension directly
-      );
+//     if (!allowedFileTypes.includes(fileExtension)) {
+//       // handle invalid file type error here
+//     } else {
+//       const getimgurl = await uploadFile(
+//         req.file.path,
+//         req.file.filename,
+//         fileExtension // pass file extension directly
+//       );
 
-      if (getimgurl) {
-        newastroGallery.file = getimgurl.Location;
-      }
-    }
-  }
+//       if (getimgurl) {
+//         newastroGallery.file = getimgurl.Location;
+//       }
+//     }
+//   }
 
 
-  newastroGallery
-    .save()
-    .then((data) => resp.successr(res, data))
-    .catch((error) => resp.errorr(res, error));
-}
+//   newastroGallery
+//     .save()
+//     .then((data) => resp.successr(res, data))
+//     .catch((error) => resp.errorr(res, error));
+// }
 
 exports.addvideobyadmin = async (req, res) => {
   const { videoTitle, } = req.body;
@@ -196,3 +196,62 @@ exports.viewonevideo = async (req, res) => {
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
+
+
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' }); // Assuming you have a folder named 'uploads' to store temporary files
+
+exports.upload_astrogallery = async (req, res) => {
+  const { astroId } = req.body;
+
+  const allowedFileTypes = ['jpg', 'jpeg', 'png', 'mp4'];
+  const maxVideoSize = 25 * 1024 * 1024; // Maximum video size is set to 25MB
+
+  try {
+    const existingGalleryCount = await astroGallery.countDocuments({ astroId: astroId });
+    if (existingGalleryCount >= 3) {
+      // handle maximum upload limit reached error here
+      return res.status(403).json({ error: 'Maximum upload limit reached for this astro' });
+    }
+
+    if (req.file) {
+      const fileExtension = req.file.originalname.split('.').pop();
+
+      if (!allowedFileTypes.includes(fileExtension)) {
+        // handle invalid file type error here
+        return res.status(400).json({ error: 'Invalid file type' });
+      }
+
+      if (fileExtension === 'mp4' && req.file.size > maxVideoSize) {
+        // handle video size limit error here
+        return res.status(400).json({ error: 'Video size exceeds the limit' });
+      }
+
+      const getimgurl = await uploadFile(
+        req.file.path,
+        req.file.filename,
+        fileExtension // pass file extension directly
+      );
+
+      if (getimgurl) {
+        const newastroGallery = new astroGallery({
+          astroId: astroId,
+          file: getimgurl.Location
+        });
+
+        newastroGallery
+          .save()
+          .then((data) => resp.successr(res, data))
+          .catch((error) => resp.errorr(res, error));
+      }
+    } else {
+      // handle file not found error here
+      return res.status(400).json({ error: 'File not found' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to upload file' });
+  }
+};
+
+// Define the file upload route using multer middleware
