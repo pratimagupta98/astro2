@@ -88,6 +88,9 @@ const thisSchema = new Schema(
     },
     lon: {
       type: Number,
+    },
+    type: {
+      type: String,
     }
   },
   { timestamps: true }
