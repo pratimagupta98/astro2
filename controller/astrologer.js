@@ -702,7 +702,7 @@ exports.status_change = async (req, res) => {
     {
       _id: req.params.id,
     },
-    { $set: { status: req.body.status, callingStatus: req.body.callingStatus } },
+    { $set: { status: req.body.status, callingStatus: req.body.callingStatus, waiting_tym: 0 } },
     { new: true }
   )
     .then((data) => resp.successr(res, data))
@@ -861,7 +861,7 @@ exports.deleteWaitQueueItem = async (req, res) => {
 
   try {
     const astrologer = await Astrologer.findById(astrologerId);
-    
+
     if (!astrologer) {
       return res.status(404).json({ error: "Astrologer not found" });
     }
@@ -870,11 +870,11 @@ exports.deleteWaitQueueItem = async (req, res) => {
 
     // Find the index of the waitQueue item based on the userId
     const indexToDelete = waitQueueList.findIndex(item => item.userId.toString() === userId);
-    
+
     if (indexToDelete === -1) {
       return res.status(404).json({ error: "WaitQueue item not found" });
     }
-    
+
     // Remove the waitQueue item from the array
     waitQueueList.splice(indexToDelete, 1);
 
