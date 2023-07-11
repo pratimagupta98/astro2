@@ -462,7 +462,17 @@ exports.pending_order = async (req, res, next) => {
     });
 };
 
-
+exports.acceptNotificationByAstro = async (req, res) => {
+  const getdata = await ChatWallet.findOneAndUpdate(
+    {
+      _id: req.params.id,
+    },
+    { $set: { status: req.body.status } },
+    { new: true }
+  )
+  .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+}
 exports.acceptChat = async (req, res) => {
   const getdata = await ChatWallet.findOneAndUpdate(
     {

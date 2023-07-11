@@ -11,13 +11,16 @@ const {
     wait_queue_list,
     accepted_notification,
     dltNotificattion,
-    dlt_wait_queue
+    dlt_wait_queue,
+    acceptNotificationByAstro
     //   addCallWallet_new
 
 } = require("../controller/chatWallet");
 
 //Paths
 router.post("/user/addChatWallet", addChatWallet);
+router.post("/user/acceptNotificationByAstro/:id", acceptNotificationByAstro);
+
 router.get("/user/getOne_Conversation_Wallet/:id", getOne_Conversation_Wallet);
 router.post("/user/addCallWallet", addCallWallet);
 router.post("/user/addVideoCallWallet", addVideoCallWallet);
