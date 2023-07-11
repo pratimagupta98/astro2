@@ -58,7 +58,7 @@ exports.CmntByTicketNo = async (req, res) => {
     .catch((error) => resp.errorr(res, error));
 };
 exports.ticketList = async (req, res) => {
-  await Ticket.find()
+  await Ticket.find().populate("userid")
     .sort({ sortorder: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
