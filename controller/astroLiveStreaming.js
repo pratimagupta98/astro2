@@ -1,5 +1,7 @@
 const AsLive = require("../models/astroLiveStreaming");
 const LiveChat = require("../models/liveChat");
+const AppLiveChat = require("../models/appliveChat");
+
 const resp = require("../helpers/apiResponse");
 const agora = require('agora-access-token');
 const Astrologer = require("../models/astrologer");
@@ -250,5 +252,33 @@ exports.liveChat_msgbyastro = async (req, res) => {
 exports.dltliveChat = async (req, res) => {
     await LiveChat.deleteMany({ astroid: req.params.id })
         .then((data) => resp.deleter(res, data))
+        .catch((error) => resp.errorr(res, error));
+};
+
+exports.astro_appliveChat = async (req, res) => {
+
+    const { astroid, userid, msg, token, type } = req.body;
+
+    const newAppLiveChat = new AppLiveChat({
+        astroid: astroid,
+        userid: userid,
+        msg: msg,
+        token: token,
+        type: type
+
+    });
+
+
+    newAppLiveChat
+        .save()
+        .then((data) => resp.successr(res, data))
+        .catch((error) => resp.errorr(res, error));
+}
+
+
+exports.applist_liveChat = async (req, res) => {
+    await AppLiveChat.find().populate("astroid")
+        .sort({ createdAt: -1 })
+        .then((data) => resp.successr(res, data))
         .catch((error) => resp.errorr(res, error));
 };

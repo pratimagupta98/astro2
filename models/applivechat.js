@@ -15,12 +15,15 @@ const thisSchema = new Schema(
         msg: {
             type: String
         },
-        status: {
-            type: String,
-            default: "true"
-        },
+        // status: {
+        //     type: String,
+        //     default: "true"
+        // },
         type:{
-            
+            type: String,
+        },
+        token:{
+            type: String,
         }
     },
 
@@ -28,4 +31,4 @@ const thisSchema = new Schema(
 );
 
 
-module.exports = mongoose.model("liveChat", thisSchema);
+module.exports = mongoose.model("appliveChat", thisSchema);

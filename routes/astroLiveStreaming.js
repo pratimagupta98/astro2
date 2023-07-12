@@ -10,7 +10,9 @@ const {
     UerLiveStreamingToken,
     astro_liveChat,
     liveChat_msgbyastro,
-    dltliveChat
+    dltliveChat,
+    astro_appliveChat,
+    applist_liveChat
 
 } = require("../controller/astroLiveStreaming");
 
@@ -24,6 +26,9 @@ router.get("/user/disConnectLiveStream/:id", disConnectLiveStream);
 router.post("/user/astro_liveChat", astro_liveChat);
 router.get("/user/liveChat_msgbyastro/:id", liveChat_msgbyastro);
 router.get("/user/dltliveChat/:id", dltliveChat);
+router.post("/user/astro_appliveChat", astro_appliveChat);
+router.get("/user/applist_liveChat", applist_liveChat);
+
 
 
 
