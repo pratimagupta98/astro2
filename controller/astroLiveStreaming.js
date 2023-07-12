@@ -1,6 +1,6 @@
 const AsLive = require("../models/astroLiveStreaming");
 const LiveChat = require("../models/liveChat");
-const AppLiveChat = require("../models/appliveChat");
+const AppLiveChat = require("../models/applivechat");
 
 const resp = require("../helpers/apiResponse");
 const agora = require('agora-access-token');
