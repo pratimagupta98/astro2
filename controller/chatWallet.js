@@ -470,7 +470,7 @@ exports.acceptNotificationByAstro = async (req, res) => {
     { $set: { status: req.body.status } },
     { new: true }
   )
-  .then((data) => resp.successr(res, data))
+    .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 }
 exports.acceptChat = async (req, res) => {
@@ -1061,7 +1061,7 @@ exports.addChatWallet = async (req, res) => {
 
 
 exports.getOnenotificationByastro = async (req, res) => {
-  await ChatWallet.findOne({ _id: req.params.id }).populate("userid")
+  await ChatWallet.findOne({ userid: req.params.id }).populate("userid")
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
