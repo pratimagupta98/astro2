@@ -12,7 +12,8 @@ const {
     accepted_notification,
     dltNotificattion,
     dlt_wait_queue,
-    acceptNotificationByAstro
+    acceptNotificationByAstro,
+    getOnenotificationByastro
     //   addCallWallet_new
 
 } = require("../controller/chatWallet");
@@ -33,6 +34,7 @@ router.get("/admin/dlt_wait_queue/:id", dlt_wait_queue);
 router.get("/user/accepted_notification/:id", accepted_notification);
 
 router.get("/admin/dltNotificattion/:id", dltNotificattion);
+router.get("/user/getOnenotificationByastro/:id", getOnenotificationByastro);
 
 
 

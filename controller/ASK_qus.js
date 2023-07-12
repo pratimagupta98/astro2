@@ -59,7 +59,7 @@ exports.user_ask_qus = async (req, res) => {
       question: question,
       answer: answer,
       bundleOffer: bundleOffer,
-      remaining_qus: remainqus-1,
+      remaining_qus: remainqus - 1,
       totalQus: totalQsCount
     });
 

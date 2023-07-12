@@ -29,7 +29,8 @@ const {
   lalkitab_remedies,
   basic_gem_suggestion,
   panchang_festival,
-  basic_horoscope_pdf
+  basic_horoscope_pdf,
+  manglik
 
 } = require("../controller/match_making");
 
@@ -62,6 +63,7 @@ router.post("/user/lalkitab_remedies/:planet_name", lalkitab_remedies);
 router.post("/user/basic_gem_suggestion", basic_gem_suggestion);
 router.post("/user/panchang_festival", panchang_festival);
 router.post("/user/basic_horoscope_pdf", basic_horoscope_pdf);
+router.post("/user/manglik", manglik);
 
 
 

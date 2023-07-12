@@ -1,7 +1,7 @@
 const Admin = require("../models/admin");
 const AdminComision = require("../models/admin");
 const Astrologer = require("../models/astrologer");
-
+var FCM = require('fcm-node');
 const resp = require("../helpers/apiResponse");
 //const bcrypt = require("bcryptjs");
 const cloudinary = require("cloudinary").v2;
@@ -11,6 +11,9 @@ const fs = require("fs");
 const jwt = require("jsonwebtoken");
 const key = "verysecretkey";
 const bcrypt = require("bcrypt");
+const path = require("path");
+//const { func } = require("joi");
+const { response } = require("express");
 dotenv.config();
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -77,7 +80,7 @@ exports.adminlogin = async (req, res) => {
         },
         key,
         {
-          expiresIn: 86400000,
+          expiresIn: 365,
         }
       );
       res.header("ad-token", token).status(200).send({
@@ -248,3 +251,55 @@ exports.getAdminEarnings = async (req, res) => {
   })
 
 };
+
+const sendPushNotification = async (userid, message) => {
+  try {
+    console.log('USER ID:- ' + userid)
+    console.log('message from admin :- ' + message)
+
+    fs.readFile(path.join(__dirname, '../FireBaseConfig.json'), "utf8", async (err, jsonString) => {
+      if (err) {
+        console.log("Error Reading file from disk", err)
+        return err;
+      }
+      try {
+        const data = JSON.parse(jsonString)
+        var serverkey = data.SERVER_KEY
+        var fcm = new FCM(serverkey)
+        var push_tokens = await push_notification.find({
+          where: {
+            user_id: userId
+          }
+        })
+        var reg_ids = []
+        push_tokens.forEach(token => {
+          reg_ids.push(token.fcm_token)
+        })
+        if (reg_ids.length > 0) {
+          var pushMessage = {
+            registration_ids: reg_ids,
+            content_available: true,
+            mutable_content: true,
+            notification: {
+              body: message,
+              icon: 'myicon',
+              sound: 'sound'
+            }
+          }
+          fcm.send(pushMessage, function (err, apiResponse) {
+            if (err) {
+              console.log('something has gone wrong!', err)
+            } else {
+              console.log('push notification sent', response)
+            }
+          })
+        }
+      } catch (err) {
+        console.log("Error parsing JSON String", err)
+      }
+    })
+
+  } catch (error) {
+    console.log(error)
+  }
+}

@@ -1082,7 +1082,7 @@ exports.panchang_festival = async (req, res) => {
 // }
 
 exports.basic_horoscope_pdf = async (req, res) => {
-  
+
   const birthDetails = {
     name: "siya",
     gender: "femaile",
@@ -1169,5 +1169,50 @@ exports.basic_horoscope_pdf = async (req, res) => {
 // });
 
 
+
+
+
+exports.manglik = async (req, res) => {
+  ;
+  var api = 'varshaphal_month_chart';
+
+  var data = {
+    day: 6,
+  month: 1,
+  year: 2000,
+  hour: 7,
+  min: 45,
+  lat: 19.132,
+  lon: 72.342,
+  tzone: 5.5,
+
+  };
+
+
+  var auth = "Basic " + Buffer.from(process.env.USERID + ":" + process.env.APIKEY).toString('base64');
+
+
+  try {
+    const response = await fetch("https://json.astrologyapi.com/v1/" + api, {
+      method: "POST",
+      headers: {
+        "Authorization": auth,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+    const result = await response.json();
+    res.status(200).json({
+      status: true,
+      msg: "success",
+      data: result
+    });
+  } catch (error) {
+    res.status(405).json({
+      error
+    });
+  }
+
+};
 
 
