@@ -277,8 +277,15 @@ exports.astro_appliveChat = async (req, res) => {
 
 
 exports.applist_liveChat = async (req, res) => {
-    await AppLiveChat.find().populate("astroid")
-        .sort({ createdAt: -1 })
-        .then((data) => resp.successr(res, data))
-        .catch((error) => resp.errorr(res, error));
+    const { token } = req.body; // Extract the token from the request parameters
+
+    try {
+        const data = await AppLiveChat.find({ token: token })
+            .populate("astroid")
+            .sort({ createdAt: -1 });
+
+        resp.successr(res, data);
+    } catch (error) {
+        resp.errorr(res, error);
+    }
 };
