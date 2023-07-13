@@ -2,6 +2,8 @@ const AsLive = require("../models/yog_liveStream");
 const resp = require("../helpers/apiResponse");
 const agora = require('agora-access-token');
 const Astrologer = require("../models/astrologer");
+const LiveChat = require("../models/liveChat");
+const AppLiveChat = require("../models/applivechat");
 
 exports.goLiveStreaming = async (req, res) => {
     try {
@@ -115,7 +117,9 @@ exports.LiveAstrologer = async (req, res) => {
 };
 
 exports.discloseLiveStream = async (req, res) => {
-    const getId = await AsLive.deleteOne({ token: req.params.token })
+    const getId = await AsLive.deleteOne({ astroId: req.params.astroId })
+    console.log("getId",getId)
+    await AppLiveChat.deleteMany({ astroid: req.params.id })
     if (getId) {
         res.status(200).json({
             status: true,

@@ -104,7 +104,7 @@ exports.deductBalance = async (req, res) => {
     totalDuration++;
     console.log("duration++", duration++);
     console.log("Total duration:", totalDuration);
-    console.log("cron is running");
+    console.log("cron is  ");
 
     if (user.amount < astro.callCharge) {
       const resp = await Astrologer.updateOne(

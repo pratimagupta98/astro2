@@ -697,6 +697,7 @@ exports.astrodetails = async (req, res) => {
   }
 };
 
+
 exports.status_change = async (req, res) => {
   await Astrologer.findOneAndUpdate(
     {
@@ -811,9 +812,6 @@ exports.busyAstroCount = async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 };
-
-
-
 
 
 exports.getWaitQueueList = async (req, res) => {
