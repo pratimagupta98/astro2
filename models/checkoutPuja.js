@@ -12,8 +12,31 @@ const thisSchema = new Schema(
        productId:[{
         type: mongoose.Schema.Types.ObjectId,
         ref: "adminAddEvent"}],
+        status:{
+          type:String,
+          default:"Pending"
+        },
+        type:{
+          type:String,
+          
+        },
+        slots:{
+          type:String,
+          
+        },
+        date:{
+          type:String,
+        },
+        address:{
+          type:String,
+        },
+desc:{
+  type:String,
+},
        
       },
+     
+
       // product: [
       //   {
       //     product: { type: mongoose.Schema.Types.ObjectId, ref: "product" },
