@@ -37,6 +37,19 @@ exports.pujaChkOutList = async (req, res) => {
     .catch((error) => resp.errorr(res, error));
 };
 
+exports.bookedPujaList= async (req, res) => {
+  await PujaChkOut.find().populate("userid")
+    .populate({
+      path: "pujaId",
+      populate: {
+        path: "pooja_type",
+      },
+    })
+    .sort({ sortorder: 1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
 exports.getOneComision = async (req, res) => {
   await Commision.findOne({ _id: req.params.id }).populate("product")
     .then((data) => resp.successr(res, data))
