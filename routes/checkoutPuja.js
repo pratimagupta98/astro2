@@ -7,7 +7,8 @@ const {
     userBookedPujalist,
     bookedPujaList,
      updatePujaStatus,
-     dltBookedPuja
+     dltBookedPuja,
+     getOneBookedPuja
 } = require("../controller/checkoutPuja");
 
 
@@ -17,7 +18,8 @@ router.get("/user/userBookedPujalist/:id", userBookedPujalist);
 router.get("/admin/bookedPujaList", bookedPujaList)
  router.post("/admin/updatePujaStatus/:id",updatePujaStatus);
  router.get("/admin/dltBookedPuja/:id", dltBookedPuja)
+ router.get("/admin/getOneBookedPuja/:id", getOneBookedPuja)
 
-
+ 
 module.exports = router;
 

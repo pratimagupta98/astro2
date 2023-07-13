@@ -49,6 +49,18 @@ exports.bookedPujaList = async (req, res) => {
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
+
+exports.getOneBookedPuja = async (req, res) => {
+  await PujaChkOut.findOne({ _id: req.params.id }).populate("userid")
+  .populate({
+    path: "pujaId",
+    populate: {
+      path: "pooja_type",
+    },
+  })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
 exports.dltBookedPuja = async (req, res) => {
   await PujaChkOut.deleteOne({ _id: req.params.id })
     .then((data) => resp.deleter(res, data))
