@@ -276,39 +276,41 @@ exports.astro_appliveChat = async (req, res) => {
 }
 
 
-exports.applist_liveChat = async (req, res) => {
-    const { token } = req.body; // Extract the token from the request parameters
+// exports.applist_liveChat = async (req, res) => {
+//     const { token } = req.body; // Extract the token from the request parameters
 
-    try {
-        const data = await AppLiveChat.find({ token: token })
-            .populate("astroid").populate("userid")
-            .sort({ createdAt: 1 })
-           
-            .sort({ createdAt: 1 });
-        const modifiedData = data.map(chat => {
-            return {
-                astrologerName: chat.astroid?.fullname,
-                astrologerimg: chat.astroid?.img,
-                userName: chat.userid?.fullname,
-                userImg: chat.userid?.userimg,
-                token: chat?.token,
-                type: chat.type,
-                msg: chat.msg
+//     try {
+//         const data = await AppLiveChat.find({ token: token })
+//             .populate("astroid").populate("userid")
+//             .sort({ createdAt: 1 })
 
-            };
-        });
+//             .sort({ createdAt: 1 });
 
-        res.status(200).json({
-            status: true,
-            msg: "success",
-            data: modifiedData,
+//         const modifiedData = data.map(chat => {
+//             return {
+//                 type: chat.type,
+//                 Name: chat.astroid?.fullname,
+//                 img: chat.astroid?.img,
+//                 userName: chat.userid?.fullname,
+//                 userImg: chat.userid?.userimg,
+//                 token: chat?.token,
+
+//                 msg: chat.msg
+
+//             };
+//         });
+
+//         res.status(200).json({
+//             status: true,
+//             msg: "success",
+//             data: modifiedData,
 
 
-        });
-    } catch (error) {
-        resp.errorr(res, error);
-    }
-};
+//         });
+//     } catch (error) {
+//         resp.errorr(res, error);
+//     }
+// };
 
 
 
@@ -333,3 +335,45 @@ exports.applist_liveChat = async (req, res) => {
 //         resp.errorr(res, error);
 //     }
 // };
+exports.applist_liveChat = async (req, res) => {
+    const { token } = req.body; // Extract the token from the request parameters
+
+    try {
+        const data = await AppLiveChat.find({ token: token })
+            .populate("astroid")
+            .populate("userid")
+            .sort({ createdAt: 1 });
+
+        const modifiedData = data.map(chat => {
+            let Name = "";
+            let img = "";
+
+           if (chat.type === "Astrologer") {
+                Name = chat.astroid?.fullname;
+                img = chat.astroid?.img;
+            }
+            if (chat.type === "User") {
+                Name = chat.userid?.fullname;
+                img = chat.userid?.userimg;
+            }
+
+            return {
+                type: chat.type,
+                Name: Name,
+                img: img,
+                // userName: chat.userid?.fullname,
+                // userImg: chat.userid?.userimg,
+                token: chat?.token,
+                msg: chat.msg
+            };
+        });
+
+        res.status(200).json({
+            status: true,
+            msg: "success",
+            data: modifiedData
+        });
+    } catch (error) {
+        resp.errorr(res, error);
+    }
+};
