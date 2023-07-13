@@ -282,7 +282,7 @@ exports.applist_liveChat = async (req, res) => {
     try {
         const data = await AppLiveChat.find({ token: token })
             .populate("astroid")
-            .sort({ createdAt: -1 });
+            .sort({ createdAt: 1 });
 
         resp.successr(res, data);
     } catch (error) {
