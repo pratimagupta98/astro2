@@ -6,8 +6,8 @@ const {
     add_PoojaChkOut,
     userBookedPujalist,
     bookedPujaList,
-    // editComision,
-    // dltComision
+     updatePujaStatus,
+     dltBookedPuja
 } = require("../controller/checkoutPuja");
 
 
@@ -15,8 +15,8 @@ const {
 router.post("/user/add_PoojaChkOut", add_PoojaChkOut);
 router.get("/user/userBookedPujalist/:id", userBookedPujalist);
 router.get("/admin/bookedPujaList", bookedPujaList)
-// router.post("/admin/editComision/:id",     editComision);
-// router.get("/admin/dltComision/:id",     dltComision)
+ router.post("/admin/updatePujaStatus/:id",updatePujaStatus);
+ router.get("/admin/dltBookedPuja/:id", dltBookedPuja)
 
 
 module.exports = router;

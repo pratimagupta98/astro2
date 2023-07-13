@@ -49,6 +49,24 @@ exports.bookedPujaList = async (req, res) => {
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
+exports.dltBookedPuja = async (req, res) => {
+  await PujaChkOut.deleteOne({ _id: req.params.id })
+    .then((data) => resp.deleter(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
+exports.updatePujaStatus = async (req, res) => {
+  await PujaChkOut.findOneAndUpdate(
+    {
+      _id: req.params.id,
+    },
+    { $set: req.body },
+    { new: true }
+  )
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
 
 exports.getOneComision = async (req, res) => {
   await Commision.findOne({ _id: req.params.id }).populate("product")
