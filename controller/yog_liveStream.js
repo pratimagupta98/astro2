@@ -118,8 +118,8 @@ exports.LiveAstrologer = async (req, res) => {
 
 exports.discloseLiveStream = async (req, res) => {
     const getId = await AsLive.deleteOne({ astroId: req.params.astroId })
-    console.log("getId",getId)
-    await AppLiveChat.deleteMany({ astroid: req.params.id })
+    console.log("getId", getId)
+    await AppLiveChat.deleteMany({ astroid: req.params.astroId })
     if (getId) {
         res.status(200).json({
             status: true,
@@ -135,5 +135,6 @@ exports.discloseLiveStream = async (req, res) => {
     }
 
 };
+
 
 

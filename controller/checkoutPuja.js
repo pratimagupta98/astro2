@@ -52,12 +52,12 @@ exports.bookedPujaList = async (req, res) => {
 
 exports.getOneBookedPuja = async (req, res) => {
   await PujaChkOut.findOne({ _id: req.params.id }).populate("userid")
-  .populate({
-    path: "pujaId",
-    populate: {
-      path: "pooja_type",
-    },
-  })
+    .populate({
+      path: "pujaId",
+      populate: {
+        path: "pooja_type",
+      },
+    })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
