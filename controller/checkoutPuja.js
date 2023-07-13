@@ -24,8 +24,8 @@ exports.add_PoojaChkOut = async (req, res) => {
 }
 
 
-exports.pujaChkOutList = async (req, res) => {
-  await PujaChkOut.find().populate("userid")
+exports.userBookedPujalist = async (req, res) => {
+  await PujaChkOut.find({ userid: req.params.id }).populate("userid")
     .populate({
       path: "pujaId",
       populate: {
@@ -37,7 +37,7 @@ exports.pujaChkOutList = async (req, res) => {
     .catch((error) => resp.errorr(res, error));
 };
 
-exports.bookedPujaList= async (req, res) => {
+exports.bookedPujaList = async (req, res) => {
   await PujaChkOut.find().populate("userid")
     .populate({
       path: "pujaId",
