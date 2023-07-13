@@ -281,11 +281,55 @@ exports.applist_liveChat = async (req, res) => {
 
     try {
         const data = await AppLiveChat.find({ token: token })
-            .populate("astroid")
+            .populate("astroid").populate("userid")
+            .sort({ createdAt: 1 })
+           
             .sort({ createdAt: 1 });
+        const modifiedData = data.map(chat => {
+            return {
+                astrologerName: chat.astroid?.fullname,
+                astrologerimg: chat.astroid?.img,
+                userName: chat.userid?.fullname,
+                userImg: chat.userid?.userimg,
+                token: chat?.token,
+                type: chat.type,
+                msg: chat.msg
 
-        resp.successr(res, data);
+            };
+        });
+
+        res.status(200).json({
+            status: true,
+            msg: "success",
+            data: modifiedData,
+
+
+        });
     } catch (error) {
         resp.errorr(res, error);
     }
 };
+
+
+
+// exports.applist_liveChat = async (req, res) => {
+//     const { token } = req.body; // Extract the token from the request parameters
+
+//     try {
+//         const data = await AppLiveChat.find({ token: token })
+//             .populate("astroid", "name image") // Specify the fields to populate from the astroid model
+//             .sort({ createdAt: 1 });
+
+//         const modifiedData = data.map(chat => {
+//             return {
+//                 astrologerName: chat.astroid.fullname,
+//                 //astrologerImage: chat.astroid.img,
+//                 // Include other necessary fields from the chat object
+//             };
+//         });
+// console.log("modifiedData",modifiedData)
+//         resp.successr(res, modifiedData);
+//     } catch (error) {
+//         resp.errorr(res, error);
+//     }
+// };

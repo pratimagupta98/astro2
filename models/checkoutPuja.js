@@ -33,6 +33,9 @@ const thisSchema = new Schema(
 desc:{
   type:String,
 },
+totalamt:{
+  type:Number
+},
        
       },
      

@@ -25,13 +25,8 @@ exports.add_PoojaChkOut = async (req, res) => {
 
 
 exports.pujaChkOutList = async (req, res) => {
-  await PujaChkOut.find().populate("userid").populate("pujaId").populate("productId")
-    .populate({
-      path: "product",
-      populate: {
-        path: "productId",
-      },
-    })
+  await PujaChkOut.find().populate("userid").populate("pujaId")
+  
     .sort({ sortorder: 1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
