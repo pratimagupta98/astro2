@@ -1061,7 +1061,7 @@ exports.addChatWallet = async (req, res) => {
 
 
 exports.getOnenotificationByastro = async (req, res) => {
-  await ChatWallet.findOne({ userid: req.params.id }).populate("userid")
+  await ChatWallet.findOne({ _id: req.params.id }).populate("userid")
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
