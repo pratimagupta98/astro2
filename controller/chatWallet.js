@@ -52,6 +52,7 @@ exports.addCallWallet = async (req, res) => {
         res.status(200).json({
           status: true,
           msg: "success",
+          _id:chatWallet.id
           //     type: "Chat"
         })
 
