@@ -2,16 +2,16 @@ const Refund = require("../models/refund");
 const resp = require("../helpers/apiResponse");
 
 exports.applyforRefund= async (req, res) => {
-  const { userid ,productid,reason,status} = req.body;
+  const { userid ,orderid,reason,status} = req.body;
 
   const newRefund= new Refund({
     userid:userid,
-    productid:productid,
+    orderid:orderid,
     reason :reason,
     status:status
    });
    const findexist = await Refund.findOne({
-    $and: [{ productid:productid}, { userid: userid }]
+    $and: [{ orderid:orderid}, { userid: userid }]
   });
   if (findexist) {
       resp.alreadyr(res);
@@ -26,13 +26,37 @@ exports.applyforRefund= async (req, res) => {
 
 
 exports.adminRefundList= async (req, res) => {
-    await Refund.find().populate("productid").populate("userid")
+    await Refund.find().populate("orderid").populate("userid")
+    .populate({
+        path: "orderid",
+        populate: {
+          path: "product",
+        },
+      })
+      .populate({
+        path: "orderid",
+        populate: {
+          path: "astroid",
+        },
+      })
       .sort({ sortorder: 1 })
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));
   };
   exports.userRefundList= async (req, res) => {
-    await Refund.find().populate("productid").populate("userid")
+    await Refund.find({userid:req.params.id}).populate("orderid").populate("userid")
+    .populate({
+        path: "orderid",
+        populate: {
+          path: "product",
+        },
+      })
+      .populate({
+        path: "orderid",
+        populate: {
+          path: "astroid",
+        },
+      })
       .sort({ sortorder: 1 })
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));

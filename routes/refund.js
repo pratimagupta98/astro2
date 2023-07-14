@@ -15,7 +15,7 @@ const {
  
  router.post("/user/applyforRefund", applyforRefund);
 router.get("/admin/adminRefundList", adminRefundList);
-router.get("/user/userRefundList",  userRefundList)
+router.get("/user/userRefundList/:id",  userRefundList)
 router.get("/admin/getoneRefund/:id",  getoneRefund);
 router.post("/admin/updateRefundStatus/:id",  updateRefundStatus);
 router.get("/admin/dltRefund/:id",  dltRefund);

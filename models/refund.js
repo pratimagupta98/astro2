@@ -6,9 +6,9 @@ const RefundSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     },
-    productid: {
+    orderid: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'consultant'
+        ref: 'OrderTable'
     },
 
 
