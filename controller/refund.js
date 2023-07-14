@@ -25,26 +25,47 @@ exports.applyforRefund= async (req, res) => {
 
 
 
-exports.adminRefundList= async (req, res) => {
-    await Refund.find().populate("orderid").populate("userid")
-    .populate({
-        path: "orderid",
-        populate: {
-          path: "product",
-        },
-      })
-      .populate({
-        path: "orderid",
-        populate: {
-          path: "astroid",
-        },
-      })
-      .sort({ sortorder: 1 })
-      .then((data) => resp.successr(res, data))
-      .catch((error) => resp.errorr(res, error));
+  exports.adminRefundList = async (req, res) => {
+    try {
+      const refunds = await Refund.find()
+        .populate("orderid")
+        .populate("userid")
+        .populate({
+          path: "orderid",
+          populate: [
+            { path: "product" ,
+            populate: { path: "product" }, },
+            { path: "astroid" },
+            {
+              path: "cartId",
+             // Populate the productid field inside cartId
+            },
+          ],
+        })
+        .sort({ sortorder: 1 });
+  
+      res.status(200).json(refunds);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Failed to fetch refund list" });
+    }
   };
+  
   exports.userRefundList= async (req, res) => {
-    await Refund.find({userid:req.params.id}).populate("orderid").populate("userid")
+    await Refund.find({userid:req.params.id}) .populate("orderid")
+    .populate("userid")
+    .populate({
+      path: "orderid",
+      populate: [
+        { path: "product" ,
+        populate: { path: "product" }, },
+        { path: "astroid" },
+        {
+          path: "cartId",
+         // Populate the productid field inside cartId
+        },
+      ],
+    })
     .populate({
         path: "orderid",
         populate: {
