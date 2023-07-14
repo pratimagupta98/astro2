@@ -232,7 +232,7 @@ exports.changeToAvailable = async (req, res) => {
 
     const updatedAstrologer = await Astrologer.findOneAndUpdate(
       { _id: astroid },
-      { $set: { callingStatus: "Available" } },
+      { $set: { callingStatus: "Available", waiting_tym: 0 } },
       { new: true }
     );
     // console.log("Chat History with IDs:", chatHistoryWithIds);
