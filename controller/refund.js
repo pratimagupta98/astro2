@@ -66,18 +66,6 @@ exports.applyforRefund= async (req, res) => {
         },
       ],
     })
-    .populate({
-        path: "orderid",
-        populate: {
-          path: "product",
-        },
-      })
-      .populate({
-        path: "orderid",
-        populate: {
-          path: "astroid",
-        },
-      })
       .sort({ sortorder: 1 })
       .then((data) => resp.successr(res, data))
       .catch((error) => resp.errorr(res, error));

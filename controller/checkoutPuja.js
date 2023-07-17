@@ -4,7 +4,7 @@ const resp = require("../helpers/apiResponse");
 
 exports.add_PoojaChkOut = async (req, res) => {
   const { pujaId, userid, productId, status, type, slots, date, address, desc } = req.body;
-
+  const transaction_Id = "AL" + Date.now();
   const newPujaChkOut = new PujaChkOut({
     pujaId: pujaId,
     userid: userid,
@@ -14,7 +14,8 @@ exports.add_PoojaChkOut = async (req, res) => {
     slots: slots,
     date: date,
     address: address,
-    desc: desc
+    desc: desc,
+    transactionId: transaction_Id
   });
 
   newPujaChkOut
