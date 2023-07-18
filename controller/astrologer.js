@@ -885,3 +885,45 @@ exports.deleteWaitQueueItem = async (req, res) => {
     res.status(500).json({ error: "Failed to delete WaitQueue item" });
   }
 };
+
+exports.astrologinWithPassword = async (req, res) => {
+  const { email, mobile, password } = req.body
+
+  const user = await Astrologer.findOne({
+    mobile: mobile
+  });
+  //console.log("Strrr", user)
+  if (user) {
+    const validPass = await bcrypt.compare(req.body.password, user.password)
+    // console.log("paaa", validPass)
+    if (validPass) {
+      const token = jwt.sign(
+        {
+          userId: user._id,
+        },
+        key,
+        {
+          expiresIn: 86400000,
+        }
+      )
+      res.header("auth-token", token).status(200).send({
+        status: true,
+        token: token,
+        msg: "success",
+        user: user,
+      });
+    } else {
+      res.status(400).json({
+        status: false,
+        msg: "Incorrect Password",
+        error: "error",
+      });
+    }
+  } else {
+    res.status(400).json({
+      status: false,
+      msg: "User Doesnot Exist",
+      error: "error",
+    });
+  }
+};
