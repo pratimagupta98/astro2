@@ -1178,13 +1178,13 @@ exports.manglik = async (req, res) => {
 
   var data = {
     day: 6,
-  month: 1,
-  year: 2000,
-  hour: 7,
-  min: 45,
-  lat: 19.132,
-  lon: 72.342,
-  tzone: 5.5,
+    month: 1,
+    year: 2000,
+    hour: 7,
+    min: 45,
+    lat: 19.132,
+    lon: 72.342,
+    tzone: 5.5,
 
   };
 

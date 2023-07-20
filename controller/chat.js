@@ -419,13 +419,6 @@ exports.getroomid = async (req, res) => {
 
 // exports.getroomid = async (req, res) => {
 //   const arrOfObj=  await Chat.find({userid:req.params.id}).populate("userid").populate("astroid")
-
-
-
-
-
-
-
 //     res.status(200).json({
 //       status: true,
 //       message: "success", 

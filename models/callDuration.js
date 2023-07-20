@@ -13,6 +13,9 @@ const thisSchema = new Schema(
         status: {
             type: String
         },
+        callStatus:{
+            type: String
+        },
         vc_status:{
             type: Number,
             default: 0
