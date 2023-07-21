@@ -190,13 +190,17 @@ exports.intetakeNotification = async (req, res) => {
 //#############
 
 let cron_job;
-let duration;
+ 
 //let totalDuration
 //const User = require('../models/User'); // Replace '../models/User' with the correct path to your User model
 //const Astrologer = require('../models/Astrologer'); // Replace '../models/Astrologer' with the correct path to your Astrologer model
 //const ChatHistory = require('../models/ChatHistory'); // Replace '../models/ChatHistory' with the correct path to your ChatHistory model
 
-let totalDuration = 0; // Assuming totalDuration is a global variable to keep track of total minutes spent in calls
+//let totalDuration = 0; // Assuming totalDuration is a global variable to keep track of total minutes spent in calls
+
+// Define variables outside the function to retain their values between function calls
+let duration = 0;
+let totalDuration = 0;
 
 exports.deductBalance = async (req, res) => {
   const { userId, astroId, type } = req.body;
@@ -204,14 +208,18 @@ exports.deductBalance = async (req, res) => {
   const astro = await Astrologer.findById(astroId);
   console.log("Me call hua hu");
 
-  let duration = 0;
-  // Create a new cron job to run every minute
   const cron_job = cron.schedule("* * * * *", async () => {
     duration++;
     totalDuration++;
     console.log("duration++", duration);
     console.log("Total duration:", totalDuration);
     console.log("cron is running");
+    const user = await User.findById(userId);
+    const astro = await Astrologer.findById(astroId);
+    const uum = user.amount
+    console.log("uum",uum)
+    const deductedBalance = user.amount - astro.callCharge;
+    await User.updateOne({ _id: userId }, { amount: deductedBalance });
     if (user.amount < astro.callCharge) {
       const resp = await Astrologer.updateOne(
         { _id: astroId },
@@ -221,7 +229,6 @@ exports.deductBalance = async (req, res) => {
       cron_job.stop();
       return res.status(404).send("Your balance is not enough to chat");
     } else if (user.amount <= astro.callCharge * 5) {
-      const deductedBalance = user.amount - astro.callCharge;
       console.log("deductedBalance", deductedBalance);
       console.log("user amt", user.amount);
       await User.updateOne({ _id: userId }, { amount: deductedBalance });
@@ -232,16 +239,15 @@ exports.deductBalance = async (req, res) => {
       console.log(resp);
       return res.status(203).send("Balance is low");
     } else {
-      const deductedBalance = user.amount - astro.callCharge;
+      const user = await User.findById(userId);
+      const astro = await Astrologer.findById(astroId);
       console.log("astro Charge", astro.callCharge);
       console.log("Deducted Balance", deductedBalance);
       console.log("USER", user.amount);
 
-      let response = await User.updateOne(
-        { _id: userId },
-        { amount: deductedBalance }
-      );
-      console.log(response);
+      // Fetch the user again to get the updated user amount
+      const updatedUser = await User.findById(userId);
+
       // Update the user's balance after deduction
       await User.updateOne({ _id: userId }, { amount: deductedBalance });
 
@@ -249,7 +255,7 @@ exports.deductBalance = async (req, res) => {
         userId: userId,
         astroId: astroId,
         type: type,
-        userAmt: deductedBalance, // Use the original user.amount before deduction
+        userAmt: updatedUser.amount, // Use the updated user.amount after deduction
         userDeductedAmt: deductedBalance,
         totalDuration: totalDuration // Use the global totalDuration
       });
@@ -259,7 +265,7 @@ exports.deductBalance = async (req, res) => {
       const getid = savedChatHistory._id;
       const respss = await ChatHistory.updateOne(
         { _id: getid },
-        { userAmt: user.amount }
+        { userAmt: updatedUser.amount } // Use the updated user.amount after deduction
       );
 
       const resp = await Astrologer.updateOne(
@@ -272,6 +278,8 @@ exports.deductBalance = async (req, res) => {
     }
   });
 };
+
+
 
 
 
