@@ -205,7 +205,6 @@ exports.deductBalance = async (req, res) => {
   console.log("Me call hua hu");
 
   let duration = 0;
-
   // Create a new cron job to run every minute
   const cron_job = cron.schedule("* * * * *", async () => {
     duration++;
@@ -213,7 +212,6 @@ exports.deductBalance = async (req, res) => {
     console.log("duration++", duration);
     console.log("Total duration:", totalDuration);
     console.log("cron is running");
-
     if (user.amount < astro.callCharge) {
       const resp = await Astrologer.updateOne(
         { _id: astroId },
