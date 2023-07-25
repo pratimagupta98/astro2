@@ -208,7 +208,7 @@ exports.deductBalance = async (req, res) => {
   const user = await User.findById(userId);
   const astro = await Astrologer.findById(astroId);
   console.log("Me call hua hu");
-  if (!cron_job) {
+  // if (!cron_job) {
     const cron_job = cron.schedule("* * * * *", async () => {
       duration++;
       totalDuration++;
@@ -274,7 +274,7 @@ exports.deductBalance = async (req, res) => {
     });
   };
 
-}
+//}
 
 
 
