@@ -15,10 +15,13 @@ const User = require("../models/users");
 
 // const useramt = userdetail.amount
 // const astpmc = useramt / getchrge
-
+let cron_job = null;
 let callDetails = { sid: "", userId: "" };
 
 exports.make_call = async (req, res) => {
+  if (cron_job) {
+    return res.status(409).json({ message: "Cron job is already running." });
+  }
   const crntym = new Date();
 
   callDetails.astroid = req.body?.astroid;
@@ -316,6 +319,8 @@ const checkCallStatus = async () => {
 
           console.log(response);
           cron_job.stop();
+         
+          cron_job = null;
           console.log("Unknown call status:", callStatus);
         }
       } else {
