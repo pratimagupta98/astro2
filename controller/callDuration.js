@@ -199,7 +199,7 @@ exports.intetakeNotification = async (req, res) => {
 //let totalDuration = 0; // Assuming totalDuration is a global variable to keep track of total minutes spent in calls
 
 // Define variables outside the function to retain their values between function calls
-let cron_job = null;
+let cron_job 
 let duration = 0;
 let totalDuration = 0;
 
