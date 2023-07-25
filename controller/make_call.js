@@ -319,7 +319,7 @@ const checkCallStatus = async () => {
 
           console.log(response);
           cron_job.stop();
-         
+
           cron_job = null;
           console.log("Unknown call status:", callStatus);
         }
