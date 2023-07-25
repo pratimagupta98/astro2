@@ -279,7 +279,7 @@ exports.deductBalance = async (req, res) => {
 
 
 
-exports.stop_cron = async (req, res) => {
+exports.changeToAvailable = async (req, res) => {
   try {
     // Check if cron_job is defined and stop it
     if (cron_job) {
@@ -302,7 +302,7 @@ exports.stop_cron = async (req, res) => {
 
 
 
-exports.changeToAvailable = async (req, res) => {
+exports.stop_cron = async (req, res) => {
   try {
     const lastDocument = await ChatHistory.findOne()
       .sort({ createdAt: -1 }) // Assuming `createdAt` is the field by which you want to sort
