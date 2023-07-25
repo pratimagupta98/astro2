@@ -280,15 +280,28 @@ exports.deductBalance = async (req, res) => {
 
 
 exports.stop_cron = async (req, res) => {
-  // Stop the cron job
-  if (cron_job) {
-    cron_job.stop();
-    cron_job = null; // Reset the cron job variable
+  try {
+    // Check if cron_job is defined and stop it
+    if (cron_job) {
+      cron_job.stop();
+      cron_job = null; // Set cron_job to null after stopping to avoid reusing the old job
+    }
+
+    console.log("Cron job stopped successfully");
     res.status(200).send("Cron job stopped successfully");
-  } else {
-    res.status(404).send("No active cron job found");
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to stop cron job" });
   }
-}
+};
+ 
+
+
+
+
+
+
+
 exports.changeToAvailable = async (req, res) => {
   try {
     const lastDocument = await ChatHistory.findOne()
