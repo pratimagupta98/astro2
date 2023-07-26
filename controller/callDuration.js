@@ -289,6 +289,7 @@ exports.changeToAvailable = async (req, res) => {
 
     console.log("Cron job stopped successfully");
     res.status(200).send("Cron job stopped successfully");
+    
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to stop cron job" });

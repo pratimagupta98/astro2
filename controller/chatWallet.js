@@ -936,7 +936,7 @@ exports.VideoNotification= async (req, res) => {
       { createdAt: { $gte: today, $lt: tomorrow } } // Filter for today's data
     ]
   })
-    .populate("astroid")
+   // .populate("astroid")
     .populate("userid")
     .populate("recharge_planId")
     .sort({ createdAt: 1 })
