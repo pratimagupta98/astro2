@@ -13,7 +13,8 @@ const {
     dltNotificattion,
     dlt_wait_queue,
     acceptNotificationByAstro,
-    getOnenotificationByastro
+    getOnenotificationByastro,
+    VideoNotification
     //   addCallWallet_new
 
 } = require("../controller/chatWallet");
@@ -36,6 +37,7 @@ router.get("/user/accepted_notification/:id", accepted_notification);
 router.get("/admin/dltNotificattion/:id", dltNotificattion);
 router.get("/user/getOnenotificationByastro/:id", getOnenotificationByastro);
 
+router.get("/user/VideoNotification/:id", VideoNotification);
 
 
 

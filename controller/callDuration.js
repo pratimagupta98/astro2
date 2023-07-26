@@ -298,10 +298,6 @@ exports.changeToAvailable = async (req, res) => {
 
 
 
-
-
-
-
 exports.stop_cron = async (req, res) => {
   try {
     const lastDocument = await ChatHistory.findOne()

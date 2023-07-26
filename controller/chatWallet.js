@@ -921,6 +921,30 @@ exports.wait_queue_list = async (req, res) => {
     .catch((error) => resp.errorr(res, error));
 };
 
+exports.VideoNotification= async (req, res) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0
+
+  const tomorrow = new Date();
+  tomorrow.setDate(today.getDate() + 1);
+  tomorrow.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0 for the next day
+
+  await ChatWallet.find({
+    $and: [
+      { astroid: req.params.id },
+      { status: "Requested" },{type:"Video"},
+      { createdAt: { $gte: today, $lt: tomorrow } } // Filter for today's data
+    ]
+  })
+    .populate("astroid")
+    .populate("userid")
+    .populate("recharge_planId")
+    .sort({ createdAt: 1 })
+    .then((data) => resp.successr(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
+
+
 exports.dlt_wait_queue = async (req, res) => {
   await ChatWallet.deleteOne({ _id: req.params.id })
     .then((data) => resp.deleter(res, data))
