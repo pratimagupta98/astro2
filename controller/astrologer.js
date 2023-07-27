@@ -901,7 +901,7 @@ exports.astrologinWithPassword = async (req, res) => {
         {
           userId: user._id,
         },
-        key,
+        key,     
         {
           expiresIn: 86400000,
         }

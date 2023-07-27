@@ -61,242 +61,146 @@ exports.intetakeNotification = async (req, res) => {
     .catch((error) => resp.errorr(res, error));
 };
 
-// exports.deductBalance = async (req, res) => {
-//   const { userId, astroId } = req.body;
-
-//   const user = await User.findById(userId);
-//   const astro = await Astrologer.findById(astroId);
-
-//   if (user.amount <= astro.callCharge * 5) {
-//     const deductedBalance = user.amount - astro.callCharge;
-//     await User.updateOne({ _id: userId }, { amount: deductedBalance }).then(
-//       (res) => {
-//         res.status(203).send("Balance is low");
-//       }
-//     );
-//   } else if (user.amount < astro.callCharge) {
-//     res.status(404).send("Your balance is not enough to chat");
-//   }
-
-//   const deductedBalance = user.amount - astro.callCharge;
-//   await User.updateOne({ _id: userId }, { amount: deductedBalance }).then(
-//     (res) => {
-//       res.status(200).send("Balance Deducted successfully");
-//     }
-//   );
-// };
-
-//let duration;
-
-
-// let isChatHistorySaved = false;
-// let totalDuration = 0;
-// let cron_job;
-
-
-// ################################
-// exports.deductBalance = async (req, res) => {
-//   const { userId, astroId, type } = req.body;
-
-//   const user = await User.findById(userId);
-//   const astro = await Astrologer.findById(astroId);
-//   console.log("Me call hua hu")
-//   let duration = 0
-//   cron_job = cron.schedule("* * * * *", async () => {
-//     duration++;
-//     console.log("duration++", duration++)
-//     console.log("cron is running")
-
-
-//     if (user.amount < astro.callCharge) {
-//       const resp = await Astrologer.updateOne(
-//         { _id: astroId },
-//         { callingStatus: "Available" }
-//       );
-
-//       console.log(resp);
-//       cron_job.stop()
-//       // res.status(404).send("Your balance is not enough to chat");
-//     } else if (user.amount <= astro.callCharge * 5) {
-//       const deductedBalance = user.amount - astro.callCharge;
-//       console.log("deductedBalance", deductedBalance)
-//       console.log("user amt", user.amount)
-//       await User.updateOne({ _id: userId }, { amount: deductedBalance })
-//         .then(async () => {
-//           const resp = await Astrologer.updateOne(
-//             { _id: astroId },
-//             { callingStatus: "Busy" }
-//           );
-//           console.log(resp);
-//           // res.status(203).send("Balance is low");
-//         })
-
-//     } else {
-//       if (type === "Chat" && callStatus === "success") {
-//         console.log("start chat")
-
-//       } else {
-//         const deductedBalance = user.amount - astro.callCharge;
-//         console.log("astro Charge", astro.callCharge)
-//         console.log("Deducted Balance", deductedBalance)
-//         console.log("USER", user.amount)
-//         await User.updateOne({ _id: userId }, { amount: deductedBalance })
-//         const newChatHistory = new ChatHistory({
-//           userId: userId,
-//           astroId: astroId,
-//           type: type,
-//           callStatus: "in-progress"
-
-//         })
-//           // .then(async () => {
-
-
-
-//           //   const resp = await Astrologer.updateOne(
-//           //     { _id: astroId },
-//           //     { callingStatus: "Busy" }
-//           //   );
-//           //   newChatHistory.save()
-//           //   console.log(resp);
-
-//           //   return res.status(200).send("Balance Deducted successfully");
-//           // })
-//           .save()
-//           .then(async (data) => {
-//             // Save the TradeHistory instance here
-//             let response = await callDuration.updateOne(
-//               { _id: data.userId },
-//               { callStatus: "success" }
-//             );
-//             console.log(response);
-
-//             //   res.status(200).json({
-//             //     status: true,
-//             //   message: "success",
-//             //   count: data.length,
-//             //   data: data,
-//             //     // active_value2: av2,
-//             //    // investment_amt: investment_amt,
-
-//             //   });
-
-//           })
-//       }
-//     }
-//   })
-
-// };
-
-//#############
-
-// let cron_job;
-
-//let totalDuration
-//const User = require('../models/User'); // Replace '../models/User' with the correct path to your User model
-//const Astrologer = require('../models/Astrologer'); // Replace '../models/Astrologer' with the correct path to your Astrologer model
-//const ChatHistory = require('../models/ChatHistory'); // Replace '../models/ChatHistory' with the correct path to your ChatHistory model
-
-//let totalDuration = 0; // Assuming totalDuration is a global variable to keep track of total minutes spent in calls
-
-// Define variables outside the function to retain their values between function calls
+ 
 let cron_job 
 let duration = 0;
 let totalDuration = 0;
 
-exports.deductBalance = async (req, res) => {
-  const { userId, astroId, type } = req.body;
-  const user = await User.findById(userId);
-  const astro = await Astrologer.findById(astroId);
-  console.log("Me call hua hu");
-  // if (!cron_job) {
-    const cron_job = cron.schedule("* * * * *", async () => {
-      duration++;
-      totalDuration++;
-      console.log("duration++", duration);
-      console.log("Total duration:", totalDuration);
-      console.log("cron is running");
-      const user = await User.findById(userId);
-      const astro = await Astrologer.findById(astroId);
+// exports.deductBalance = async (req, res) => {
+//   const { userId, astroId, type } = req.body;
+//   const user = await User.findById(userId);
+//   const astro = await Astrologer.findById(astroId);
+//   console.log("Me call hua hu");
+//   // if (!cron_job) {
+//     const cron_job = cron.schedule("* * * * *", async () => {
+//       duration++;
+//       totalDuration++;
+//       console.log("duration++", duration);
+//       console.log("Total duration:", totalDuration);
+//       console.log("cron is running");
+//       const user = await User.findById(userId);
+//       const astro = await Astrologer.findById(astroId);
 
 
-      const deductedBalance = user.amount - astro.callCharge;
-      await User.updateOne({ _id: userId }, { amount: deductedBalance });
-      if (user.amount < astro.callCharge) {
-        const resp = await Astrologer.updateOne(
-          { _id: astroId },
-          { callingStatus: "Available" }
-        );
-        console.log("resp", resp);
-        cron_job.stop();
-        return res.status(404).send("Your balance is not enough to chat");
-      } else if (user.amount <= astro.callCharge * 5) {
+//       const deductedBalance = user.amount - astro.callCharge;
+//       await User.updateOne({ _id: userId }, { amount: deductedBalance });
+//       if (user.amount < astro.callCharge) {
+//         const resp = await Astrologer.updateOne(
+//           { _id: astroId },
+//           { callingStatus: "Available" }
+//         );
+//         console.log("resp", resp);
+//         cron_job.stop();
+//         return res.status(404).send("Your balance is not enough to chat");
+//       } else if (user.amount <= astro.callCharge * 5) {
 
 
-        return res.status(203).send("Balance is low");
-      } else {
-        const user = await User.findById(userId);
-        const astro = await Astrologer.findById(astroId);
-        console.log("astro Charge", astro.callCharge);
-        console.log("Deducted Balance", deductedBalance);
-        console.log("USER", user.amount);
+//         return res.status(203).send("Balance is low");
+//       } else {
+//         const user = await User.findById(userId);
+//         const astro = await Astrologer.findById(astroId);
+//         console.log("astro Charge", astro.callCharge);
+//         console.log("Deducted Balance", deductedBalance);
+//         console.log("USER", user.amount);
 
-        // Fetch the user again to get the updated user amount
-        const updatedUser = await User.findById(userId);
+//         // Fetch the user again to get the updated user amount
+//         const updatedUser = await User.findById(userId);
 
-        // Update the user's balance after deduction
-        await User.updateOne({ _id: userId }, { amount: deductedBalance });
+//         // Update the user's balance after deduction
+//         await User.updateOne({ _id: userId }, { amount: deductedBalance });
 
-        const newChatHistory = new ChatHistory({
-          userId: userId,
-          astroId: astroId,
-          type: type,
-          userAmt: updatedUser.amount, // Use the updated user.amount after deduction
-          userDeductedAmt: deductedBalance,
-          totalDuration: totalDuration // Use the global totalDuration
-        });
+//         const newChatHistory = new ChatHistory({
+//           userId: userId,
+//           astroId: astroId,
+//           type: type,
+//           userAmt: updatedUser.amount, // Use the updated user.amount after deduction
+//           userDeductedAmt: deductedBalance,
+//           totalDuration: totalDuration // Use the global totalDuration
+//         });
 
-        const savedChatHistory = await newChatHistory.save();
-        console.log("savedChatHistory", savedChatHistory);
-        const getid = savedChatHistory._id;
-        const respss = await ChatHistory.updateOne(
-          { _id: getid },
-          { userAmt: updatedUser.amount } // Use the updated user.amount after deduction
-        );
+//         const savedChatHistory = await newChatHistory.save();
+//         console.log("savedChatHistory", savedChatHistory);
+//         const getid = savedChatHistory._id;
+//         const respss = await ChatHistory.updateOne(
+//           { _id: getid },
+//           { userAmt: updatedUser.amount } // Use the updated user.amount after deduction
+//         );
 
-        const resp = await Astrologer.updateOne(
-          { _id: astroId },
-          { callingStatus: "Busy" }
-        );
+//         const resp = await Astrologer.updateOne(
+//           { _id: astroId },
+//           { callingStatus: "Busy" }
+//         );
 
-        console.log(resp);
-        return res.status(200).send("Balance Deducted successfully");
-      }
-    });
-  };
+//         console.log(resp);
+//         return res.status(200).send("Balance Deducted successfully");
+//       }
+//     });
+//   };
 
 //}
 
+// Declare a variable to store the cron job instance
+let cron_jobs = {};
+
+exports.deductBalance = async (req, res) => {
+  const { userId, astroId, type } = req.body;
+  
+  // Check if a cron job already exists for this userId and astroId
+  if (cron_jobs[`${userId}-${astroId}`]) {
+    return res.status(400).send("Cron job already running for this user and astrologer.");
+  }
+
+  const user = await User.findById(userId);
+  const astro = await Astrologer.findById(astroId);
+
+  // Create the cron job with a unique key made of userId and astroId
+  const cron_job = cron.schedule("* * * * *", async () => {
+    // ... (existing code)
+
+    if (user.amount < astro.callCharge) {
+      // ... (existing code)
+      cron_job.stop(); // Stop the cron job when the balance is not enough to chat
+      delete cron_jobs[`${userId}-${astroId}`]; // Remove the cron job reference from the cron_jobs object
+      return res.status(404).send("Your balance is not enough to chat");
+    } else if (user.amount <= astro.callCharge * 5) {
+      // ... (existing code)
+      cron_job.stop(); // Stop the cron job when the balance is low
+      delete cron_jobs[`${userId}-${astroId}`]; // Remove the cron job reference from the cron_jobs object
+      return res.status(203).send("Balance is low");
+    } else {
+      // ... (existing code)
+
+      // After completing the chat, stop the cron job and remove the reference
+      cron_job.stop();
+      delete cron_jobs[`${userId}-${astroId}`];
+
+      return res.status(200).send("Balance Deducted successfully");
+    }
+  });
+
+  // Store the cron job reference using the userId and astroId as the key
+  cron_jobs[`${userId}-${astroId}`] = cron_job;
+};
 
 
 
 exports.changeToAvailable = async (req, res) => {
-  try {
-    // Check if cron_job is defined and stop it
-    if (cron_job) {
-      cron_job.stop();
-      cron_job = null; // Set cron_job to null after stopping to avoid reusing the old job
-    }
+  const { userId, astroId } = req.body;
+  const key = `${userId}-${astroId}`;
+  const cron_job = cron_jobs[key];
+console.log("key",key)
+  if (cron_job) {
+    cron_job.stop();
+    delete cron_jobs[key];
+    console.log("cron_job",cron_job)
 
-    console.log("Cron job stopped successfully");
-    res.status(200).send("Cron job stopped successfully");
-    
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Failed to stop cron job" });
+    res.status(200).send("Cron job stopped manually.");
+  } else {
+    res.status(404).send("No matching cron job found for the given userId and astroId.");
   }
 };
  
-
+ 
 
 
 exports.stop_cron = async (req, res) => {

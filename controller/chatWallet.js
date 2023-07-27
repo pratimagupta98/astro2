@@ -1090,3 +1090,9 @@ exports.getOnenotificationByastro = async (req, res) => {
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
+
+exports.dltallAllChat = async (req, res) => {
+  await ChatWallet.deleteMany()
+    .then((data) => resp.deleter(res, data))
+    .catch((error) => resp.errorr(res, error));
+};
