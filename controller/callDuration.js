@@ -152,22 +152,24 @@ let cron_jobs = {};
 
 exports.deductBalance = async (req, res) => {
   const { userId, astroId, type } = req.body;
-
+  const user = await User.findById(userId);
+  const astro = await Astrologer.findById(astroId);
   // Check if a cron job already exists for this userId and astroId
   if (cron_jobs[`${userId}-${astroId}`]) {
     return res.status(400).send("Cron job already running for this user and astrologer.");
   }
 
-  const user = await User.findById(userId);
-  const astro = await Astrologer.findById(astroId);
+
 
   // Create the cron job with a unique key made of userId and astroId
   console.log("Me call hua hu");
 
   const cron_job = cron.schedule("* * * * *", async () => {
     // Calculate the deducted balance and update the user's amount if necessary
+    const user = await User.findById(userId);
+    const astro = await Astrologer.findById(astroId);
     const deductedBalance = user.amount - astro.callCharge;
-
+console.log("user.amount",user.amount)
     if (deductedBalance < 0) {
       // Stop the cron job when the balance is not enough to chat
       cron_job.stop();
@@ -180,24 +182,43 @@ exports.deductBalance = async (req, res) => {
       return res.status(203).send("Balance is low");
     } else {
       // Update the user's balance after deduction
+
+      const user = await User.findById(userId);
+      const astro = await Astrologer.findById(astroId);
+      console.log("astro Charge", astro.callCharge);
+      console.log("Deducted Balance", deductedBalance);
+      console.log("USER", user.amount);
+      // Fetch the user again to get the updated user amount
+      const updatedUser = await User.findById(userId);
+      // Update the user's balance after deduction
       await User.updateOne({ _id: userId }, { amount: deductedBalance });
+      
 
       const newChatHistory = new ChatHistory({
         userId: userId,
         astroId: astroId,
         type: type,
-        userAmt: deductedBalance, // Use the deductedBalance after deduction
+        userAmt: updatedUser.amount, // Use the deductedBalance after deduction
         userDeductedAmt: astro.callCharge,
         totalDuration: totalDuration // Use the global totalDuration
       });
 
       const savedChatHistory = await newChatHistory.save();
-      // After completing the chat, stop the cron job and remove the reference
-      // cron_job.stop();
-      // delete cron_jobs[`${userId}-${astroId}`];
+      console.log("savedChatHistory", savedChatHistory);
+      const getid = savedChatHistory._id;
+      console.log("getid",getid)
+ 
+      const resp = await Astrologer.updateOne(
+        { _id: req.body.astroId },
+        { callingStatus: "Busy" }
+      );
 
-      // You can also perform additional actions if needed, such as updating the database or sending a response to the user
-      // For example:
+      console.log(resp);
+//       const updatparamters = await ChatHistory.findOneAndUpdate(
+//         {_id: getid},
+//         { userAmt: updatedUser.amount } 
+//       )
+//  console.log("updatparamters",updatparamters)
       return res.status(200).send("Balance Deducted successfully");
     }
   });
@@ -207,32 +228,7 @@ exports.deductBalance = async (req, res) => {
 };
 
 
-
-
-
-
-
-
-
-
-
-// exports.changeToAvailable = async (req, res) => {
-//   const { userId, astroId } = req.body;
-//   const key = `${userId}-${astroId}`;
-//   const cron_job = cron_jobs[key];
-//   console.log("key", key)
-//   if (cron_job) {
-//     cron_job.stop();
-//     delete cron_jobs[key];
-//     console.log("cron_job", cron_job)
-
-//     res.status(200).send("Cron job stopped manually.");
-//   } else {
-//     res.status(404).send("No matching cron job found for the given userId and astroId.");
-//   }
-// };
-
-exports.changeToAvailable = (req, res) => {
+exports.changeToAvailable =async (req, res) => {
   const { userId, astroId } = req.body;
   const key = `${userId}-${astroId}`;
   const cron_job = cron_jobs[key];
@@ -240,7 +236,18 @@ exports.changeToAvailable = (req, res) => {
   if (cron_job) {
     cron_job.stop();
     delete cron_jobs[key];
+ //   return res.status(200).send("Status updated successfully");
+  try{
+    const updatedAstrologer = await Astrologer.findByIdAndUpdate(
+      astroId,
+      { callingStatus: "Available" },
+      { new: true }
+    );
     return res.status(200).send("Status updated successfully");
+  }catch(error){
+    return res.status(500).send("Error updating astrologer status.");
+  }
+    
   } else {
     return res.status(400).send("No cron job is running for this user and astrologer.");
   }
