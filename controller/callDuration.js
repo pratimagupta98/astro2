@@ -216,21 +216,41 @@ exports.deductBalance = async (req, res) => {
 
 
 
-exports.changeToAvailable = async (req, res) => {
+// exports.changeToAvailable = async (req, res) => {
+//   const { userId, astroId } = req.body;
+//   const key = `${userId}-${astroId}`;
+//   const cron_job = cron_jobs[key];
+//   console.log("key", key)
+//   if (cron_job) {
+//     cron_job.stop();
+//     delete cron_jobs[key];
+//     console.log("cron_job", cron_job)
+
+//     res.status(200).send("Cron job stopped manually.");
+//   } else {
+//     res.status(404).send("No matching cron job found for the given userId and astroId.");
+//   }
+// };
+
+exports.changeToAvailable = (req, res) => {
   const { userId, astroId } = req.body;
   const key = `${userId}-${astroId}`;
   const cron_job = cron_jobs[key];
-  console.log("key", key)
+
   if (cron_job) {
     cron_job.stop();
     delete cron_jobs[key];
-    console.log("cron_job", cron_job)
-
-    res.status(200).send("Cron job stopped manually.");
+    return res.status(200).send("Status updated successfully");
   } else {
-    res.status(404).send("No matching cron job found for the given userId and astroId.");
+    return res.status(400).send("No cron job is running for this user and astrologer.");
   }
 };
+
+
+
+
+
+
 
 
 
