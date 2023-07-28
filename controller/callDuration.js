@@ -214,7 +214,7 @@ exports.deductBalance = async (req, res) => {
       console.log("getadmincommision", adminCommission)
 
       console.log("ASTROLOGERCOMMISION", totalDeductedAmount - adminCommission)
-      
+
 
 
       console.log("astro Charge", astro.callCharge);
