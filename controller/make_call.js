@@ -265,6 +265,11 @@ const checkCallStatus = async () => {
             { _id: callDetails.callId },
             { Status: "rejected" }
           );
+          response = await Astrologer.updateOne(
+            { _id: callDetails.astroid },
+            { callingStatus: "Available", waiting_tym: 0 }
+          );
+
           console.log(updatestst);
           cron_job.stop();
 
@@ -275,6 +280,11 @@ const checkCallStatus = async () => {
             { _id: callDetails.callId },
             { Status: "failed" }
           );
+          response = await Astrologer.updateOne(
+            { _id: callDetails.astroid },
+            { callingStatus: "Available", waiting_tym: 0 }
+          );
+
           console.log(updatestst);
           cron_job.stop();
 
