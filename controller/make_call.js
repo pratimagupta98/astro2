@@ -93,7 +93,7 @@ exports.make_call = async (req, res) => {
       DateUpdated: getdata.Call?.DateUpdated,
       AccountSid: getdata.Call?.AccountSid,
       PhoneNumberSid: getdata.Call?.PhoneNumberSid,
-      Status: getdata.Call?.Status,
+      Status: "ringing",
       StartTime: getdata.Call?.StartTime,
       EndTime: getdata.Call?.EndTime,
       Duration: getdata.Call?.Duration,
@@ -146,43 +146,27 @@ const axios = require("axios");
 const cron = require("node-cron");
 //const database = require('./database'); // Import your database module or ORM
 
-exports.callStatus = async () => {
+
+const request = require('request');
+
+exports.callStatus = async (req, res) => {
   console.log("I am called");
 
   const key = "d909e2e0120d0bcbd2ef795dd19eb2e97c2f8d78d8ebb6d4";
-  const sid = "sveltosetechnologies2";
   const token = "856371fe6a97e8be8fed6ab14c95b4832f82d1d3116cb17e";
-  // const Sid = req.params.sid;
-
-  const url = `https://${key}:${token}@api.exotel.in/v1/Accounts/${sid}/Calls/${callDetails.sid}.json`;
+  const sid = "sveltosetechnologies2";
+  const url = `https://d909e2e0120d0bcbd2ef795dd19eb2e97c2f8d78d8ebb6d4:856371fe6a97e8be8fed6ab14c95b4832f82d1d3116cb17e@api.exotel.in/v1/Accounts/sveltosetechnologies2/Calls/${req.params.sid}.json`;
+  console.log("url", url);
 
   try {
     const response = await axios.get(url);
-    const { status, data } = response;
-    console.log(status);
-    console.log(data);
-
-    if (status === 200) {
-      const callStatus = data.call_status;
-      if (callStatus === "pending") {
-        console.log("Call is still pending");
-        // Handle pending status logic
-      } else if (callStatus === "completed") {
-        console.log("Call has been completed");
-        // Handle completed status logic
-
-        console.log(status);
-        console.log(data);
-      } else {
-        console.log("Unknown call status:", callStatus);
-      }
-    } else {
-      console.log("API request failed with status:", status);
-    }
+    const responseData = response.data; // Axios already parses the response as JSON
+    console.log(responseData); // Print the response data to the console
   } catch (error) {
     console.log("Error occurred:", error.message);
   }
-};
+}
+
 
 const checkCallStatus = async () => {
   const cron_job = cron.schedule("* * * * *", async () => {
@@ -212,7 +196,24 @@ const checkCallStatus = async () => {
         //   // Handle pending status logic
         // }
         console.log(callStatus);
-        if (callStatus === "completed") {
+
+        if (callStatus === "ringing ") {
+          console.log("Call has been ringing ");
+          // Handle rejected status logic
+          let updateststt = await make_call.updateOne(
+            { _id: callDetails.callId },
+            { Status: "ringing " }
+          );
+          response = await Astrologer.updateOne(
+            { _id: callDetails.astroid },
+            { callingStatus: "Available", waiting_tym: 0 }
+          );
+
+          console.log(updateststt);
+          cron_job.stop();
+
+        }
+        else if (callStatus === "completed") {
           console.log("Call has been completed");
           // Handle completed status logic
           let totalDeductedAmount =
@@ -411,13 +412,29 @@ exports.getEarnings = async (req, res) => {
 
 
 exports.call_Status = async (req, res) => {
-  await make_call
-    .find()
-    .populate("userid")
-    .populate("astroid")
-    .sort({ sortorder: 1 })
-    .then((data) => resp.successr(res, data))
-    .catch((error) => resp.errorr(res, error));
+  var request = require('request');
+
+  const key = "d909e2e0120d0bcbd2ef795dd19eb2e97c2f8d78d8ebb6d4";
+  const sid = "sveltosetechnologies2";
+  const token = "856371fe6a97e8be8fed6ab14c95b4832f82d1d3116cb17e";
+  // const Sid = req.params.sid;
+
+  const url = `https://${key}:${token}@api.exotel.in/v1/Accounts/${sid}/Calls/${callDetails.sid}.json`;
+
+  // var options = {
+  //     url: 'https://${key}:<your_api_token><subdomain>/v1/Accounts/<your_sid>/Calls/b6cfaf5f5cef3ca0fc937749ef960e25'
+  // };
+
+  console.log("url", url)
+
+
+  function callback(error, response, body) {
+    if (!error && response.statusCode == 200) {
+      console.log(body);
+    }
+  }
+
+  request(options, callback);
 };
 
 const agora = require("agora-access-token");
