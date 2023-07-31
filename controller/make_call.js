@@ -4,6 +4,7 @@ const AdminComision = require("../models/admin");
 const Astrologer = require("../models/astrologer");
 const resp = require("../helpers/apiResponse");
 const User = require("../models/users");
+//consoll
 // const astrodetail = Astrologer.findOne({ astroid: req.body.id })
 // console.log("astrodetail", astrodetail)
 // const getchrge = astrodetail.callCharge
@@ -273,7 +274,7 @@ const checkCallStatus = async () => {
           cron_job.stop();
         }
         else if (callStatus === "in-progress") {
-         
+
           let duration = 0;
           duration++;
           totalDuration++;
