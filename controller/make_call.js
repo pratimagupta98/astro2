@@ -221,7 +221,7 @@ const checkCallStatus = async () => {
           if (data.Call?.Duration) {
             let updatestst = await make_call.updateOne(
               { _id: callDetails.callId },
-              { Status: "completed", userdeductedAmt: totalDeductedAmount, userAmt: useramt, Duration: duration++, astroCredited: totalDeductedAmount - adminCommission, adminCredited: adminCommission, totalCredited: totalDeductedAmount }
+              { Status: "completed", userdeductedAmt: totalDeductedAmount, userAmt: useramt, Duration: totalDuration, astroCredited: totalDeductedAmount - adminCommission, adminCredited: adminCommission, totalCredited: totalDeductedAmount }
             );
             let admincom = await AdminComision.updateOne(
               { _id: "64967ef62cf27fc5dd12416d" },
@@ -309,6 +309,11 @@ const checkCallStatus = async () => {
           updatetym = await Astrologer.updateOne(
             { _id: callDetails.astroid },
             { waiting_tym: parseInt(amountDeduct / astrologer.callCharge) }
+          );
+
+          let updatestst = await make_call.updateOne(
+            { _id: callDetails.callId },
+            { Duration: totalDuration }
           );
         } else {
           response = await Astrologer.updateOne(
