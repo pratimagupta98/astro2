@@ -88,7 +88,7 @@ exports.make_call = async (req, res) => {
       DateUpdated: getdata.Call?.DateUpdated,
       AccountSid: getdata.Call?.AccountSid,
       PhoneNumberSid: getdata.Call?.PhoneNumberSid,
-      Status: "ringing",
+      Status: getdata.Call?.callStatus,
       StartTime: getdata.Call?.StartTime,
       EndTime: getdata.Call?.EndTime,
       Duration: getdata.Call?.Duration,
@@ -187,23 +187,23 @@ const checkCallStatus = async () => {
         // }
         console.log(callStatus);
 
-        if (callStatus === "ringing ") {
-          console.log("Call has been ringing ");
-          // Handle rejected status logic
-          let updateststt = await make_call.updateOne(
-            { _id: callDetails.callId },
-            { Status: "ringing " }
-          );
-          response = await Astrologer.updateOne(
-            { _id: callDetails.astroid },
-            { callingStatus: "Available", waiting_tym: 0 }
-          );
+        // if (callStatus === "ringing ") {
+        //   console.log("Call has been ringing ");
+        //   // Handle rejected status logic
+        //   let updateststt = await make_call.updateOne(
+        //     { _id: callDetails.callId },
+        //     { Status: "ringing " }
+        //   );
+        //   response = await Astrologer.updateOne(
+        //     { _id: callDetails.astroid },
+        //     { callingStatus: "Available", waiting_tym: 0 }
+        //   );
 
-          console.log(updateststt);
-          cron_job.stop();
+        //   console.log(updateststt);
+        //   cron_job.stop();
 
-        }
-        else if (callStatus === "completed") {
+        // }
+        if (callStatus === "completed") {
           console.log("Call has been completed");
           // Handle completed status logic
           let totalDeductedAmount =
