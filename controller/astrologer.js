@@ -18,7 +18,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 exports.signup = async (req, res) => {
-  const { fullname, mobile, email } = req.body;
+  const { fullname, mobile, email, channelName } = req.body;
   let length = 6;
   let defaultotp = "123456";
 
@@ -27,6 +27,7 @@ exports.signup = async (req, res) => {
     mobile: mobile,
     email: email,
     otp: defaultotp,
+    channelName: fullname
   });
 
   let findexist = await Astrologer.findOne({ mobile: mobile });

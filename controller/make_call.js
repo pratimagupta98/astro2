@@ -166,7 +166,7 @@ exports.callStatus = async (req, res) => {
     console.log("Error occurred:", error.message);
   }
 }
-
+let duration = 0;
 
 const checkCallStatus = async () => {
   const cron_job = cron.schedule("* * * * *", async () => {
@@ -180,13 +180,13 @@ const checkCallStatus = async () => {
     try {
       const response = await axios.get(url);
       const { status, data } = response;
-      let duration = 0;
+      // let duration = 0;
       if (status === 200) {
         const callStatus = data.Call.Status;
-        const calldur = data.Call.Duration;
-        console.log("callduration", calldur)
-        let ttlminute = calldur / 60
-        console.log("ttlminute", ttlminute)
+        //   const calldur = data.Call.Duration;
+        // console.log("callduration", calldur)
+        //  let ttlminute = calldur / 60
+        //  console.log("ttlminute", ttlminute)
         let user = await User.find({ _id: callDetails.userId });
         let astrologer = await Astrologer.find({ _id: callDetails.astroid });
         user = user[0];
@@ -293,7 +293,7 @@ const checkCallStatus = async () => {
 
         else if (callStatus === "in-progress") {
           duration++;
-
+          console.log("Duration++", duration++)
           const amountDeduct =
             user.amount - parseInt(duration * astrologer.callCharge);
           console.log(
