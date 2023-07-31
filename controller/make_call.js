@@ -88,7 +88,7 @@ exports.make_call = async (req, res) => {
       DateUpdated: getdata.Call?.DateUpdated,
       AccountSid: getdata.Call?.AccountSid,
       PhoneNumberSid: getdata.Call?.PhoneNumberSid,
-      Status: getdata.Call?.callStatus,
+      Status: getdata.Call?.Status,
       StartTime: getdata.Call?.StartTime,
       EndTime: getdata.Call?.EndTime,
       Duration: getdata.Call?.Duration,
