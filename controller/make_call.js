@@ -209,19 +209,19 @@ const checkCallStatus = async () => {
           let totalDeductedAmount =
             callDetails.previousUserBalance - user.amount;
           const useramt =
-            user.amount - parseInt(duration * astrologer.callCharge);
+            user.amount - parseInt(totalDuration * astrologer.callCharge);
           console.log("totalDeductedAmount", totalDeductedAmount)
           const getcom = await AdminComision.findOne({
             _id: "64967ef62cf27fc5dd12416d"
           })
           console.log("getcom", getcom.admincomision)
           const getadmincommision = (astrologer.callCharge) - astrologer.callCharge * 100 / (100 + parseInt(getcom.admincomision))
-          const adminCommission = ttlminute * getadmincommision
+          const adminCommission = totalDuration * getadmincommision
           console.log("getadmincommision", adminCommission)
           if (data.Call?.Duration) {
             let updatestst = await make_call.updateOne(
               { _id: callDetails.callId },
-              { Status: "completed", userdeductedAmt: totalDeductedAmount, userAmt: useramt, Duration: totalDuration, astroCredited: totalDeductedAmount - adminCommission, adminCredited: adminCommission, totalCredited: totalDeductedAmount }
+              { Status: "completed", userdeductedAmt: totalDeductedAmount, userAmt: useramt, astroCredited: totalDeductedAmount - adminCommission, adminCredited: adminCommission, totalCredited: totalDeductedAmount }
             );
             let admincom = await AdminComision.updateOne(
               { _id: "64967ef62cf27fc5dd12416d" },
@@ -232,7 +232,7 @@ const checkCallStatus = async () => {
             console.log(totalDeductedAmount);
             console.log("ASTROLOGERCOMMISION", totalDeductedAmount - adminCommission)
             let astroCommision = totalDeductedAmount - adminCommission
-            let ttlastroCommision = astroCommision * ttlminute
+            let ttlastroCommision = astroCommision * totalDuration
             console.log("ttlastroCommision", ttlastroCommision)
             updatestst = await Astrologer.updateOne(
               { _id: callDetails.astroid },
