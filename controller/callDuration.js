@@ -158,10 +158,7 @@ exports.deductBalance = async (req, res) => {
 
   let previousUserBalance = user.amount;
   console.log("previousUserBalance", previousUserBalance)
-  let totalDeductedAmount =
-    previousUserBalance - user.amount;
 
-  console.log("totalDeductedAmount", totalDeductedAmount)
 
   // Check if a cron job already exists for this userId and astroId
   if (cron_jobs[`${userId}-${astroId}`]) {
@@ -202,20 +199,30 @@ exports.deductBalance = async (req, res) => {
 
 
       const useramt =
-        user.amount - parseInt(duration * astro.callCharge);
+        user.amount - parseInt(1 * astro.callCharge);
       console.log("useramt", useramt)
-      console.log("totalDeductedAmount", totalDeductedAmount)
+
+
+      const firsttymuseramt =
+        user.amount - parseInt(1 * astro.callCharge);
+
       const getcom = await AdminComision.findOne({
         _id: "64967ef62cf27fc5dd12416d"
       })
       console.log("getcom", getcom.admincomision)
-      const getadmincommision = (astro.callCharge) - astro.callCharge * 100 / (100 + parseInt(getcom.admincomision))
-      const adminCommission = duration * getadmincommision
+      const getadmincommision = parseFloat((astro.callCharge - astro.callCharge * 100 / (100 + parseInt(getcom.admincomision))).toFixed(2));
+      const adminCommission = 1 * getadmincommision
       console.log("getadmincommision", adminCommission)
+
+      let totalDeductedAmount =
+        user.amount - firsttymuseramt;
+
+
+      console.log("totalDeductedAmount", totalDeductedAmount)
 
       console.log("ASTROLOGERCOMMISION", totalDeductedAmount - adminCommission)
 
-
+      const astrocredit = totalDeductedAmount - adminCommission
 
       console.log("astro Charge", astro.callCharge);
       console.log("Deducted Balance", deductedBalance);
@@ -228,10 +235,12 @@ exports.deductBalance = async (req, res) => {
         userId: userId,
         astroId: astroId,
         type: type,
-        userAmt: updatedUser.amount, // Use the deductedBalance after deduction
+        userAmt: firsttymuseramt, // Use the deductedBalance after deduction
         userdeductedAmt: astrocharge,
         totalDuration: totalDuration,// Use the global totalDuration
-        adminCredited: getadmincommision
+        adminCredited: getadmincommision,
+        astroCredited: astrocredit,
+        totalCredited: astrocharge
       });
       console.log("newChatHistory", newChatHistory)
       const savedChatHistory = await newChatHistory.save();
