@@ -253,7 +253,7 @@ exports.getallchatrooms = async (req, res) => {
 };
 
 exports.clearchat = async (req, res) => {
-  await Chat.deleteMany({ roomid: req.params.id })
+  await Chat.deleteMany({ userid: req.params.id })
     .then((data) => resp.deleter(res, data))
     .catch((error) => resp.errorr(res, error));
 };
