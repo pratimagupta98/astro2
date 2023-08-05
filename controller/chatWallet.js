@@ -932,31 +932,31 @@ exports.appVideoCalling = async (req, res) => {
     { $set: { channelName: req.body.channelName, token: req.body.token } },
     { new: true }
   )
-  .then((data) => {
-    // Custom success response format
-    const response = {
-      status: 'true',
-      message: 'success',
-      requsetedId:req.body.requsetedId,
-      channelName:req.body.channelName,
-      token:req.body.token
-       // Assuming you want to send the updated data in the response
-    };
-    res.status(200).json(response);
-  })
-  .catch((error) => {
-    // Custom error response format
-    const response = {
-      status: 'false',
-      message: 'error',
-      error: error.message, // Assuming you want to send the error message in the response
-    };
-    res.status(500).json(response);
-  });
+    .then((data) => {
+      // Custom success response format
+      const response = {
+        status: 'true',
+        message: 'success',
+        requsetedId: req.body.requsetedId,
+        channelName: req.body.channelName,
+        token: req.body.token
+        // Assuming you want to send the updated data in the response
+      };
+      res.status(200).json(response);
+    })
+    .catch((error) => {
+      // Custom error response format
+      const response = {
+        status: 'false',
+        message: 'error',
+        error: error.message, // Assuming you want to send the error message in the response
+      };
+      res.status(500).json(response);
+    });
 };
 
-    // .then((data) => resp.successr(res, data))
-    // .catch((error) => resp.errorr(res, error));
+// .then((data) => resp.successr(res, data))
+// .catch((error) => resp.errorr(res, error));
 
 exports.VideoNotification = async (req, res) => {
   const today = new Date();
@@ -976,7 +976,7 @@ exports.VideoNotification = async (req, res) => {
     // .populate("astroid")
     .populate("userid")
     .populate("recharge_planId")
-    .sort({ createdAt: 1 })
+    .sort({ createdAt: -1 })
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
