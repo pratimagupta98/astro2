@@ -73,7 +73,9 @@ exports.make_call = async (req, res) => {
         },
       }
     );
+
     const str = CircularJSON.stringify(response.data);
+    console.log("@@@@@@", response)
     const getdata = JSON.parse(str);
     console.log(getdata);
     callDetails.sid = getdata.Call?.Sid;
@@ -123,7 +125,10 @@ exports.make_call = async (req, res) => {
           astrologer.callCharge
         );
         res.status(200).json({ order: options });
+       // checkCallStatus();
+       setTimeout(() => {
         checkCallStatus();
+    },35000)
       }
     });
   } catch (err) {
@@ -167,9 +172,11 @@ const checkCallStatus = async () => {
     const token = "856371fe6a97e8be8fed6ab14c95b4832f82d1d3116cb17e";
     // const Sid = req.params.sid;
     const url = `https://${key}:${token}@api.exotel.in/v1/Accounts/${sid}/Calls/${callDetails.sid}.json`;
+
     try {
       const response = await axios.get(url);
       const { status, data } = response;
+      console.log("my response", response)
       //  let duration = 0;
       if (status === 200) {
         const callStatus = data.Call.Status;
@@ -247,6 +254,8 @@ const checkCallStatus = async () => {
           }
         }
         else if (callStatus === "no-answer") {
+          cron_job.stop();
+
           console.log("Call has been rejected");
           // Handle rejected status logic
           let updatestst = await make_call.updateOne(
@@ -258,7 +267,6 @@ const checkCallStatus = async () => {
             { callingStatus: "Available", waiting_tym: 0 }
           );
           console.log(updatestst);
-          cron_job.stop();
         } else if (callStatus === "failed") {
           console.log("Call has been failed");
           // Handle rejected status logic
@@ -274,12 +282,16 @@ const checkCallStatus = async () => {
           cron_job.stop();
         }
         else if (callStatus === "in-progress") {
-
+        
           let duration = 0;
           duration++;
-          totalDuration++;
+       //   totalDuration++;
+
+          if (duration >= 35) {
+            console.log("duration",duration)
+          }else{
           console.log("duration++", duration);
-          console.log("Total duration:", totalDuration);
+          console.log("Total duration:", duration);
           const amountDeduct =
             user.amount - parseInt(duration * astrologer.callCharge);
           console.log(
@@ -313,8 +325,9 @@ const checkCallStatus = async () => {
 
           let updatestst = await make_call.updateOne(
             { _id: callDetails.callId },
-            { Duration: totalDuration }
+            { Duration: duration }
           );
+          }
         } else {
           response = await Astrologer.updateOne(
             { _id: callDetails.astroid },
@@ -584,3 +597,35 @@ exports.adminCallHistory = async (req, res) => {
     .then((data) => resp.successr(res, data))
     .catch((error) => resp.errorr(res, error));
 };
+
+
+
+
+//const axios = require('axios');
+
+// exports.voiceCall = async (req, res) => {
+//     try {
+//         const url = 'https://d909e2e0120d0bcbd2ef795dd19eb2e97c2f8d78d8ebb6d4:856371fe6a97e8be8fed6ab14c95b4832f82d1d3116cb17e@api.exotel.in/v1/Accounts/sveltosetechnologies2/Calls/connect.json';
+
+//         const data = new URLSearchParams();
+//         data.append('From', req.body.From);
+//         data.append('To', req.body.To);
+//         data.append('CallerId', '0113083XXXX');
+//         data.append('StatusCallback', 'http://your-application.com/exotel-callback');
+//         data.append('StatusCallbackEvents[1]', 'terminal');
+//         data.append('StatusCallbackContentType', 'application/json');
+//         data.append('Legs', 'Leg')
+
+//         const response = await axios.post(url, data);
+
+//         console.log('API Response:', response.data);
+        
+//         res.status(200).json({ message: 'Call initiated successfully.' });
+//     } catch (error) {
+//         console.error('API Error:', error);
+//         res.status(500).json({ error: 'An error occurred while initiating the call.' });
+//     }
+// };
+ 
+
+ 

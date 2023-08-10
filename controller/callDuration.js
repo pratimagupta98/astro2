@@ -284,6 +284,7 @@ exports.changeToAvailable = async (req, res) => {
         { new: true }
       );
       return res.status(200).send("Status updated successfully");
+
     } catch (error) {
       return res.status(500).send("Error updating astrologer status.");
     }
