@@ -128,7 +128,7 @@ exports.make_call = async (req, res) => {
        // checkCallStatus();
        setTimeout(() => {
         checkCallStatus();
-    },35000)
+    },40000)
       }
     });
   } catch (err) {
