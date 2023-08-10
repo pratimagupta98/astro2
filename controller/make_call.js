@@ -21,10 +21,10 @@ let cron_job = null;
 let callDetails = { sid: "", userId: "" };
 
 exports.make_call = async (req, res) => {
-  if (cron_job) {
-    console.log("running")
-    return res.status(409).json({ message: "Cron job is already running." });
-  }
+  // if (cron_job) {
+  //   console.log("running")
+  //   return res.status(409).json({ message: "Cron job is already running." });
+  // }
   // Check if the "From" mobile number is valid before proceeding
 
   const crntym = new Date();
@@ -165,7 +165,10 @@ exports.callStatus = async (req, res) => {
 //let duration = 0;
 let totalDuration = 0;
 const checkCallStatus = async () => {
-
+  const key = "d909e2e0120d0bcbd2ef795dd19eb2e97c2f8d78d8ebb6d4";
+    const sid = "sveltosetechnologies2";
+    const token = "856371fe6a97e8be8fed6ab14c95b4832f82d1d3116cb17e";
+  const url = `https://${key}:${token}@api.exotel.in/v1/Accounts/${sid}/Calls/${callDetails.sid}.json`;
   const cron_job = cron.schedule("* * * * *", async () => {
     const key = "d909e2e0120d0bcbd2ef795dd19eb2e97c2f8d78d8ebb6d4";
     const sid = "sveltosetechnologies2";
