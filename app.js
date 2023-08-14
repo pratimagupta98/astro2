@@ -71,6 +71,7 @@ const withdrawal = require("./routes/withdrawal");
 
 const astroFollowers = require("./routes/astroFollowers");
 const refund = require("./routes/refund");
+const feedback = require("./routes/feedback");
 
 //use
 app.use("/", users);
@@ -130,6 +131,8 @@ app.use("/", calling);
 app.use("/", astroFollowers);
 app.use("/", withdrawal);
 app.use("/", refund);
+app.use("/", feedback);
+
 
 
 app.get("/", (req, res) => {
