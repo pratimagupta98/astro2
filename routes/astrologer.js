@@ -34,7 +34,8 @@ const {
   busyAstroCount,
   getWaitQueueList,
   deleteWaitQueueItem,
-  astrologinWithPassword
+  astrologinWithPassword,
+  astroOverAlltime
 } = require("../controller/astrologer");
 
 const storage = multer.diskStorage({
@@ -113,6 +114,7 @@ router.get("/user/busyAstroCount", busyAstroCount);
 router.get("/user/getWaitQueueList/:id", getWaitQueueList);
 
 router.post("/user/astrologinWithPassword", astrologinWithPassword);
+router.get("/user/astroOverAlltime/:astroid", astroOverAlltime);
 
 
 module.exports = router;

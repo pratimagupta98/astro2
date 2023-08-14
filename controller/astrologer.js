@@ -10,6 +10,9 @@ const bcrypt = require("bcrypt");
 const { data } = require("jquery");
 const AdminComision = require("../models/admin");
 const User = require("../models/users");
+const callDuration = require("../models/callDuration");
+const make_call = require("../models/make_call.js");
+const _ = require("lodash");
 
 dotenv.config();
 cloudinary.config({
@@ -983,5 +986,56 @@ exports.astrologinWithPassword = async (req, res) => {
       msg: "User Does Not Exist",
       error: "error",
     });
+  }
+};
+
+
+// exports.astroOverAlltime = async (req, res) => {
+//   const getcallduration = await callDuration.find()
+//   console.log("getcallduration", getcallduration)
+
+//   const getmakecall = await make_call.find()
+//   console.log("getmakecall", getmakecall)
+//   // try {
+//   //   const count = await Astrologer.countDocuments();
+//   //   res.json({ success: true, count });
+//   // } catch (error) {
+//   //   res.status(500).json({ success: false, error: error.message });
+//   // }
+// };
+exports.astroOverAlltime = async (req, res) => {
+  try {
+    const getmakecall = await make_call.find({ astroid: req.params.astroid });
+    //const getAstroone =await  Astrologer.findOne({_id:req.params.id})
+    // Extracting durations from the callDurationData array
+    const durationsArray = getmakecall.map(call => call.Duration);
+
+    //  console.log("New Array", durationsArray);
+    let totalCallduration = _.sumBy([...durationsArray]);
+   // console.log("Today PROFIT", totalCallduration);
+    // Sending the response with the durations array
+    const getChatduration = await callDuration.find({ $and: [{ astroId: req.params.astroid }, { type: "Chat" }], })
+  //  console.log("getChatduration", getChatduration)
+    const durationsArray2 = getChatduration.map(call => call.duration);
+   // console.log("durationsArray2", durationsArray2)
+    let totalChatduration = _.sumBy([...durationsArray2]);
+   // console.log("totalChatduration", totalChatduration)
+
+    //Video 
+    const getVideoduration = await callDuration.find({ $and: [{ astroId: req.params.astroid }, { type: "Video" }], })
+  //  console.log("getChatduration", getVideoduration)
+    const durationsArray3 = getVideoduration.map(call => call.duration);
+   // console.log("durationsArray3", durationsArray3)
+    let totalVideoduration = _.sumBy([...durationsArray3]);
+    //console.log("totalChatduration", totalVideoduration)
+
+    res.json({
+      success: true,
+      call: totalCallduration,
+      chat: totalChatduration,
+      Video: totalVideoduration
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
   }
 };
